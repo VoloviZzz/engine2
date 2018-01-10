@@ -1,0 +1,158 @@
+<style>
+    .js-route-edit-form {
+        display: none;
+    }
+
+    .js-route-item.js-edit-form--show .js-route-edit-form {
+        display: block;
+    }
+</style>
+
+<form action="/api/routes/add" method="POST">
+    <h1>Добавить маршрут</h1>
+    <div>
+        <label>
+            <span>URL маршрута:</span>
+            <input name="url" type="text" required>
+        </label>
+    </div>
+    <br>
+    <div>
+        <label>
+            <span>Заголовок маршрута:</span>
+            <input name="title" type="text" required>
+        </label>
+    </div>
+    <br>
+    <div>
+        <label>
+            <span>Название маршрута:</span>
+            <input name="name" type="text" required>
+        </label>
+    </div>
+    <br>
+    <div>
+        <input type="radio" name="dynamic" value="1">
+        <span>Динамический</span>
+        <input type="radio" name="dynamic" value="0" checked>
+        <span>Статический</span>
+        <br>
+        <input type="radio" name="public" value="1" checked>
+        <span>Публичный</span>
+        <input type="radio" name="public" value="0">
+        <span>Только авторизованным</span>
+    </div>
+    <br>
+    <div>
+        <button>Добавить</button>
+    </div>
+</form>
+<div>
+    <span>URL: </span>
+    <span><%= url -%></span>
+    <br>
+    <% var routeParam = routeParam || false %>
+    <% if(!!routeParam === true) { %>
+        <span>Param: </span>
+        <span><%= routeParam -%></span>
+    <% } %>
+</div>
+<div>
+    <ul>
+        <% Object.keys(routesObj).map(function(index) { %>
+            <% r = routesObj[index] %>
+            <li class="js-route-item" style="border: 1px #000 solid;padding: 10px; margin-bottom: 10px">
+                <a href="<%= r.url -%>"><%= r.url + ' - ' + r.title -%></a>
+                <button class="js-show-edit-route-form" data-route-id="<%= r.id -%>">Редактировать</button>
+                <button class="js-delete-route" data-route-id="<%= r.id -%>">Удалить маршрут</button>
+                <br>
+                <br>
+                <div class="js-route-edit-form" style="border: 1px #000 solid; padding: 10px;">
+                    <form action="/api/routes/upd" method="POST">
+                        <h1>Изменить маршрут</h1>
+                        <div>
+                            <label>
+                                <span>URL маршрута:</span>
+                                <input name="url" type="text" value="<%=r.url-%>" required>
+                            </label>
+                        </div>
+                        <br>
+                        <div>
+                            <label>
+                                <span>Заголовок маршрута:</span>
+                                <input name="title" type="text" value="<%=r.title-%>" required>
+                            </label>
+                        </div>
+                        <br>
+                        <div>
+                            <label>
+                                <span>Название маршрута:</span>
+                                <input name="name" type="text" value="<%=r.name-%>" required>
+                            </label>
+                        </div>
+                        <br>
+                        <div>
+                            <input type="radio" name="dynamic" value="1" <%= r.dynamic == 1 ? 'checked' : ''-%>>
+                            <span>Динамический</span>
+                            <input type="radio" name="dynamic" value="0" <%= r.dynamic == 0 ? 'checked' : ''-%>>
+                            <span>Статический</span>
+                            <br>
+                            <input type="radio" name="public" value="1" <%= r.public == 1 ? 'checked' : ''-%>>
+                            <span>Публичный</span>
+                            <input type="radio" name="public" value="0" <%= r.public == 0 ? 'checked' : ''-%>>
+                            <span>Только авторизованным</span>
+                            <input type="hidden" name="id" value="<%=r.id-%>">
+                        </div>
+                        <br>
+                        <div>
+                            <button>Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+
+<script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+        function Routes() {
+            $('.js-delete-route').on('click', this.delete);
+            
+            const $showEditFormBtn = $('.js-show-edit-route-form');
+    
+            $showEditFormBtn.on('click', this.showForm);
+        }
+        
+        Routes.prototype.delete = function() {
+            
+            const $elem = $(this);
+            const routeId = $elem.data('route-id');
+    
+            if(!confirm('Удалить маршрут с сайта?')) return false;
+    
+            if(!!routeId === false) {
+                console.log("У кнопки отсутствует номер маршрута");
+                return alert('Что-то пошло не так. Попробуйте позже');
+            }
+    
+            $.post('/api/routes/del', {id: routeId}).done(function(result) {
+                if(result.status == 'bad') {
+                    console.log(result);
+                    return alert('Что-то пошло не так. Попробуйте позже');
+                }
+    
+                return location.reload();
+            })
+        }
+    
+        Routes.prototype.showForm = function() {
+            const $this = $(this);
+            const $routeItem = $this.parent('.js-route-item');
+    
+            $routeItem.toggleClass('js-edit-form--show');
+        }
+    
+        const routes = new Routes();
+    });
+</script>
