@@ -13,6 +13,7 @@ const db = mysql.createConnection({
 	database: 'test-routes'
 })
 
+app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -22,15 +23,17 @@ app.use(function (req, res, next) {
 	req.session = {};
 	req.session.user = {};
 	req.session.user.id = 1;
-
+	req.session.user.admin = true;
+	req.session.user.adminMode = true;
 	next();
 })
 
-app.locals.routesList = {};
 app.db = db;
-app.componentsPath = path.join(__dirname, 'app', 'components');
 app.ejs = ejs;
 app.express = express;
+app.locals.routesList = {};
+app.locals.libs = path.join(__dirname, 'app', 'libs');
+app.componentsPath = path.join(__dirname, 'app', 'components');
 
 process.on('unhandledRejection', (error) => {
 	console.log('unhandledRejection', error);
@@ -39,61 +42,43 @@ process.on('unhandledRejection', (error) => {
 const { initRoutes, addRoutes, getRoutes, delRoutes, updRoutes } = require('./libs/router')(app, db);
 const routeHandler = require('./libs/routeHandler')(app, express);
 
+const fragments = require('./libs/fragments')(app);
+
 db.connect(async (err) => {
 	if (err) throw err.message;
 
 	app.locals.routesList = await initRoutes();
+	app.locals.postRoutes = {
+		'/api/fragments/add': async (args = {}) => {
+			let error = false;
+
+			if(!!args.route_id === false) return Promise.resolve([{message: 'Отсутствует route_id'}, null]);
+
+			[error, fragmentId] = await fragments.addFragment({route_id: args.route_id});
+			if(error) return next(error);
+
+			return Promise.resolve([error, fragmentId]);
+		},
+
+		'/api/fragments/upd': async (args ={}) => {
+			let error = false;
+
+			if(!!args.value === false || !!args.target === false) return Promise.resolve([{message: 'Отсутствуют необходимые параметры'}, null]);
+
+			[error, fragmentId] = await fragments.updFragment({target: args.target, value: args.value, id: args.fragment_id});
+			if(error) return next(error);
+
+			return Promise.resolve([error, fragmentId]);
+		}
+	};
+
+	db.query('SELECT * FROM components', (err, rows) => {
+		if(err) return console.log('Ошибка получения компонентов');
+
+		app.locals.componentsList = rows;
+	})
 
 	app.use(routeHandler);
-
-	app.post('/api/routes/add', async (req, res, next) => {
-
-		const [err, route] = await addRoutes(req.body);
-
-		if (err) return next(err);
-
-		app.locals.routesList[route.url] = route;
-
-		return res.redirect(req.body.url);
-	})
-
-	app.post('/api/routes/del', async (req, res, next) => {
-		const routeId = req.body.id;
-
-		if (!!routeId === false) return res.json({ status: 'bad', message: 'Отсутствует параметр id' });
-
-		const [getErr, route] = await getRoutes({ id: routeId });
-		if (getErr) return next({ status: 'bad', message: 'Что-то пошло не так', error: getErr });
-		if (!!route === false) return next({ status: 'bad', message: 'Маршрут не найден' });
-
-		const [err, rows] = await delRoutes(req.body);
-		if (err) return res.json({ status: 'bad', message: 'Что-то пошло не так', err });
-
-		delete app.locals.routesList[route.url];
-
-		return res.json({ status: 'ok' });
-	})
-
-	app.post('/api/routes/upd', async (req, res, next) => {
-		const routeId = req.body.id;
-		let err = false;
-
-		if (!!routeId === false) return res.json({ status: 'bad', message: 'Отсутствует параметр id' });
-
-		[err, route] = await getRoutes({ id: routeId });
-		if (err) return next({ status: 'bad', message: 'Что-то пошло не так', error: getErr });
-		if (!!route === false) return next({ status: 'bad', message: 'Маршрут не найден' });
-
-		[err, rows] = await updRoutes(req.body);
-		if (err) return res.json({ status: 'bad', message: 'Что-то пошло не так', err });
-
-		[err, route] = await getRoutes({ id: routeId });
-
-		app.locals.routesList = await initRoutes();
-
-		backUrl = req.header('Referer');
-		return res.redirect(backUrl || '/');
-	})
 
 	// catch 404 and forward to error handler
 	app.use(function (req, res, next) {
@@ -109,8 +94,14 @@ db.connect(async (err) => {
 		res.locals.error = req.app.get('env') === 'development' ? err : {};
 
 		// render the error page
-		res.status(err.status || 500);
-		res.render('error');
+		res.status(err.status || 200);
+
+		if(req.xhr) {
+			return res.json({message: err.message});
+		}
+		else {
+			return res.render('error');
+		}
 	});
 
 	app.listen(3000, (err) => {

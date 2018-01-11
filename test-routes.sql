@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 10 2018 г., 13:23
+-- Время создания: Янв 11 2018 г., 14:00
 -- Версия сервера: 5.7.19-log
 -- Версия PHP: 7.2.0
 
@@ -77,7 +77,7 @@ INSERT INTO `component_types` (`id`, `title`) VALUES
 
 CREATE TABLE `fragments` (
   `id` int(11) NOT NULL,
-  `component_id` int(11) NOT NULL,
+  `component_id` int(11) NOT NULL DEFAULT '2',
   `route_id` int(11) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT '1',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -88,9 +88,9 @@ CREATE TABLE `fragments` (
 --
 
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`) VALUES
-(2, 2, 1, 1, '2018-01-10 09:23:15'),
-(3, 1, 17, 1, '2018-01-10 09:36:04'),
-(4, 3, 17, 1, '2018-01-10 12:18:18');
+(23, 1, 17, 1, '2018-01-11 11:35:09'),
+(24, 3, 17, 1, '2018-01-11 11:58:30'),
+(25, 2, 1, 1, '2018-01-11 12:37:50');
 
 -- --------------------------------------------------------
 
@@ -105,14 +105,6 @@ CREATE TABLE `fragments_data` (
   `data` text NOT NULL COMMENT 'Сами данные',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `fragments_data`
---
-
-INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
-(1, 2, 3, '{\"body\":{\"content\":\"Hello world\"}}', '2018-01-10 09:52:31'),
-(2, 2, 2, '{\"body\":{\"content\":\"new World\"}}', '2018-01-10 09:53:25');
 
 -- --------------------------------------------------------
 
@@ -157,9 +149,7 @@ CREATE TABLE `routes` (
 
 INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `dynamic`, `public`, `created`) VALUES
 (1, 'home', 'Домашняя страница', '/', NULL, 0, 1, '2018-01-10 12:03:58'),
-(17, 'admin', 'Администрирование страниц', '/admin', NULL, 0, 0, '2018-01-10 12:02:03'),
-(20, 'asdasd', 'asd', '/test', NULL, 0, 1, '2018-01-10 12:05:58'),
-(22, 'asasdasd', 'asd', '/test', NULL, 0, 1, '2018-01-10 12:07:10');
+(17, 'admin', 'Администрирование страниц', '/admin', NULL, 0, 0, '2018-01-10 12:02:03');
 
 -- --------------------------------------------------------
 
@@ -215,7 +205,7 @@ ALTER TABLE `fragments`
 ALTER TABLE `fragments_data`
   ADD PRIMARY KEY (`id`),
   ADD KEY `component_id` (`component_id`),
-  ADD KEY `fragment_id` (`fragment_id`);
+  ADD KEY `fragments_data_ibfk_2` (`fragment_id`);
 
 --
 -- Индексы таблицы `news`
@@ -256,13 +246,13 @@ ALTER TABLE `component_types`
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`
 --
 ALTER TABLE `fragments_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `news`
@@ -274,7 +264,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `routes_aliases`
@@ -304,7 +294,7 @@ ALTER TABLE `fragments`
 --
 ALTER TABLE `fragments_data`
   ADD CONSTRAINT `fragments_data_ibfk_1` FOREIGN KEY (`component_id`) REFERENCES `components` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fragments_data_ibfk_2` FOREIGN KEY (`fragment_id`) REFERENCES `fragments` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fragments_data_ibfk_2` FOREIGN KEY (`fragment_id`) REFERENCES `fragments` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

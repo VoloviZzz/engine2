@@ -22,7 +22,8 @@ module.exports = (app) => {
                 FROM fragments f
                     LEFT JOIN components c ON f.component_id = c.id
                 WHERE f.id > 0 
-                    ${arg.route_id}`,
+                    ${arg.route_id}
+                ORDER BY f.priority DESC, f.id ASc`,
                 (err, rows) => {
                     if (err) return resolve([err, null]);
 
@@ -51,19 +52,44 @@ module.exports = (app) => {
         })
     }
 
+    const addFragment = (args = {}) => {
+        return new Promise((resolve, reject) => {
+            db.query(`
+                INSERT INTO fragments SET route_id = ${args.route_id}
+            `, (err, rows) => {
+                if(err) return resolve([err, null]);
+
+                return resolve([null, rows.insertId]);
+            })
+        })
+    }
+
+    const updFragment = (args = {}) => {
+        return new Promise((resolve, reject) => {
+            db.query(`
+                UPDATE fragments SET ${args.target} = ${args.value} WHERE id = ${args.id}
+            `, (err, rows) => {
+                if(err) return resolve([err, null]);
+
+                return resolve([null, rows]);
+            })
+        })
+    }
+
     const fragmentsHandler = async (fragment, data) => {
-        let errors;
+        let errors, content = '';
 
         if(fragment.isStatic) {
             [errors, data] = await getFragmentsData({fragment_id: fragment.id});
-            return JSON.parse(data[0].data).body.content;
+            if(data.length > 1) content = JSON.parse(data[0].data).body.content;
         }
-
-        const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
-        [err, content] = await controllerHandler(data);
+        else {
+            const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
+            [errors, content] = await controllerHandler(data);
+        }
         
-        return content;
+        return {id: fragment.id, content, fragment};
     }
 
-    return { getFragments, fragmentsHandler }
+    return { getFragments, fragmentsHandler, addFragment, updFragment }
 }

@@ -1,14 +1,12 @@
 module.exports = (app, express) => {
 
-    const data = { // хранилище данных
-        views: {}, // данные для передачи в шаблон
-        ctrl: {} // данные для работы внутри контроллера
-    };
-
-    const Router = express.Router();
+    const Router = app.express.Router();
     const { getFragments, fragmentsHandler } = require('./fragments')(app);
 
     Router.get('*', (req, res, next) => {
+        
+        req.locals = {};
+
         const routesObj = app.locals.routesList;
         const reqUrl = req.url;
         let routeSplit, route;
@@ -20,19 +18,19 @@ module.exports = (app, express) => {
             if (!!routesObj[`/${routeSplit[0]}`] === false) {
                 const err = new Error('Маршрут не найден');
                 err.status = 404;
-                
+
                 return next(err);
             }
-            
+
             route = routesObj[`/${routeSplit[0]}`];
         }
-        
-        data.ctrl.route = route;
-        
+
+        req.locals.route = route;
+
         return next();
     }, (req, res, next) => {
 
-        if (!!data.ctrl.route.public === false && !!req.session.user.id == false) {
+        if (!!req.locals.route.public === false && !!req.session.user.id == false) {
             const err = new Error('Нет доступа к странице');
             err.status = 503;
             return next(err);
@@ -40,7 +38,7 @@ module.exports = (app, express) => {
 
         return next();
     }, (req, res, next) => {
-        const route = data.ctrl.route;
+        const route = req.locals.route;
 
         const urlSplit = req.url.split('/').filter((r) => r !== '');
         const urlLength = urlSplit.length;
@@ -58,23 +56,50 @@ module.exports = (app, express) => {
     }, async (req, res, next) => {
         // получение фрагментов
         let err = false;
-        const route = data.ctrl.route;
-        
-        [err, fragments] = await getFragments({route_id: route.id});
-        if(err) return next(err);
+        const route = req.locals.route;
+
+        [err, fragments] = await getFragments({ route_id: route.id });
+        if (err) return next(err);
 
         const fragmentsMap = fragments.map(fragment => {
-            return fragmentsHandler(fragment, {req, res, next})
+            return fragmentsHandler(fragment, { req })
         });
 
         const fragmentsData = await Promise.all(fragmentsMap);
 
-        data.views.fragmentsData = fragmentsData;
+        res.locals.routeName = route.name;
+        res.locals.fragmentsData = fragmentsData;
+        res.locals.user = {
+            admin: req.session.user.admin,
+            adminMode: req.session.user.adminMode
+        };
+        res.locals.routeId = route.id;
 
         next();
     }, (req, res, next) => {
-        return res.render('index', data.views);
+        return res.render('index');
     })
+
+    Router.post('*', async (req, res, next) => {
+        req.locals = {};
+
+        const postRoutes = app.locals.postRoutes;
+        const reqUrl = req.url;
+        let err = false;
+        
+        if(!!postRoutes[reqUrl] === false) return next(new Error("Маршрут не найден"));
+
+        const postHandler = postRoutes[reqUrl];
+        
+        [err, postResult] = await postHandler(req.body);
+        
+        if(err) {
+            err = new Error(err.message);
+            return next(new Error(err));
+        }
+
+        res.json({status: 'ok'})
+    });
 
     return Router;
 }
