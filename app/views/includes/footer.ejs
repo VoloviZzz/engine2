@@ -1,0 +1,40 @@
+    <footer class="document-footer">
+        <div class="leta-logo">
+            <a class="leta-link" href="#">
+                <img src="/img/leta-logo.png" alt="Лета-Индекс">
+            </a>
+        </div>          
+            <div class="copyright">© ООО "Евросервис" 2017г.</div>
+        <div class="footer-social">
+            <a class="social-btn social-btn-fb" href="#">Фэйсбук</a>
+            <a class="social-btn social-btn-tw" href="#">Твиттер</a>
+            <a class="social-btn social-btn-vk" href="#">Вконтакте</a>
+            <a class="social-btn social-btn-od" href="#">Одноклассники</a>
+            <a class="social-btn social-btn-ut" href="#">Ютуб</a>
+            <a class="social-btn social-btn-inst" href="#">Инстаграм</a>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="/vendors/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/application.js"></script>
+<% if(!!user.adminMode === true) { %> 
+    <script src="/admins/js/admin.js"></script>    
+<% } %>
+<% if(user.admin) { %>
+    <script>
+        $('#toggle-admin-mode').on('click', () => {
+            const postData = {
+                ctrl: 'toggle_admin_mode'
+            };
+            $.post("/toggle-admin", postData).done(result => {
+                if(result.status == 'ok') {
+                    return location.reload();
+                }
+                else {
+                    console.log(result);
+                }
+            })
+        })
+    </script>
+<% } %>
+</html>

@@ -77,7 +77,15 @@ module.exports = (app, express) => {
 
         next();
     }, (req, res, next) => {
-        return res.render('index');
+        
+        const viewsData = {
+            user: req.session.user,
+            page: req.locals.route.name,
+        };
+
+        Object.assign(viewsData, req.locals.route);
+
+        return res.render(req.locals.route.template_name,viewsData);
     })
 
     Router.post('*', async (req, res, next) => {

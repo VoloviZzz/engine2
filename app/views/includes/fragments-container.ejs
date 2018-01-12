@@ -1,0 +1,22 @@
+<% fragmentsData.forEach(({id, content, fragment}) => { %>
+    <div class="admin-fragment-item">
+        <% if(user.adminMode) { %>
+            <div>
+                <button class="js-fragment-edit-type">Сменить тип фрагмента</button>
+                <button class="js-fragment-delete">Удалить фрагмент со страницы</button>
+                <div>
+                    <select class="js-upd-fragment-component" data-route-id="<%=routeId-%>" data-fragment-id="<%= id -%>" name="types">
+                        <% componentsList.map(c => { %>
+                            <option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+        <% } %>
+        <h1><%=id-%></h1>
+        <%- content -%>
+    </div>
+<% }) %>
+<% if(user.admin) { %> 
+    <button class="js-add-fragment" data-id="<%=routeId-%>">Добавить фрагмент</button>
+<% } %>

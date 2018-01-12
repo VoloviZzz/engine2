@@ -16,6 +16,7 @@ const db = mysql.createConnection({
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 
@@ -35,6 +36,7 @@ app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 
+// обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
 process.on('unhandledRejection', (error) => {
 	console.log('unhandledRejection', error);
 });
@@ -47,33 +49,35 @@ const fragments = require('./libs/fragments')(app);
 db.connect(async (err) => {
 	if (err) throw err.message;
 
-	app.locals.routesList = await initRoutes();
+	[err, app.locals.routesList] = await initRoutes();
+	if (err) throw "Ошибка создания сервера. " + err.message;
+
 	app.locals.postRoutes = {
 		'/api/fragments/add': async (args = {}) => {
 			let error = false;
 
-			if(!!args.route_id === false) return Promise.resolve([{message: 'Отсутствует route_id'}, null]);
+			if (!!args.route_id === false) return Promise.resolve([{ message: 'Отсутствует route_id' }, null]);
 
-			[error, fragmentId] = await fragments.addFragment({route_id: args.route_id});
-			if(error) return next(error);
+			[error, fragmentId] = await fragments.addFragment({ route_id: args.route_id });
+			if (error) return next(error);
 
 			return Promise.resolve([error, fragmentId]);
 		},
 
-		'/api/fragments/upd': async (args ={}) => {
+		'/api/fragments/upd': async (args = {}) => {
 			let error = false;
 
-			if(!!args.value === false || !!args.target === false) return Promise.resolve([{message: 'Отсутствуют необходимые параметры'}, null]);
+			if (!!args.value === false || !!args.target === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
 
-			[error, fragmentId] = await fragments.updFragment({target: args.target, value: args.value, id: args.fragment_id});
-			if(error) return next(error);
+			[error, fragmentId] = await fragments.updFragment({ target: args.target, value: args.value, id: args.fragment_id });
+			if (error) return next(error);
 
 			return Promise.resolve([error, fragmentId]);
 		}
 	};
 
 	db.query('SELECT * FROM components', (err, rows) => {
-		if(err) return console.log('Ошибка получения компонентов');
+		if (err) return console.log('Ошибка получения компонентов');
 
 		app.locals.componentsList = rows;
 	})
@@ -96,8 +100,8 @@ db.connect(async (err) => {
 		// render the error page
 		res.status(err.status || 200);
 
-		if(req.xhr) {
-			return res.json({message: err.message});
+		if (req.xhr) {
+			return res.json({ message: err.message });
 		}
 		else {
 			return res.render('error');
