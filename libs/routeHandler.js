@@ -58,22 +58,25 @@ module.exports = (app, express) => {
         let err = false;
         const route = req.locals.route;
 
-        [err, fragments] = await getFragments({ route_id: route.id });
-        if (err) return next(err);
-
-        const fragmentsMap = fragments.map(fragment => {
-            return fragmentsHandler(fragment, { req })
-        });
-
-        const fragmentsData = await Promise.all(fragmentsMap);
-
         res.locals.routeName = route.name;
-        res.locals.fragmentsData = fragmentsData;
+        
         res.locals.user = {
             admin: req.session.user.admin,
             adminMode: req.session.user.adminMode
         };
+        
         res.locals.routeId = route.id;
+        res.locals.page = route.name;
+        
+        [err, fragments] = await getFragments({ route_id: route.id });
+        if (err) return next(err);
+        
+        const fragmentsMap = fragments.map(fragment => {
+            return fragmentsHandler(fragment, { req, locals: res.locals })
+        });
+        
+        const fragmentsData = await Promise.all(fragmentsMap);
+        res.locals.fragmentsData = fragmentsData;
 
         next();
     }, (req, res, next) => {
@@ -85,7 +88,7 @@ module.exports = (app, express) => {
 
         Object.assign(viewsData, req.locals.route);
 
-        return res.render(req.locals.route.template_name,viewsData);
+        return res.render(req.locals.route.template_name, viewsData);
     })
 
     Router.post('*', async (req, res, next) => {

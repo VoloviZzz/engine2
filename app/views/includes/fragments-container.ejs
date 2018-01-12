@@ -1,7 +1,7 @@
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
     <div class="admin-fragment-item">
         <% if(user.adminMode) { %>
-            <div>
+            <div style="position: absolute; z-index: 10">
                 <button class="js-fragment-edit-type">Сменить тип фрагмента</button>
                 <button class="js-fragment-delete">Удалить фрагмент со страницы</button>
                 <div>
@@ -13,7 +13,6 @@
                 </div>
             </div>
         <% } %>
-        <h1><%=id-%></h1>
         <%- content -%>
     </div>
 <% }) %>
