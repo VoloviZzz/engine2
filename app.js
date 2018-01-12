@@ -16,7 +16,6 @@ const db = mysql.createConnection({
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 
@@ -33,7 +32,7 @@ app.db = db;
 app.ejs = ejs;
 app.express = express;
 app.locals.routesList = {};
-app.locals.libs = path.join(__dirname, 'app', 'libs');
+app.locals.libs = path.join(__dirname, 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
@@ -53,23 +52,23 @@ db.connect(async (err) => {
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
 	app.locals.postRoutes = {
-		'/api/fragments/add': async (args = {}) => {
+		'/api/fragments/add': async (req, res, body) => {
 			let error = false;
 
-			if (!!args.route_id === false) return Promise.resolve([{ message: 'Отсутствует route_id' }, null]);
+			if (!!req.body.route_id === false) return Promise.resolve([{ message: 'Отсутствует route_id' }, null]);
 
-			[error, fragmentId] = await fragments.addFragment({ route_id: args.route_id });
+			[error, fragmentId] = await fragments.addFragment({ route_id: req.body.route_id });
 			if (error) return next(error);
 
 			return Promise.resolve([error, fragmentId]);
 		},
 
-		'/api/fragments/upd': async (args = {}) => {
+		'/api/fragments/upd': async (req, res, next) => {
 			let error = false;
 
-			if (!!args.value === false || !!args.target === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
+			if (!!req.body.value === false || !!req.body.target === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
 
-			[error, fragmentId] = await fragments.updFragment({ target: args.target, value: args.value, id: args.fragment_id });
+			[error, fragmentId] = await fragments.updFragment({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
 			if (error) return next(error);
 
 			return Promise.resolve([error, fragmentId]);
@@ -98,8 +97,9 @@ db.connect(async (err) => {
 		res.locals.error = req.app.get('env') === 'development' ? err : {};
 
 		// render the error page
-		res.status(err.status || 200);
+		res.status(err.status || 500);
 
+		
 		if (req.xhr) {
 			return res.json({ message: err.message });
 		}

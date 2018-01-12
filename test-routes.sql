@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 11 2018 г., 14:00
+-- Время создания: Янв 12 2018 г., 13:18
 -- Версия сервера: 5.7.19-log
 -- Версия PHP: 7.2.0
 
@@ -34,6 +34,7 @@ CREATE TABLE `components` (
   `name` varchar(64) NOT NULL,
   `ctrl` varchar(64) DEFAULT NULL,
   `static` tinyint(1) NOT NULL,
+  `once` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Единственный на странице',
   `type` int(11) NOT NULL COMMENT 'Статический или исполняемый',
   `styles` text,
   `scripts` text,
@@ -45,10 +46,10 @@ CREATE TABLE `components` (
 -- Дамп данных таблицы `components`
 --
 
-INSERT INTO `components` (`id`, `title`, `name`, `ctrl`, `static`, `type`, `styles`, `scripts`, `default_config`, `created`) VALUES
-(1, 'Управление маршрутами', 'routes-list', 'routes-list', 0, 2, NULL, NULL, NULL, '2018-01-10 08:58:25'),
-(2, 'Пустой блок', 'clear-block', NULL, 1, 1, NULL, NULL, NULL, '2018-01-10 09:22:25'),
-(3, 'Слайдер', 'slider', 'slider', 0, 1, NULL, NULL, NULL, '2018-01-10 12:17:53');
+INSERT INTO `components` (`id`, `title`, `name`, `ctrl`, `static`, `once`, `type`, `styles`, `scripts`, `default_config`, `created`) VALUES
+(1, 'Управление маршрутами', 'routes-list', 'routes-list', 0, 0, 2, NULL, NULL, NULL, '2018-01-10 08:58:25'),
+(2, 'Пустой блок', 'clear-block', NULL, 1, 0, 1, NULL, NULL, NULL, '2018-01-10 09:22:25'),
+(3, 'Главный слайдер', 'main-slider', 'main-slider', 0, 1, 1, NULL, NULL, '{\"slides\": []}', '2018-01-10 12:17:53');
 
 -- --------------------------------------------------------
 
@@ -89,8 +90,10 @@ CREATE TABLE `fragments` (
 
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`) VALUES
 (23, 1, 17, 1, '2018-01-11 11:35:09'),
-(24, 3, 17, 1, '2018-01-11 11:58:30'),
-(25, 2, 1, 1, '2018-01-11 12:37:50');
+(25, 3, 1, 1, '2018-01-11 12:37:50'),
+(26, 3, 19, 1, '2018-01-12 10:35:44'),
+(27, 3, 22, 1, '2018-01-12 10:39:06'),
+(28, 2, 23, 1, '2018-01-12 11:23:34');
 
 -- --------------------------------------------------------
 
@@ -106,25 +109,14 @@ CREATE TABLE `fragments_data` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
--- Структура таблицы `news`
+-- Дамп данных таблицы `fragments_data`
 --
 
-CREATE TABLE `news` (
-  `id` int(11) NOT NULL,
-  `title` varchar(64) NOT NULL DEFAULT 'Новая новость',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `news`
---
-
-INSERT INTO `news` (`id`, `title`, `created`) VALUES
-(1, 'Новая новость 1', '2018-01-09 09:12:03'),
-(2, 'Новая новость 2', '2018-01-09 09:12:03');
+INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
+(1, 3, 26, '{\"slides\": [{\"href\":\"/news\",\"img\":\"http://it-kmm.com/images/News.jpg\",\"img_bottom\":\"http://it-kmm.com/images/News.jpg\",\"title\":\"Новости\",\"title_bottom\":\"Новости\",\"description\":\"\\n            <p class=\\\"top-slide-info\\\">Раздел с новостями</p>\\n        \"},{\"href\":\"/shops\",\"img\":\"/img/main_slides/4.jpg\",\"img_bottom\":\"/img/main_slides/4.jpg\",\"title\":\"Магазины компании\",\"title_bottom\":\"Магазины компании\",\"description\":\"\\n            <p class=\\\"top-slide-info\\\">В магазинах компании ООО \\\"Евросервис\\\" всегда в наличии полный ассортимент ритуальной продукции. Магазины имеют удобное расположение и находятся в каждом районе города. Здесь вы можете найти подробную информацию о месте нахождения и контактных телефонов каждого из них.</p>\\n        \"},{\"href\":\"/procurement\",\"img\":\"http://www.video-step.ru/img/location/be5ac1c1b5951dbe49d8fd4f668b8bfa1c61c8fb29ca898144bc19c01fe74cccc33ab3fe6f81ec04812cc4fef9072c2c66c2e801be17f126da0cb65d49da8cae/8ad361c5a6781e44d2f4e0e90fc568c351455f85.png\",\"img_bottom\":\"http://www.video-step.ru/img/location/be5ac1c1b5951dbe49d8fd4f668b8bfa1c61c8fb29ca898144bc19c01fe74cccc33ab3fe6f81ec04812cc4fef9072c2c66c2e801be17f126da0cb65d49da8cae/8ad361c5a6781e44d2f4e0e90fc568c351455f85.png\",\"title\":\"Поставщикам\",\"title_bottom\":\"Поставщикам\",\"description\":\"\\n            <p class=\\\"top-slide-info\\\">Приоритетом компании является покупка товаров и услуг по наиболее выгодной цене у наиболее надёжных и квалифицированных поставщиков. На этой странице размещается вся информация о закупках ООО \\\"Евросервис\\\", а также вся информация для новых и существующих партнеров компании.</p>\\n        \"},{\"href\":\"/contacts\",\"img\":\"http://yarmarka62rus.ru/wp-content/uploads/2016/04/%D0%9A%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D0%B8-%D0%94%D0%BE%D0%BC-%D0%A1%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9.jpg\",\"img_bottom\":\"http://yarmarka62rus.ru/wp-content/uploads/2016/04/%D0%9A%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B-%D0%BA%D0%BE%D0%BC%D0%BF%D0%B0%D0%BD%D0%B8%D0%B8-%D0%94%D0%BE%D0%BC-%D0%A1%D1%82%D1%80%D0%BE%D0%B8%D1%82%D0%B5%D0%BB%D0%B5%D0%B9.jpg\",\"title\":\"Контакты\",\"title_bottom\":\"Контакты\",\"description\":\"\\n            <p class=\\\"top-slide-info\\\">На этой странице Вы можете найти контактные телефоны, а также адреса и реквизиты центрального офиса компании ООО \\\"Евросервис\\\".</p>\\n        \"}]}', '2018-01-12 10:49:08'),
+(2, 3, 25, '{\"slides\": [{\"img\":\"/img/main_slides/17.jpg\",\"img_bottom\":\"/img/main_bottom_slides/0.jpg\",\"title\":\"Если в дом пришла беда - мы поможем Вам всегда\",\"title_bottom\":\"Главная\",\"description\":\"Официальный сайт ООО \\\"Евросервис\\\"\",\"mainSlide\":true},{\"href\":\"/shops\",\"img\":\"/img/main_slides/8.jpg\",\"img_bottom\":\"/img/main_bottom_slides/8.jpg\",\"title\":\"Магазины компании\",\"title_bottom\":\"Магазины\",\"description\":\"<p class=\\\"top-slide-info\\\">В магазинах компании ООО \\\"Евросервис\\\" всегда в наличии полный ассортимент ритуальной продукции. Магазины имеют удобное расположение и находятся в каждом районе города. Здесь вы можете найти подробную информацию о месте нахождения и контактных телефонов каждого из них.</p>\\n        \"}]}', '2018-01-12 11:19:30'),
+(3, 2, 27, '{\"content\": \"text\"}', '2018-01-12 11:38:17');
 
 -- --------------------------------------------------------
 
@@ -138,8 +130,10 @@ CREATE TABLE `routes` (
   `title` varchar(64) NOT NULL DEFAULT 'Новый маршрут',
   `url` varchar(255) NOT NULL,
   `ctrl` varchar(55) DEFAULT NULL,
+  `template_id` int(11) DEFAULT '1',
   `dynamic` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `public` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Публичный маршрут?',
+  `admin` int(11) NOT NULL DEFAULT '0' COMMENT 'Только для администратора',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -147,9 +141,20 @@ CREATE TABLE `routes` (
 -- Дамп данных таблицы `routes`
 --
 
-INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `dynamic`, `public`, `created`) VALUES
-(1, 'home', 'Домашняя страница', '/', NULL, 0, 1, '2018-01-10 12:03:58'),
-(17, 'admin', 'Администрирование страниц', '/admin', NULL, 0, 0, '2018-01-10 12:02:03');
+INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `dynamic`, `public`, `admin`, `created`) VALUES
+(1, 'home', 'Домашняя страница', '/', NULL, 1, 0, 1, 0, '2018-01-10 12:03:58'),
+(17, 'admin', 'Администрирование страниц', '/admin', NULL, 2, 0, 0, 1, '2018-01-10 12:02:03'),
+(19, 'company', 'О компании', '/company', NULL, 1, 0, 1, 0, '2018-01-12 10:28:43'),
+(22, 'shop', 'Магазин', '/shop', NULL, 1, 0, 1, 0, '2018-01-12 10:39:02'),
+(23, 'news', 'Новости', '/news', NULL, 1, 0, 1, 0, '2018-01-12 11:23:30'),
+(24, 'new', 'Страница новости', '/new', NULL, 1, 1, 1, 0, '2018-01-12 11:24:24'),
+(25, 'shops', 'Магазины', '/shops', NULL, 1, 0, 1, 0, '2018-01-12 11:32:52'),
+(26, 'procurement', 'Поставщикам', '/procurement', NULL, 1, 0, 1, 0, '2018-01-12 11:33:14'),
+(27, 'contacts', 'Контактные данные', '/contacts', NULL, 1, 0, 1, 0, '2018-01-12 11:33:49'),
+(28, 'login', 'Авторизация', '/login', NULL, 1, 0, 1, 0, '2018-01-12 11:35:36'),
+(29, 'cart', 'Корзина', '/cart', NULL, 1, 0, 1, 0, '2018-01-12 11:37:25'),
+(30, 'category', 'Товары по категории', '/cat', NULL, 1, 1, 1, 0, '2018-01-12 12:15:33'),
+(31, 'subcat', 'Товары по подкатегории', '/subcat', NULL, 1, 1, 1, 0, '2018-01-12 12:15:23');
 
 -- --------------------------------------------------------
 
@@ -173,6 +178,27 @@ CREATE TABLE `routes_aliases` (
 INSERT INTO `routes_aliases` (`id`, `route_id`, `title`, `target`, `target_id`, `created`) VALUES
 (1, 4, 'novaya-novost', 'news', 1, '2018-01-09 08:29:31'),
 (2, 4, 'novaya-novost-2', 'news', 2, '2018-01-09 09:12:35');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `templates`
+--
+
+CREATE TABLE `templates` (
+  `id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL DEFAULT 'Новый шаблон',
+  `name` varchar(64) DEFAULT NULL COMMENT 'Название файла шаблона',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `templates`
+--
+
+INSERT INTO `templates` (`id`, `title`, `name`, `created`) VALUES
+(1, 'Пустая страница', 'empty', '2018-01-12 05:06:14'),
+(2, 'Трёхколоночный макет страницы', 'three-column', '2018-01-12 05:06:48');
 
 --
 -- Индексы сохранённых таблиц
@@ -208,16 +234,11 @@ ALTER TABLE `fragments_data`
   ADD KEY `fragments_data_ibfk_2` (`fragment_id`);
 
 --
--- Индексы таблицы `news`
---
-ALTER TABLE `news`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Индексы таблицы `routes`
 --
 ALTER TABLE `routes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `template_id` (`template_id`);
 
 --
 -- Индексы таблицы `routes_aliases`
@@ -225,6 +246,12 @@ ALTER TABLE `routes`
 ALTER TABLE `routes_aliases`
   ADD PRIMARY KEY (`id`),
   ADD KEY `route_id` (`route_id`);
+
+--
+-- Индексы таблицы `templates`
+--
+ALTER TABLE `templates`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -246,7 +273,7 @@ ALTER TABLE `component_types`
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`
@@ -255,21 +282,21 @@ ALTER TABLE `fragments_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `news`
---
-ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT для таблицы `routes_aliases`
 --
 ALTER TABLE `routes_aliases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `templates`
+--
+ALTER TABLE `templates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -295,6 +322,12 @@ ALTER TABLE `fragments`
 ALTER TABLE `fragments_data`
   ADD CONSTRAINT `fragments_data_ibfk_1` FOREIGN KEY (`component_id`) REFERENCES `components` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fragments_data_ibfk_2` FOREIGN KEY (`fragment_id`) REFERENCES `fragments` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Ограничения внешнего ключа таблицы `routes`
+--
+ALTER TABLE `routes`
+  ADD CONSTRAINT `routes_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `templates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

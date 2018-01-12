@@ -24,7 +24,7 @@ module.exports = (app, db) => {
 
             if (!!id === true) id = `AND r.id = ${id}`;
 
-            db.query(`
+            app.db.query(`
                 SELECT r.*,
                     t.title as template_title,
                     t.name as template_name
@@ -49,7 +49,7 @@ module.exports = (app, db) => {
             if (typeof public != 'undefined') public = `, public = ${public}`;
             if (typeof name != 'undefined') name = `, name = '${name}'`;
 
-            db.query(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${public} ${name}`, async function (err, rows) {
+            app.db.query(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${public} ${name}`, async function (err, rows) {
                 if (err) return resolve([err, null]);
 
                 const [queryErr, newRoute] = await getRoutes({ id: rows.insertId });
@@ -63,7 +63,7 @@ module.exports = (app, db) => {
         return new Promise(function (resolve, reject) {
             if (!!id === false) return reject([{ message: 'Отсутствует параметр id' }]);
 
-            db.query(`DELETE FROM routes WHERE id = ${id}`, function (err, rows) {
+            app.db.query(`DELETE FROM routes WHERE id = ${id}`, function (err, rows) {
                 if (err) return resolve([err]);
 
                 return resolve([null, rows]);
@@ -82,7 +82,7 @@ module.exports = (app, db) => {
             arg.dynamic = typeof arg.dynamic !== 'undefined' ? `, dynamic = '${arg.dynamic}'` : ``;
             arg.public = typeof arg.public !== 'undefined' ? `, public = '${arg.public}'` : ``;
 
-            db.query(`UPDATE routes SET created = NOW() ${arg.title} ${arg.url} ${arg.name} ${arg.dynamic} ${arg.public} WHERE id = ${arg.id}`, (err, rows) => {
+            app.db.query(`UPDATE routes SET created = NOW() ${arg.title} ${arg.url} ${arg.name} ${arg.dynamic} ${arg.public} WHERE id = ${arg.id}`, (err, rows) => {
                 if (err) return resolve([err, null]);
 
                 return resolve([null, rows]);

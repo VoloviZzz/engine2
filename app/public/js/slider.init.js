@@ -50,6 +50,9 @@ $(document).ready(function() {
 
 	setSlidersSize();
 
+	// костыль для того, чтобы родительский элемент слайдера занимал весь экран;
+	$('.slider-container').parent().css({flex: '1'});
+
 	function setSlidersSize() {
 
 		sliderItemHeight = ($(window).height() - $('.document-header').outerHeight(true) - $('.document-footer').outerHeight(true)) * 0.6;

@@ -1,5 +1,7 @@
+<% var onceFragmentOnPage = false %>
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
-    <div class="admin-fragment-item">
+    <% onceFragmentOnPage = !!fragment.once %>
+    <div class="fragment-item">
         <% if(user.adminMode) { %>
             <div style="position: absolute; z-index: 10">
                 <button class="js-fragment-edit-type">Сменить тип фрагмента</button>
@@ -16,6 +18,6 @@
         <%- content -%>
     </div>
 <% }) %>
-<% if(user.admin) { %> 
+<% if(user.adminMode && onceFragmentOnPage === false) { %> 
     <button class="js-add-fragment" data-id="<%=routeId-%>">Добавить фрагмент</button>
 <% } %>

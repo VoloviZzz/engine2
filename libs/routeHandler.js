@@ -4,7 +4,7 @@ module.exports = (app, express) => {
     const { getFragments, fragmentsHandler } = require('./fragments')(app);
 
     Router.get('*', (req, res, next) => {
-        
+
         req.locals = {};
 
         const routesObj = app.locals.routesList;
@@ -36,6 +36,12 @@ module.exports = (app, express) => {
             return next(err);
         }
 
+        if (!!req.locals.route.admin === true && !!req.session.user.admin === false) {
+            const err = new Error('Нет доступа к странице');
+            err.status = 503;
+            return next(err);
+        }
+
         return next();
     }, (req, res, next) => {
         const route = req.locals.route;
@@ -44,7 +50,8 @@ module.exports = (app, express) => {
         const urlLength = urlSplit.length;
 
         if (!!route.dynamic === true && urlLength < 2) {
-            return next({ status: 'bad', message: 'Нет параметра для динамического маршрута' });
+            const error = new Error();
+            return next({ status: '502', message: 'Нет параметра для динамического маршрута' });
         }
         else if (!!route.dynamic === false && urlLength > 1) {
             return next({ status: 'bad', message: 'Неверный маршрут', httpCode: 502 });
@@ -59,28 +66,28 @@ module.exports = (app, express) => {
         const route = req.locals.route;
 
         res.locals.routeName = route.name;
-        
+
         res.locals.user = {
             admin: req.session.user.admin,
             adminMode: req.session.user.adminMode
         };
-        
+
         res.locals.routeId = route.id;
         res.locals.page = route.name;
-        
+
         [err, fragments] = await getFragments({ route_id: route.id });
         if (err) return next(err);
-        
+
         const fragmentsMap = fragments.map(fragment => {
             return fragmentsHandler(fragment, { req, locals: res.locals })
         });
-        
+
         const fragmentsData = await Promise.all(fragmentsMap);
         res.locals.fragmentsData = fragmentsData;
 
         next();
     }, (req, res, next) => {
-        
+
         const viewsData = {
             user: req.session.user,
             page: req.locals.route.name,
@@ -94,22 +101,29 @@ module.exports = (app, express) => {
     Router.post('*', async (req, res, next) => {
         req.locals = {};
 
+        const referer = req.header('Referer');
+
         const postRoutes = app.locals.postRoutes;
         const reqUrl = req.url;
         let err = false;
-        
-        if(!!postRoutes[reqUrl] === false) return next(new Error("Маршрут не найден"));
+
+        if (!!postRoutes[reqUrl] === false) return next(new Error("Маршрут не найден"));
 
         const postHandler = postRoutes[reqUrl];
-        
-        [err, postResult] = await postHandler(req.body);
-        
-        if(err) {
+
+        [err, postResult] = await postHandler(req, res, next);
+
+        if (err) {
             err = new Error(err.message);
             return next(new Error(err));
         }
 
-        res.json({status: 'ok'})
+        if (req.xhr) {
+            res.json({ status: 'ok' })
+        }
+        else {
+            res.redirect(referer);
+        }
     });
 
     return Router;

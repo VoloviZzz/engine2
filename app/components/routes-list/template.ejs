@@ -101,6 +101,8 @@
                             <span>Публичный</span>
                             <input type="radio" name="public" value="0" <%= r.public == 0 ? 'checked' : ''-%>>
                             <span>Только авторизованным</span>
+                            <input type="radio" name="admin" value="1" <%= r.public == 0 ? 'checked' : ''-%>>
+                            <span>Только для администратора</span>
                             <input type="hidden" name="id" value="<%=r.id-%>">
                         </div>
                         <br>

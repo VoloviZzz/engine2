@@ -4,52 +4,54 @@ module.exports = (app) => {
 
 	return (data = {}) => {
 
-		app.locals.postRoutes['/api/routes/add'] = async () => {
+		const { initRoutes, addRoutes, getRoutes, delRoutes, updRoutes } = require(path.join(app.locals.libs, 'router.js'))(app);
+
+		app.locals.postRoutes['/api/routes/add'] = async (req, res, next) => {
 			const [err, route] = await addRoutes(req.body);
 
-			if (err) return next(err);
+			if (err) return Promise.resolve([err, null]);
 
 			app.locals.routesList[route.url] = route;
 
-			return res.redirect(req.body.url);
+			return Promise.resolve([null, route]);
 		};
 
-		app.locals.postRoutes['/api/routes/del'] = async () => {
+		app.locals.postRoutes['/api/routes/del'] = async (req, res, next) => {
 			const routeId = req.body.id;
+			let error = false;
 
-			if (!!routeId === false) return res.json({ status: 'bad', message: 'Отсутствует параметр id' });
+			if (!!routeId === false) return Promise.resolve(['Нет параметра routeId', null]);
 
-			const [getErr, route] = await getRoutes({ id: routeId });
-			if (getErr) return next({ status: 'bad', message: 'Что-то пошло не так', error: getErr });
-			if (!!route === false) return next({ status: 'bad', message: 'Маршрут не найден' });
+			[error, route] = await getRoutes({ id: routeId });
+			if (error) return Promise.resolve([error, null]);
+			if (!!route === false) return Promise.resolve([error, null]);
 
-			const [err, rows] = await delRoutes(req.body);
-			if (err) return res.json({ status: 'bad', message: 'Что-то пошло не так', err });
+			[error, rows] = await delRoutes(req.body);
+			if (error) return Promise.resolve([error, null]);
 
 			delete app.locals.routesList[route.url];
 
-			return res.json({ status: 'ok' });
+			return Promise.resolve([null, route]);
 		};
 
-		app.locals.postRoutes['/api/routes/upd'] = async () => {
+		app.locals.postRoutes['/api/routes/upd'] = async (req, res, next) => {
 			const routeId = req.body.id;
-			let err = false;
+			let error = false;
 
-			if (!!routeId === false) return res.json({ status: 'bad', message: 'Отсутствует параметр id' });
+			if (!!routeId === false) return Promise.resolve(['Нет параметра routeId', null]);
 
-			[err, route] = await getRoutes({ id: routeId });
-			if (err) return next({ status: 'bad', message: 'Что-то пошло не так', error: getErr });
-			if (!!route === false) return next({ status: 'bad', message: 'Маршрут не найден' });
+			[error, route] = await getRoutes({ id: routeId });
+			if (error) return Promise.resolve([error, null]);
+			if (!!route === false) return Promise.resolve(['Маршрут не найден', null]);
 
-			[err, rows] = await updRoutes(req.body);
-			if (err) return res.json({ status: 'bad', message: 'Что-то пошло не так', err });
+			[error, rows] = await updRoutes(req.body);
+			if (error) return Promise.resolve([error, null]);
 
-			[err, route] = await getRoutes({ id: routeId });
+			[error, route] = await getRoutes({ id: routeId });
 
-			app.locals.routesList = await initRoutes();
+			[error, app.locals.routesList] = await initRoutes();
 
-			backUrl = req.header('Referer');
-			return res.redirect(backUrl || '/');
+			return Promise.resolve([null, route])
 		}
 
 		const templatePath = path.join(__dirname, 'template.ejs');

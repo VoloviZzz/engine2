@@ -2,8 +2,9 @@ function Fragments() {}
 
 Fragments.prototype.add = function (route_id) {
     $.post("/api/fragments/add", { route_id }).done((result) => {
-        console.log(result);
         if (result.status === 'ok') return location.reload();
+        console.log(result);
+        alert(result.message)
     })
 }
 

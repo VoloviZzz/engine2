@@ -18,7 +18,8 @@ module.exports = (app) => {
                     c.styles as component_styles,
                     c.scripts as component_scripts,
                     c.static as isStatic,
-                    c.default_config as component_config
+                    c.default_config as component_config,
+                    c.once
                 FROM fragments f
                     LEFT JOIN components c ON f.component_id = c.id
                 WHERE f.id > 0 
@@ -32,9 +33,9 @@ module.exports = (app) => {
         })
     }
 
-    const getFragmentsData = (arg = {id:false, fragment_id:false}) => {
+    const getFragmentsData = (arg = { id: false, fragment_id: false }) => {
         return new Promise((resolve, reject) => {
-            
+
             arg.id = !!arg.id === true ? `AND id = ${arg.id}` : '';
             arg.fragment_id = !!arg.fragment_id === true ? `AND fragment_id = ${arg.fragment_id}` : '';
 
@@ -46,9 +47,9 @@ module.exports = (app) => {
                     ${arg.id}
                     ${arg.fragment_id}
             `, (err, rows) => {
-                if(err) return resolve([err, null]);
-                return resolve([null, rows])
-            })
+                    if (err) return resolve([err, null]);
+                    return resolve([null, rows])
+                })
         })
     }
 
@@ -57,10 +58,10 @@ module.exports = (app) => {
             db.query(`
                 INSERT INTO fragments SET route_id = ${args.route_id}
             `, (err, rows) => {
-                if(err) return resolve([err, null]);
+                    if (err) return resolve([err, null]);
 
-                return resolve([null, rows.insertId]);
-            })
+                    return resolve([null, rows.insertId]);
+                })
         })
     }
 
@@ -69,26 +70,31 @@ module.exports = (app) => {
             db.query(`
                 UPDATE fragments SET ${args.target} = ${args.value} WHERE id = ${args.id}
             `, (err, rows) => {
-                if(err) return resolve([err, null]);
+                    if (err) return resolve([err, null]);
 
-                return resolve([null, rows]);
-            })
+                    return resolve([null, rows]);
+                })
         })
     }
 
     const fragmentsHandler = async (fragment, data) => {
-        let errors, content = '';
+        let errors, fragmentData, content = '';
 
-        if(fragment.isStatic) {
-            [errors, data] = await getFragmentsData({fragment_id: fragment.id});
-            if(data.length > 1) content = JSON.parse(data[0].data).body.content;
-        }
-        else {
+        [errors, rows] = await getFragmentsData({ fragment_id: fragment.id });
+        if (rows.length > 0) fragmentData = JSON.parse(rows[0].data);
+
+        if(!!fragment.isStatic === false) {
+
+            Object.assign(data, fragmentData);
+
             const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
             [errors, content] = await controllerHandler(data);
         }
-        
-        return {id: fragment.id, content, fragment};
+        else {
+            content = fragmentData.content;
+        }
+
+        return { id: fragment.id, content, fragment };
     }
 
     return { getFragments, fragmentsHandler, addFragment, updFragment }
