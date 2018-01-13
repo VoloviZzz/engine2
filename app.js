@@ -9,7 +9,7 @@ const mysql = require('mysql');
 const db = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'qwer1234',
+	password: '',
 	database: 'test-routes'
 })
 
