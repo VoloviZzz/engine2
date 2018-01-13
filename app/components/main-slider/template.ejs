@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="/vendors/flexSlider/flexslider.css">
+<link rel="stylesheet" href="/css/slider.init.css">
+<div class="slider-container">
+	<div id="slider" class="flexslider">
+		<ul class="slides">
+			<% slides.map(s => { %>
+				<% if(s.mainSlide)  { %>
+					<li>
+						<div class="slider-info__container">
+							<div class="slider-item" style="background-image: url(<%= s.img %>)">
+								<div class="slider-info__main">
+									<div class="info-main">
+										<h1><%= s.title %></h1>
+										<h2><%= s.description %></h2>
+									</div>
+									<div class="info-desp">
+										<div class="desp-wrap">
+											<p>Круглосуточная диспетческая служба</p>
+											<h3> (3519) 48-85-80</h3>
+										</div>
+									</div>
+									<% if(adsList.length > 0) { %>
+										<div class="alert-container alertScroll">
+											<ul>
+												<% adsList.map(a => { %>
+												<li>
+													<h1><%= a.title %></h1>
+													<%- a.text %>
+												</li>
+												<% }) %>
+											</ul>
+										</div>
+									<% } %>
+								</div>
+							</div>
+						</div>
+					</li>
+				<% }
+				else { %>
+					<li>
+						<div class="slider-info__container">
+							<div class="slider-item" style="background-image: url(<%= s.img %>)"></div>
+							<div class="slider-info">
+								<h1><%= s.title %></h1>
+								<%- s.description %>
+								<div class="slider-action">
+									<a href="<%= s.href %>" class="btn">Подробнее</a>
+								</div>
+							</div>
+						</div>
+					</li>
+				<% } %>
+			<% }) %>
+			<% if(user.adminMode === true) { %>
+				<li>
+					<div class="slider-info__container">
+						<div class="slider-item"></div>
+					</div>
+				</li>
+			<% } %>
+		</ul>
+	</div>
+	<div id="carousel" class="flexslider">
+		<ul class="slides">
+			<% slides.map(s => { %>
+				<li>
+					<div class="container-item__container">
+						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
+						<% if(user.adminMode === true) { %>
+							<span class="slide-show-settings js-slide-show-settings" data-id="<%=s.id %>" data-page="<%= page%>">...</span>
+						<% } %>
+						<div class="carousel-link__container">
+							<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
+						</div>
+					</div>
+				</li>
+			<% }) %>
+			<% if(user.adminMode === true) { %>
+				<li class="">
+					<div class="container-item__container js-slide-add" data-page="<%= page%>">
+						<div class="carousel-item"></div>
+						<div class="carousel-link__container">
+							<a href="#">Добавить</a>
+						</div>
+					</div>
+				</li>
+			<% } %>
+		</ul>
+	</div>
+	<div class="mobile-nav">
+		<ul>
+			<% slides.map(s => { %>
+				<li>
+					<div class="container-item__container">
+						<div class="carousel-link__container">
+							<a href="<%= s.href %>"><%= s.title_bottom %></a>
+						</div>
+					</div>
+				</li>
+			<% }) %>
+		</ul>
+	</div>
+</div>
+<script defer src="/js/slider.init.js"></script>
+<script defer type="text/javascript" src="/vendors/flexSlider/jquery.flexslider.js"></script>

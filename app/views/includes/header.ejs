@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height">
+        <meta charset="utf-8">
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <title><%=title + ' - ООО "Евросервис"'%></title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&amp;subset=cyrillic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700,900&amp;subset=cyrillic">
+        <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/static.css">
+		<% if(user.adminMode) { %>
+			<link rel="stylesheet" href="/admins/css/style.css">
+		<% } %>
+    </head>
+    <body>
+        <header class="document-header">
+            <nav class="header-nav">
+                <div class="site-band">
+                    <img class="nav-band" src="/img/logo.png">
+                    <button class="toggle-menu btn"></button>
+                </div>
+                <div class="menu-container">
+                    <ul class="header-menu header-menu-center">
+                        <li>
+                            <a class="<%=page == 'index' ? 'active-link' : ''%>" href="/">Главная</a>
+                        </li>
+                        <li>
+                            <a class="<%=page == 'company' ? 'active-link' : ''%>" href="/company">Компания</a>
+                        </li>
+                        <li>
+                            <a class="<%=page == 'shop' ? 'active-link' : ''%>" href="/shop">Магазин</a>
+                        </li>
+                    </ul>
+                    <ul class="header-menu header-menu-right">
+                        <% if(!user.id) { %> 
+                            <li>
+                                <a href="/login">Вход</a>
+                            </li>
+                        <% } 
+                        else { %>
+                        	<% if(user.admin) { %>
+	                        	<li>
+	                        		<a href="javascript:void(0)" id="toggle-admin-mode" class="<%= user.adminMode ? 'active-link' : ''%>">Стать админом</a>
+	                        	</li>
+                        	<% } %>
+                            <li>
+                                <a href="/my"><%= user.login %></a>
+                            </li>
+                            <li>
+                                <a href="/logout">Выйти</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                    <div class="header-menu-second" data-menu-item="company">
+                    	<ul>
+                    		<li></li>
+                    	</ul>
+                    </div>
+                </div>
+            </nav>
+        </header>

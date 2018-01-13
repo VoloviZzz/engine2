@@ -1,0 +1,23 @@
+<% var onceFragmentOnPage = false %>
+<% fragmentsData.forEach(({id, content, fragment}) => { %>
+    <% onceFragmentOnPage = !!fragment.once %>
+    <div class="fragment-item">
+        <% if(user.adminMode) { %>
+            <div style="position: absolute; z-index: 10">
+                <button class="js-fragment-edit-type">Сменить тип фрагмента</button>
+                <button class="js-fragment-delete">Удалить фрагмент со страницы</button>
+                <div>
+                    <select class="js-upd-fragment-component" data-route-id="<%=routeId-%>" data-fragment-id="<%= id -%>" name="types">
+                        <% componentsList.map(c => { %>
+                            <option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+        <% } %>
+        <%- content -%>
+    </div>
+<% }) %>
+<% if(user.adminMode && onceFragmentOnPage === false) { %> 
+    <button class="js-add-fragment" data-id="<%=routeId-%>">Добавить фрагмент</button>
+<% } %>
