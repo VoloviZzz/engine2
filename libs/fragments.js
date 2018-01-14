@@ -78,7 +78,7 @@ module.exports = (app) => {
     }
 
     const fragmentsHandler = async (fragment, data) => {
-        let errors, fragmentData, content = '';
+        let errors, fragmentData = {}, content = '';
 
         [errors, rows] = await getFragmentsData({ fragment_id: fragment.id });
         if (rows.length > 0) fragmentData = JSON.parse(rows[0].data);
@@ -91,7 +91,7 @@ module.exports = (app) => {
             [errors, content] = await controllerHandler(data);
         }
         else {
-            content = fragmentData.content;
+            content = fragmentData.content || '';
         }
 
         return { id: fragment.id, content, fragment };
