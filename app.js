@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const ejs = require('ejs');
+const cookieSession = require('cookie-session');
 
 const app = express();
 
@@ -16,12 +17,18 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 
+app.use(cookieSession({
+	name: 'es_public',
+	keys: ['98908e06919db0f294eczcjfafb711c3'],
+	maxAge: 24 * 60 * 60 * 1000,
+	secure: false
+}))
+
 app.use(function (req, res, next) {
-	req.session = {};
 	req.session.user = {};
-	req.session.user.id = 1;
-	req.session.user.admin = true;
-	req.session.user.adminMode = true;
+	req.session.user.id = false;
+	req.session.user.admin = false;
+	req.session.user.adminMode = false;
 	next();
 })
 
