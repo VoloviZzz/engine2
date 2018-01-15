@@ -98,7 +98,11 @@ module.exports = (app, express) => {
         return res.render(req.locals.route.template_name, viewsData);
     })
 
+    // получаю список контроллеров из папки api
     Router.post('*', async (req, res, next) => {
+
+        // проверка на существование такого пост контроллера;
+
         req.locals = {};
         
         const referer = req.header('Referer');
