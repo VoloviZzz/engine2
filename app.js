@@ -5,13 +5,10 @@ const ejs = require('ejs');
 
 const app = express();
 
+const config = require('./config');
+
 const mysql = require('mysql');
-const db = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'test-routes'
-})
+const db = mysql.createConnection(config.db);
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
@@ -108,8 +105,8 @@ db.connect(async (err) => {
 		}
 	});
 
-	app.listen(3000, (err) => {
+	app.listen(config.web.port, (err) => {
 		if (err) return console.log("Ошибка запуска сервера:" + err.message);
-		console.log("Сервер запущен на порту 3000");
+		console.log("Сервер запущен на порту " + config.web.port);
 	})
 })
