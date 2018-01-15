@@ -14,14 +14,15 @@ const db = mysql.createConnection(config.db);
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 app.use(cookieSession(config.session));
 
 function setDefaultSessionData(req, res, next) {
 	req.session.user = {};
-	req.session.user.id = false;
-	req.session.user.admin = false;
+	req.session.user.id = true;
+	req.session.user.admin = true;
 	req.session.user.adminMode = true;
 	next();
 }

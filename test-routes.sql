@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 12 2018 г., 13:18
+-- Время создания: Янв 15 2018 г., 12:56
 -- Версия сервера: 5.7.19-log
 -- Версия PHP: 7.2.0
 
@@ -21,6 +21,48 @@ SET time_zone = "+00:00";
 --
 -- База данных: `test-routes`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'является ли пользователь администратором',
+  `userId` int(11) NOT NULL DEFAULT '0' COMMENT 'id пользователя',
+  `confirmed` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Регистрация завершена или нет',
+  `surname` varchar(32) DEFAULT NULL,
+  `firstname` varchar(32) DEFAULT NULL,
+  `patronymic` varchar(32) DEFAULT NULL,
+  `name` varchar(62) DEFAULT NULL,
+  `phone` text CHARACTER SET cp1251 NOT NULL,
+  `password` text NOT NULL,
+  `hash` varchar(32) DEFAULT NULL,
+  `mail` varchar(255) CHARACTER SET cp1251 DEFAULT NULL,
+  `address` text CHARACTER SET cp1251,
+  `passAdress` text CHARACTER SET cp1251,
+  `passport` text CHARACTER SET cp1251,
+  `passGivedDate` int(11) DEFAULT NULL,
+  `passGivedOrg` text CHARACTER SET cp1251,
+  `source` int(11) DEFAULT NULL,
+  `sourceType` int(11) DEFAULT NULL,
+  `answer1` text CHARACTER SET cp1251,
+  `answer2` text CHARACTER SET cp1251,
+  `answer3` text CHARACTER SET cp1251,
+  `answer5` text CHARACTER SET cp1251,
+  `answer6` text CHARACTER SET cp1251,
+  `success` text CHARACTER SET cp1251,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- Дамп данных таблицы `clients`
+--
+
+INSERT INTO `clients` (`id`, `admin`, `userId`, `confirmed`, `surname`, `firstname`, `patronymic`, `name`, `phone`, `password`, `hash`, `mail`, `address`, `passAdress`, `passport`, `passGivedDate`, `passGivedOrg`, `source`, `sourceType`, `answer1`, `answer2`, `answer3`, `answer5`, `answer6`, `success`, `created`) VALUES
+(1, 1, 0, 1, 'Зуев', 'Никита', 'Дмитриевич', NULL, '+79127937810', '202cb962ac59075b964b07152d234b70', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-15 09:35:10');
 
 -- --------------------------------------------------------
 
@@ -49,7 +91,8 @@ CREATE TABLE `components` (
 INSERT INTO `components` (`id`, `title`, `name`, `ctrl`, `static`, `once`, `type`, `styles`, `scripts`, `default_config`, `created`) VALUES
 (1, 'Управление маршрутами', 'routes-list', 'routes-list', 0, 0, 2, NULL, NULL, NULL, '2018-01-10 08:58:25'),
 (2, 'Пустой блок', 'clear-block', NULL, 1, 0, 1, NULL, NULL, NULL, '2018-01-10 09:22:25'),
-(3, 'Главный слайдер', 'main-slider', 'main-slider', 0, 1, 1, NULL, NULL, '{\"slides\": []}', '2018-01-10 12:17:53');
+(3, 'Главный слайдер', 'main-slider', 'main-slider', 0, 1, 1, NULL, NULL, '{\"slides\": []}', '2018-01-10 12:17:53'),
+(4, 'Страница авторизации', 'login-page', 'login-page', 0, 1, 2, NULL, NULL, NULL, '2018-01-15 07:19:51');
 
 -- --------------------------------------------------------
 
@@ -89,11 +132,16 @@ CREATE TABLE `fragments` (
 --
 
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`) VALUES
-(23, 1, 17, 1, '2018-01-11 11:35:09'),
+(23, 2, 17, 1, '2018-01-11 11:35:09'),
 (25, 3, 1, 1, '2018-01-11 12:37:50'),
 (26, 3, 19, 1, '2018-01-12 10:35:44'),
 (27, 3, 22, 1, '2018-01-12 10:39:06'),
-(28, 2, 23, 1, '2018-01-12 11:23:34');
+(28, 2, 23, 1, '2018-01-12 11:23:34'),
+(29, 4, 28, 1, '2018-01-15 07:22:04'),
+(30, 2, 25, 1, '2018-01-15 08:10:12'),
+(31, 2, 25, 1, '2018-01-15 08:10:14'),
+(32, 1, 17, 1, '2018-01-15 10:26:54'),
+(33, 2, 26, 1, '2018-01-15 11:32:16');
 
 -- --------------------------------------------------------
 
@@ -205,6 +253,12 @@ INSERT INTO `templates` (`id`, `title`, `name`, `created`) VALUES
 --
 
 --
+-- Индексы таблицы `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `components`
 --
 ALTER TABLE `components`
@@ -258,10 +312,16 @@ ALTER TABLE `templates`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT для таблицы `components`
 --
 ALTER TABLE `components`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `component_types`
@@ -273,7 +333,7 @@ ALTER TABLE `component_types`
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`

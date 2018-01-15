@@ -100,8 +100,9 @@ module.exports = (app, express) => {
 
     Router.post('*', async (req, res, next) => {
         req.locals = {};
-
+        
         const referer = req.header('Referer');
+        console.log('Пришел пост запрос с адреса: ' + referer);
 
         const postRoutes = app.locals.postRoutes;
         const reqUrl = req.url;

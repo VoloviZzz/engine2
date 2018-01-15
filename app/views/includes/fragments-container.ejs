@@ -7,7 +7,6 @@
                 <button href="#" class="setting-call-btn"></button>
                 <div class="setting-wrapper">
                     <button class="js-fragment-edit-type btn-blue">Сменить тип фрагмента</button>
-                    <button class="js-fragment-delete btn-blue">Удалить фрагмент со страницы</button>
                     <div>
                         <select class="js-upd-fragment-component select-set" data-route-id="<%=routeId-%>" data-fragment-id="<%= id -%>" name="types">
                             <% componentsList.map(c => { %>
@@ -15,6 +14,7 @@
                             <% }) %>
                         </select>
                     </div>
+                    <button class="js-fragment-delete btn-blue">Удалить фрагмент со страницы</button>
                 </div>
             </div>
         <% } %>
