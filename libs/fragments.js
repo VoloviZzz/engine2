@@ -87,8 +87,11 @@ module.exports = (app) => {
 
             Object.assign(data, fragmentData);
 
+            
             const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
             [errors, content] = await controllerHandler(data);
+            // testVar = await controllerHandler(data);
+            // console.log(testVar);
         }
         else {
             content = fragmentData.content || '';

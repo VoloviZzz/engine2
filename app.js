@@ -16,22 +16,19 @@ app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
+app.use(cookieSession(config.session));
 
-app.use(cookieSession({
-	name: 'es_public',
-	keys: ['98908e06919db0f294eczcjfafb711c3'],
-	maxAge: 24 * 60 * 60 * 1000,
-	secure: false
-}))
-
-app.use(function (req, res, next) {
+function setDefaultSessionData(req, res, next) {
 	req.session.user = {};
 	req.session.user.id = false;
 	req.session.user.admin = false;
-	req.session.user.adminMode = false;
+	req.session.user.adminMode = true;
 	next();
-})
+}
 
+app.use(setDefaultSessionData);
+
+// инизиализация переменных в приложении
 app.db = db;
 app.ejs = ejs;
 app.express = express;
@@ -103,7 +100,6 @@ db.connect(async (err) => {
 		// render the error page
 		res.status(err.status || 500);
 
-		
 		if (req.xhr) {
 			return res.json({ message: err.message });
 		}
