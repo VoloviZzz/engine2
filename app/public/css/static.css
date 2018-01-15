@@ -914,3 +914,62 @@ table {
         width: 33%;
     }
 }
+
+
+/* Стили фрагмента блока и поля настроек */
+
+.fragment-setting-window {
+    position: relative;
+}
+
+.setting-call-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000000;
+    width: 45px;
+    height: 45px;
+    background: transparent url("../img/settings-icon.png") no-repeat center;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+.setting-wrapper {
+    display: none;
+    position: absolute;
+    top: 46px;
+    left: 2.5em;
+    z-index: 1000000;
+    width: auto;
+    height: auto;
+    background: transparent;
+}
+
+.setting-wrapper-show {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-blue, 
+.select-set {
+    width: 100%;
+    max-width: 262px;
+    padding: 10px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(to top, #1f2121 0%, #333636 35%, #5e6363 68%, #686e6e 95%);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+
+}
+
+.select-set option {
+    color: #000000;
+}
