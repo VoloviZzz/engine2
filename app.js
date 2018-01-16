@@ -21,9 +21,9 @@ app.use(cookieSession(config.session));
 
 function setDefaultSessionData(req, res, next) {
 	req.session.user = {};
-	req.session.user.id = true;
-	req.session.user.admin = true;
-	req.session.user.adminMode = true;
+	req.session.user.id = false;
+	req.session.user.admin = false;
+	req.session.user.adminMode = false;
 	next();
 }
 
