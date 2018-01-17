@@ -1,7 +1,9 @@
+const { Model } = require('../app/models/index');
+
 module.exports = (app, express) => {
 
     const Router = app.express.Router();
-    const { getFragments, fragmentsHandler } = require('./fragments')(app);
+    const fragmentsHandler = require('./fragments')(app);
 
     Router.get('*', (req, res, next) => {
 
@@ -75,7 +77,8 @@ module.exports = (app, express) => {
         res.locals.routeId = route.id;
         res.locals.page = route.name;
 
-        [err, fragments] = await getFragments({ route_id: route.id });
+        // [err, fragments] = await getFragments({ route_id: route.id });
+        [err, fragments] = await Model.fragments.getFragments({route_id: route.id});
         if (err) return next(err);
 
         const fragmentsMap = fragments.map(fragment => {

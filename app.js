@@ -1,3 +1,4 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -7,9 +8,9 @@ const cookieSession = require('cookie-session');
 const app = express();
 
 const config = require('./config');
+const db = require('./db');
 
-const mysql = require('mysql');
-const db = mysql.createConnection(config.db);
+const { Model } = require('./app/models/index');
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
@@ -21,9 +22,9 @@ app.use(cookieSession(config.session));
 
 function setDefaultSessionData(req, res, next) {
 	req.session.user = {};
-	req.session.user.id = false;
-	req.session.user.admin = false;
-	req.session.user.adminMode = false;
+	req.session.user.id = true;
+	req.session.user.admin = true;
+	req.session.user.adminMode = true;
 	next();
 }
 
@@ -42,13 +43,10 @@ process.on('unhandledRejection', (error) => {
 	console.log('unhandledRejection', error);
 });
 
-const { initRoutes, addRoutes, getRoutes, delRoutes, updRoutes } = require('./libs/router')(app, db);
-const routeHandler = require('./libs/routeHandler')(app, express);
-
 const fragments = require('./libs/fragments')(app);
 
-db.connect(async (err) => {
-	if (err) throw err.message;
+db.connect(db.MODE_TEST, async (err) => {
+	if (err) throw new Error(err);
 
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
@@ -70,18 +68,15 @@ db.connect(async (err) => {
 
 			if (!!req.body.value === false || !!req.body.target === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
 
-			[error, fragmentId] = await fragments.updFragment({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
+			// [error, fragmentId] = await fragments.updFragment({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
+			[error, fragmentId] = await Model.fragments.updFragment({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
 			if (error) return next(error);
 
 			return Promise.resolve([error, fragmentId]);
 		}
 	};
 
-	db.query('SELECT * FROM components', (err, rows) => {
-		if (err) return console.log('Ошибка получения компонентов');
-
-		app.locals.componentsList = rows;
-	})
+	[err, app.locals.componentsList] = await db.execQuery(`SELECT * FROM components`);
 
 	app.use(routeHandler);
 
