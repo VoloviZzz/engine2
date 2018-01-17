@@ -54,7 +54,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         let data = {
-            ctrl: 'register'
+            ctrl: 'signup'
         };
 
         $(this).find('.login-body__input').each((i, elem) => {
@@ -80,12 +80,13 @@ $(document).ready(() => {
             return alert('Вводимые данные некоректны');
         }
 
-        $.post("/register", data).done(result => {
-            if (result.status === true) {
-                $('.show-post-message').show();
-            } else {
+        $.post("/api/register", data).done(result => {
+            if (result.status == 'ok') {
+                return location.reload();
+            }
+            else {
                 console.log(result);
-                alert(result);
+                alert(result.message);
             }
         }
         )
