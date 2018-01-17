@@ -4,10 +4,10 @@ module.exports = (app) => {
 
 	return (data = {}) => {
 
-		const { initRoutes, addRoutes, getRoutes, delRoutes, updRoutes } = require(path.join(app.locals.libs, 'router.js'))(app);
+		const { initRoutes } = require(path.join(app.locals.libs, 'router.js'));
 
 		app.locals.postRoutes['/api/routes/add'] = async (req, res, next) => {
-			const [err, route] = await addRoutes(req.body);
+			const [err, route] = await req.app.Model.routes.addRoutes(req.body);
 
 			if (err) return Promise.resolve([err, null]);
 
@@ -22,11 +22,11 @@ module.exports = (app) => {
 
 			if (!!routeId === false) return Promise.resolve(['Нет параметра routeId', null]);
 
-			[error, route] = await getRoutes({ id: routeId });
+			[error, route] = await req.app.Model.routes.getRoutes({ id: routeId });
 			if (error) return Promise.resolve([error, null]);
 			if (!!route === false) return Promise.resolve([error, null]);
 
-			[error, rows] = await delRoutes(req.body);
+			[error, rows] = await req.app.Model.routes.delRoutes(req.body);
 			if (error) return Promise.resolve([error, null]);
 
 			delete app.locals.routesList[route.url];

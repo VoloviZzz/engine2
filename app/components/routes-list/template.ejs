@@ -37,10 +37,12 @@
         <input type="radio" name="dynamic" value="0" checked>
         <span>Статический</span>
         <br>
-        <input type="radio" name="public" value="1" checked>
+        <input type="radio" name="access" value="1" checked>
         <span>Публичный</span>
-        <input type="radio" name="public" value="0">
+        <input type="radio" name="access" value="2">
         <span>Только авторизованным</span>
+        <input type="radio" name="access" value="3">
+        <span>Только администратору</span>
     </div>
     <br>
     <div>
@@ -97,12 +99,12 @@
                             <input type="radio" name="dynamic" value="0" <%= r.dynamic == 0 ? 'checked' : ''-%>>
                             <span>Статический</span>
                             <br>
-                            <input type="radio" name="public" value="1" <%= r.public == 1 ? 'checked' : ''-%>>
+                            <input type="radio" name="access" value="1" <%= r.access == 1 ? 'checked' : ''-%>>
                             <span>Публичный</span>
-                            <input type="radio" name="public" value="0" <%= r.public == 0 ? 'checked' : ''-%>>
+                            <input type="radio" name="access" value="2" <%= r.access == 2 ? 'checked' : ''-%>>
                             <span>Только авторизованным</span>
-                            <input type="radio" name="admin" value="1" <%= r.public == 0 ? 'checked' : ''-%>>
-                            <span>Только для администратора</span>
+                            <input type="radio" name="access" value="3" <%= r.access == 3 ? 'checked' : ''-%>>
+                            <span>Только администратору</span>
                             <input type="hidden" name="id" value="<%=r.id-%>">
                         </div>
                         <br>

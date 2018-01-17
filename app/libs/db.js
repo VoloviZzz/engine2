@@ -31,6 +31,7 @@ exports.get = function () {
 exports.execQuery = function (queryStr) {
 	return new Promise((resolve, reject) => {
 		exports.get().query(queryStr, (err, rows) => {
+			if(err) return resolve([err, null]);
 			return resolve([err, rows]);
 		})
 	})

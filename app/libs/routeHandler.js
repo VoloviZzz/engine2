@@ -1,4 +1,4 @@
-const { Model } = require('../app/models/index');
+const { Model } = require('../models/index');
 
 module.exports = (app, express) => {
 
@@ -15,30 +15,41 @@ module.exports = (app, express) => {
 
         route = routesObj[reqUrl];
 
+        
         if (reqUrl !== '/') {
+            
             routeSplit = reqUrl.split('/').filter((r) => r !== '');
+            
             if (!!routesObj[`/${routeSplit[0]}`] === false) {
                 const err = new Error('Маршрут не найден');
                 err.status = 404;
-
+                
                 return next(err);
             }
-
+            
             route = routesObj[`/${routeSplit[0]}`];
         }
-
+        else {
+            if (!!routesObj[`/`] === false) {
+                const err = new Error('Маршрут не найден');
+                err.status = 404;
+                
+                return next(err);
+            }
+        }
+        
         req.locals.route = route;
 
         return next();
     }, (req, res, next) => {
 
-        if (!!req.locals.route.public === false && !!req.session.user.id == false) {
+        if (req.locals.route.access == "2" && !!req.session.user.id == false) {
             const err = new Error('Нет доступа к странице');
             err.status = 503;
             return next(err);
         }
 
-        if (!!req.locals.route.admin === true && !!req.session.user.admin === false) {
+        if (req.locals.route.access == "3" && !!req.session.user.admin === false) {
             const err = new Error('Нет доступа к странице');
             err.status = 503;
             return next(err);
@@ -101,6 +112,18 @@ module.exports = (app, express) => {
         return res.render(req.locals.route.template_name, viewsData);
     })
 
+    const apiControllers = require('require-dir')('../api');
+
+    Router.post('/api/*', async (req, res, next) => {
+        const {ctrl} = req.body;
+        if(!!apiControllers[ctrl] === false) return res.json({status: 'bad', message: 'Контроллер не найден'})
+        
+        const routeController = apiControllers[ctrl];
+        const controllerResult = await routeController(req, res, next);
+
+        res.json(controllerResult)
+    })
+
     // получаю список контроллеров из папки api
     Router.post('*', async (req, res, next) => {
 
@@ -118,6 +141,8 @@ module.exports = (app, express) => {
         if (!!postRoutes[reqUrl] === false) return next(new Error("Маршрут не найден"));
 
         const postHandler = postRoutes[reqUrl];
+
+        console.log(req.body);
 
         [err, postResult] = await postHandler(req, res, next);
 

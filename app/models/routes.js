@@ -1,59 +1,53 @@
-const db = require("../../db");
+const db = require("../libs/db");
 
-module.exports.getRoutes = (args = { id: '' }) => {
-    return new Promise(function (resolve, reject) {
+exports.getRoutes = (args = { id: '' }) => {
+    return new Promise(async function (resolve, reject) {
         let id = args.id;
 
         if (!!id === true) id = `AND r.id = ${id}`;
 
-        db.execQuery(`
+        let [err, rows] = await db.execQuery(`
             SELECT r.*,
-                t.title as template_title,
-                t.name as template_name
+            t.title as template_title,
+            t.name as template_name
             FROM routes r
-                LEFT JOIN templates t ON r.template_id = t.id
-            WHERE r.id > 0 
-                ${id}`,
-            function (err, rows) {
-                if (err) return resolve([err, null]);
-                if (!!id === true) rows = rows[0];
+            LEFT JOIN templates t ON r.template_id = t.id
+            WHERE r.id > 0 ${id}`
+        );
 
-                return resolve([err, rows]);
-            });
+        if(err) throw new Error(err);
+
+        if(!!id === true) rows = rows[0];
+
+        resolve([null, rows]);
     })
 }
 
-module.exports.addRoutes = ({ url, title, dynamic, public, name }) => {
-    return new Promise(function (resolve, reject) {
+exports.addRoutes = ({ url, title, dynamic, access, name }) => {
+    return new Promise(async function (resolve, reject) {
         if (!!url === false || !!title === false) return resolve([{ message: 'Отсутствуют необходимые параметры для добавления маршрута' }])
 
         if (typeof dynamic != 'undefined') dynamic = `, dynamic = ${dynamic}`;
-        if (typeof public != 'undefined') public = `, public = ${public}`;
+        if (typeof access != 'undefined') access = `, access = ${access}`;
         if (typeof name != 'undefined') name = `, name = '${name}'`;
 
-        app.db.query(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${public} ${name}`, async function (err, rows) {
-            if (err) return resolve([err, null]);
-
-            const [queryErr, newRoute] = await getRoutes({ id: rows.insertId });
-
-            return resolve([null, newRoute]);
-        })
+        const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name}`);
+        const [queryErr, newRoute] = await exports.getRoutes({ id: rows.insertId });
+        return resolve([null, newRoute]);
     })
 }
 
-module.exports.delRoutes = ({ id }) => {
+exports.delRoutes = ({ id }) => {
     return new Promise(function (resolve, reject) {
         if (!!id === false) return reject([{ message: 'Отсутствует параметр id' }]);
 
-        app.db.query(`DELETE FROM routes WHERE id = ${id}`, function (err, rows) {
-            if (err) return resolve([err]);
+        const res = db.execQuery(`DELETE FROM routes WHERE id = ${id}`);
 
-            return resolve([null, rows]);
-        })
+        resolve(res);
     })
 }
 
-module.exports.updRoutes = (arg = {}) => {
+exports.updRoutes = (arg = {}) => {
     return new Promise((resolve, reject) => {
 
         if (!!arg.id === false) return resolve([{ message: 'Отсутствует параметр id' }]);

@@ -1,4 +1,4 @@
-function Fragments() {}
+function Fragments() { }
 
 Fragments.prototype.add = function (route_id) {
     $.post("/api/fragments/add", { route_id }).done((result) => {
@@ -9,11 +9,11 @@ Fragments.prototype.add = function (route_id) {
 }
 
 Fragments.prototype.changeComponent = function (fragment_id, value) {
-    
+
     const target = 'component_id';
 
     $.post('/api/fragments/upd', { value, target, fragment_id }).done((result) => {
-        if(result.status === 'ok') return location.reload();
+        if (result.status === 'ok') return location.reload();
 
         alert(result.message);
     }).catch((error) => {
@@ -21,28 +21,34 @@ Fragments.prototype.changeComponent = function (fragment_id, value) {
     })
 }
 
-Fragments.prototype.delete = function(fragment_id) {
-    console.log(this);
+Fragments.prototype.delete = function (fragment_id) {
+    $.post('/api/fragments/del', { fragment_id }).done((result) => {
+        if (result.status === 'ok') return location.reload();
+
+        alert(result.message);
+    }).catch((error) => {
+        alert('Произошла ошибка. Попробуйте позже');
+    })
 }
 
 const fragments = new Fragments();
 
-$('.js-upd-fragment-component').on('change', function() {
+$('.js-upd-fragment-component').on('change', function () {
     return fragments.changeComponent(this.dataset.fragmentId, this.value);
 })
 
-$('.js-add-fragment').on('click', function() {
+$('.js-add-fragment').on('click', function () {
     return fragments.add(this.dataset.id);
 })
 
-$('.js-fragment-delete').on('click', function() {
-    return fragments.delete(this.dataset.routeId);
+$('.js-fragment-delete').on('click', function () {
+    return fragments.delete(this.dataset.fragmentId);
 })
 
 var link = document.querySelector(".setting-call-btn");
 var popup = document.querySelector(".setting-wrapper");
 
-link.addEventListener("click", function(event) {
+link.addEventListener("click", function (event) {
     event.preventDefault();
     if (popup.classList.contains("setting-wrapper-show")) {
         popup.classList.remove("setting-wrapper-show");
@@ -52,7 +58,7 @@ link.addEventListener("click", function(event) {
 
 });
 
-window.addEventListener("keydown", function(event) {
+window.addEventListener("keydown", function (event) {
     if (popup.classList.contains("setting-wrapper-show")) {
         popup.classList.remove("setting-wrapper-show");
     }

@@ -1,4 +1,4 @@
-const db = require('../../db');
+const db = require('../libs/db');
 
 exports.getFragments = async (arg = {}) => {
 
@@ -49,4 +49,8 @@ exports.addFragment = async (args = {}) => {
 exports.updFragment = async (args = {}) => {
     const res = await db.execQuery(`UPDATE fragments SET ${args.target} = ${args.value} WHERE id = ${args.id}`);
     return Promise.resolve(res);
+}
+
+module.exports.delete = function ({id}) {
+    return db.execQuery(`DELETE FROM fragments WHERE id = ${id}`);
 }

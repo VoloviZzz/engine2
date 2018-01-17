@@ -10,13 +10,11 @@ module.exports = (app) => {
 
 			Object.assign(dataViews.user, data.locals);
 
-			app.locals.postRoutes['/login'] = async (req, res, next) => {
+			app.locals.postRoutes['/login'] = (req, res, next) => {
 				return new Promise((resolve, reject) => {
 					let data = req.body;
 					
-					app.db.query("SELECT * FROM clients", (err, rows) => {
-						return resolve([err, rows])
-					})
+					return app.db.execQuery("SELECT * FROM clients");
 				})
 			};
 

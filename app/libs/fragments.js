@@ -1,4 +1,4 @@
-const { Model } = require('../app/models/index');
+const { Model } = require('../models/index');
 const path = require('path');
 
 module.exports = (app) => {
