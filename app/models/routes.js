@@ -1,6 +1,6 @@
 const db = require("../libs/db");
 
-exports.getRoutes = (args = { id: '' }) => {
+exports.get = (args = { id: '' }) => {
     return new Promise(async function (resolve, reject) {
         let id = args.id;
 
@@ -23,7 +23,7 @@ exports.getRoutes = (args = { id: '' }) => {
     })
 }
 
-exports.addRoutes = ({ url, title, dynamic, access, name }) => {
+exports.add = ({ url, title, dynamic, access, name }) => {
     return new Promise(async function (resolve, reject) {
         if (!!url === false || !!title === false) return resolve([{ message: 'Отсутствуют необходимые параметры для добавления маршрута' }])
 
@@ -32,12 +32,12 @@ exports.addRoutes = ({ url, title, dynamic, access, name }) => {
         if (typeof name != 'undefined') name = `, name = '${name}'`;
 
         const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name}`);
-        const [queryErr, newRoute] = await exports.getRoutes({ id: rows.insertId });
+        const [queryErr, newRoute] = await exports.get({ id: rows.insertId });
         return resolve([null, newRoute]);
     })
 }
 
-exports.delRoutes = ({ id }) => {
+exports.del = ({ id }) => {
     return new Promise(function (resolve, reject) {
         if (!!id === false) return reject([{ message: 'Отсутствует параметр id' }]);
 
@@ -47,7 +47,7 @@ exports.delRoutes = ({ id }) => {
     })
 }
 
-exports.updRoutes = (arg = {}) => {
+exports.upd = (arg = {}) => {
     return new Promise((resolve, reject) => {
 
         if (!!arg.id === false) return resolve([{ message: 'Отсутствует параметр id' }]);
@@ -58,10 +58,6 @@ exports.updRoutes = (arg = {}) => {
         arg.dynamic = typeof arg.dynamic !== 'undefined' ? `, dynamic = '${arg.dynamic}'` : ``;
         arg.public = typeof arg.public !== 'undefined' ? `, public = '${arg.public}'` : ``;
 
-        app.db.query(`UPDATE routes SET created = NOW() ${arg.title} ${arg.url} ${arg.name} ${arg.dynamic} ${arg.public} WHERE id = ${arg.id}`, (err, rows) => {
-            if (err) return resolve([err, null]);
-
-            return resolve([null, rows]);
-        })
+        return db.execQuery(`UPDATE routes SET created = NOW() ${arg.title} ${arg.url} ${arg.name} ${arg.dynamic} ${arg.public} WHERE id = ${arg.id}`)
     })
 }

@@ -1,36 +1,34 @@
-const Model = require('../models');
+const { Model } = require('../models');
 
-module.exports = function (req, res, next) {
-    async function add() {
-        let error = false;
+exports.add = async function (req, res, next) {
+    let error = false;
 
-        if (!!req.body.route_id === false) return Promise.resolve([{ message: 'Отсутствует route_id' }, null]);
+    if (!!req.body.route_id === false) return {status: 'bad', message: 'Отсутствует route_id' };
 
-        [error, fragmentId] = await Model.fragments.addFragment({ route_id: req.body.route_id });
-        if (error) return next(error);
+    [error, fragmentId] = await Model.fragments.add({ route_id: req.body.route_id });
+    if (error) return {status: 'bad', message: error.message, error}
 
-        return Promise.resolve([error, fragmentId]);
-    }
+    return {status: 'ok'}
+}
 
-    async function upd() {
-        let error = false;
+exports.upd = async function (req, res, next) {
+    let error = false;
 
-        if (!!req.body.value === false || !!req.body.target === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
+    if (!!req.body.value === false || !!req.body.target === false) return {status: 'bad', message: 'Отсутствуют необходимые параметры' };
 
-        [error, fragmentId] = await Model.fragments.updFragment({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
-        if (error) return next(error);
+    [error, fragmentId] = await Model.fragments.upd({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
+    if (error) return {status: 'bad', message: error.message, error}
 
-        return Promise.resolve([error, fragmentId]);
-    }
+    return {status: 'ok'}
+}
 
-    async function del() {
-        let error = false;
+exports.del = async function (req, res, next) {
+    let error = false;
 
-        if (!!req.body.fragment_id === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
+    if (!!req.body.fragment_id === false) return {status: 'bad', message: 'Отсутствуют необходимые параметры' };
 
-        [error, fragmentId] = await Model.fragments.delete({ id: req.body.fragment_id });
-        if (error) return next(error);
+    [error, fragmentId] = await Model.fragments.delete({ id: req.body.fragment_id });
+    if (error) return {status: 'bad', message: error.message, error}
 
-        return Promise.resolve([error, fragmentId]);
-    }
+    return {status: 'ok'}
 }

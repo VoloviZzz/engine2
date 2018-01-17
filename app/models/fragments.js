@@ -1,6 +1,6 @@
 const db = require('../libs/db');
 
-exports.getFragments = async (arg = {}) => {
+exports.get = async (arg = {}) => {
 
     arg.route_id = !!arg.route_id === true ? `AND f.route_id = ${arg.route_id}` : '';
 
@@ -41,16 +41,16 @@ exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
     return Promise.resolve(fragmentsData)
 }
 
-exports.addFragment = async (args = {}) => {
+exports.add = async (args = {}) => {
     const res = await db.execQuery(`INSERT INTO fragments SET route_id = ${args.route_id}`);
     return Promise.resolve(res);
 }
 
-exports.updFragment = async (args = {}) => {
+exports.upd = async (args = {}) => {
     const res = await db.execQuery(`UPDATE fragments SET ${args.target} = ${args.value} WHERE id = ${args.id}`);
     return Promise.resolve(res);
 }
 
-module.exports.delete = function ({id}) {
+exports.delete = function ({id}) {
     return db.execQuery(`DELETE FROM fragments WHERE id = ${id}`);
 }

@@ -6,7 +6,7 @@ exports.initRoutes = initRoutes = async () => {
     
     const routesObj = {};
 
-    let [queryError, routes] = await Model.routes.getRoutes();
+    let [queryError, routes] = await Model.routes.get();
     if (queryError) throw new Error(queryError)
     
     let routesUrls = [];

@@ -89,7 +89,7 @@ module.exports = (app, express) => {
         res.locals.page = route.name;
 
         // [err, fragments] = await getFragments({ route_id: route.id });
-        [err, fragments] = await Model.fragments.getFragments({route_id: route.id});
+        [err, fragments] = await Model.fragments.get({route_id: route.id});
         if (err) return next(err);
 
         const fragmentsMap = fragments.map(fragment => {
@@ -114,14 +114,20 @@ module.exports = (app, express) => {
 
     const apiControllers = require('require-dir')('../api');
 
-    Router.post('/api/*', async (req, res, next) => {
-        const {ctrl} = req.body;
+    Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
+        let {ctrl, action} = req.params;
+        action = action || ctrl;
+
         if(!!apiControllers[ctrl] === false) return res.json({status: 'bad', message: 'Контроллер не найден'})
         
         const routeController = apiControllers[ctrl];
-        const controllerResult = await routeController(req, res, next);
+        const controllerAction = routeController[action];
 
-        res.json(controllerResult)
+        const controllerResult = await controllerAction(req, res, next);
+
+        const referer = req.header('Referer');
+        if (req.xhr) res.json(controllerResult)
+        else res.redirect(referer);
     })
 
     // получаю список контроллеров из папки api
@@ -141,8 +147,6 @@ module.exports = (app, express) => {
         if (!!postRoutes[reqUrl] === false) return next(new Error("Маршрут не найден"));
 
         const postHandler = postRoutes[reqUrl];
-
-        console.log(req.body);
 
         [err, postResult] = await postHandler(req, res, next);
 
