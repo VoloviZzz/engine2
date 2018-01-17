@@ -54,7 +54,7 @@ $(document).ready(() => {
         e.preventDefault();
 
         let data = {
-            ctrl: 'register'
+            ctrl: 'signup'
         };
 
         $(this).find('.login-body__input').each((i, elem) => {
@@ -80,12 +80,13 @@ $(document).ready(() => {
             return alert('Вводимые данные некоректны');
         }
 
-        $.post("/register", data).done(result => {
-            if (result.status === true) {
-                $('.show-post-message').show();
-            } else {
+        $.post("/api/register", data).done(result => {
+            if (result.status == 'ok') {
+                return location.reload();
+            }
+            else {
                 console.log(result);
-                alert(result);
+                alert(result.message);
             }
         }
         )
@@ -94,18 +95,19 @@ $(document).ready(() => {
     $('#auth-form').on('submit', function (e) {
         e.preventDefault();
 
-        let data = {};
+        let data = {
+            ctrl: 'signin'
+        };
 
         $(this).find('.login-body__input').each((i, elem) => {
             let dataName = $(elem).attr('name');
             let dataValue = $(elem).val();
 
             data[dataName] = dataValue;
-        }
-        )
+        })
 
-        $.post("/login", data).done(result => {
-            if (result === 'success')
+        $.post("/api/login", data).done(result => {
+            if (result.status == 'ok')
                 return location.href = "/";
 
             if (result.status == 'not confirmed') {
@@ -130,14 +132,12 @@ $(document).ready(() => {
                         userEmail
                     }).done(result => {
                         return alert(result.message);
-                    }
-                        )
+                    })
                 }
-            } else {
+            }
+            else {
                 return alert(result.message);
             }
-        }
-        )
+        })
     })
-}
-)
+})

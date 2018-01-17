@@ -1,7 +1,9 @@
+const { Model } = require('../models/index');
+
 module.exports = (app, express) => {
 
     const Router = app.express.Router();
-    const { getFragments, fragmentsHandler } = require('./fragments')(app);
+    const fragmentsHandler = require('./fragments')(app);
 
     Router.get('*', (req, res, next) => {
 
@@ -13,30 +15,41 @@ module.exports = (app, express) => {
 
         route = routesObj[reqUrl];
 
+        
         if (reqUrl !== '/') {
+            
             routeSplit = reqUrl.split('/').filter((r) => r !== '');
+            
             if (!!routesObj[`/${routeSplit[0]}`] === false) {
                 const err = new Error('Маршрут не найден');
                 err.status = 404;
-
+                
                 return next(err);
             }
-
+            
             route = routesObj[`/${routeSplit[0]}`];
         }
-
+        else {
+            if (!!routesObj[`/`] === false) {
+                const err = new Error('Маршрут не найден');
+                err.status = 404;
+                
+                return next(err);
+            }
+        }
+        
         req.locals.route = route;
 
         return next();
     }, (req, res, next) => {
 
-        if (!!req.locals.route.public === false && !!req.session.user.id == false) {
+        if (req.locals.route.access == "2" && !!req.session.user.id == false) {
             const err = new Error('Нет доступа к странице');
             err.status = 503;
             return next(err);
         }
 
-        if (!!req.locals.route.admin === true && !!req.session.user.admin === false) {
+        if (req.locals.route.access == "3" && !!req.session.user.admin === false) {
             const err = new Error('Нет доступа к странице');
             err.status = 503;
             return next(err);
@@ -75,7 +88,8 @@ module.exports = (app, express) => {
         res.locals.routeId = route.id;
         res.locals.page = route.name;
 
-        [err, fragments] = await getFragments({ route_id: route.id });
+        // [err, fragments] = await getFragments({ route_id: route.id });
+        [err, fragments] = await Model.fragments.get({route_id: route.id});
         if (err) return next(err);
 
         const fragmentsMap = fragments.map(fragment => {
@@ -96,6 +110,24 @@ module.exports = (app, express) => {
         Object.assign(viewsData, req.locals.route);
 
         return res.render(req.locals.route.template_name, viewsData);
+    })
+
+    const apiControllers = require('require-dir')('../api');
+
+    Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
+        let {ctrl, action} = req.params;
+        action = action || ctrl;
+
+        if(!!apiControllers[ctrl] === false) return res.json({status: 'bad', message: 'Контроллер не найден'})
+        
+        const routeController = apiControllers[ctrl];
+        const controllerAction = routeController[action];
+
+        const controllerResult = await controllerAction(req, res, next);
+
+        const referer = req.header('Referer');
+        if (req.xhr) res.json(controllerResult)
+        else res.redirect(referer);
     })
 
     // получаю список контроллеров из папки api

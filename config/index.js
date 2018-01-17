@@ -2,7 +2,7 @@ module.exports = {
     db: {
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'qwer1234',
         database: 'test-routes'
     },
     web: {

@@ -1,3 +1,4 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -7,9 +8,9 @@ const cookieSession = require('cookie-session');
 const app = express();
 
 const config = require('./config');
+const db = require('./app/libs/db');
 
-const mysql = require('mysql');
-const db = mysql.createConnection(config.db);
+const { Model } = require('./app/models/index');
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
@@ -20,11 +21,27 @@ app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 app.use(cookieSession(config.session));
 
 function setDefaultSessionData(req, res, next) {
-	req.session.user = {};
+	req.session.user = req.session.user || {};
+	req.session.user.id = req.session.user.id || false;
+	req.session.user.admin = req.session.user.admin || false;
+	req.session.user.adminMode = req.session.user.adminMode || false;
+	next();
+}
+
+function clearSessionData(req, res, next) {
+	req.session.user = req.session.user || {};
 	req.session.user.id = false;
 	req.session.user.admin = false;
-	req.session.user.adminMode = false;
-	next();
+	req.session.user.adminMode =  false;
+	
+	res.redirect('/');
+}
+
+function toggleAdminMode(req, res, next) {
+	if(!!req.session.user.admin === false) return res.json({status: 'bad', message: `Нет доступа к данной функции`});
+	
+	req.session.user.adminMode = true;
+	res.json({status: 'ok'});
 }
 
 app.use(setDefaultSessionData);
@@ -32,9 +49,10 @@ app.use(setDefaultSessionData);
 // инизиализация переменных в приложении
 app.db = db;
 app.ejs = ejs;
+app.Model = Model;
 app.express = express;
 app.locals.routesList = {};
-app.locals.libs = path.join(__dirname, 'libs');
+app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
@@ -42,47 +60,21 @@ process.on('unhandledRejection', (error) => {
 	console.log('unhandledRejection', error);
 });
 
-const { initRoutes, addRoutes, getRoutes, delRoutes, updRoutes } = require('./libs/router')(app, db);
-const routeHandler = require('./libs/routeHandler')(app, express);
+const fragments = require('./app/libs/fragments')(app);
 
-const fragments = require('./libs/fragments')(app);
+db.connect(db.MODE_TEST, async (err) => {
+	if (err) throw new Error(err);
 
-db.connect(async (err) => {
-	if (err) throw err.message;
-
+	const { initRoutes } = require('./app/libs/router');
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
-	app.locals.postRoutes = {
-		'/api/fragments/add': async (req, res, body) => {
-			let error = false;
+	[err, app.locals.componentsList] = await db.execQuery(`SELECT * FROM components`);
 
-			if (!!req.body.route_id === false) return Promise.resolve([{ message: 'Отсутствует route_id' }, null]);
+	const routeHandler = require('./app/libs/routeHandler')(app, express);
 
-			[error, fragmentId] = await fragments.addFragment({ route_id: req.body.route_id });
-			if (error) return next(error);
-
-			return Promise.resolve([error, fragmentId]);
-		},
-
-		'/api/fragments/upd': async (req, res, next) => {
-			let error = false;
-
-			if (!!req.body.value === false || !!req.body.target === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры' }, null]);
-
-			[error, fragmentId] = await fragments.updFragment({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
-			if (error) return next(error);
-
-			return Promise.resolve([error, fragmentId]);
-		}
-	};
-
-	db.query('SELECT * FROM components', (err, rows) => {
-		if (err) return console.log('Ошибка получения компонентов');
-
-		app.locals.componentsList = rows;
-	})
-
+	app.post('/toggle-admin', toggleAdminMode);
+	app.get('/logout', clearSessionData);
 	app.use(routeHandler);
 
 	// catch 404 and forward to error handler

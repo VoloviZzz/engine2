@@ -16,7 +16,7 @@ exports.connect = function (mode, done) {
 	state.pool = mysql.createPool({
 		host: 'localhost',
 		user: 'root',
-		password: '',
+		password: 'qwer1234',
 		database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : TEST_DB
 	})
 
@@ -26,6 +26,15 @@ exports.connect = function (mode, done) {
 
 exports.get = function () {
 	return state.pool
+}
+
+exports.execQuery = function (queryStr) {
+	return new Promise((resolve, reject) => {
+		exports.get().query(queryStr, (err, rows) => {
+			if(err) return resolve([err, null]);
+			return resolve([err, rows]);
+		})
+	})
 }
 
 exports.fixtures = function (data) {
