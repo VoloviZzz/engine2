@@ -40,7 +40,7 @@ function clearSessionData(req, res, next) {
 function toggleAdminMode(req, res, next) {
 	if(!!req.session.user.admin === false) return res.json({status: 'bad', message: `Нет доступа к данной функции`});
 	
-	req.session.user.adminMode = true;
+	req.session.user.adminMode = !req.session.user.adminMode;
 	res.json({status: 'ok'});
 }
 
@@ -65,16 +65,20 @@ const fragments = require('./app/libs/fragments')(app);
 db.connect(db.MODE_TEST, async (err) => {
 	if (err) throw new Error(err);
 
+	// подключение обработчика маршрутов
+	const routeHandler = require('./app/libs/routeHandler')(app, express);
 	const { initRoutes } = require('./app/libs/router');
+
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
 	[err, app.locals.componentsList] = await db.execQuery(`SELECT * FROM components`);
 
-	const routeHandler = require('./app/libs/routeHandler')(app, express);
-
+	// общие маршруты приложения
 	app.post('/toggle-admin', toggleAdminMode);
 	app.get('/logout', clearSessionData);
+
+	// контроллер для обработки входящих запросов
 	app.use(routeHandler);
 
 	// catch 404 and forward to error handler

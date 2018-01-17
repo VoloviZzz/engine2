@@ -12,13 +12,10 @@ var state = {
 	mode: null,
 }
 
+const config = require('../../config');
+
 exports.connect = function (mode, done) {
-	state.pool = mysql.createPool({
-		host: 'localhost',
-		user: 'root',
-		password: 'qwer1234',
-		database: mode === exports.MODE_PRODUCTION ? PRODUCTION_DB : TEST_DB
-	})
+	state.pool = mysql.createPool(config.db)
 
 	state.mode = mode
 	done()
