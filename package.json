@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon app.js --config nodemon.config.json -e js,hbs"
+		"start": "nodemon app.js"
 	},
 	"keywords": [],
 	"author": "",
