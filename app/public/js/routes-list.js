@@ -1,8 +1,11 @@
 $(document).ready(() => {
-	function Routes() {}
+	function RoutesList() {}
 	function Forms() {};
+	
+	const routesList = new RoutesList();
+	const forms = new Forms();
 
-	Routes.prototype.delete = function (routeId) {
+	RoutesList.prototype.delete = function (routeId) {
 
 		if (!confirm('Удалить маршрут с сайта?')) return false;
 
@@ -21,7 +24,18 @@ $(document).ready(() => {
 		})
 	}
 
-	Routes.prototype.showForm = function (elem) {
+	RoutesList.prototype.addRoute = function(data) {
+		$.post('/api/routes/add', data).done(function (result) {
+			if (result.status == 'bad') {
+				console.log(result);
+				return alert('Что-то пошло не так. Попробуйте позже');
+			}
+
+			return location.reload();
+		})
+	}
+
+	RoutesList.prototype.showEditForm = function (elem) {
 		const $this = $(elem);
 		const $routeItem = $this.parent('.js-route-item');
 
@@ -29,17 +43,26 @@ $(document).ready(() => {
 	}
 	
 	Forms.prototype.getFormData = function(form) {
-		return $(form).serializeArray().map(v => {return {[v.name]: v.value}})
+		const returnData = {};
+		$(form).serializeArray().map(v => returnData[v.name] = v.value);
+		return returnData;
 	};
 
-	const routes = new Routes();
 	
 	$('.js-delete-route').on('click', function() {
-		return routes.delete(this.dataset.routeId);
+		return routesList.delete(this.dataset.routeId);
 	});
 
 	$('.js-show-edit-route-form').on('click', function() {
-		return routes.showForm(this);
+		return routesList.showEditForm(this);
+	})
+
+	$('.js-routes-list-add-route').on('submit', function(e) {
+		e.preventDefault();
+		const $form = $(this);
+		const formData = forms.getFormData($form);
+
+		routesList.addRoute(formData);
 	})
 
 })
