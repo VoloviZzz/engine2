@@ -48,7 +48,6 @@ $(document).ready(() => {
 		return returnData;
 	};
 
-	
 	$('.js-delete-route').on('click', function() {
 		return routesList.delete(this.dataset.routeId);
 	});
@@ -65,4 +64,11 @@ $(document).ready(() => {
 		routesList.addRoute(formData);
 	})
 
+	$('.js-routes-list-upd-route').on('submit', function(e) {
+		e.preventDefault();
+		const $form = $(this);
+		const formData = forms.getFormData($form);
+
+		routesList.addRoute(formData);
+	})
 })
