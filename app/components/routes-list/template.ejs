@@ -117,46 +117,4 @@
         <% }) %>
     </ul>
 </div>
-
-<script defer>
-    document.addEventListener("DOMContentLoaded", () => {
-        function Routes() {
-            $('.js-delete-route').on('click', this.delete);
-            
-            const $showEditFormBtn = $('.js-show-edit-route-form');
-    
-            $showEditFormBtn.on('click', this.showForm);
-        }
-        
-        Routes.prototype.delete = function() {
-            
-            const $elem = $(this);
-            const routeId = $elem.data('route-id');
-    
-            if(!confirm('Удалить маршрут с сайта?')) return false;
-    
-            if(!!routeId === false) {
-                console.log("У кнопки отсутствует номер маршрута");
-                return alert('Что-то пошло не так. Попробуйте позже');
-            }
-    
-            $.post('/api/routes/del', {id: routeId}).done(function(result) {
-                if(result.status == 'bad') {
-                    console.log(result);
-                    return alert('Что-то пошло не так. Попробуйте позже');
-                }
-    
-                return location.reload();
-            })
-        }
-    
-        Routes.prototype.showForm = function() {
-            const $this = $(this);
-            const $routeItem = $this.parent('.js-route-item');
-    
-            $routeItem.toggleClass('js-edit-form--show');
-        }
-    
-        const routes = new Routes();
-    });
-</script>
+<script src="/js/routes-list.js" defer></script>

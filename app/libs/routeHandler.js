@@ -14,7 +14,6 @@ module.exports = (app, express) => {
         let routeSplit, route;
 
         route = routesObj[reqUrl];
-
         
         if (reqUrl !== '/') {
             
@@ -112,7 +111,7 @@ module.exports = (app, express) => {
         return res.render(req.locals.route.template_name, viewsData);
     })
 
-    const apiControllers = require('require-dir')('../api');
+    let apiControllers = require('require-dir')('../api');
 
     Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
         let {ctrl, action} = req.params;
@@ -129,39 +128,6 @@ module.exports = (app, express) => {
         if (req.xhr) res.json(controllerResult)
         else res.redirect(referer);
     })
-
-    // получаю список контроллеров из папки api
-    Router.post('*', async (req, res, next) => {
-
-        // проверка на существование такого пост контроллера;
-
-        req.locals = {};
-        
-        const referer = req.header('Referer');
-        console.log('Пришел пост запрос с адреса: ' + referer);
-
-        const postRoutes = app.locals.postRoutes;
-        const reqUrl = req.url;
-        let err = false;
-
-        if (!!postRoutes[reqUrl] === false) return next(new Error("Маршрут не найден"));
-
-        const postHandler = postRoutes[reqUrl];
-
-        [err, postResult] = await postHandler(req, res, next);
-
-        if (err) {
-            err = new Error(err.message);
-            return next(new Error(err));
-        }
-
-        if (req.xhr) {
-            res.json({ status: 'ok' })
-        }
-        else {
-            res.redirect(referer);
-        }
-    });
 
     return Router;
 }

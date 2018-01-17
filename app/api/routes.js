@@ -2,6 +2,11 @@ const { Model } = require('../models');
 const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {
+	
+	if(req.app.locals.routesList[req.body.url]) {
+		return {status: 'bad', message: 'Маршрут с таким URL уже есть в списке'};
+	}
+
     const [err, route] = await Model.routes.add(req.body);
 
     if (err) return { status: 'bad', message: err.message, error: err };

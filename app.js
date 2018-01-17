@@ -56,6 +56,7 @@ app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
+// не знаю куда его вынести
 process.on('unhandledRejection', (error) => {
 	console.log('unhandledRejection', error);
 });
@@ -69,6 +70,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	const routeHandler = require('./app/libs/routeHandler')(app, express);
 	const { initRoutes } = require('./app/libs/router');
 
+	// инициализация списка маршрутов; на выходе будет объект: {route.url: route, ...}
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
