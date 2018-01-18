@@ -45,6 +45,10 @@ $('.js-fragment-delete').on('click', function () {
     return fragments.delete(this.dataset.fragmentId);
 })
 
+$('textarea').each((i, elem) => {
+	CKEDITOR.replace(elem);
+})
+
 var link = document.querySelector(".setting-call-btn");
 var popup = document.querySelector(".setting-wrapper");
 

@@ -7,12 +7,19 @@ module.exports = (app) => {
 
         // [errors, rows] = await getFragmentsData({ fragment_id: fragment.id });
         [errors, rows] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });
-        if (rows.length > 0) fragmentData = JSON.parse(rows[0].data);
+        
+		if (rows.length > 0) {
+			fragmentData = JSON.parse(rows[0].data);
+		}
+		else {
+			if(fragment.component_config) {
+				fragmentData.content = JSON.parse(fragment.component_config).default_content;
+			}
+		}
 
         if (!!fragment.isStatic === false) {
 
             Object.assign(data, fragmentData);
-
 
             const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
             [errors, content] = await controllerHandler(data);
