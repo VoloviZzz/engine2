@@ -128,8 +128,7 @@ module.exports = (app, express) => {
 			const controllerResult = await controllerAction(req, res, next);
 
 			const referer = req.header('Referer');
-			if (req.xhr) res.json(controllerResult)
-			else res.redirect(referer);
+			 res.json(controllerResult)
 		}
 		else {
 			res.json({status: 'bad', message: 'Действие не найдено'})
