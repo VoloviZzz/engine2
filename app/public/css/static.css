@@ -120,6 +120,8 @@ header.document-header, .document-footer {
     padding: 5px 10px;
 }
 
+
+
 .header-nav ul.header-menu {
     display: flex;
     align-items: center;
@@ -946,7 +948,7 @@ table {
     background: transparent;
 }
 
-.setting-wrapper-show {
+.fragment-setting-window.setting-wrapper-show .setting-wrapper {
     display: flex;
     flex-direction: column;
 }

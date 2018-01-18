@@ -45,21 +45,6 @@ $('.js-fragment-delete').on('click', function () {
     return fragments.delete(this.dataset.fragmentId);
 })
 
-var link = document.querySelector(".setting-call-btn");
-var popup = document.querySelector(".setting-wrapper");
-
-link.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (popup.classList.contains("setting-wrapper-show")) {
-        popup.classList.remove("setting-wrapper-show");
-    } else {
-        popup.classList.add("setting-wrapper-show");
-    }
-
-});
-
-window.addEventListener("keydown", function (event) {
-    if (popup.classList.contains("setting-wrapper-show")) {
-        popup.classList.remove("setting-wrapper-show");
-    }
-});
+$(".fragment-setting-window .setting-call-btn").click(function() {
+    $(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");
+ })
