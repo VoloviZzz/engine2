@@ -32,3 +32,8 @@ exports.del = async function (req, res, next) {
 
     return {status: 'ok'}
 }
+
+exports.setData = async function(req, res, next) {
+	Model.fragments.setData({fragment_id: req.body.fragment_id, data: req.body.data});
+	return {status: 'ok', body: req.body}
+}

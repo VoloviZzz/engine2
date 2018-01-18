@@ -31,6 +31,12 @@ Fragments.prototype.delete = function (fragment_id) {
     })
 }
 
+Fragments.prototype.setData = function({fragment_id, data}) {
+	$.post('/api/fragments/setData', {fragment_id, data}).done(result => {
+		console.log(result);
+	})
+}
+
 const fragments = new Fragments();
 
 $('.js-upd-fragment-component').on('change', function () {
@@ -45,8 +51,16 @@ $('.js-fragment-delete').on('click', function () {
     return fragments.delete(this.dataset.fragmentId);
 })
 
-$('textarea').each((i, elem) => {
+$('.js-ckeditor-edit').each((i, elem) => {
 	CKEDITOR.replace(elem);
+})
+
+$.each(CKEDITOR.instances, (i, elem) => {
+	elem.on('change', function() {
+		const editorData = this.getData();
+		const editorElement = this.element.$;
+		fragments.setData({fragment_id: editorElement.dataset.fragmentId, data: editorData});
+	})
 })
 
 $(".fragment-setting-window .setting-call-btn").click(function() {

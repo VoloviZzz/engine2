@@ -18,7 +18,7 @@
                 </div>
             </div>
         <% } %>
-        <%- content -%>
+        <div class="fragment-body <%= fragment.isStatic && user.adminMode ? 'js-ckeditor-edit' : '' -%>" data-fragment-id="<%= id -%>" ><%- content -%></div>
     </div>
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 

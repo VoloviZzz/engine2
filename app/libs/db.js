@@ -25,11 +25,23 @@ exports.get = function () {
 	return state.pool
 }
 
-exports.execQuery = function (queryStr) {
+exports.execQuery = function (queryStr, data = {}) {
 	return new Promise((resolve, reject) => {
-		exports.get().query(queryStr, (err, rows) => {
+		exports.get().query(queryStr, data, (err, rows) => {
 			if(err) return resolve([err, null]);
 			return resolve([err, rows]);
+		})
+	})
+}
+
+exports.insertQuery = function(queryStr, data = {}) {
+	return new Promise((resolve, reject) => {
+		
+		if(Object.keys(data).length == 0) return resolve(['Отсутствуют параметры для добавления строки. ', null]);
+
+		exports.get().query(queryStr, data, (err, rows) => {
+			if(err) return resolve([err, null]);
+			return resolve([err, rows.insertId]);
 		})
 	})
 }

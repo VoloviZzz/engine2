@@ -120,13 +120,20 @@ module.exports = (app, express) => {
         if(!!apiControllers[ctrl] === false) return res.json({status: 'bad', message: 'Контроллер не найден'})
         
         const routeController = apiControllers[ctrl];
-        const controllerAction = routeController[action];
 
-        const controllerResult = await controllerAction(req, res, next);
 
-        const referer = req.header('Referer');
-        if (req.xhr) res.json(controllerResult)
-        else res.redirect(referer);
+		if(routeController[action]) {
+			const controllerAction = routeController[action];
+
+			const controllerResult = await controllerAction(req, res, next);
+
+			const referer = req.header('Referer');
+			if (req.xhr) res.json(controllerResult)
+			else res.redirect(referer);
+		}
+		else {
+			res.json({status: 'bad', message: 'Действие не найдено'})
+		}
     })
 
     return Router;
