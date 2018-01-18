@@ -54,6 +54,7 @@ app.express = express;
 app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
+app.locals.uploadDir = path.join(__dirname, 'app', 'public', 'uploads');
 
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
 // не знаю куда его вынести

@@ -2,138 +2,142 @@ const { Model } = require('../models/index');
 
 module.exports = (app, express) => {
 
-    const Router = app.express.Router();
-    const fragmentsHandler = require('./fragments')(app);
+	const Router = app.express.Router();
+	const fragmentsHandler = require('./fragments')(app);
 
-    Router.get('*', (req, res, next) => {
+	Router.get('*', (req, res, next) => {
 
-        req.locals = {};
+		req.locals = {};
 
-        const routesObj = app.locals.routesList;
-        const reqUrl = req.url;
-        let routeSplit, route;
+		const routesObj = app.locals.routesList;
+		const reqUrl = req.url;
+		let routeSplit, route;
 
-        route = routesObj[reqUrl];
-        
-        if (reqUrl !== '/') {
-            
-            routeSplit = reqUrl.split('/').filter((r) => r !== '');
-            
-            if (!!routesObj[`/${routeSplit[0]}`] === false) {
-                const err = new Error('Маршрут не найден');
-                err.status = 404;
-                
-                return next(err);
-            }
-            
-            route = routesObj[`/${routeSplit[0]}`];
-        }
-        else {
-            if (!!routesObj[`/`] === false) {
-                const err = new Error('Маршрут не найден');
-                err.status = 404;
-                
-                return next(err);
-            }
-        }
-        
-        req.locals.route = route;
+		route = routesObj[reqUrl];
 
-        return next();
-    }, (req, res, next) => {
+		if (reqUrl !== '/') {
 
-        if (req.locals.route.access == "2" && !!req.session.user.id == false) {
-            const err = new Error('Нет доступа к странице');
-            err.status = 503;
-            return next(err);
-        }
+			routeSplit = reqUrl.split('/').filter((r) => r !== '');
 
-        if (req.locals.route.access == "3" && !!req.session.user.admin === false) {
-            const err = new Error('Нет доступа к странице');
-            err.status = 503;
-            return next(err);
-        }
+			if (!!routesObj[`/${routeSplit[0]}`] === false) {
+				const err = new Error('Маршрут не найден');
+				err.status = 404;
 
-        return next();
-    }, (req, res, next) => {
-        const route = req.locals.route;
+				return next(err);
+			}
 
-        const urlSplit = req.url.split('/').filter((r) => r !== '');
-        const urlLength = urlSplit.length;
+			route = routesObj[`/${routeSplit[0]}`];
+		}
+		else {
+			if (!!routesObj[`/`] === false) {
+				const err = new Error('Маршрут не найден');
+				err.status = 404;
 
-        if (!!route.dynamic === true && urlLength < 2) {
-            const error = new Error();
-            return next({ status: '502', message: 'Нет параметра для динамического маршрута' });
-        }
-        else if (!!route.dynamic === false && urlLength > 1) {
-            return next({ status: 'bad', message: 'Неверный маршрут', httpCode: 502 });
-        }
+				return next(err);
+			}
+		}
 
-        const routeParam = urlSplit[1];
+		req.locals.route = route;
 
-        return next();
-    }, async (req, res, next) => {
-        // получение фрагментов
-        let err = false;
-        const route = req.locals.route;
+		return next();
+	}, (req, res, next) => {
 
-        res.locals.routeName = route.name;
+		if (req.locals.route.access == "2" && !!req.session.user.id == false) {
+			const err = new Error('Нет доступа к странице');
+			err.status = 503;
+			return next(err);
+		}
 
-        res.locals.user = {
-            admin: req.session.user.admin,
-            adminMode: req.session.user.adminMode
-        };
+		if (req.locals.route.access == "3" && !!req.session.user.admin === false) {
+			const err = new Error('Нет доступа к странице');
+			err.status = 503;
+			return next(err);
+		}
 
-        res.locals.routeId = route.id;
-        res.locals.page = route.name;
+		return next();
+	}, (req, res, next) => {
+		const route = req.locals.route;
 
-        // [err, fragments] = await getFragments({ route_id: route.id });
-        [err, fragments] = await Model.fragments.get({route_id: route.id});
-        if (err) return next(err);
+		const urlSplit = req.url.split('/').filter((r) => r !== '');
+		const urlLength = urlSplit.length;
 
-        const fragmentsMap = fragments.map(fragment => {
-            return fragmentsHandler(fragment, { req, locals: res.locals })
-        });
+		if (!!route.dynamic === true && urlLength < 2) {
+			const error = new Error();
+			return next({ status: '502', message: 'Нет параметра для динамического маршрута' });
+		}
+		else if (!!route.dynamic === false && urlLength > 1) {
+			return next({ status: 'bad', message: 'Неверный маршрут', httpCode: 502 });
+		}
 
-        const fragmentsData = await Promise.all(fragmentsMap);
-        res.locals.fragmentsData = fragmentsData;
+		const routeParam = urlSplit[1];
 
-        next();
-    }, (req, res, next) => {
+		return next();
+	}, async (req, res, next) => {
+		// получение фрагментов
+		let err = false;
+		const route = req.locals.route;
 
-        const viewsData = {
-            user: req.session.user,
-            page: req.locals.route.name,
-        };
+		res.locals.routeName = route.name;
 
-        Object.assign(viewsData, req.locals.route);
+		res.locals.user = {
+			admin: req.session.user.admin,
+			adminMode: req.session.user.adminMode
+		};
 
-        return res.render(req.locals.route.template_name, viewsData);
-    })
+		res.locals.routeId = route.id;
+		res.locals.page = route.name;
 
-    let apiControllers = require('require-dir')('../api');
+		// [err, fragments] = await getFragments({ route_id: route.id });
+		[err, fragments] = await Model.fragments.get({ route_id: route.id });
+		if (err) return next(err);
 
-    Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
-        let {ctrl, action} = req.params;
-        action = action || ctrl;
+		const fragmentsMap = fragments.map(fragment => {
+			return fragmentsHandler(fragment, { req, locals: res.locals })
+		});
 
-        if(!!apiControllers[ctrl] === false) return res.json({status: 'bad', message: 'Контроллер не найден'})
-        
-        const routeController = apiControllers[ctrl];
+		const fragmentsData = await Promise.all(fragmentsMap);
+		res.locals.fragmentsData = fragmentsData;
+
+		next();
+	}, (req, res, next) => {
+
+		const viewsData = {
+			user: req.session.user,
+			page: req.locals.route.name,
+		};
+
+		Object.assign(viewsData, req.locals.route);
+
+		return res.render(req.locals.route.template_name, viewsData);
+	})
+
+	let apiControllers = require('require-dir')('../api');
+
+	Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
+		let { ctrl, action } = req.params;
+		action = action || ctrl;
+
+		if (!!apiControllers[ctrl] === false) return res.json({ status: 'bad', message: 'Контроллер не найден' })
+
+		const routeController = apiControllers[ctrl];
 
 
-		if(routeController[action]) {
+		if (routeController[action]) {
 			const controllerAction = routeController[action];
 
 			const controllerResult = await controllerAction(req, res, next);
 
-			const referer = req.header('Referer');
-			 res.json(controllerResult)
+			if (controllerResult.sendData) {
+				return res.send(controllerResult.sendData)
+			}
+			else {
+				res.json(controllerResult)
+			}
 		}
 		else {
-			res.json({status: 'bad', message: 'Действие не найдено'})
+			res.json({ status: 'bad', message: 'Действие не найдено' })
 		}
-    })
+	})
 
-    return Router;
+	return Router;
 }
