@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1
--- Время создания: Янв 17 2018 г., 14:11
--- Версия сервера: 5.7.19-log
--- Версия PHP: 7.2.0
+-- Хост: 127.0.0.1:3306
+-- Время создания: Янв 19 2018 г., 07:47
+-- Версия сервера: 5.7.16
+-- Версия PHP: 5.6.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -134,7 +132,7 @@ CREATE TABLE `fragments` (
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`) VALUES
 (38, 1, 40, 1, '2018-01-17 10:44:49'),
 (39, 4, 41, 1, '2018-01-17 10:46:24'),
-(41, 1, 32, 1, '2018-01-17 12:52:32');
+(42, 2, 32, 1, '2018-01-19 04:24:43');
 
 -- --------------------------------------------------------
 
@@ -144,11 +142,18 @@ INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`
 
 CREATE TABLE `fragments_data` (
   `id` int(11) NOT NULL,
-  `component_id` int(11) NOT NULL COMMENT 'Для повторного использования данных внутри компонента',
+  `component_id` int(11) DEFAULT NULL COMMENT 'Для повторного использования данных внутри компонента',
   `fragment_id` int(11) NOT NULL COMMENT 'Для привязки данных к определенному фрагменту',
   `data` text NOT NULL COMMENT 'Сами данные',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `fragments_data`
+--
+
+INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
+(4, NULL, 42, '{\"content\":\"\"}', '2018-01-19 04:30:06');
 
 -- --------------------------------------------------------
 
@@ -174,12 +179,8 @@ CREATE TABLE `routes` (
 
 INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `access`, `dynamic`, `created`) VALUES
 (32, 'home', 'Главная страница', '/', 'home', 1, 1, 0, '2018-01-17 10:11:31'),
-(40, 'admin', 'Admin', '/admin', NULL, 1, 3, 0, '2018-01-17 10:31:22'),
-(41, 'login', 'login', '/login', NULL, 1, 1, 0, '2018-01-17 10:46:17'),
-(42, 'asdasdasd', 'asd', 'asd', NULL, 1, 1, 0, '2018-01-17 13:01:34'),
-(43, 'asdasdasd', 'asd', 'asd', NULL, 1, 1, 0, '2018-01-17 13:01:55'),
-(44, 'asdasdasd', 'asd', 'asd', NULL, 1, 1, 0, '2018-01-17 13:02:04'),
-(47, 'asd', 'asd', 'asd1', NULL, 1, 1, 0, '2018-01-17 13:03:58');
+(40, 'admin', 'Admin', '/admin', NULL, 2, 3, 0, '2018-01-17 10:31:22'),
+(41, 'login', 'login', '/login', NULL, 1, 1, 0, '2018-01-17 10:46:17');
 
 -- --------------------------------------------------------
 
@@ -320,55 +321,46 @@ ALTER TABLE `templates`
 --
 ALTER TABLE `clients`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT для таблицы `components`
 --
 ALTER TABLE `components`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT для таблицы `component_types`
 --
 ALTER TABLE `component_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`
 --
 ALTER TABLE `fragments_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
 --
 ALTER TABLE `routes_access`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- AUTO_INCREMENT для таблицы `routes_aliases`
 --
 ALTER TABLE `routes_aliases`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT для таблицы `templates`
 --
 ALTER TABLE `templates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
@@ -399,7 +391,6 @@ ALTER TABLE `fragments_data`
 ALTER TABLE `routes`
   ADD CONSTRAINT `routes_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `templates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `routes_ibfk_2` FOREIGN KEY (`access`) REFERENCES `routes_access` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
