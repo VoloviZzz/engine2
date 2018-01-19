@@ -34,6 +34,8 @@ exports.del = async function (req, res, next) {
 }
 
 exports.setData = async function(req, res, next) {
-	Model.fragments.setData({fragment_id: req.body.fragment_id, data: req.body.data});
+	const [queryErr, queryRes] = await Model.fragments.setData({fragment_id: req.body.fragment_id, data: req.body.data});
+    if(queryErr) throw new Error(queryErr);
+    
 	return {status: 'ok', body: req.body}
 }

@@ -5,7 +5,9 @@
             <h3 class="fs-regular">Информация</h3>
         </div>
         <div class="section-menu-wrapp">
-
+            <% if(user.adminMode) { %>
+                <button style="width: 100%" class="btn">Добавить меню</button>
+            <% } %>
         </div>
     </aside>
     <section class="section-center sections">
