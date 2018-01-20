@@ -1,0 +1,32 @@
+<nav>
+	<ul class="section-menu fs-regular">
+		<% var menuItems = menuItems || [] %>
+		<% menuItems.forEach((s, i) => { %>
+			<% var items = s.items || [] %>
+			<% var dataOptions = s.dataOptions || '' %>
+			
+			<li <%=dataOptions%> class="section-menu-item <%=s.active ? 'active' : ''%>">
+				<a href="<%= s.href %>">
+					<p><%=s.title%></p>
+					<small><%=s.address%></small>
+				</a>
+				<% if(items.length > 0) { %>
+					<ul class="section-menu__sublist">
+						<% items.map(i => { %>
+						<% var dataOptions = i.dataOptions || "" %>
+						<li>
+							<% var iHref = i.href || '#'; %>
+							<a href="<%= iHref %>" class="<%= i.active ? 'active-link' : '' %>" <%= dataOptions %>>
+								<div>
+									<span><%=i.title%></span>
+								</div>
+								<small><%=i.address%></small>
+							</a>
+						</li>    
+						<% }) %>
+					</ul>
+				<% } %>
+			</li>
+		<% }) %>
+	</ul>
+</nav>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 19 2018 г., 07:47
+-- Время создания: Янв 21 2018 г., 02:22
 -- Версия сервера: 5.7.16
 -- Версия PHP: 5.6.29
 
@@ -132,7 +132,8 @@ CREATE TABLE `fragments` (
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`) VALUES
 (38, 1, 40, 1, '2018-01-17 10:44:49'),
 (39, 4, 41, 1, '2018-01-17 10:46:24'),
-(42, 2, 32, 1, '2018-01-19 04:24:43');
+(42, 2, 32, 1, '2018-01-19 04:24:43'),
+(43, 2, 32, 1, '2018-01-19 08:59:28');
 
 -- --------------------------------------------------------
 
@@ -153,7 +154,36 @@ CREATE TABLE `fragments_data` (
 --
 
 INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
-(4, NULL, 42, '{\"content\":\"\"}', '2018-01-19 04:30:06');
+(4, NULL, 42, '{\"content\":\"<p>1</p>\\n\\n<hr />\\n<p>&nbsp;</p>\\n\"}', '2018-01-19 04:30:06'),
+(5, NULL, 43, '{\"content\":\"<p>2</p>\\n\\n<hr />\\n<p>&nbsp;</p>\\n\"}', '2018-01-19 08:59:31');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `menu_groups`
+--
+
+CREATE TABLE `menu_groups` (
+  `id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL DEFAULT 'Новая группа',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `menu_items`
+--
+
+CREATE TABLE `menu_items` (
+  `id` int(11) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `href` text,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `route_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -168,19 +198,22 @@ CREATE TABLE `routes` (
   `url` varchar(255) NOT NULL,
   `ctrl` varchar(55) DEFAULT NULL,
   `template_id` int(11) DEFAULT '1',
+  `menu_id` int(11) DEFAULT NULL,
   `access` int(11) DEFAULT '1',
   `dynamic` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `routes`
 --
 
-INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `access`, `dynamic`, `created`) VALUES
-(32, 'home', 'Главная страница', '/', 'home', 1, 1, 0, '2018-01-17 10:11:31'),
-(40, 'admin', 'Admin', '/admin', NULL, 2, 3, 0, '2018-01-17 10:31:22'),
-(41, 'login', 'login', '/login', NULL, 1, 1, 0, '2018-01-17 10:46:17');
+INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `menu_id`, `access`, `dynamic`, `created`, `updated`) VALUES
+(32, 'home', 'Главная страница', '/', 'home', 1, NULL, 1, 0, '2018-01-17 10:11:31', '2018-01-20 20:44:11'),
+(40, 'admin', 'Администрирование', '/admin', NULL, 2, NULL, 3, 0, '2018-01-20 20:43:27', '2018-01-20 23:19:38'),
+(41, 'login', 'login', '/login', NULL, 1, NULL, 1, 0, '2018-01-17 10:46:17', '2018-01-20 20:44:11'),
+(42, 'company', 'О компании', '/company', NULL, 2, NULL, 1, 0, '2018-01-20 21:36:25', '2018-01-20 21:36:25');
 
 -- --------------------------------------------------------
 
@@ -286,12 +319,26 @@ ALTER TABLE `fragments_data`
   ADD KEY `fragments_data_ibfk_2` (`fragment_id`);
 
 --
+-- Индексы таблицы `menu_groups`
+--
+ALTER TABLE `menu_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `menu_items`
+--
+ALTER TABLE `menu_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `group_id` (`group_id`);
+
+--
 -- Индексы таблицы `routes`
 --
 ALTER TABLE `routes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `template_id` (`template_id`),
-  ADD KEY `access` (`access`);
+  ADD KEY `access` (`access`),
+  ADD KEY `menu_id` (`menu_id`);
 
 --
 -- Индексы таблицы `routes_access`
@@ -335,17 +382,27 @@ ALTER TABLE `component_types`
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`
 --
 ALTER TABLE `fragments_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT для таблицы `menu_groups`
+--
+ALTER TABLE `menu_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `menu_items`
+--
+ALTER TABLE `menu_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
 --
@@ -386,11 +443,18 @@ ALTER TABLE `fragments_data`
   ADD CONSTRAINT `fragments_data_ibfk_2` FOREIGN KEY (`fragment_id`) REFERENCES `fragments` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
+-- Ограничения внешнего ключа таблицы `menu_items`
+--
+ALTER TABLE `menu_items`
+  ADD CONSTRAINT `menu_items_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `menu_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ограничения внешнего ключа таблицы `routes`
 --
 ALTER TABLE `routes`
   ADD CONSTRAINT `routes_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `templates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `routes_ibfk_2` FOREIGN KEY (`access`) REFERENCES `routes_access` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `routes_ibfk_2` FOREIGN KEY (`access`) REFERENCES `routes_access` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `routes_ibfk_3` FOREIGN KEY (`menu_id`) REFERENCES `menu_groups` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

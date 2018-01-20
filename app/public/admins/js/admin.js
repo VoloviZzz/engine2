@@ -38,8 +38,17 @@ Fragments.prototype.setData = function({fragment_id, data}) {
 	})
 }
 
-MenuList.prototype.addMenuItem = function({title, parent_id = null, href}) {
-	$.post('/api/menu/addMenuItem', {title, parent_id, href}).done(result => {
+MenuList.prototype.addMenuItem = function({title, parent_id = null, href, menu_id}) {
+	$.post('/api/menu/addMenuItem', {title, parent_id, href, menu_id}).done(result => {
+		if(result.status == 'ok') return location.reload();
+
+		console.log(result);
+		alert(result.message);
+	})
+}
+
+MenuList.prototype.addMenuGroup = function({title, route_id}) {
+	$.post('/api/menu/addMenuGroup', {title, route_id}).done(result => {
 		if(result.status == 'ok') return location.reload();
 
 		console.log(result);
@@ -81,7 +90,17 @@ $(".fragment-setting-window .setting-call-btn").click(function() {
 $('.js-menuItem-add').on('click', function() {
 	const title = $('#js-menuItem-add--text').val().trim();
 	const href = $('#js-menuItem-add--href').val().trim();
+	const menu_id = $(this).data('menuId');
 	const parent_id = 0;
 
-	return menuList.addMenuItem({title, parent_id, href});
+	return menuList.addMenuItem({title, parent_id, href, menu_id});
+})
+
+$('.js-menuGroup-add').on('click', function() {
+	const title = $('#js-menuGroup-add--text').val().trim();
+	const route_id = $(this).data('routeId');
+
+	if(title == '') return alert("Отсутствует название группы");
+
+	return menuList.addMenuGroup({title, route_id});
 })

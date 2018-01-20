@@ -5,21 +5,42 @@
             <h3 class="fs-regular">Информация</h3>
         </div>
         <div class="section-menu-wrapp">
-            <%- include('./includes/aside-menu_template', {menuItems}) -%>
+            <nav>
+                <%- include('./includes/aside-menu_template', {menuTree}) -%>
+            </nav>
             <% if(user.adminMode) { %>
-                <div style="display: flex; margin-bottom: 10px">
-                    <input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--text" placeholder="Название элемента меню">
-                </div>
-                <div style="display: flex; margin-bottom: 10px">
-                    <input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--href" placeholder="URL">
-                </div>
-                <button class="btn js-menuItem-add" style="width: 100%">Добавить</button>
+                <section>
+                    <% if(!!route.menu_id === false) { %>
+                        <section style="margin-bottom: 20px">
+                            <h1>Выбрать используемое меню из списка</h1>
+                            <select style="width: 100%">
+                                <option selected>Не выбрано</option>
+                                <% menuGroups.forEach((m) => { %>
+                                    <option><%= m.title-%></option>
+                                <% })%>
+                            </select>
+                        </section>
+                        <h1>Создать новое меню</h1>
+                        <div style="display: flex; margin-bottom: 10px">
+                            <input type="text" name="menu-item-title" class="input-text" id="js-menuGroup-add--text" placeholder="Название">
+                        </div>
+                        <button class="btn js-menuGroup-add" data-route-id="<%=route.id%>" style="width: 100%">Добавить</button>
+                    <% } else { %> 
+                        <div style="display: flex; margin-bottom: 10px">
+                            <input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--text" placeholder="Название элемента меню">
+                        </div>
+                        <div style="display: flex; margin-bottom: 10px">
+                            <input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--href" placeholder="URL">
+                        </div>
+                        <button class="btn js-menuItem-add" data-route-id="<%=route.id%>" data-menu-id="<%=route.menu_id%>" style="width: 100%">Добавить</button>
+                    <% } %>
+                </section>
             <% } %>
         </div>
     </aside>
     <section class="section-center sections">
         <div class="section-title">
-            <h3 class="fs-regular text-center"><%= title -%></h3>
+            <h3 class="fs-regular text-center"><%= route.title -%></h3>
         </div>
         <div class="section-content">
             <%- include('./includes/fragments-container') -%>

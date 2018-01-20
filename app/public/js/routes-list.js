@@ -34,6 +34,16 @@ $(document).ready(() => {
 			return location.reload();
 		})
 	}
+	RoutesList.prototype.updRoute = function(data) {
+		$.post('/api/routes/upd', data).done(function (result) {
+			if (result.status == 'bad') {
+				console.log(result);
+				return alert('Что-то пошло не так. Попробуйте позже');
+			}
+
+			return location.reload();
+		})
+	}
 
 	RoutesList.prototype.showEditForm = function (elem) {
 		const $this = $(elem);
@@ -69,6 +79,6 @@ $(document).ready(() => {
 		const $form = $(this);
 		const formData = forms.getFormData($form);
 
-		routesList.addRoute(formData);
+		routesList.updRoute(formData);
 	})
 })

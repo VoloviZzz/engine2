@@ -49,6 +49,15 @@ exports.upd = (arg = {}) => {
 	arg.name = !!arg.name === true ? `, name = '${arg.name}'` : ``;
 	arg.dynamic = typeof arg.dynamic !== 'undefined' ? `, dynamic = '${arg.dynamic}'` : ``;
 	arg.access = typeof arg.access !== 'undefined' ? `, access = '${arg.access}'` : ``;
+	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
 
-	return db.execQuery(`UPDATE routes SET created = NOW() ${arg.title} ${arg.url} ${arg.name} ${arg.dynamic} ${arg.access} WHERE id = ${arg.id}`)
+	return db.execQuery(`UPDATE routes
+		SET updated = NOW() 
+			${arg.title} 
+			${arg.url} 
+			${arg.name} 
+			${arg.dynamic} 
+			${arg.access} 
+			${arg.menu} 
+		WHERE id = ${arg.id}`)
 }

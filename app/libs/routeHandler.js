@@ -1,4 +1,5 @@
 const { Model } = require('../models/index');
+const Menu = require('./menu');
 
 module.exports = (app, express) => {
 
@@ -87,7 +88,6 @@ module.exports = (app, express) => {
 		res.locals.routeId = route.id;
 		res.locals.page = route.name;
 
-		// [err, fragments] = await getFragments({ route_id: route.id });
 		[err, fragments] = await Model.fragments.get({ route_id: route.id });
 		if (err) return next(err);
 
@@ -100,18 +100,32 @@ module.exports = (app, express) => {
 
 		next();
 	}, async function(req, res, next) {
-		const [menuItemsError, menuItems] = await Model.menu.getMenuItems();
-		if(menuItemsError) throw new Error(menuItemsError);
-		res.locals.menuItems = menuItems;
+		const menu_id = req.locals.route.menu_id;
+		
+		if(req.session.user.adminMode) {
+			const [menuGroupsError, menuGroups] = await Model.menu.getMenuGroups();
+			if(menuGroupsError) throw new Error(menuGroupsError);
+			res.locals.menuGroups = menuGroups;
+		}
+
+		res.locals.menuTree = {};
+		
+		if(!!menu_id) {
+			const menuTree = await Menu.constructMenu({menu_id});
+
+			res.locals.menuTree = menuTree;
+		}
+
 		next();
 	},(req, res, next) => {
 
 		const viewsData = {
 			user: req.session.user,
 			page: req.locals.route.name,
+			route: {}
 		};
 
-		Object.assign(viewsData, req.locals.route);
+		Object.assign(viewsData.route, req.locals.route);
 
 		return res.render(req.locals.route.template_name, viewsData);
 	})
