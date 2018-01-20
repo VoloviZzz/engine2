@@ -99,7 +99,12 @@ module.exports = (app, express) => {
 		res.locals.fragmentsData = fragmentsData;
 
 		next();
-	}, (req, res, next) => {
+	}, async function(req, res, next) {
+		const [menuItemsError, menuItems] = await Model.menu.getMenuItems();
+		if(menuItemsError) throw new Error(menuItemsError);
+		res.locals.menuItems = menuItems;
+		next();
+	},(req, res, next) => {
 
 		const viewsData = {
 			user: req.session.user,

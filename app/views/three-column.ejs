@@ -5,8 +5,15 @@
             <h3 class="fs-regular">Информация</h3>
         </div>
         <div class="section-menu-wrapp">
+            <%- include('./includes/aside-menu_template', {menuItems}) -%>
             <% if(user.adminMode) { %>
-                <button style="width: 100%" class="btn">Добавить меню</button>
+                <div style="display: flex; margin-bottom: 10px">
+                    <input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--text" placeholder="Название элемента меню">
+                </div>
+                <div style="display: flex; margin-bottom: 10px">
+                    <input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--href" placeholder="URL">
+                </div>
+                <button class="btn js-menuItem-add" style="width: 100%">Добавить</button>
             <% } %>
         </div>
     </aside>

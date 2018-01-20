@@ -1,4 +1,5 @@
-function Fragments() { }
+function Fragments() {}
+function MenuList() {}
 
 Fragments.prototype.add = function (route_id) {
 	$.post("/api/fragments/add", { route_id }).done((result) => {
@@ -37,7 +38,17 @@ Fragments.prototype.setData = function({fragment_id, data}) {
 	})
 }
 
+MenuList.prototype.addMenuItem = function({title, parent_id = null, href}) {
+	$.post('/api/menu/addMenuItem', {title, parent_id, href}).done(result => {
+		if(result.status == 'ok') return location.reload();
+
+		console.log(result);
+		alert(result.message);
+	})
+}
+
 const fragments = new Fragments();
+const menuList = new MenuList();
 
 $('.js-upd-fragment-component').on('change', function () {
     return fragments.changeComponent(this.dataset.fragmentId, this.value);
@@ -65,4 +76,12 @@ $.each(CKEDITOR.instances, (i, elem) => {
 
 $(".fragment-setting-window .setting-call-btn").click(function() {
     $(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");
- })
+})
+
+$('.js-menuItem-add').on('click', function() {
+	const title = $('#js-menuItem-add--text').val().trim();
+	const href = $('#js-menuItem-add--href').val().trim();
+	const parent_id = 0;
+
+	return menuList.addMenuItem({title, parent_id, href});
+})
