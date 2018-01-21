@@ -7,6 +7,13 @@ exports.addMenuItem = async function(req, res, next) {
 	return {status: 'ok', data: req.body}
 }
 
+exports.deleteMenuItem = async function(req, res, next) {
+	return Model.menu.deleteMenuItem({id: req.body.menu_id}).then(([error, result]) => {
+		if(error) return Promise.resolve({status: 'bad', message: addError.message})
+		return Promise.resolve({status: 'ok', data: req.body})
+	});
+}
+
 exports.addMenuGroup = async function(req, res, next) {
 
 	return Model.menu.addMenuGroup(req.body).then(([error, menuGroupId]) => {

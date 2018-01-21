@@ -56,6 +56,15 @@ MenuList.prototype.addMenuGroup = function({title, route_id}) {
 	})
 }
 
+MenuList.prototype.deleteMenuItem = function({menu_id}) {
+	$.post('/api/menu/deleteMenuItem', {menu_id}).done(result => {
+		if(result.status == 'ok') return location.reload();
+
+		console.log(result);
+		alert(result.message);
+	})
+}
+
 const fragments = new Fragments();
 const menuList = new MenuList();
 
@@ -103,4 +112,10 @@ $('.js-menuGroup-add').on('click', function() {
 	if(title == '') return alert("Отсутствует название группы");
 
 	return menuList.addMenuGroup({title, route_id});
+})
+
+$('.js-menuItem-delete').on('click', function() {
+	const menu_id = $(this).data('menuId');
+
+	return menuList.deleteMenuItem({menu_id});
 })
