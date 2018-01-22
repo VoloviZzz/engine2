@@ -67,7 +67,7 @@
 					<div class="container-item__container">
 						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
 						<% if(user.adminMode === true) { %>
-							<span class="slide-show-settings js-slide-show-settings" data-id="<%=s.id %>" data-page="<%= page%>">...</span>
+							<span class="slide-show-settings js-slide-show-settings" data-id="<%=s.id %>" data-page="<%= locals.page%>">...</span>
 						<% } %>
 						<div class="carousel-link__container">
 							<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
@@ -76,8 +76,8 @@
 				</li>
 			<% }) %>
 			<% if(user.adminMode === true) { %>
-				<li class="">
-					<div class="container-item__container js-slide-add" data-page="<%= page%>">
+				<li>
+					<div class="container-item__container js-slide-add" data-page="<%= locals.page%>" data-fragment-id="<%= locals.fragment.id%>">
 						<div class="carousel-item"></div>
 						<div class="carousel-link__container">
 							<a href="#">Добавить</a>

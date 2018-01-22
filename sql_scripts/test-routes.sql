@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 21 2018 г., 02:22
+-- Время создания: Янв 22 2018 г., 04:22
 -- Версия сервера: 5.7.16
 -- Версия PHP: 5.6.29
 
@@ -89,7 +89,7 @@ CREATE TABLE `components` (
 INSERT INTO `components` (`id`, `title`, `name`, `ctrl`, `static`, `once`, `type`, `styles`, `scripts`, `default_config`, `created`) VALUES
 (1, 'Управление маршрутами', 'routes-list', 'routes-list', 0, 0, 2, NULL, NULL, NULL, '2018-01-10 08:58:25'),
 (2, 'Статический контент', 'static-content', NULL, 1, 0, 1, NULL, NULL, NULL, '2018-01-10 09:22:25'),
-(3, 'Главный слайдер', 'main-slider', 'main-slider', 0, 1, 1, NULL, NULL, '{\"slides\": []}', '2018-01-10 12:17:53'),
+(3, 'Главный слайдер', 'main-slider', 'main-slider', 0, 1, 1, NULL, NULL, '{\"content\":{\"slides\":[]}}', '2018-01-10 12:17:53'),
 (4, 'Страница авторизации', 'login-page', 'login-page', 0, 1, 2, NULL, NULL, NULL, '2018-01-15 07:19:51');
 
 -- --------------------------------------------------------
@@ -131,9 +131,7 @@ CREATE TABLE `fragments` (
 
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`) VALUES
 (38, 1, 40, 1, '2018-01-17 10:44:49'),
-(39, 4, 41, 1, '2018-01-17 10:46:24'),
-(42, 2, 32, 1, '2018-01-19 04:24:43'),
-(43, 2, 32, 1, '2018-01-19 08:59:28');
+(39, 4, 41, 1, '2018-01-17 10:46:24');
 
 -- --------------------------------------------------------
 
@@ -148,14 +146,6 @@ CREATE TABLE `fragments_data` (
   `data` text NOT NULL COMMENT 'Сами данные',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `fragments_data`
---
-
-INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
-(4, NULL, 42, '{\"content\":\"<p>1</p>\\n\\n<hr />\\n<p>&nbsp;</p>\\n\"}', '2018-01-19 04:30:06'),
-(5, NULL, 43, '{\"content\":\"<p>2</p>\\n\\n<hr />\\n<p>&nbsp;</p>\\n\"}', '2018-01-19 08:59:31');
 
 -- --------------------------------------------------------
 
@@ -201,6 +191,8 @@ CREATE TABLE `routes` (
   `menu_id` int(11) DEFAULT NULL,
   `access` int(11) DEFAULT '1',
   `dynamic` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `seo_keywords` text,
+  `seo_description` text,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -209,11 +201,10 @@ CREATE TABLE `routes` (
 -- Дамп данных таблицы `routes`
 --
 
-INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `menu_id`, `access`, `dynamic`, `created`, `updated`) VALUES
-(32, 'home', 'Главная страница', '/', 'home', 1, NULL, 1, 0, '2018-01-17 10:11:31', '2018-01-20 20:44:11'),
-(40, 'admin', 'Администрирование', '/admin', NULL, 2, NULL, 3, 0, '2018-01-20 20:43:27', '2018-01-20 23:19:38'),
-(41, 'login', 'login', '/login', NULL, 1, NULL, 1, 0, '2018-01-17 10:46:17', '2018-01-20 20:44:11'),
-(42, 'company', 'О компании', '/company', NULL, 2, NULL, 1, 0, '2018-01-20 21:36:25', '2018-01-20 21:36:25');
+INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `menu_id`, `access`, `dynamic`, `seo_keywords`, `seo_description`, `created`, `updated`) VALUES
+(32, 'home', 'Главная страница', '/', 'home', 1, NULL, 1, 0, NULL, NULL, '2018-01-17 10:11:31', '2018-01-20 20:44:11'),
+(40, 'admin', 'Администрирование', '/admin', NULL, 2, NULL, 3, 0, NULL, NULL, '2018-01-20 20:43:27', '2018-01-22 01:20:27'),
+(41, 'login', 'login', '/login', NULL, 1, NULL, 1, 0, NULL, NULL, '2018-01-17 10:46:17', '2018-01-20 20:44:11');
 
 -- --------------------------------------------------------
 
@@ -329,7 +320,8 @@ ALTER TABLE `menu_groups`
 --
 ALTER TABLE `menu_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `group_id` (`group_id`);
+  ADD KEY `parent_id` (`parent_id`),
+  ADD KEY `menu_items_ibfk_1` (`group_id`);
 
 --
 -- Индексы таблицы `routes`
@@ -382,27 +374,27 @@ ALTER TABLE `component_types`
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`
 --
 ALTER TABLE `fragments_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `menu_groups`
 --
 ALTER TABLE `menu_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
 --

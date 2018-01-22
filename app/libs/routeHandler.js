@@ -67,12 +67,30 @@ module.exports = (app, express) => {
 			return next({ status: '502', message: 'Нет параметра для динамического маршрута' });
 		}
 		else if (!!route.dynamic === false && urlLength > 1) {
-			return next({ status: 'bad', message: 'Неверный маршрут', httpCode: 502 });
+			return next({message: 'Неверный маршрут', httpCode: 502 });
 		}
 
 		const routeParam = urlSplit[1];
 
 		return next();
+	}, async function(req, res, next) {
+		const menu_id = req.locals.route.menu_id;
+		
+		if(req.session.user.adminMode) {
+			const [menuGroupsError, menuGroups] = await Model.menu.getMenuGroups();
+			if(menuGroupsError) throw new Error(menuGroupsError);
+			res.locals.menuGroups = menuGroups;
+		}
+
+		res.locals.menuTree = {};
+		
+		if(!!menu_id) {
+			const menuTree = await Menu.constructMenu({menu_id});
+
+			res.locals.menuTree = menuTree;
+		}
+
+		next();
 	}, async (req, res, next) => {
 		// получение фрагментов
 		let err = false;
@@ -97,24 +115,6 @@ module.exports = (app, express) => {
 
 		const fragmentsData = await Promise.all(fragmentsMap);
 		res.locals.fragmentsData = fragmentsData;
-
-		next();
-	}, async function(req, res, next) {
-		const menu_id = req.locals.route.menu_id;
-		
-		if(req.session.user.adminMode) {
-			const [menuGroupsError, menuGroups] = await Model.menu.getMenuGroups();
-			if(menuGroupsError) throw new Error(menuGroupsError);
-			res.locals.menuGroups = menuGroups;
-		}
-
-		res.locals.menuTree = {};
-		
-		if(!!menu_id) {
-			const menuTree = await Menu.constructMenu({menu_id});
-
-			res.locals.menuTree = menuTree;
-		}
 
 		next();
 	},(req, res, next) => {

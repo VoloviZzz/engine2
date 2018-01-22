@@ -23,14 +23,16 @@ exports.get = (args = { id: '' }) => {
 	})
 }
 
-exports.add = async ({ url, title, dynamic, access, name }) => {
+exports.add = async ({ url, title, dynamic, access, name, seo_keywords, seo_description }) => {
 	if (!!url === false || !!title === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры для добавления маршрута' }])
 
 	if (typeof dynamic != 'undefined') dynamic = `, dynamic = ${dynamic}`;
 	if (typeof access != 'undefined') access = `, access = ${access}`;
 	if (typeof name != 'undefined') name = `, name = '${name}'`;
+	if (typeof seo_keywords != 'undefined') seo_keywords = `, seo_keywords = '${seo_keywords}'`;
+	if (typeof seo_description != 'undefined') seo_description = `, seo_description = '${seo_description}'`;
 
-	const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name}`);
+	const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name} ${seo_description} ${seo_keywords}`);
 	const [queryErr, newRoute] = await exports.get({ id: rows.insertId });
 	return Promise.resolve([null, newRoute]);
 }
@@ -50,6 +52,18 @@ exports.upd = (arg = {}) => {
 	arg.dynamic = typeof arg.dynamic !== 'undefined' ? `, dynamic = '${arg.dynamic}'` : ``;
 	arg.access = typeof arg.access !== 'undefined' ? `, access = '${arg.access}'` : ``;
 	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
+	
+	arg.seo_description = typeof arg.seo_description !== 'undefined' ? `, seo_description = '${arg.seo_description}'` : ``;
+	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
+
+	arg.targetValue = '';
+	
+	
+	if(arg.target && arg.value == "null") {
+		arg.targetValue = `, ${arg.target} = NULL`
+	}
+	else if(arg.target && typeof arg.value != "undefined") arg.targetValue = `, ${arg.target} = '${arg.value}'`;
+
 
 	return db.execQuery(`UPDATE routes
 		SET updated = NOW() 
@@ -59,5 +73,8 @@ exports.upd = (arg = {}) => {
 			${arg.dynamic} 
 			${arg.access} 
 			${arg.menu} 
+			${arg.targetValue} 
+			${arg.seo_keywords} 
+			${arg.seo_description} 
 		WHERE id = ${arg.id}`)
 }

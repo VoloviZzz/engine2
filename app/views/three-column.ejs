@@ -5,21 +5,23 @@
             <h3 class="fs-regular">Информация</h3>
         </div>
         <div class="section-menu-wrapp">
+            <% if(user.adminMode) { %>
+                <section style="margin-bottom: 20px">
+                    <h1>Выбрать используемое меню из списка</h1>
+                    <select class="js-routesList-setMenu" data-target="menu_id" data-id="<%=routeId%>" style="width: 100%">
+                        <option selected value="null">Не выбрано</option>
+                        <% menuGroups.forEach((m) => { %>
+                            <option <%= route.menu_id == m.id ? 'selected' : '' %> value="<%=m.id%>"><%= m.title-%></option>
+                        <% })%>
+                    </select>
+                </section>
+            <% } %>
             <nav>
                 <%- include('./includes/aside-menu_template', {menuTree}) -%>
             </nav>
             <% if(user.adminMode) { %>
                 <section>
                     <% if(!!route.menu_id === false) { %>
-                        <section style="margin-bottom: 20px">
-                            <h1>Выбрать используемое меню из списка</h1>
-                            <select style="width: 100%">
-                                <option selected>Не выбрано</option>
-                                <% menuGroups.forEach((m) => { %>
-                                    <option><%= m.title-%></option>
-                                <% })%>
-                            </select>
-                        </section>
                         <h1>Создать новое меню</h1>
                         <div style="display: flex; margin-bottom: 10px">
                             <input type="text" name="menu-item-title" class="input-text" id="js-menuGroup-add--text" placeholder="Название">

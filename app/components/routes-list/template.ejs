@@ -45,6 +45,24 @@
         <span>Только администратору</span>
     </div>
     <br>
+    <section>
+        <h1>SEO установки</h1> 
+        <br>
+        <div>
+            <label>
+                <span>Ключевые слова:</span>
+                <textarea name="seo_keywords"></textarea>
+            </label>
+        </div>
+        <br>
+        <div>
+            <label>
+                <span>Краткое описание:</span>
+                <textarea name="seo_description"></textarea>
+            </label>
+        </div>
+    </section>
+    <br>    
     <div>
         <button>Добавить</button>
     </div>
@@ -107,6 +125,24 @@
                             <span>Только администратору</span>
                             <input type="hidden" name="id" value="<%=r.id-%>">
                         </div>
+                        <br>
+                        <section>
+                            <h1>SEO установки</h1> 
+                            <br>
+                            <div>
+                                <label>
+                                    <span>Ключевые слова:</span>
+                                    <textarea name="seo_keywords"><%= r.seo_keywords%></textarea>
+                                </label>
+                            </div>
+                            <br>
+                            <div>
+                                <label>
+                                    <span>Краткое описание:</span>
+                                    <textarea name="seo_description"><%= r.seo_description%></textarea>
+                                </label>
+                            </div>
+                        </section>
                         <br>
                         <div>
                             <button>Сохранить</button>

@@ -4,8 +4,9 @@ const path = require('path');
 module.exports = (app) => {
     const fragmentsHandler = async (fragment, data) => {
         let errors, fragmentData = {}, content = '';
+        data.locals.fragment = {};
+        Object.assign(data.locals.fragment, fragment);
 
-        // [errors, rows] = await getFragmentsData({ fragment_id: fragment.id });
         [errors, rows] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });
         
 		if (rows.length > 0) {
@@ -13,7 +14,7 @@ module.exports = (app) => {
 		}
 		else {
 			if(fragment.component_config) {
-				fragmentData.content = JSON.parse(fragment.component_config).default_content;
+				fragmentData.content = JSON.parse(fragment.component_config);
 			}
 		}
 

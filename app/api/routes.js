@@ -45,7 +45,10 @@ exports.upd = async function (req, res, next) {
     if (!!route === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
 
     [error, rows] = await Model.routes.upd(req.body);
-    if (error) return { status: 'bad', message: err.message, error };
+    if (error) {
+        console.log(error)
+        return { status: 'bad', message: error.message, error };
+    } 
 
     [error, route] = await Model.routes.get({ id: routeId });
 

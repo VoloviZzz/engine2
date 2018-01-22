@@ -1,121 +1,79 @@
-function Fragments() {}
-function MenuList() {}
+$(document).ready(() => {
+	const fragments = new Fragments();
+	const menuList = new MenuList();
+	const routesList = new RoutesList();
 
-Fragments.prototype.add = function (route_id) {
-	$.post("/api/fragments/add", { route_id }).done((result) => {
-		if (result.status === 'ok') return location.reload();
-		console.log(result);
-		alert(result.message)
+	$('.js-routesList-setMenu').on('change', function() {
+		const {id, target} = $(this).data();
+		const value = $(this).val().trim();
+		
+		routesList.updRoute({id, target, value});
 	})
-}
 
-Fragments.prototype.changeComponent = function (fragment_id, value) {
-
-    const target = 'component_id';
-
-	$.post('/api/fragments/upd', { value, target, fragment_id }).done((result) => {
-		if (result.status === 'ok') return location.reload();
-
-		alert(result.message);
-	}).catch((error) => {
-		alert('Произошла ошибка. Попробуйте позже');
+	$('.js-upd-fragment-component').on('change', function () {
+	    return fragments.changeComponent(this.dataset.fragmentId, this.value);
 	})
-}
 
-Fragments.prototype.delete = function (fragment_id) {
-    $.post('/api/fragments/del', { fragment_id }).done((result) => {
-        if (result.status === 'ok') return location.reload();
-
-        alert(result.message);
-    }).catch((error) => {
-        alert('Произошла ошибка. Попробуйте позже');
-    })
-}
-
-Fragments.prototype.setData = function({fragment_id, data}) {
-	$.post('/api/fragments/setData', {fragment_id, data}).done(result => {
-		console.log(result);
+	$('.js-add-fragment').on('click', function () {
+	    return fragments.add(this.dataset.id);
 	})
-}
 
-MenuList.prototype.addMenuItem = function({title, parent_id = null, href, menu_id}) {
-	$.post('/api/menu/addMenuItem', {title, parent_id, href, menu_id}).done(result => {
-		if(result.status == 'ok') return location.reload();
-
-		console.log(result);
-		alert(result.message);
+	$('.js-fragment-delete').on('click', function () {
+	    return fragments.delete(this.dataset.fragmentId);
 	})
-}
 
-MenuList.prototype.addMenuGroup = function({title, route_id}) {
-	$.post('/api/menu/addMenuGroup', {title, route_id}).done(result => {
-		if(result.status == 'ok') return location.reload();
-
-		console.log(result);
-		alert(result.message);
+	$('.js-ckeditor-edit').each((i, elem) => {
+		CKEDITOR.replace(elem);
 	})
-}
 
-MenuList.prototype.deleteMenuItem = function({menu_id}) {
-	$.post('/api/menu/deleteMenuItem', {menu_id}).done(result => {
-		if(result.status == 'ok') return location.reload();
-
-		console.log(result);
-		alert(result.message);
+	$.each(CKEDITOR.instances, (i, elem) => {
+		elem.on('change', function() {
+			const editorData = this.getData();
+			const editorElement = this.element.$;
+			fragments.setData({fragment_id: editorElement.dataset.fragmentId, data: editorData});
+		})
 	})
-}
 
-const fragments = new Fragments();
-const menuList = new MenuList();
-
-$('.js-upd-fragment-component').on('change', function () {
-    return fragments.changeComponent(this.dataset.fragmentId, this.value);
-})
-
-$('.js-add-fragment').on('click', function () {
-    return fragments.add(this.dataset.id);
-})
-
-$('.js-fragment-delete').on('click', function () {
-    return fragments.delete(this.dataset.fragmentId);
-})
-
-$('.js-ckeditor-edit').each((i, elem) => {
-	CKEDITOR.replace(elem);
-})
-
-$.each(CKEDITOR.instances, (i, elem) => {
-	elem.on('change', function() {
-		const editorData = this.getData();
-		const editorElement = this.element.$;
-		fragments.setData({fragment_id: editorElement.dataset.fragmentId, data: editorData});
+	$(".fragment-setting-window .setting-call-btn").click(function() {
+	    $(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");
 	})
-})
 
-$(".fragment-setting-window .setting-call-btn").click(function() {
-    $(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");
-})
+	$('.js-menuItem-add').on('click', function() {
+		const title = $('#js-menuItem-add--text').val().trim();
+		const href = $('#js-menuItem-add--href').val().trim();
+		const menu_id = $(this).data('menuId');
+		const parent_id = 0;
 
-$('.js-menuItem-add').on('click', function() {
-	const title = $('#js-menuItem-add--text').val().trim();
-	const href = $('#js-menuItem-add--href').val().trim();
-	const menu_id = $(this).data('menuId');
-	const parent_id = 0;
+		return menuList.addMenuItem({title, parent_id, href, menu_id});
+	})
 
-	return menuList.addMenuItem({title, parent_id, href, menu_id});
-})
+	$('.js-menuGroup-add').on('click', function() {
+		const title = $('#js-menuGroup-add--text').val().trim();
+		const route_id = $(this).data('routeId');
 
-$('.js-menuGroup-add').on('click', function() {
-	const title = $('#js-menuGroup-add--text').val().trim();
-	const route_id = $(this).data('routeId');
+		if(title == '') return alert("Отсутствует название группы");
 
-	if(title == '') return alert("Отсутствует название группы");
+		return menuList.addMenuGroup({title, route_id});
+	})
 
-	return menuList.addMenuGroup({title, route_id});
-})
+	$('.js-menuItem-delete').on('click', function() {
+		const menu_id = $(this).data('menuId');
 
-$('.js-menuItem-delete').on('click', function() {
-	const menu_id = $(this).data('menuId');
+		return menuList.deleteMenuItem({menu_id});
+	})
 
-	return menuList.deleteMenuItem({menu_id});
+	$('.js-menuItem-edit').on('input', function() {
+		const id = $(this).data('id');
+		const target = $(this).data('target');
+		const value = $(this).val().trim();
+
+		return menuList.updMenuItem({id, target, value});
+	})
+
+	$('.js-slide-add').on('click', function(e) {
+		const fragment_id = $(this).data('fragmentId')
+		$.post('/api/slider/add', {fragment_id}).done(result => {
+			if(result.status == 'ok') return location.reload();
+		})
+	})
 })
