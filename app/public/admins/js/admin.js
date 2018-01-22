@@ -2,12 +2,29 @@ $(document).ready(() => {
 	const fragments = new Fragments();
 	const menuList = new MenuList();
 	const routesList = new RoutesList();
+	const slider = new Slider();
 
 	$('.js-routesList-setMenu').on('change', function() {
 		const {id, target} = $(this).data();
 		const value = $(this).val().trim();
 		
 		routesList.updRoute({id, target, value});
+	})
+
+	$('.js-slide-upd').on('input', function(e) {
+		const slide_id = $(this).data('id');
+		const fragment_id = $(this).data('fragmentId');
+		const target = $(this).data('target');
+		const value = $(this).val().trim();
+
+		return slider.updSlide({slide_id, fragment_id, target, value});
+	})
+
+	$('.js-slide-delete').on('click', function(e) {
+		const slide_id = $(this).data('id');
+		const fragment_id = $(this).data('fragmentId');
+
+		return slider.deleteSlide({slide_id, fragment_id});
 	})
 
 	$('.js-upd-fragment-component').on('change', function () {

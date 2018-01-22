@@ -85,4 +85,10 @@ $(document).ready(function() {
 		e.preventDefault();
 		return false;
 	})
+	
+	$('.js-slide-delete').on('click', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		return false;
+	})
 });

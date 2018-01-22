@@ -1,7 +1,26 @@
-function Fragments() {}
-function MenuList() {}
-function RoutesList() {}
-function Forms() {};
+function Fragments() { }
+function MenuList() { }
+function RoutesList() { }
+function Forms() { };
+function Slider() { };
+
+Slider.prototype.deleteSlide = function ({slide_id, fragment_id}) {
+	$.post('/api/slider/deleteSlide', {slide_id, fragment_id}).done((result) => {
+		if(result.status == 'ok') return location.reload();
+
+		console.log(result);
+		alert(result.message);
+	})
+}
+
+Slider.prototype.updSlide = function ({slide_id, fragment_id, target, value}) {
+	$.post('/api/slider/updSlide', {slide_id, fragment_id, target, value}).done((result) => {
+		if(result.status != 'ok') {
+			console.log(result);
+			alert(result.message);
+		}
+	})
+}
 
 Fragments.prototype.add = function (route_id) {
 	$.post("/api/fragments/add", { route_id }).done((result) => {
@@ -13,7 +32,7 @@ Fragments.prototype.add = function (route_id) {
 
 Fragments.prototype.changeComponent = function (fragment_id, value) {
 
-    const target = 'component_id';
+	const target = 'component_id';
 
 	$.post('/api/fragments/upd', { value, target, fragment_id }).done((result) => {
 		if (result.status === 'ok') return location.reload();
@@ -25,51 +44,51 @@ Fragments.prototype.changeComponent = function (fragment_id, value) {
 }
 
 Fragments.prototype.delete = function (fragment_id) {
-    $.post('/api/fragments/del', { fragment_id }).done((result) => {
-        if (result.status === 'ok') return location.reload();
+	$.post('/api/fragments/del', { fragment_id }).done((result) => {
+		if (result.status === 'ok') return location.reload();
 
-        alert(result.message);
-    }).catch((error) => {
-        alert('Произошла ошибка. Попробуйте позже');
-    })
+		alert(result.message);
+	}).catch((error) => {
+		alert('Произошла ошибка. Попробуйте позже');
+	})
 }
 
-Fragments.prototype.setData = function({fragment_id, data}) {
-	$.post('/api/fragments/setData', {fragment_id, data}).done(result => {
+Fragments.prototype.setData = function ({ fragment_id, data }) {
+	$.post('/api/fragments/setData', { fragment_id, data }).done(result => {
 		console.log(result);
 	})
 }
 
-MenuList.prototype.addMenuItem = function({title, parent_id = null, href, menu_id}) {
-	$.post('/api/menu/addMenuItem', {title, parent_id, href, menu_id}).done(result => {
-		if(result.status == 'ok') return location.reload();
+MenuList.prototype.addMenuItem = function ({ title, parent_id = null, href, menu_id }) {
+	$.post('/api/menu/addMenuItem', { title, parent_id, href, menu_id }).done(result => {
+		if (result.status == 'ok') return location.reload();
 
 		console.log(result);
 		alert(result.message);
 	})
 }
 
-MenuList.prototype.addMenuGroup = function({title, route_id}) {
-	$.post('/api/menu/addMenuGroup', {title, route_id}).done(result => {
-		if(result.status == 'ok') return location.reload();
+MenuList.prototype.addMenuGroup = function ({ title, route_id }) {
+	$.post('/api/menu/addMenuGroup', { title, route_id }).done(result => {
+		if (result.status == 'ok') return location.reload();
 
 		console.log(result);
 		alert(result.message);
 	})
 }
 
-MenuList.prototype.deleteMenuItem = function({menu_id}) {
-	$.post('/api/menu/deleteMenuItem', {menu_id}).done(result => {
-		if(result.status == 'ok') return location.reload();
+MenuList.prototype.deleteMenuItem = function ({ menu_id }) {
+	$.post('/api/menu/deleteMenuItem', { menu_id }).done(result => {
+		if (result.status == 'ok') return location.reload();
 
 		console.log(result);
 		alert(result.message);
 	})
 }
 
-MenuList.prototype.updMenuItem = function({id, target, value}) {
-	$.post('/api/menu/updMenuItem', {id, target, value}).done(result => {
-		if(result.status == 'ok') return;
+MenuList.prototype.updMenuItem = function ({ id, target, value }) {
+	$.post('/api/menu/updMenuItem', { id, target, value }).done(result => {
+		if (result.status == 'ok') return;
 
 		console.log(result);
 		alert(result.message);
@@ -95,7 +114,7 @@ RoutesList.prototype.delete = function (routeId) {
 	})
 }
 
-RoutesList.prototype.addRoute = function(data) {
+RoutesList.prototype.addRoute = function (data) {
 	$.post('/api/routes/add', data).done(function (result) {
 		if (result.status == 'bad') {
 			console.log(result);
@@ -105,9 +124,9 @@ RoutesList.prototype.addRoute = function(data) {
 		return location.reload();
 	})
 }
-RoutesList.prototype.updRoute = function(data) {
+RoutesList.prototype.updRoute = function (data) {
 	$.post('/api/routes/upd', data).done(function (result) {
-		if (result.status == 'ok') return location.reload(); 
+		if (result.status == 'ok') return location.reload();
 
 		console.log(result);
 		return alert('Что-то пошло не так. Попробуйте позже');
@@ -121,12 +140,12 @@ RoutesList.prototype.showEditForm = function (elem) {
 	$routeItem.toggleClass('js-edit-form--show');
 }
 
-Forms.prototype.getFormData = function(form) {
+Forms.prototype.getFormData = function (form) {
 	const returnData = {};
 	$(form).serializeArray().map(v => returnData[v.name] = v.value);
 	return returnData;
 };
 
-$('img').on('error', function(error) {
-    console.log(error);
+$('img').on('error', function (error) {
+	console.log(error);
 })

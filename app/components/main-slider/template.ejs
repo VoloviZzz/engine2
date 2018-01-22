@@ -3,53 +3,31 @@
 <div class="slider-container">
 	<div id="slider" class="flexslider">
 		<ul class="slides">
-			<% slides.map(s => { %>
-				<% if(s.mainSlide)  { %>
-					<li>
-						<div class="slider-info__container">
-							<div class="slider-item" style="background-image: url(<%= s.img %>)">
-								<div class="slider-info__main">
-									<div class="info-main">
-										<h1><%= s.title %></h1>
-										<h2><%= s.description %></h2>
-									</div>
-									<div class="info-desp">
-										<div class="desp-wrap">
-											<p>Круглосуточная диспетческая служба</p>
-											<h3> (3519) 48-85-80</h3>
-										</div>
-									</div>
-									<% if(adsList.length > 0) { %>
-										<div class="alert-container alertScroll">
-											<ul>
-												<% adsList.map(a => { %>
-												<li>
-													<h1><%= a.title %></h1>
-													<%- a.text %>
-												</li>
-												<% }) %>
-											</ul>
-										</div>
-									<% } %>
-								</div>
-							</div>
-						</div>
-					</li>
-				<% }
-				else { %>
-					<li>
-						<div class="slider-info__container">
-							<div class="slider-item" style="background-image: url(<%= s.img %>)"></div>
-							<div class="slider-info">
+			<% slides.map((s, index) => { %>
+				<li>
+					<div class="slider-info__container">
+						<div class="slider-item" style="background-image: url(<%= s.img %>)"></div>
+						<div class="slider-info">
+							<% if(user.adminMode) { %>
+								<input type="text" class="js-slide-upd" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+							<% } else { %> 
 								<h1><%= s.title %></h1>
-								<%- s.description %>
-								<div class="slider-action">
-									<a href="<%= s.href %>" class="btn">Подробнее</a>
+							<% } %>
+
+							<% if(user.adminMode) { %>
+								<div>
+									<textarea style="width: 100%; min-height: 150px" class="js-slide-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
 								</div>
+							<% } else { %> 
+								<%- s.description %>
+							<% } %>
+
+							<div class="slider-action">
+								<a href="<%= s.href %>" class="btn">Подробнее</a>
 							</div>
 						</div>
-					</li>
-				<% } %>
+					</div>
+				</li>
 			<% }) %>
 			<% if(user.adminMode === true) { %>
 				<li>
@@ -62,15 +40,19 @@
 	</div>
 	<div id="carousel" class="flexslider">
 		<ul class="slides">
-			<% slides.map(s => { %>
+			<% slides.map((s, index) => { %>
 				<li>
 					<div class="container-item__container">
 						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
 						<% if(user.adminMode === true) { %>
-							<span class="slide-show-settings js-slide-show-settings" data-id="<%=s.id %>" data-page="<%= locals.page%>">...</span>
+							<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
 						<% } %>
 						<div class="carousel-link__container">
-							<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
+							<% if(user.adminMode) { %>
+								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value=" <%= s.title_bottom -%> ">
+							<% } else { %>
+								<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
+							<% } %>
 						</div>
 					</div>
 				</li>

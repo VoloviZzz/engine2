@@ -50,6 +50,7 @@ exports.setData = async function ({ fragment_id, data }) {
 		return db.insertQuery("INSERT INTO fragments_data SET ?", { fragment_id, data: JSON.stringify({ content: data }) });
 	}
 	else {
+		data = Object.assign(JSON.parse(fragmentData[0].data).content, data);
 		return db.execQuery("UPDATE fragments_data SET data = ? WHERE fragment_id = ?", [JSON.stringify({ content: data }), fragment_id]);
 	}
 }
