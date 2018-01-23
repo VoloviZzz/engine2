@@ -16,18 +16,8 @@ exports.upload = function (req, res, next) {
 
 	return new Promise((resolve, reject) => {
 		form.parse(req, function (err, fields, files) {
-			// let responseUrl = files.upload.path;
 			let fileParsePath = path.parse(files.upload.path);
 			let fileUrl = `/uploads/${fileParsePath.name}${fileParsePath.ext}`;
-
-			// const oldpath = files.upload.path;
-			// const newpath = 'E:/upload/' + files.upload.name;
-
-			// fs.rename(oldpath, newpath, function (err) {
-			// 	if (err) throw err;
-
-			// 	return resolve();
-			// });
 
 			return resolve({ status: 'ok', message: 'test', sendData: `<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(${funcNum}, '${fileUrl}', '${message}');</script>` });
 		});

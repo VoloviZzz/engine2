@@ -22,6 +22,17 @@ Slider.prototype.updSlide = function ({slide_id, fragment_id, target, value}) {
 	})
 }
 
+Slider.prototype.setImage = function ({slide_id, fragment_id, target, value}) {
+	$.post('/api/slider/updSlide', {slide_id, fragment_id, target, value}).done((result) => {
+		if(result.status != 'ok') {
+			console.log(result);
+			alert(result.message);
+		}
+
+		return location.reload();
+	})
+}
+
 Fragments.prototype.add = function (route_id) {
 	$.post("/api/fragments/add", { route_id }).done((result) => {
 		if (result.status === 'ok') return location.reload();

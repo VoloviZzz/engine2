@@ -214,14 +214,6 @@ p.top-slide-info, .slider-info p {
     text-decoration: underline;
 }
 
-.slide-show-settings {
-    position: absolute;
-    right: 10px;
-    font-weight: bold;
-    top: 5px;
-    cursor: pointer;
-}
-
 @media (min-width: 992px) {
     .slider-info {
         display: block;
@@ -309,22 +301,10 @@ p.top-slide-info, .slider-info p {
     }
 }
 
-@media (min-width: 766px) {
-}
-
 @media (max-width: 575px) {
     .slider-item {
         min-height: 345px;
     }
-}
-
-@media (min-width: 576px) and (max-width: 767px) {
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-}
-
-@media (min-width: 992px) and (max-width: 1199px) {
 }
 
 @media (min-width: 1200px) {

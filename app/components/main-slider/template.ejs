@@ -9,17 +9,25 @@
 						<div class="slider-item" style="background-image: url(<%= s.img %>)"></div>
 						<div class="slider-info">
 							<% if(user.adminMode) { %>
-								<input type="text" class="js-slide-upd" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+								<input type="text" class="js-slide-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
 							<% } else { %> 
 								<h1><%= s.title %></h1>
 							<% } %>
 
 							<% if(user.adminMode) { %>
 								<div>
-									<textarea style="width: 100%; min-height: 150px" class="js-slide-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
+									<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
 								</div>
 							<% } else { %> 
 								<%- s.description %>
+							<% } %>
+
+							<% if(user.adminMode) { %>
+								<div>
+									<label>Добавить фото
+										<input class="js-slide-addSlide" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
+									</label>
+								</div>
 							<% } %>
 
 							<div class="slider-action">
@@ -45,11 +53,24 @@
 					<div class="container-item__container">
 						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
 						<% if(user.adminMode === true) { %>
-							<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
+							<div style="position: absolute;right: 10px;font-weight: bold;top: 5px;cursor: pointer;">
+								<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
+								<label>
+									загрузить файл
+									<input type="file" class="js-slide-addSlide" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
+								</label>
+							</div>
 						<% } %>
 						<div class="carousel-link__container">
 							<% if(user.adminMode) { %>
-								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value=" <%= s.title_bottom -%> ">
+								<div>
+									<span>title:</span>
+									<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%> ">
+								</div>
+								<div>
+									<span>url:</span>
+									<input type="text" class="js-slide-upd" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
+								</div>
 							<% } else { %>
 								<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
 							<% } %>

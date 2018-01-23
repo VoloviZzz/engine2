@@ -162,7 +162,6 @@
           slider.slides.removeClass(namespace + "active-slide").eq(slider.currentItem).addClass(namespace + "active-slide");
           if(!msGesture){
               slider.slides.on(eventType, function(e){
-                e.preventDefault();
                 var $slide = $(this),
                     target = $slide.index();
                 var posFromLeft = $slide.offset().left - $(slider).scrollLeft(); // Find position of slide relative to left of slider container
