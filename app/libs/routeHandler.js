@@ -71,26 +71,32 @@ module.exports = (app, express) => {
 			error.status = 503;
 			return next(error);
 		}
-		
-		if(!!route.dynamic === true && urlLength > 1) {
-			const [ctrlName, ctrlParam] = urlSplit;
-			res.locals.dynamicRouteParam = ctrlParam;
+
+		if (!!route.dynamic === true && urlLength > 1) {
+			const [ctrlName, urlParam] = urlSplit;
+			
+			if (isNaN(urlParam) == false) {
+				res.locals.dynamicRouteNumber = urlParam;
+			}
+			else {
+				res.locals.dynamicRouteAlias = urlParam;
+			}
 		}
 
 		return next();
-	}, async function(req, res, next) {
+	}, async function (req, res, next) {
 		const menu_id = req.locals.route.menu_id;
-		
-		if(req.session.user.adminMode) {
+
+		if (req.session.user.adminMode) {
 			const [menuGroupsError, menuGroups] = await Model.menu.getMenuGroups();
-			if(menuGroupsError) throw new Error(menuGroupsError);
+			if (menuGroupsError) throw new Error(menuGroupsError);
 			res.locals.menuGroups = menuGroups;
 		}
 
 		res.locals.menuTree = {};
-		
-		if(!!menu_id) {
-			const menuTree = await Menu.constructMenu({menu_id});
+
+		if (!!menu_id) {
+			const menuTree = await Menu.constructMenu({ menu_id });
 
 			res.locals.menuTree = menuTree;
 		}
@@ -118,13 +124,11 @@ module.exports = (app, express) => {
 			return fragmentsHandler(fragment, { req, locals: Object.assign({}, res.locals) })
 		});
 
-		console.log(res.locals);
-
 		const fragmentsData = await Promise.all(fragmentsMap);
 		res.locals.fragmentsData = fragmentsData;
 
 		next();
-	},(req, res, next) => {
+	}, (req, res, next) => {
 
 		const viewsData = {
 			user: req.session.user,
