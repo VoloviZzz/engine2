@@ -36,9 +36,6 @@ exports.execQuery = function (queryStr, data = {}) {
 
 exports.insertQuery = function(queryStr, data = {}) {
 	return new Promise((resolve, reject) => {
-		
-		if(Object.keys(data).length == 0) return resolve(['Отсутствуют параметры для добавления строки. ', null]);
-
 		exports.get().query(queryStr, data, (err, rows) => {
 			if(err) return resolve([err, null]);
 			return resolve([err, rows.insertId]);

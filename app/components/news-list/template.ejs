@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="/css/news-list.css">
+<div class="news">
+	<% if(user.adminMode) { %>
+		<div class="admin-control-container news-admin-control-container">
+			<button class="btn news-add">Добавить</button>
+		</div>
+	<% } %>
+	<% news.map(n => { %>
+		<article class="news__item">
+            <% if(user.adminMode) { %>
+                <div class="admin-control-container">
+                    <button data-id="<%= n.id -%>" class="btn news-delete">Удалить</button>
+                    <% if(n.published) { %>
+                        <button data-id="<%= n.id -%>" data-value="0" class="btn news-publicate">Снять с публикации</button>
+                    <% } else { %>
+                        <button data-id="<%= n.id -%>" data-value="1" class="btn news-publicate">Публиковать</button>
+                    <% } %>
+                    <button data-id="<%= n.id -%>" class="btn news-change-photo">Изменить фото</button>
+                </div>
+            <% } %>
+            <div class="news__img-wrapp">
+                <a href="/news/<%= n.id -%>" class="news__img-link">
+                    <img class="news__img" src="<%= n.main_photo -%>" alt="Картинка поста">
+                </a>
+            </div>
+            <div class="news__title-wrap">
+                <h2 class="news__title">
+                    <a href="/news/<%= n.id -%>" class="news__title-link">
+                        <% if(user.adminMode) { %>
+                            <input class="news-title-edit" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
+                        <% } else { %>
+                            <span><%= n.title -%></span>
+                        <% } %>
+                    </a>
+                </h2>
+            </div>
+            <div class="news__content-wrapp">
+                <div class="news__content">
+                    <p>
+                        <%- Helpers.trimStr(n.text, 250) -%>
+                        <br>
+                        <a href="/news/<%= n.id -%>" class="news__content-link">Читать далее</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+	<% }) %>
+</div>

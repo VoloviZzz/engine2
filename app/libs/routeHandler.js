@@ -1,5 +1,55 @@
-const Model = require('../models/index');
+const Model = require('../models');
 const Menu = require('./menu');
+
+async function createVisitor(req, res, next) {
+	if (typeof req.session.user.visitorId == 'undefined' && req.session.user.id !== true) { // если посетитель не был идентифицирован
+		let [error, visitorId] = await Model.visitors.add() // создаем нового посетителя
+
+		if (error) {
+			console.log('Ошибка создания посетителя');
+			console.log(error);
+		}
+		req.session.user.visitorId = visitorId;
+	}
+	else if (req.session.user.id == true) {
+		req.session.user.visitorId = req.session.user.id;
+	}
+
+	return next();
+}
+
+async function createVisit(req, res, next) {
+	if (!!req.session.user.visitId === false) {
+
+		let [error, visitId] = await Model.visits.add({ visitorId: req.session.user.visitorId, visitorIp: req.ip.replace(/^.*:/, '') });
+
+		if (error) {
+			console.log('Ошибка создания визита');
+			console.log(error);
+		}
+
+		req.session.user.visitId = visitId;
+	}
+
+	return next();
+}
+
+async function createView(req, res, next) {
+
+	let path = req.url;
+	let publicPaths = /\/js\/|\/css\//;
+
+	if (publicPaths.test(path) === false) {
+		try {
+			await Model.views.add({ visitId: req.session.user.visitId, visitorId: req.session.user.visitorId, path });
+		} catch (e) {
+			console.log('Создание нового просмотра не удалось');
+			console.log(e);
+		}
+	};
+
+	return next();
+}
 
 module.exports = (app, express) => {
 
@@ -74,7 +124,7 @@ module.exports = (app, express) => {
 
 		if (!!route.dynamic === true && urlLength > 1) {
 			const [ctrlName, urlParam] = urlSplit;
-			
+
 			if (isNaN(urlParam) == false) {
 				res.locals.dynamicRouteNumber = urlParam;
 			}
@@ -128,18 +178,21 @@ module.exports = (app, express) => {
 		res.locals.fragmentsData = fragmentsData;
 
 		next();
-	}, (req, res, next) => {
+	}, createVisitor,
+		createVisit,
+		createView,
+		(req, res, next) => {
 
-		const viewsData = {
-			user: req.session.user,
-			page: req.locals.route.name,
-			route: {}
-		};
+			const viewsData = {
+				user: req.session.user,
+				page: req.locals.route.name,
+				route: {}
+			};
 
-		Object.assign(viewsData.route, req.locals.route);
+			Object.assign(viewsData.route, req.locals.route);
 
-		return res.render(req.locals.route.template_name, viewsData);
-	})
+			return res.render(req.locals.route.template_name, viewsData);
+		})
 
 	let apiControllers = require('require-dir')('../api');
 

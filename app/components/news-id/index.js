@@ -5,7 +5,6 @@ module.exports = (app) => {
     return (data = {}) => {
         return new Promise(async (resolve, reject) => {
 
-
             let news_id, news_alias;
 
             if (data.locals.dynamicRouteAlias) {
@@ -27,7 +26,7 @@ module.exports = (app) => {
             if (news_alias) {
                 [, aliases] = await Model.aliases.get({ title: news_alias, target: 'news' });
                 if (aliases.length < 1) return resolve([, 'Новость не найдена'])
-                
+
                 news_id = aliases[0].target_id;
             }
 

@@ -25,14 +25,12 @@ function setDefaultSessionData(req, res, next) {
 	req.session.user.id = req.session.user.id || false;
 	req.session.user.admin = req.session.user.admin || false;
 	req.session.user.adminMode = req.session.user.adminMode || false;
+
 	next();
 }
 
 function clearSessionData(req, res, next) {
-	req.session.user = req.session.user || {};
-	req.session.user.id = false;
-	req.session.user.admin = false;
-	req.session.user.adminMode =  false;
+	req.session = null;
 	
 	res.redirect('/');
 }
