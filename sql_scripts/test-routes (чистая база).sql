@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 24 2018 г., 13:34
+-- Время создания: Янв 24 2018 г., 11:02
 -- Версия сервера: 5.7.19-log
 -- Версия PHP: 7.2.0
 
@@ -90,7 +90,7 @@ CREATE TABLE `components` (
 
 INSERT INTO `components` (`id`, `title`, `name`, `ctrl`, `static`, `once`, `type`, `styles`, `scripts`, `default_config`, `created`) VALUES
 (1, 'Управление маршрутами', 'routes-list', 'routes-list', 0, 0, 2, NULL, NULL, NULL, '2018-01-10 08:58:25'),
-(2, 'Статический контент', 'static-content', NULL, 1, 0, 1, NULL, NULL, '{\"content\": {\"body\": \"text\"}}', '2018-01-10 09:22:25'),
+(2, 'Статический контент', 'static-content', NULL, 1, 0, 1, NULL, NULL, NULL, '2018-01-10 09:22:25'),
 (3, 'Главный слайдер', 'main-slider', 'main-slider', 0, 1, 1, NULL, NULL, '{\"content\":{\"slides\":[]}}', '2018-01-10 12:17:53'),
 (4, 'Страница авторизации', 'login-page', 'login-page', 0, 1, 2, NULL, NULL, NULL, '2018-01-15 07:19:51'),
 (5, 'Отображение новости', 'news-id', 'news-id', 0, 0, 2, NULL, NULL, NULL, '2018-01-24 06:34:23'),
@@ -137,9 +137,7 @@ INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `priority`, `created`
 (38, 1, 40, 1, '2018-01-17 10:44:49'),
 (39, 4, 41, 1, '2018-01-17 10:46:24'),
 (52, 5, 45, 1, '2018-01-24 06:35:02'),
-(54, 6, 47, 1, '2018-01-24 08:35:35'),
-(55, 2, 48, 1, '2018-01-24 10:08:18'),
-(56, 3, 32, 1, '2018-01-24 10:16:55');
+(54, 6, 47, 1, '2018-01-24 08:35:35');
 
 -- --------------------------------------------------------
 
@@ -154,14 +152,6 @@ CREATE TABLE `fragments_data` (
   `data` text NOT NULL COMMENT 'Сами данные',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `fragments_data`
---
-
-INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
-(8, NULL, 56, '{\"content\":{\"slides\":[{\"id\":1,\"img\":\"\",\"img_bottom\":\"\",\"title\":\"12323\",\"title_bottom\":\"\",\"description\":\"\",\"href\":\"\"},{\"id\":2,\"img\":\"\",\"img_bottom\":\"\",\"title\":\"\",\"title_bottom\":\"\",\"description\":\"\",\"href\":\"\"}]}}', '2018-01-24 10:16:59'),
-(11, NULL, 55, '{\"content\":{\"body\":\"<p><img alt=\\\"\\\" src=\\\"/uploads/upload_a8ca4e2a9cc065a9bb90e2507086ed4b.png\\\" style=\\\"height:270px; width:480px\\\" /></p>\\n\\n<p>12123213123</p>\\n\"}}', '2018-01-24 10:29:49');
 
 -- --------------------------------------------------------
 
@@ -244,9 +234,8 @@ CREATE TABLE `routes` (
 
 INSERT INTO `routes` (`id`, `name`, `title`, `url`, `ctrl`, `template_id`, `menu_id`, `access`, `dynamic`, `seo_keywords`, `seo_description`, `created`, `updated`) VALUES
 (32, 'home', 'Главная страница', '/', 'home', 1, NULL, 1, 0, NULL, NULL, '2018-01-17 10:11:31', '2018-01-20 20:44:11'),
-(40, 'admin', 'Администрирование', '/admin', NULL, 2, NULL, 3, 0, '', '', '2018-01-20 20:43:27', '2018-01-24 10:39:07'),
-(41, 'login', 'login', '/login', NULL, 1, NULL, 1, 0, NULL, NULL, '2018-01-17 10:46:17', '2018-01-20 20:44:11'),
-(48, 'company', 'Компания', '/company', NULL, 1, NULL, 1, 0, 'Ключевые, слова', 'Описание', '2018-01-24 10:07:54', '2018-01-24 10:07:54');
+(40, 'admin', 'Администрирование', '/admin', NULL, 2, NULL, 3, 0, '', '', '2018-01-20 20:43:27', '2018-01-24 05:47:58'),
+(41, 'login', 'login', '/login', NULL, 1, NULL, 1, 0, NULL, NULL, '2018-01-17 10:46:17', '2018-01-20 20:44:11');
 
 -- --------------------------------------------------------
 
@@ -322,95 +311,6 @@ CREATE TABLE `views` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `views`
---
-
-INSERT INTO `views` (`id`, `visit_id`, `visitor_id`, `path`, `created`, `updated`, `activated`, `closed`) VALUES
-(1, 2, 1, '/', '2018-01-24 10:03:08', NULL, NULL, NULL),
-(2, 1, 1, '/', '2018-01-24 10:03:10', NULL, NULL, NULL),
-(3, 1, 1, '/login', '2018-01-24 10:03:11', NULL, NULL, NULL),
-(4, 1, 1, '/', '2018-01-24 10:03:56', NULL, NULL, NULL),
-(5, 1, 1, '/admin', '2018-01-24 10:04:14', NULL, NULL, NULL),
-(6, 1, 1, '/admin', '2018-01-24 10:04:57', NULL, NULL, NULL),
-(7, 2, 2, '/', '2018-01-24 10:05:11', NULL, NULL, NULL),
-(8, 2, 2, '/login', '2018-01-24 10:05:17', NULL, NULL, NULL),
-(9, 2, 1, '/', '2018-01-24 10:05:21', NULL, NULL, NULL),
-(10, 2, 1, '/admin', '2018-01-24 10:05:24', NULL, NULL, NULL),
-(11, 2, 1, '/admin', '2018-01-24 10:07:04', NULL, NULL, NULL),
-(12, 2, 1, '/admin', '2018-01-24 10:07:54', NULL, NULL, NULL),
-(13, 2, 1, '/company', '2018-01-24 10:07:56', NULL, NULL, NULL),
-(14, 2, 1, '/company', '2018-01-24 10:08:18', NULL, NULL, NULL),
-(15, 2, 1, '/company', '2018-01-24 10:09:05', NULL, NULL, NULL),
-(16, 2, 1, '/company', '2018-01-24 10:09:10', NULL, NULL, NULL),
-(17, 2, 1, '/company', '2018-01-24 10:09:16', NULL, NULL, NULL),
-(18, 2, 1, '/company', '2018-01-24 10:10:41', NULL, NULL, NULL),
-(19, 2, 1, '/company', '2018-01-24 10:11:33', NULL, NULL, NULL),
-(20, 2, 1, '/company', '2018-01-24 10:12:20', NULL, NULL, NULL),
-(21, 2, 1, '/company', '2018-01-24 10:14:15', NULL, NULL, NULL),
-(22, 2, 1, '/company', '2018-01-24 10:15:50', NULL, NULL, NULL),
-(23, 2, 1, '/company', '2018-01-24 10:16:28', NULL, NULL, NULL),
-(24, 2, 1, '/', '2018-01-24 10:16:53', NULL, NULL, NULL),
-(25, 2, 1, '/', '2018-01-24 10:16:55', NULL, NULL, NULL),
-(26, 2, 1, '/', '2018-01-24 10:16:58', NULL, NULL, NULL),
-(27, 2, 1, '/', '2018-01-24 10:16:59', NULL, NULL, NULL),
-(28, 2, 1, '/', '2018-01-24 10:16:59', NULL, NULL, NULL),
-(29, 2, 1, '/', '2018-01-24 10:17:02', NULL, NULL, NULL),
-(30, 2, 1, '/', '2018-01-24 10:17:02', NULL, NULL, NULL),
-(31, 2, 1, '/', '2018-01-24 10:19:35', NULL, NULL, NULL),
-(32, 2, 1, '/', '2018-01-24 10:19:36', NULL, NULL, NULL),
-(33, 2, 1, '/company', '2018-01-24 10:19:36', NULL, NULL, NULL),
-(34, 2, 1, '/company', '2018-01-24 10:19:39', NULL, NULL, NULL),
-(35, 2, 1, '/company', '2018-01-24 10:19:50', NULL, NULL, NULL),
-(36, 2, 1, '/company', '2018-01-24 10:20:00', NULL, NULL, NULL),
-(37, 2, 1, '/company', '2018-01-24 10:20:30', NULL, NULL, NULL),
-(38, 2, 1, '/company', '2018-01-24 10:20:32', NULL, NULL, NULL),
-(39, 2, 1, '/company', '2018-01-24 10:22:48', NULL, NULL, NULL),
-(40, 2, 1, '/company', '2018-01-24 10:22:57', NULL, NULL, NULL),
-(41, 2, 1, '/company', '2018-01-24 10:23:18', NULL, NULL, NULL),
-(42, 2, 1, '/company', '2018-01-24 10:23:25', NULL, NULL, NULL),
-(43, 2, 1, '/company', '2018-01-24 10:23:27', NULL, NULL, NULL),
-(44, 2, 1, '/company', '2018-01-24 10:23:53', NULL, NULL, NULL),
-(45, 2, 1, '/company', '2018-01-24 10:24:33', NULL, NULL, NULL),
-(46, 2, 1, '/company', '2018-01-24 10:24:36', NULL, NULL, NULL),
-(47, 2, 1, '/', '2018-01-24 10:24:41', NULL, NULL, NULL),
-(48, 2, 1, '/', '2018-01-24 10:24:42', NULL, NULL, NULL),
-(49, 2, 1, '/', '2018-01-24 10:24:44', NULL, NULL, NULL),
-(50, 2, 1, '/', '2018-01-24 10:24:45', NULL, NULL, NULL),
-(51, 2, 1, '/', '2018-01-24 10:24:46', NULL, NULL, NULL),
-(52, 2, 1, '/', '2018-01-24 10:24:46', NULL, NULL, NULL),
-(53, 2, 1, '/', '2018-01-24 10:24:55', NULL, NULL, NULL),
-(54, 2, 1, '/', '2018-01-24 10:24:55', NULL, NULL, NULL),
-(55, 2, 1, '/', '2018-01-24 10:25:20', NULL, NULL, NULL),
-(56, 2, 1, '/', '2018-01-24 10:25:20', NULL, NULL, NULL),
-(57, 2, 1, '/', '2018-01-24 10:25:22', NULL, NULL, NULL),
-(58, 2, 1, '/', '2018-01-24 10:25:22', NULL, NULL, NULL),
-(59, 2, 1, '/', '2018-01-24 10:25:23', NULL, NULL, NULL),
-(60, 2, 1, '/', '2018-01-24 10:25:24', NULL, NULL, NULL),
-(61, 2, 1, '/', '2018-01-24 10:25:24', NULL, NULL, NULL),
-(62, 2, 1, '/', '2018-01-24 10:25:33', NULL, NULL, NULL),
-(63, 2, 1, '/', '2018-01-24 10:25:33', NULL, NULL, NULL),
-(64, 2, 1, '/', '2018-01-24 10:27:11', NULL, NULL, NULL),
-(65, 2, 1, '/', '2018-01-24 10:27:11', NULL, NULL, NULL),
-(66, 2, 1, '/company', '2018-01-24 10:27:14', NULL, NULL, NULL),
-(67, 2, 1, '/company', '2018-01-24 10:27:22', NULL, NULL, NULL),
-(68, 2, 1, '/', '2018-01-24 10:27:35', NULL, NULL, NULL),
-(69, 2, 1, '/', '2018-01-24 10:27:35', NULL, NULL, NULL),
-(70, 2, 1, '/company', '2018-01-24 10:28:12', NULL, NULL, NULL),
-(71, 2, 1, '/company', '2018-01-24 10:28:23', NULL, NULL, NULL),
-(72, 2, 1, '/company', '2018-01-24 10:29:14', NULL, NULL, NULL),
-(73, 2, 1, '/company', '2018-01-24 10:29:47', NULL, NULL, NULL),
-(74, 2, 1, '/company', '2018-01-24 10:29:50', NULL, NULL, NULL),
-(75, 2, 1, '/company', '2018-01-24 10:30:26', NULL, NULL, NULL),
-(76, 2, 1, '/company', '2018-01-24 10:30:27', NULL, NULL, NULL),
-(77, 2, 1, '/company', '2018-01-24 10:30:29', NULL, NULL, NULL),
-(78, 2, 1, '/company', '2018-01-24 10:33:41', NULL, NULL, NULL),
-(79, 2, 1, '/company', '2018-01-24 10:38:50', NULL, NULL, NULL),
-(80, 2, 1, '/admin', '2018-01-24 10:38:52', NULL, NULL, NULL),
-(81, 2, 1, '/admin', '2018-01-24 10:38:57', NULL, NULL, NULL),
-(82, 2, 1, '/admin', '2018-01-24 10:39:00', NULL, NULL, NULL),
-(83, 2, 1, '/admin', '2018-01-24 10:39:07', NULL, NULL, NULL);
-
---
 -- Триггеры `views`
 --
 DELIMITER $$
@@ -430,14 +330,6 @@ CREATE TABLE `visitors` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Пользователи';
 
---
--- Дамп данных таблицы `visitors`
---
-
-INSERT INTO `visitors` (`id`, `name`, `created`) VALUES
-(1, NULL, '2018-01-24 10:03:10'),
-(2, NULL, '2018-01-24 10:05:11');
-
 -- --------------------------------------------------------
 
 --
@@ -453,14 +345,6 @@ CREATE TABLE `visits` (
   `updated` timestamp NULL DEFAULT NULL,
   `closed` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `visits`
---
-
-INSERT INTO `visits` (`id`, `visitor_id`, `count_views`, `visitor_ip`, `created`, `updated`, `closed`) VALUES
-(1, 1, 5, '1', '2018-01-24 10:03:10', NULL, NULL),
-(2, 2, 77, '1', '2018-01-24 10:05:11', NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -593,13 +477,13 @@ ALTER TABLE `component_types`
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments_data`
 --
 ALTER TABLE `fragments_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `menu_groups`
@@ -623,7 +507,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
@@ -647,19 +531,19 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

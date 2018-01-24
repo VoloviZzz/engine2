@@ -65,7 +65,7 @@ Fragments.prototype.delete = function (fragment_id) {
 }
 
 Fragments.prototype.setData = function ({ fragment_id, data }) {
-	$.post('/api/fragments/setData', { fragment_id, data }).done(result => {
+	$.post('/api/fragments/setData', { fragment_id, data: JSON.stringify({body: data}) }).done(result => {
 		console.log(result);
 	})
 }

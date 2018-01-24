@@ -26,7 +26,7 @@ module.exports = (app) => {
             [errors, content] = await controllerHandler(data);
         }
         else {
-            content = fragmentData.content || '';
+            content = fragmentData.content.body || '';
         }
 
         return { id: fragment.id, content, fragment };

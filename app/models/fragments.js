@@ -46,12 +46,14 @@ exports.setData = async function ({ fragment_id, data }) {
 	[err, fragmentData] = await exports.getFragmentsData({ fragment_id })
 	if (err) throw new Error(err);
 
+	const strData = JSON.stringify({ content: data });
+
 	if (fragmentData.length < 1) {
-		return db.insertQuery("INSERT INTO fragments_data SET ?", { fragment_id, data: JSON.stringify({ content: data }) });
+		return db.insertQuery("INSERT INTO fragments_data SET ?", { fragment_id, data: strData });
 	}
 	else {
 		data = Object.assign(JSON.parse(fragmentData[0].data).content, data);
-		return db.execQuery("UPDATE fragments_data SET data = ? WHERE fragment_id = ?", [JSON.stringify({ content: data }), fragment_id]);
+		return db.execQuery("UPDATE fragments_data SET data = ? WHERE fragment_id = ?", [strData, fragment_id]);
 	}
 }
 

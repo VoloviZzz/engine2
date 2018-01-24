@@ -19,7 +19,9 @@
 									<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
 								</div>
 							<% } else { %> 
-								<%- s.description %>
+								<div class="text-center">
+									<%- Helpers.replaceLineBreaks(s.description) %>
+								</div>
 							<% } %>
 
 							<% if(user.adminMode) { %>
@@ -64,11 +66,11 @@
 						<div class="carousel-link__container">
 							<% if(user.adminMode) { %>
 								<div>
-									<span>title:</span>
+									<span>Заголовок:</span>
 									<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%> ">
 								</div>
 								<div>
-									<span>url:</span>
+									<span>Адрес:</span>
 									<input type="text" class="js-slide-upd" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
 								</div>
 							<% } else { %>
