@@ -30,6 +30,14 @@
             <input name="name" type="text" required>
         </label>
     </div>
+    <div>
+        <span>Шаблон страницы:</span>
+        <select name="template_id">
+            <% templatesList.forEach((t) => { %>
+                <option value="<%= t.id -%>"><%= t.title -%></option>
+            <% }) %>
+        </select>
+    </div>
     <br>
     <div>
         <input type="radio" name="dynamic" value="1">
@@ -109,6 +117,14 @@
                                 <span>Название маршрута:</span>
                                 <input name="name" type="text" value="<%=r.name-%>" required>
                             </label>
+                        </div>
+                        <div>
+                            <span>Шаблон страницы:</span>
+                            <select name="template_id">
+                                <% templatesList.forEach((t) => { %>
+                                    <option value="<%= t.id -%>" <%= r.template_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
+                                <% }) %>
+                            </select>
                         </div>
                         <br>
                         <div>

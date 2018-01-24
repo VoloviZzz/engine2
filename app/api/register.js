@@ -1,4 +1,4 @@
-const { Model } = require('../models');
+const Model = require('../models');
 
 exports.register = async function (req, res, next) {
     const data = req.body;

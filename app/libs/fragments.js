@@ -1,4 +1,4 @@
-const { Model } = require('../models/index');
+const Model = require('../models/index');
 const path = require('path');
 
 module.exports = (app) => {
@@ -8,15 +8,15 @@ module.exports = (app) => {
         Object.assign(data.locals.fragment, fragment);
 
         [errors, rows] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });
-        
-		if (rows.length > 0) {
-			fragmentData = JSON.parse(rows[0].data);
-		}
-		else {
-			if(fragment.component_config) {
-				fragmentData.content = JSON.parse(fragment.component_config);
-			}
-		}
+
+        if (rows.length > 0) {
+            fragmentData = JSON.parse(rows[0].data);
+        }
+        else {
+            if (fragment.component_config) {
+                fragmentData.content = JSON.parse(fragment.component_config);
+            }
+        }
 
         if (!!fragment.isStatic === false) {
 

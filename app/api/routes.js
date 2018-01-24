@@ -1,4 +1,4 @@
-const { Model } = require('../models');
+const Model = require('../models');
 const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {

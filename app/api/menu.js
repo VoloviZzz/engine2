@@ -1,4 +1,4 @@
-const { Model } = require('../models');
+const Model = require('../models');
 
 exports.addMenuItem = async function(req, res, next) {
 	const [addError, resQuery] = await Model.menu.addMenuItem(req.body);

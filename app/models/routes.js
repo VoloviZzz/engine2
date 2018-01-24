@@ -23,7 +23,7 @@ exports.get = (args = { id: '' }) => {
 	})
 }
 
-exports.add = async ({ url, title, dynamic, access, name, seo_keywords, seo_description }) => {
+exports.add = async ({ url, title, dynamic, access, name, seo_keywords, seo_description, template_id }) => {
 	if (!!url === false || !!title === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры для добавления маршрута' }])
 
 	if (typeof dynamic != 'undefined') dynamic = `, dynamic = ${dynamic}`;
@@ -31,8 +31,9 @@ exports.add = async ({ url, title, dynamic, access, name, seo_keywords, seo_desc
 	if (typeof name != 'undefined') name = `, name = '${name}'`;
 	if (typeof seo_keywords != 'undefined') seo_keywords = `, seo_keywords = '${seo_keywords}'`;
 	if (typeof seo_description != 'undefined') seo_description = `, seo_description = '${seo_description}'`;
+	if (typeof template_id != 'undefined') template_id = `, template_id = '${template_id}'`;
 
-	const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name} ${seo_description} ${seo_keywords}`);
+	const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name} ${seo_description} ${seo_keywords} ${template_id}`);
 	const [queryErr, newRoute] = await exports.get({ id: rows.insertId });
 	return Promise.resolve([null, newRoute]);
 }
@@ -52,6 +53,7 @@ exports.upd = (arg = {}) => {
 	arg.dynamic = typeof arg.dynamic !== 'undefined' ? `, dynamic = '${arg.dynamic}'` : ``;
 	arg.access = typeof arg.access !== 'undefined' ? `, access = '${arg.access}'` : ``;
 	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
+	arg.template_id = typeof arg.template_id !== 'undefined' ? `, template_id = '${arg.template_id}'` : ``;
 	
 	arg.seo_description = typeof arg.seo_description !== 'undefined' ? `, seo_description = '${arg.seo_description}'` : ``;
 	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
@@ -75,6 +77,7 @@ exports.upd = (arg = {}) => {
 			${arg.menu} 
 			${arg.targetValue} 
 			${arg.seo_keywords} 
-			${arg.seo_description} 
+			${arg.seo_description}
+			${arg.template_id}
 		WHERE id = ${arg.id}`)
 }

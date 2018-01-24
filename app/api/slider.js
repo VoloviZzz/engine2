@@ -1,4 +1,4 @@
-const { Model } = require('../models');
+const Model = require('../models');
 const { uploadImage } = require('../libs/imageUploader');
 const formidable = require('formidable');
 const path = require('path');

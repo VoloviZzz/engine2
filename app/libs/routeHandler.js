@@ -1,4 +1,4 @@
-const { Model } = require('../models/index');
+const Model = require('../models/index');
 const Menu = require('./menu');
 
 module.exports = (app, express) => {
@@ -58,19 +58,24 @@ module.exports = (app, express) => {
 		return next();
 	}, (req, res, next) => {
 		const route = req.locals.route;
-
 		const urlSplit = req.url.split('/').filter((r) => r !== '');
 		const urlLength = urlSplit.length;
 
 		if (!!route.dynamic === true && urlLength < 2) {
-			const error = new Error();
-			return next({ status: '502', message: 'Нет параметра для динамического маршрута' });
+			const error = new Error('Нет параметра для динамического маршрута');
+			error.status = 502;
+			return next(error);
 		}
 		else if (!!route.dynamic === false && urlLength > 1) {
-			return next({message: 'Неверный маршрут', httpCode: 502 });
+			const error = new Error('Неверный маршрут');
+			error.status = 503;
+			return next(error);
 		}
-
-		const routeParam = urlSplit[1];
+		
+		if(!!route.dynamic === true && urlLength > 1) {
+			const [ctrlName, ctrlParam] = urlSplit;
+			res.locals.dynamicRouteParam = ctrlParam;
+		}
 
 		return next();
 	}, async function(req, res, next) {
@@ -110,8 +115,10 @@ module.exports = (app, express) => {
 		if (err) return next(err);
 
 		const fragmentsMap = fragments.map(fragment => {
-			return fragmentsHandler(fragment, { req, locals: res.locals })
+			return fragmentsHandler(fragment, { req, locals: Object.assign({}, res.locals) })
 		});
+
+		console.log(res.locals);
 
 		const fragmentsData = await Promise.all(fragmentsMap);
 		res.locals.fragmentsData = fragmentsData;
