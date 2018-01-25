@@ -15,3 +15,11 @@ exports.deleteHeaderNav = function ({ id }) {
 exports.updateHeaderNav = function ({ id, target, value }) {
     return db.execQuery(`UPDATE header_nav SET ${target} = '${value}' WHERE id = ${id}`);
 }
+
+exports.constructHeaderRows = async (req, res, next) => {
+    await this.getHeaderNav().then(([error, rows]) => {
+        if (error) throw new Error(error);
+        res.locals.HeaderRows = rows;
+        next();
+    })
+}

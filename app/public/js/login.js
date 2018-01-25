@@ -5,6 +5,8 @@ $(document).ready(() => {
         formData: {}
     };
 
+    $("input[name=phone]").mask("+7(999)-999-99-99"); //номер телефона
+
     $('.login-title__item').on('click', function (e) {
         if ($(this).data("item") == State.activeTab)
             return false;

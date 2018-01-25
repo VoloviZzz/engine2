@@ -1,0 +1,36 @@
+#period-settigs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.period-settings__item {
+    margin: 0 20px;
+}
+
+.client-card {
+    margin-bottom: 15px;
+    border: 1px solid #c3c3c3;
+    padding: 7px;
+}
+
+.client-card__title {
+    text-align: center
+}
+
+.clients-search {
+    margin-bottom: 21px;
+    border-bottom: 1px #c3c3c3 solid;
+    padding-bottom: 21px;
+}
+
+.clients-search__input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 5px;
+    transition: .3s all;
+}
+
+.clients-search__input:focus {
+    border-color: #696969;;
+}

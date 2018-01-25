@@ -1,6 +1,5 @@
 const Model = require('../models');
 const Menu = require('./menu');
-const HeaderNav = require('./header-nav');
 
 const { createVisitor } = require('./visitors');
 const { createVisit } = require('./visits');
@@ -133,27 +132,18 @@ module.exports = (app, express) => {
 		res.locals.fragmentsData = fragmentsData;
 
 		next();
-	}, async (req, res, next) => {
-		await HeaderNav.getHeaderNav().then(([error, rows]) => {
-			if(error) throw new Error(error);
-			res.locals.HeaderRows = rows;
-			next();
-		})
-	}, createVisitor,
-		createVisit,
-		createView,
-		(req, res, next) => {
+	}, createVisitor, createVisit, createView, function (req, res, next) {
 
-			const viewsData = {
-				user: req.session.user,
-				page: req.locals.route.name,
-				route: {}
-			};
+		const viewsData = {
+			user: req.session.user,
+			page: req.locals.route.name,
+			route: {}
+		};
 
-			Object.assign(viewsData.route, req.locals.route);
+		Object.assign(viewsData.route, req.locals.route);
 
-			return res.render(req.locals.route.template_name, viewsData);
-		})
+		return res.render(req.locals.route.template_name, viewsData);
+	})
 
 	let apiControllers = require('require-dir')('../api');
 

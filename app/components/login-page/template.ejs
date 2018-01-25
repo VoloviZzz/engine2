@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/login.css">
+<script src="/vendors/maskedinput/jquery.maskedinput.js" defer></script>
 <div class="login-wrapper">
     <div class="login-title" id="login-tabs" data-active="auth">
         <div class="login-title__item item__login" data-item="login" data-select="true">
@@ -26,7 +27,7 @@
                 <input type="text" class="login-body__input" type="text" name="email" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" placeholder="E-mail">
             </div>
             <div class="login-body__input-group input-group required">
-                <input type="text" class="login-body__input" type="tel" pattern="(\+?\d[- .]*){7,13}" name="phone" required placeholder="Номер телефона">
+                <input type="text" class="login-body__input" type="tel" name="phone" required placeholder="Номер телефона">
             </div>
             <div class="login-body__input-group input-group required">
                 <input type="password" class="login-body__input" name="password" required placeholder="Пароль">

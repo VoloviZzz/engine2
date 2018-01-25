@@ -14,6 +14,8 @@ exports.register = async function (req, res, next) {
     if (errMail) return { status: 'bad', message: errMail.message, error: errMail };
     if (checkMail.length > 0) return { status: 'bad', message: 'На данный адрес электронной почты уже есть зарегистрированный пользователь' }
 
+    data.name = `${data.surname} ${data.firstname[0]}.`;
+
     let [errAdd, addClient] = await Model.clients.create(data);
     if (errAdd) return { status: 'bad', message: errAdd.message, error: errAdd };
 

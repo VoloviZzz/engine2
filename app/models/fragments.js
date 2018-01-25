@@ -7,7 +7,6 @@ exports.get = async (arg = {}) => {
 	const fragments = await db.execQuery(`
             SELECT f.*,
                 c.title as component_title,
-                c.name as component_name,
                 c.ctrl as component_ctrl,
                 c.type as component_type,
                 c.styles as component_styles,

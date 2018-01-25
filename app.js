@@ -30,20 +30,22 @@ function setDefaultSessionData(req, res, next) {
 	req.session.user.admin = req.session.user.admin || false;
 	req.session.user.adminMode = req.session.user.adminMode || false;
 
+	res.locals.user = Object.assign({}, req.session.user);
+
 	next();
 }
 
 function clearSessionData(req, res, next) {
 	req.session = null;
-	
+
 	res.redirect('/');
 }
 
 function toggleAdminMode(req, res, next) {
-	if(!!req.session.user.admin === false) return res.json({status: 'bad', message: `Нет доступа к данной функции`});
-	
+	if (!!req.session.user.admin === false) return res.json({ status: 'bad', message: `Нет доступа к данной функции` });
+
 	req.session.user.adminMode = !req.session.user.adminMode;
-	res.json({status: 'ok'});
+	res.json({ status: 'ok' });
 }
 
 app.use(setDefaultSessionData);
@@ -78,7 +80,8 @@ db.connect(db.MODE_TEST, async (err) => {
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
-	[err, app.locals.componentsList] = await db.execQuery(`SELECT * FROM components`);
+	const { constructHeaderRows } = require('./app/libs/header-nav');
+	app.use(constructHeaderRows);
 
 	// общие маршруты приложения
 	app.post('/toggle-admin', toggleAdminMode);
