@@ -4,11 +4,48 @@ $(document).ready(() => {
 	const routesList = new RoutesList();
 	const slider = new Slider();
 
+	$('.js-headerNav-edit').on('input', function (e) {
+		const id = $(this).data('id');
+		const target = $(this).data('target');
+		const value = $(this).val().trim();
+
+		$.post('/api/headerNav/upd', { id, target, value }).done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+		})
+	})
+
+	$('.js-headerNav-add').on('click', function (e) {
+		$.post('/api/headerNav/add').done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
+		})
+	})
+
+	$('.js-headerNav-delete').on('click', function (e) {
+		const id = $(this).data('id');
+
+		$.post('/api/headerNav/delete', { id }).done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
+		})
+	})
+
 	$('.js-slide-addSlide').on('change', function (e) {
 		const slide_id = $(this).data('slideId');
 		const fragment_id = $(this).data('fragmentId');
 		const target = $(this).data('target');
-		
+
 		const fd = new FormData;
 
 		fd.append('upload', this.files[0])

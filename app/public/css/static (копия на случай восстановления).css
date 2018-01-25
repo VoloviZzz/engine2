@@ -126,7 +126,7 @@ header.document-header, .document-footer {
 }
 
 .header-menu-center li {
-    margin: 0px 20px;
+    margin-right: 140px;
 }
 
 .header-menu-center li:last-child {
@@ -847,8 +847,6 @@ table {
 
     ul.header-menu.header-menu-center {
         margin: auto;
-        flex: 1;
-        justify-content: center;
     }
 
     .header-menu-center .active-link {

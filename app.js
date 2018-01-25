@@ -20,6 +20,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 app.use(cookieSession(config.session));
 
+global.documentRoot = __dirname;
+global.appRoot = path.join(__dirname, 'app');
+global.path = require('path');
+
 function setDefaultSessionData(req, res, next) {
 	req.session.user = req.session.user || {};
 	req.session.user.id = req.session.user.id || false;
