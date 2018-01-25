@@ -18,12 +18,16 @@ $(document).ready(() => {
 
 		routesList.addRoute(formData);
 	})
-
+	
 	$('.js-routes-list-upd-route').on('submit', function(e) {
 		e.preventDefault();
 		const $form = $(this);
 		const formData = forms.getFormData($form);
-
+		
 		routesList.updRoute(formData);
+	})
+
+	$('.js-routes-list-showAddForm').on('click', function(e) {
+		$('#js-routes-list-addForm').toggle();
 	})
 })

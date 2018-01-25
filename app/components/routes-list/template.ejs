@@ -6,91 +6,79 @@
     .js-route-item.js-edit-form--show .js-route-edit-form {
         display: block;
     }
-</style>
 
-<form class="js-routes-list-add-route" action="/api/routes/add" method="POST">
-    <h1>Добавить маршрут</h1>
-    <div>
-        <label>
-            <span>URL маршрута:</span>
-            <input name="url" type="text" required>
-        </label>
+    .js-routes-list-add-route {
+        display: none;
+        margin-bottom: 20px;
+    }
+</style>
+<div>
+    <div style="display: flex; flex-flow: row wrap; justify-content: space-between; margin-bottom: 20px">
+        <h1>Список маршрутов</h1>
+        <button class="btn js-routes-list-showAddForm">Добавить маршрут</button>
     </div>
-    <br>
-    <div>
-        <label>
-            <span>Заголовок маршрута:</span>
-            <input name="title" type="text" required>
-        </label>
-    </div>
-    <br>
-    <div>
-        <label>
-            <span>Название маршрута:</span>
-            <input name="name" type="text" required>
-        </label>
-    </div>
-    <div>
-        <span>Шаблон страницы:</span>
-        <select name="template_id">
-            <% templatesList.forEach((t) => { %>
-                <option value="<%= t.id -%>"><%= t.title -%></option>
-            <% }) %>
-        </select>
-    </div>
-    <br>
-    <div>
-        <input type="radio" name="dynamic" value="1">
-        <span>Динамический</span>
-        <input type="radio" name="dynamic" value="0" checked>
-        <span>Статический</span>
-        <br>
-        <input type="radio" name="access" value="1" checked>
-        <span>Публичный</span>
-        <input type="radio" name="access" value="2">
-        <span>Только авторизованным</span>
-        <input type="radio" name="access" value="3">
-        <span>Только администратору</span>
-    </div>
-    <br>
-    <section>
-        <h1>SEO установки</h1> 
-        <br>
+    <form id="js-routes-list-addForm" class="js-routes-list-add-route" action="/api/routes/add" method="POST">
         <div>
             <label>
-                <span>Ключевые слова (meta-keywords):</span>
-                <textarea name="seo_keywords"></textarea>
+                <span>URL маршрута:</span>
+                <input name="url" type="text" required>
             </label>
         </div>
         <br>
         <div>
             <label>
-                <span>Краткое описание (meta-description):</span>
-                <textarea name="seo_description"></textarea>
+                <span>Заголовок маршрута:</span>
+                <input name="title" type="text" required>
             </label>
         </div>
-    </section>
-    <br>    
-    <div>
-        <button>Добавить</button>
-    </div>
-</form>
-<div>
-    <span>URL: </span>
-    <span><%= url -%></span>
-    <br>
-    <% var routeParam = routeParam || false %>
-    <% if(!!routeParam === true) { %>
-        <span>Param: </span>
-        <span><%= routeParam -%></span>
-    <% } %>
-</div>
-<div>
-    <h1>Список маршрутов</h1>
-    <button class="btn">Добавить маршрут</button>
+        <br>
+        <div>
+            <span>Шаблон страницы:</span>
+            <select name="template_id">
+                <% templatesList.forEach((t) => { %>
+                    <option value="<%= t.id -%>"><%= t.title -%></option>
+                <% }) %>
+            </select>
+        </div>
+        <br>
+        <div>
+            <input type="radio" name="dynamic" value="1">
+            <span>Динамический</span>
+            <input type="radio" name="dynamic" value="0" checked>
+            <span>Статический</span>
+            <br>
+            <input type="radio" name="access" value="1" checked>
+            <span>Публичный</span>
+            <input type="radio" name="access" value="2">
+            <span>Только авторизованным</span>
+            <input type="radio" name="access" value="3">
+            <span>Только администратору</span>
+        </div>
+        <br>
+        <section>
+            <h1>SEO установки</h1> 
+            <br>
+            <div>
+                <label>
+                    <span>Ключевые слова (meta-keywords):</span>
+                    <textarea style="min-width: 99%; max-width: 99%;" name="seo_keywords"></textarea>
+                </label>
+            </div>
+            <br>
+            <div>
+                <label>
+                    <span>Краткое описание (meta-description):</span>
+                    <textarea style="min-width: 99%; max-width: 99%;" name="seo_description"></textarea>
+                </label>
+            </div>
+        </section>
+        <br>    
+        <div>
+            <button>Добавить</button>
+        </div>
+    </form>
     <ul>
-        <% Object.keys(routesObj).map(function(index) { %>
-            <% r = routesObj[index] %>
+        <% routesList.map((r) => { %>
             <li class="js-route-item" style="border: 1px #000 solid;padding: 10px; margin-bottom: 10px">
                 <a href="<%= r.url -%>"><%= r.url + ' - ' + r.title -%></a>
                 <button class="js-show-edit-route-form" data-route-id="<%= r.id -%>">Редактировать</button>
@@ -115,12 +103,6 @@
                         </div>
                         <br>
                         <div>
-                            <label>
-                                <span>Название маршрута:</span>
-                                <input name="name" type="text" value="<%=r.name-%>" required>
-                            </label>
-                        </div>
-                        <div>
                             <span>Шаблон страницы:</span>
                             <select name="template_id">
                                 <% templatesList.forEach((t) => { %>
@@ -136,8 +118,33 @@
                             <span>Только авторизованным</span>
                             <input type="radio" name="access" value="3" <%= r.access == 3 ? 'checked' : ''-%>>
                             <span>Только администратору</span>
-                            <input type="hidden" name="id" value="<%=r.id-%>">
                         </div>
+                        <% if(user.root) { %>
+                            <div>
+                                <span>Разрешить редактирование</span>
+                                <label>
+                                    <input type="radio" name="edit_access" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
+                                    <span>Нет</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="edit_access" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
+                                    <span>Да</span>
+                                </label>
+                                <br>
+                            </div>
+                            <div>
+                                <span>Разрешить удаление</span>
+                                <label>
+                                    <input type="radio" name="delete_access" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
+                                    <span>Нет</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="delete_access" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
+                                    <span>Да</span>
+                                </label>
+                                <br>
+                            </div>
+                        <% } %>
                         <br>
                         <section>
                             <h1>SEO установки</h1> 
@@ -145,14 +152,14 @@
                             <div>
                                 <label>
                                     <span>Ключевые слова (meta-keywords):</span>
-                                    <textarea name="seo_keywords"><%= r.seo_keywords%></textarea>
+                                    <textarea style="min-width: 99%; max-width: 99%;" name="seo_keywords"><%= r.seo_keywords%></textarea>
                                 </label>
                             </div>
                             <br>
                             <div>
                                 <label>
                                     <span>Краткое описание (meta-description):</span>
-                                    <textarea name="seo_description"><%= r.seo_description%></textarea>
+                                    <textarea style="min-width: 99%; max-width: 99%;" name="seo_description"><%= r.seo_description%></textarea>
                                 </label>
                             </div>
                         </section>
@@ -160,6 +167,7 @@
                         <div>
                             <button>Сохранить</button>
                         </div>
+                        <input type="hidden" name="id" value="<%=r.id-%>">
                     </form>
                 </div>
             </li>

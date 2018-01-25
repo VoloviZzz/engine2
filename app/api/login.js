@@ -17,6 +17,7 @@ exports.login = async function (req, res, next) {
     req.session.user.clientName = client.name;
     req.session.user.id = client.id;
     req.session.user.admin = client.admin;
+    req.session.user.root = client.root;
 
     return {status: 'ok', data: {client}};
 }

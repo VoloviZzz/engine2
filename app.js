@@ -29,6 +29,7 @@ function setDefaultSessionData(req, res, next) {
 	req.session.user.id = req.session.user.id || false;
 	req.session.user.admin = req.session.user.admin || false;
 	req.session.user.adminMode = req.session.user.adminMode || false;
+	req.session.user.root = req.session.user.root || false;
 
 	res.locals.user = Object.assign({}, req.session.user);
 
@@ -37,7 +38,6 @@ function setDefaultSessionData(req, res, next) {
 
 function clearSessionData(req, res, next) {
 	req.session = null;
-
 	res.redirect('/');
 }
 
@@ -80,7 +80,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
-	[err, app.locals.componentsList] = await db.execQuery('SELECT * FROM components');
+	[error, app.locals.componentsList] = await db.execQuery('SELECT * FROM components');
 
 	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);

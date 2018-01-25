@@ -116,23 +116,24 @@ RoutesList.prototype.delete = function (routeId) {
 	}
 
 	$.post('/api/routes/del', { id: routeId }).done(function (result) {
-		if (result.status == 'bad') {
-			console.log(result);
-			return alert('Что-то пошло не так. Попробуйте позже');
+		
+		if (result.status == 'ok') {
+			return location.reload();
 		}
-
-		return location.reload();
+		
+		console.log(result);
+		return alert(result.message);
 	})
 }
 
 RoutesList.prototype.addRoute = function (data) {
 	$.post('/api/routes/add', data).done(function (result) {
-		if (result.status == 'bad') {
-			console.log(result);
-			return alert('Что-то пошло не так. Попробуйте позже');
+		if (result.status == 'ok') {
+			return location.reload();
 		}
-
-		return location.reload();
+		
+		console.log(result);
+		return alert(result.message);
 	})
 }
 RoutesList.prototype.updRoute = function (data) {
@@ -140,7 +141,7 @@ RoutesList.prototype.updRoute = function (data) {
 		if (result.status == 'ok') return location.reload();
 
 		console.log(result);
-		return alert('Что-то пошло не так. Попробуйте позже');
+		return alert(result.message);
 	})
 }
 

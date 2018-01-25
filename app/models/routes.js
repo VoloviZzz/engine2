@@ -23,18 +23,19 @@ exports.get = (args = { id: '' }) => {
 	})
 }
 
-exports.add = async ({ url, title, dynamic, access, name, seo_keywords, seo_description, template_id }) => {
+exports.add = async ({ url, title, dynamic, access, seo_keywords, seo_description, template_id }) => {
 	if (!!url === false || !!title === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры для добавления маршрута' }])
 
 	if (typeof dynamic != 'undefined') dynamic = `, dynamic = ${dynamic}`;
 	if (typeof access != 'undefined') access = `, access = ${access}`;
-	if (typeof name != 'undefined') name = `, name = '${name}'`;
 	if (typeof seo_keywords != 'undefined') seo_keywords = `, seo_keywords = '${seo_keywords}'`;
 	if (typeof seo_description != 'undefined') seo_description = `, seo_description = '${seo_description}'`;
 	if (typeof template_id != 'undefined') template_id = `, template_id = '${template_id}'`;
 
-	const [err, rows] = await db.execQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${name} ${seo_description} ${seo_keywords} ${template_id}`);
-	const [queryErr, newRoute] = await exports.get({ id: rows.insertId });
+	const [err, insertId] = await db.insertQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${seo_description} ${seo_keywords} ${template_id}`);
+	if(err) throw new Error(err.sql);
+	
+	const [queryErr, newRoute] = await exports.get({ id: insertId });
 	return Promise.resolve([null, newRoute]);
 }
 
@@ -51,12 +52,17 @@ exports.upd = (arg = {}) => {
 	arg.url = !!arg.url === true ? `, url = '${arg.url}'` : ``;
 	arg.name = !!arg.name === true ? `, name = '${arg.name}'` : ``;
 	arg.dynamic = typeof arg.dynamic !== 'undefined' ? `, dynamic = '${arg.dynamic}'` : ``;
+
 	arg.access = typeof arg.access !== 'undefined' ? `, access = '${arg.access}'` : ``;
+	arg.edit_access = typeof arg.edit_access !== 'undefined' ? `, edit_access = '${arg.edit_access}'` : ``;
+	arg.delete_access = typeof arg.delete_access !== 'undefined' ? `, delete_access = '${arg.delete_access}'` : ``;
+
 	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
 	arg.template_id = typeof arg.template_id !== 'undefined' ? `, template_id = '${arg.template_id}'` : ``;
 	
 	arg.seo_description = typeof arg.seo_description !== 'undefined' ? `, seo_description = '${arg.seo_description}'` : ``;
 	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
+
 
 	arg.targetValue = '';
 	
@@ -79,5 +85,7 @@ exports.upd = (arg = {}) => {
 			${arg.seo_keywords} 
 			${arg.seo_description}
 			${arg.template_id}
+			${arg.delete_access}
+			${arg.edit_access}
 		WHERE id = ${arg.id}`)
 }

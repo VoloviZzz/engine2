@@ -33,7 +33,10 @@ $(document).ready(() => {
                                 <li>Номер телефона: <a class="page-link" href="callto:${c.phone}">${c.phone}</a></li>
                                 <label>
                                     Администратор:
-                                    <input class="js-clients-toggleAdmin" type="checkbox" data-user-id="${c.id}" ${c.admin ? 'checked' : ''} />
+                                    ${c.admin ? 
+                                        `<button class="btn js-clients-toggleAdmin" data-user-id="${c.id}" value="0">Убрать администратора</button>` : 
+                                        `<button class="btn js-clients-toggleAdmin" data-user-id="${c.id}" value="1">Сделать администратором</button>`
+                                    }
                                 </label>
                             </ul>
                         </div>
@@ -54,6 +57,9 @@ $(document).ready(() => {
                         console.log(data);
                         alert(data.message);
                     }
+                    else {
+                        location.reload();
+                    }
                 })
                 .catch(error => {
                     return alert('В работе сайте возникла ошибка. Обратитесь к администратору сайта.');
@@ -67,7 +73,9 @@ $(document).ready(() => {
         return clients.searchClients(this.value);
     });
 
-    $('#clients-list').on('change', '.js-clients-toggleAdmin', function (e) {
-        return clients.toggleAdmin({userId: this.dataset.userId, value: this.checked});
+    $('#clients-list').on('click', '.js-clients-toggleAdmin', function (e) {
+        if(!confirm(this.textContent + '?')) return false;
+
+        return clients.toggleAdmin({userId: this.dataset.userId, value: this.value});
     })
 })

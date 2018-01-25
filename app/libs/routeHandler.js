@@ -108,18 +108,11 @@ module.exports = (app, express) => {
 		next();
 	}, async (req, res, next) => {
 		// получение фрагментов
-		let err = false;
 		const route = req.locals.route;
+		let err = false;
 
-		res.locals.routeName = route.name;
-
-		res.locals.user = {
-			admin: req.session.user.admin,
-			adminMode: req.session.user.adminMode
-		};
-
+		res.locals.user = Object.assign({}, req.session.user);
 		res.locals.routeId = route.id;
-		res.locals.page = route.name;
 
 		[err, fragments] = await Model.fragments.get({ route_id: route.id });
 		if (err) return next(err);

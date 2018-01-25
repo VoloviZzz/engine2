@@ -22,9 +22,13 @@ exports.del = async function (req, res, next) {
 
     if (!!routeId === false) return { status: 'bad', message: 'Нет параметра routeId' };
 
-    [error, route] = await req.app.Model.routes.get({ id: routeId });
+    [error, route] = await Model.routes.get({ id: routeId });
     if (error) return { status: 'bad', message: err.message, error };
     if (!!route === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
+    
+    if(route.delete_access == "0" && req.session.user.root != "1") {
+        return {message: 'Недостаточно прав для удаления данного маршрута'}
+    }
 
     [error, rows] = await Model.routes.del(req.body);
     if (error) return { status: 'bad', message: err.message, error };
@@ -43,6 +47,10 @@ exports.upd = async function (req, res, next) {
     [error, route] = await Model.routes.get({ id: routeId });
     if (error) return { status: 'bad', message: err.message, error };
     if (!!route === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
+
+    if(route.edit_access == "0" && req.session.user.root != "1") {
+        return {message: 'Недостаточно прав для редактирования данного маршрута'}
+    }
 
     [error, rows] = await Model.routes.upd(req.body);
     if (error) {
