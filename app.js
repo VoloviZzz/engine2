@@ -80,6 +80,8 @@ db.connect(db.MODE_TEST, async (err) => {
 	[err, app.locals.routesList] = await initRoutes();
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
+	[err, app.locals.componentsList] = await db.execQuery('SELECT * FROM components');
+
 	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
 

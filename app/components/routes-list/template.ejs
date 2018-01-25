@@ -58,14 +58,14 @@
         <br>
         <div>
             <label>
-                <span>Ключевые слова:</span>
+                <span>Ключевые слова (meta-keywords):</span>
                 <textarea name="seo_keywords"></textarea>
             </label>
         </div>
         <br>
         <div>
             <label>
-                <span>Краткое описание:</span>
+                <span>Краткое описание (meta-description):</span>
                 <textarea name="seo_description"></textarea>
             </label>
         </div>
@@ -86,6 +86,8 @@
     <% } %>
 </div>
 <div>
+    <h1>Список маршрутов</h1>
+    <button class="btn">Добавить маршрут</button>
     <ul>
         <% Object.keys(routesObj).map(function(index) { %>
             <% r = routesObj[index] %>
@@ -128,11 +130,6 @@
                         </div>
                         <br>
                         <div>
-                            <input type="radio" name="dynamic" value="1" <%= r.dynamic == 1 ? 'checked' : ''-%>>
-                            <span>Динамический</span>
-                            <input type="radio" name="dynamic" value="0" <%= r.dynamic == 0 ? 'checked' : ''-%>>
-                            <span>Статический</span>
-                            <br>
                             <input type="radio" name="access" value="1" <%= r.access == 1 ? 'checked' : ''-%>>
                             <span>Публичный</span>
                             <input type="radio" name="access" value="2" <%= r.access == 2 ? 'checked' : ''-%>>
@@ -147,14 +144,14 @@
                             <br>
                             <div>
                                 <label>
-                                    <span>Ключевые слова:</span>
+                                    <span>Ключевые слова (meta-keywords):</span>
                                     <textarea name="seo_keywords"><%= r.seo_keywords%></textarea>
                                 </label>
                             </div>
                             <br>
                             <div>
                                 <label>
-                                    <span>Краткое описание:</span>
+                                    <span>Краткое описание (meta-description):</span>
                                     <textarea name="seo_description"><%= r.seo_description%></textarea>
                                 </label>
                             </div>

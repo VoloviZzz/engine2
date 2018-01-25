@@ -29,7 +29,7 @@ $(document).ready(() => {
                         <div class="client-card__title">
                             <h2>#${c.id} - ${c.surname} ${c.firstname} ${c.patronymic}</h2>
                             <ul class="text-left">
-                                <li>Электронный адрес: <a class="page-link" href="mailto:${c.mail}">${c.mail}</a></li>
+                                <li>Электронный адрес: <a class="page-link" href="mailto:${c.mail || ''}">${c.mail || ''}</a></li>
                                 <li>Номер телефона: <a class="page-link" href="callto:${c.phone}">${c.phone}</a></li>
                                 <label>
                                     Администратор:
