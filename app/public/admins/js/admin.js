@@ -4,6 +4,29 @@ $(document).ready(() => {
 	const routesList = new RoutesList();
 	const slider = new Slider();
 
+	$('.js-slide-moveSlide').on('click', function(e) {
+		const slide_id = $(this).data('id');
+		const current_position = $(this).data('current-position');
+		const fragment_id = $(this).data('fragment-id');
+		const vector = $(this).data('vector');
+		const move_position = vector > 0 ? current_position + 1 : current_position - 1;
+
+		$.post('/api/slider/moveSlide', {slide_id, current_position, move_position, fragment_id})
+			.done(data => {
+				if(data.status != 'ok') {
+					console.log(data);
+					return alert(data.message);
+				}
+
+				location.reload();
+			})
+			.catch(error => {
+				alert('На сервере что-то пошло не так');
+			})
+
+		return false;
+	})
+
 	$('.js-headerNav-edit').on('input', function (e) {
 		const id = $(this).data('id');
 		const target = $(this).data('target');
@@ -93,7 +116,7 @@ $(document).ready(() => {
 	})
 
 	$('.js-add-fragment').on('click', function () {
-		return fragments.add(this.dataset.id);
+		return fragments.add({route_id: this.dataset.id, block_id: this.dataset.blockId});
 	})
 
 	$('.js-fragment-delete').on('click', function () {

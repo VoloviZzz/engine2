@@ -1,6 +1,15 @@
 <% var onceFragmentOnPage = false %>
+<% if(user.adminMode) { %>
+    <style>
+        .fragment-item {
+            min-height: 150px; 
+            border: 1px #c3c3c3 solid;
+        }
+    </style>
+<% } %>
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
     <% onceFragmentOnPage = !!fragment.once %>
+    <% if(fragment.block_id !== block_id) return false; %>
     <div class="fragment-item">
         <% if(user.adminMode) { %>
             <div class="fragment-setting-window">
@@ -9,7 +18,7 @@
                     <button class="js-fragment-edit-type btn-blue">Сменить тип фрагмента</button>
                     <div>
                         <select class="js-upd-fragment-component select-set" data-route-id="<%=routeId-%>" data-fragment-id="<%= id -%>" name="types">
-                            <% componentsList.map(c => { %>
+                            <% componentsObj[block_id].map(c => { %>
                                 <option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
                             <% }) %>
                         </select>
@@ -18,9 +27,9 @@
                 </div>
             </div>
         <% } %>
-        <div class="text-margin-bottom-p text-indent fragment-body <%= fragment.isStatic && user.adminMode ? 'js-ckeditor-edit' : '' -%>" data-fragment-id="<%= id -%>" ><%- content -%></div>
+        <div class="text-margin-bottom-p text-indent fragment-body <%= fragment.isStatic && fragment.component_id == 2 && user.adminMode ? 'js-ckeditor-edit' : '' -%>" data-fragment-id="<%= id -%>" ><%- content -%></div>
     </div>
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 
-    <button class="js-add-fragment" data-id="<%=routeId-%>">Добавить фрагмент</button>
+    <button class="js-add-fragment" data-id="<%=routeId-%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
 <% } %>

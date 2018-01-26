@@ -341,8 +341,7 @@ li.section-menu-item.active > a {
     position: relative;
     display: block;
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: auto;
 }
 
 .subsections {

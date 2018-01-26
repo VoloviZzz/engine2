@@ -82,3 +82,26 @@ exports.setImage = async function (req, res, next) {
 		});
 	})
 }
+
+module.exports.moveSlide = async function (req, res, next) {
+	const { slide_id, current_position, move_position, fragment_id } = req.body;
+
+	return Model.fragments.getFragmentsData({ fragment_id })
+		.then(([error, rowsData]) => {
+			if (error) return Promise.reject(error);
+			const slides = JSON.parse(rowsData[0].data).content.slides;
+
+			[slides[current_position], slides[move_position]] = [slides[move_position], slides[current_position]];
+
+			return Model.fragments.setData({ fragment_id, data: { slides } });
+		})
+		.then(([error, result]) => {
+			if (error) return Promise.reject(error);
+
+			return { status: 'ok' }
+		})
+		.catch(error => {
+			console.error(error);
+			return { status: 'bad', message: error.message }
+		});
+}

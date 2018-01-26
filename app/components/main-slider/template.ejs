@@ -13,7 +13,6 @@
 							<% } else { %> 
 								<h1><%= s.title %></h1>
 							<% } %>
-
 							<% if(user.adminMode) { %>
 								<div>
 									<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
@@ -23,15 +22,13 @@
 									<%- Helpers.replaceLineBreaks(s.description) %>
 								</div>
 							<% } %>
-
 							<% if(user.adminMode) { %>
 								<div>
 									<label>Добавить фото
-										<input class="js-slide-addSlide" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
+									<input class="js-slide-addSlide" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
 									</label>
 								</div>
 							<% } %>
-
 							<div class="slider-action">
 								<a href="<%= s.href %>" class="btn">Подробнее</a>
 							</div>
@@ -51,28 +48,44 @@
 	<div id="carousel" class="flexslider">
 		<ul class="slides">
 			<% slides.map((s, index) => { %>
-				<li>
+				<li data-id="<%= s.id -%>">
 					<div class="container-item__container">
 						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
 						<% if(user.adminMode === true) { %>
 							<div style="position: absolute;right: 10px;font-weight: bold;top: 5px;cursor: pointer;">
 								<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
 								<label>
-									Добавить фото
-									<input type="file" class="js-slide-addSlide" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
+								Добавить фото
+								<input type="file" class="js-slide-addSlide" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
 								</label>
 							</div>
+							<% if(index > 0) { %>
+								<button class="btn js-slide-moveSlide" 
+									data-fragment-id="<%= locals.fragment.id -%>" 
+									data-current-position="<%= index -%>" 
+									data-id="<%= s.id -%>" 
+									data-vector="-1"
+									style="position: absolute; top: 50%; left: 0px">&larr;</button>
+							<% } %>
+							<% if(index < slides.length -1) { %>
+								<button class="btn js-slide-moveSlide" 
+									data-fragment-id="<%= locals.fragment.id -%>"
+									data-current-position="<%= index -%>" 
+									data-id="<%= s.id -%>" 
+									data-vector="1"
+									style="position: absolute; top: 50%; right: 0px">&rarr;</button>
+							<% } %>
 						<% } %>
 						<div class="carousel-link__container">
 							<% if(user.adminMode) { %>
-								<div>
-									<span>Заголовок:</span>
-									<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%> ">
-								</div>
-								<div>
-									<span>Адрес:</span>
-									<input type="text" class="js-slide-upd" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
-								</div>
+							<div>
+								<span>Заголовок:</span>
+								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%> ">
+							</div>
+							<div>
+								<span>Адрес:</span>
+								<input type="text" class="js-slide-upd" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
+							</div>
 							<% } else { %>
 								<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
 							<% } %>

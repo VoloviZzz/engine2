@@ -122,6 +122,7 @@ module.exports = (app, express) => {
 		});
 
 		const fragmentsData = await Promise.all(fragmentsMap);
+
 		res.locals.fragmentsData = fragmentsData;
 
 		next();
@@ -129,7 +130,8 @@ module.exports = (app, express) => {
 
 		const viewsData = {
 			user: req.session.user,
-			page: req.locals.route.name,
+			componentsList: app.componentsList,
+			componentsObj: app.componentsObj,
 			route: {}
 		};
 
