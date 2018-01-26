@@ -8,7 +8,6 @@ exports.get = async (arg = {}) => {
             SELECT f.*,
                 c.title as component_title,
                 c.ctrl as component_ctrl,
-                c.type as component_type,
                 c.styles as component_styles,
                 c.scripts as component_scripts,
                 c.static as isStatic,
@@ -45,20 +44,22 @@ exports.setData = async function ({ fragment_id, data }) {
 	[err, fragmentData] = await exports.getFragmentsData({ fragment_id })
 	if (err) throw new Error(err);
 
-	const strData = JSON.stringify({ content: data });
+	let strData = JSON.stringify({ content: data });
 
 	if (fragmentData.length < 1) {
 		return db.insertQuery("INSERT INTO fragments_data SET ?", { fragment_id, data: strData });
 	}
 	else {
 		data = Object.assign(JSON.parse(fragmentData[0].data).content, data);
+		strData = JSON.stringify({ content: data });
 		return db.execQuery("UPDATE fragments_data SET data = ? WHERE fragment_id = ?", [strData, fragment_id]);
 	}
 }
 
 exports.add = async (args = {}) => {
-	const res = await db.execQuery(`INSERT INTO fragments SET route_id = ${args.route_id}`);
-	return Promise.resolve(res);
+	args.component_id = args.component_id ? `, component_id = ${args.component_id}` : ``;
+	args.block_id = args.block_id ? `, block_id = ${args.block_id}` : ``;
+	return db.execQuery(`INSERT INTO fragments SET route_id = ${args.route_id} ${args.component_id} ${args.block_id}`);
 }
 
 exports.upd = async (args = {}) => {

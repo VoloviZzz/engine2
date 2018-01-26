@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon app.js"
+		"start": "nodemon app.js",
+		"babel-node": "nodemon app.js --exec babel-node  --presets es2015,stage-2"
 	},
 	"keywords": [],
 	"author": "",

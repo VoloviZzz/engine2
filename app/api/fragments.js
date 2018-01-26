@@ -5,7 +5,7 @@ exports.add = async function (req, res, next) {
 
     if (!!req.body.route_id === false) return { status: 'bad', message: 'Отсутствует route_id' };
 
-    [error, fragmentId] = await Model.fragments.add({ route_id: req.body.route_id });
+    [error, fragmentId] = await Model.fragments.add({ route_id: req.body.route_id, component_id: 8, block_id: req.body.block_id });
     if (error) return { status: 'bad', message: error.message, error }
 
     return { status: 'ok' }

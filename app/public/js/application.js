@@ -33,8 +33,8 @@ Slider.prototype.setImage = function ({slide_id, fragment_id, target, value}) {
 	})
 }
 
-Fragments.prototype.add = function (route_id) {
-	$.post("/api/fragments/add", { route_id }).done((result) => {
+Fragments.prototype.add = function ({route_id, block_id}) {
+	$.post("/api/fragments/add", { route_id, block_id }).done((result) => {
 		if (result.status === 'ok') return location.reload();
 		console.log(result);
 		alert(result.message)
