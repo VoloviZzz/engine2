@@ -286,12 +286,6 @@ nav a.active-link {
     margin-bottom: 6px;
 }
 
-.section-menu a {
-    position: relative;
-    padding: 12px 5px;
-    align-items: center;
-}
-
 .section-menu__sublist .active {
     font-weight: bold;
 }
@@ -320,6 +314,10 @@ li.section-menu-item.active > a {
 
 .section-menu a {
     border-bottom: 1px #c3c3c3 solid;
+    display: block;
+    position: relative;
+    padding: 12px 5px;
+    align-items: center;
 }
 
 .section-content {

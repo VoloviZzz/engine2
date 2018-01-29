@@ -1,26 +1,29 @@
 const path = require('path');
+const Menu = require('../../libs/menu');
 
 module.exports = (app) => {
 	return (data = {}) => {
 		return new Promise(async (resolve, reject) => {
-			const [, goodsCategories] = await app.Model.goodsCategories.get();
 
-			const slides = goodsCategories || [];
+			let menuTree = false;
 
+			if(!!data.locals.route.menu_id) {
+				menuTree = await Menu.constructMenu({menu_id: data.locals.route.menu_id});
+			}
 			
 			const dataViews = {
-				slides,
 				user: {},
 				locals: {},
 			};
 			
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
+			dataViews.menuTree = menuTree;
 			
 			const templatePath = path.join(__dirname, 'template.ejs');
 			const template = app.render(templatePath, dataViews, (err, str) => {
-				if(err) return resolve([err, err.toString()]);
-				
+				if (err) return resolve([err, err.toString()]);
+
 				return resolve([err, str]);
 			});
 		})

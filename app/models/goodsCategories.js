@@ -19,11 +19,13 @@ exports.add = function (data = {}) {
 
 exports.get = function (data = {}) {
 	data.parent_id = typeof data.parent_id !== "undefined" ? `AND parent_id = ${data.parent_id}` : ``;
+	data.id = typeof data.id !== "undefined" ? `AND id = ${data.id}` : ``;
 	return db.execQuery(`
 		SELECT * FROM goods_cats
 		WHERE
 			id > 0
 			${data.parent_id}
+			${data.id}
 	`);
 }
 

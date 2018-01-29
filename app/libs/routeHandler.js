@@ -110,17 +110,18 @@ module.exports = (app, express) => {
 		// получение фрагментов
 		const route = req.locals.route;
 		let err = false;
-
+	
 		res.locals.user = Object.assign({}, req.session.user);
 		res.locals.routeId = route.id;
-
+		res.locals.route = route;
+		
 		[err, fragments] = await Model.fragments.get({ route_id: route.id });
 		if (err) return next(err);
-
+		
 		const fragmentsMap = fragments.map(fragment => {
 			return fragmentsHandler(fragment, { req, locals: Object.assign({}, res.locals) })
 		});
-
+		
 		const fragmentsData = await Promise.all(fragmentsMap);
 
 		res.locals.fragmentsData = fragmentsData;
