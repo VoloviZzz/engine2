@@ -9,7 +9,7 @@ const app = express();
 const config = require('./config');
 const db = require('./app/libs/db');
 
-const { Model } = require('./app/models/index');
+const Model  = require('./app/models/index');
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));

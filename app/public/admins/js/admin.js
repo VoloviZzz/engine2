@@ -3,29 +3,52 @@ $(document).ready(() => {
 	const menuList = new MenuList();
 	const routesList = new RoutesList();
 	const slider = new Slider();
+	const shop = new Shop();
 
-	$('.js-slide-moveSlide').on('click', function(e) {
-		const slide_id = $(this).data('id');
-		const current_position = $(this).data('current-position');
-		const fragment_id = $(this).data('fragment-id');
-		const vector = $(this).data('vector');
-		const move_position = vector > 0 ? current_position + 1 : current_position - 1;
+	$('.js-goodsCategories-add').on('click', function (e) {
+		return shop.addCategories({ level: 1 });
+	})
 
-		$.post('/api/slider/moveSlide', {slide_id, current_position, move_position, fragment_id})
-			.done(data => {
-				if(data.status != 'ok') {
-					console.log(data);
-					return alert(data.message);
+	$('.js-goodsCategories-upd').on('input', function (e) {
+		const id = $(this).data('id');
+		const target = $(this).data('target');
+		const value = $(this).val().trim();
+
+		return shop.updCategories({ id, target, value });
+	})
+
+	$('.js-goodsCategories-delete').on('click', function (e) {
+		const id = $(this).data('id');
+		return shop.delCategories({ id });
+	})
+
+	$('.js-goodsCategories-addPhoto').on('change', function (e) {
+		const id = $(this).data('id');
+		const target = $(this).data('target');
+
+		const fd = new FormData();
+
+		fd.append('upload', this.files[0])
+
+		$.ajax({
+			url: '/api/shop/setImage',
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success(result) {
+				if(result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message);
 				}
-
-				location.reload();
-			})
-			.catch(error => {
-				alert('На сервере что-то пошло не так');
-			})
+				const value = result.data.fileUrl;
+				return shop.setPhoto({ id, target, value });
+			}
+		});
 
 		return false;
 	})
+	// -----------------------------------------------------------------------------
 
 	$('.js-headerNav-edit').on('input', function (e) {
 		const id = $(this).data('id');
@@ -64,12 +87,12 @@ $(document).ready(() => {
 		})
 	})
 
-	$('.js-slide-addSlide').on('change', function (e) {
+	$('.js-slide-addSlidePhoto').on('change', function (e) {
 		const slide_id = $(this).data('slideId');
 		const fragment_id = $(this).data('fragmentId');
 		const target = $(this).data('target');
 
-		const fd = new FormData;
+		const fd = new FormData();
 
 		fd.append('upload', this.files[0])
 
@@ -116,7 +139,7 @@ $(document).ready(() => {
 	})
 
 	$('.js-add-fragment').on('click', function () {
-		return fragments.add({route_id: this.dataset.id, block_id: this.dataset.blockId});
+		return fragments.add({ route_id: this.dataset.id, block_id: this.dataset.blockId });
 	})
 
 	$('.js-fragment-delete').on('click', function () {

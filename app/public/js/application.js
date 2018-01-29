@@ -1,30 +1,88 @@
-function Fragments() { }
-function MenuList() { }
-function RoutesList() { }
+// ----------------------------------------------------------------------------------------
+function Shop() { };
+
+Shop.prototype.addCategories = function (data = {}) {
+
+	data = {
+		level: 1
+	}
+
+	$.post(`/api/shop/addCategories`, data).done(result => {
+		if (result.status !== 'ok') {
+			console.log(result);
+			return alert(result.message);
+		}
+
+		return location.reload();
+	});
+};
+
+Shop.prototype.updCategories = function ({ id, target, value }) {
+	$.post(`/api/shop/updCategories`, { id, target, value }).done(result => {
+		if (result.status !== 'ok') {
+			console.log(result);
+			return alert(result.message);
+		}
+	});
+}
+
+Shop.prototype.delCategories = function ({ id }) {
+	$.post(`/api/shop/delCategories`, { id }).done(result => {
+		if (result.status !== 'ok') {
+			console.log(result);
+			return alert(result.message);
+		}
+
+		return location.reload();
+	});
+}
+
+Shop.prototype.setPhoto = function ({ id, target, value }) {
+	$.post(`/api/shop/updCategories`, { id, target, value }).done(result => {
+		if (result.status !== 'ok') {
+			console.log(result);
+			return alert(result.message);
+		}
+
+		return location.reload();
+	});
+}
+// ----------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------
 function Forms() { };
+
+Forms.prototype.getFormData = function (form) {
+	const returnData = {};
+	$(form).serializeArray().map(v => returnData[v.name] = v.value);
+	return returnData;
+};
+// ----------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------
 function Slider() { };
 
-Slider.prototype.deleteSlide = function ({slide_id, fragment_id}) {
-	$.post('/api/slider/deleteSlide', {slide_id, fragment_id}).done((result) => {
-		if(result.status == 'ok') return location.reload();
+Slider.prototype.deleteSlide = function ({ slide_id, fragment_id }) {
+	$.post('/api/slider/deleteSlide', { slide_id, fragment_id }).done((result) => {
+		if (result.status == 'ok') return location.reload();
 
 		console.log(result);
 		alert(result.message);
 	})
 }
 
-Slider.prototype.updSlide = function ({slide_id, fragment_id, target, value}) {
-	$.post('/api/slider/updSlide', {slide_id, fragment_id, target, value}).done((result) => {
-		if(result.status != 'ok') {
+Slider.prototype.updSlide = function ({ slide_id, fragment_id, target, value }) {
+	$.post('/api/slider/updSlide', { slide_id, fragment_id, target, value }).done((result) => {
+		if (result.status != 'ok') {
 			console.log(result);
 			alert(result.message);
 		}
 	})
 }
 
-Slider.prototype.setImage = function ({slide_id, fragment_id, target, value}) {
-	$.post('/api/slider/updSlide', {slide_id, fragment_id, target, value}).done((result) => {
-		if(result.status != 'ok') {
+Slider.prototype.setImage = function ({ slide_id, fragment_id, target, value }) {
+	$.post('/api/slider/updSlide', { slide_id, fragment_id, target, value }).done((result) => {
+		if (result.status != 'ok') {
 			console.log(result);
 			alert(result.message);
 		}
@@ -32,8 +90,12 @@ Slider.prototype.setImage = function ({slide_id, fragment_id, target, value}) {
 		return location.reload();
 	})
 }
+// ----------------------------------------------------------------------------------------
 
-Fragments.prototype.add = function ({route_id, block_id}) {
+// ----------------------------------------------------------------------------------------
+function Fragments() { }
+
+Fragments.prototype.add = function ({ route_id, block_id }) {
 	$.post("/api/fragments/add", { route_id, block_id }).done((result) => {
 		if (result.status === 'ok') return location.reload();
 		console.log(result);
@@ -65,11 +127,15 @@ Fragments.prototype.delete = function (fragment_id) {
 }
 
 Fragments.prototype.setData = function ({ fragment_id, data }) {
-	$.post('/api/fragments/setData', { fragment_id, data: JSON.stringify({body: data}) }).done(result => {
+	$.post('/api/fragments/setData', { fragment_id, data: JSON.stringify({ body: data }) }).done(result => {
 		console.log(result);
 	})
 }
 
+// ----------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------
+function MenuList() { }
 MenuList.prototype.addMenuItem = function ({ title, parent_id = null, href, menu_id }) {
 	$.post('/api/menu/addMenuItem', { title, parent_id, href, menu_id }).done(result => {
 		if (result.status == 'ok') return location.reload();
@@ -105,7 +171,10 @@ MenuList.prototype.updMenuItem = function ({ id, target, value }) {
 		alert(result.message);
 	})
 }
+// ----------------------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------------------
+function RoutesList() { }
 RoutesList.prototype.delete = function (routeId) {
 
 	if (!confirm('Удалить маршрут с сайта?')) return false;
@@ -116,11 +185,11 @@ RoutesList.prototype.delete = function (routeId) {
 	}
 
 	$.post('/api/routes/del', { id: routeId }).done(function (result) {
-		
+
 		if (result.status == 'ok') {
 			return location.reload();
 		}
-		
+
 		console.log(result);
 		return alert(result.message);
 	})
@@ -131,7 +200,7 @@ RoutesList.prototype.addRoute = function (data) {
 		if (result.status == 'ok') {
 			return location.reload();
 		}
-		
+
 		console.log(result);
 		return alert(result.message);
 	})
@@ -151,13 +220,4 @@ RoutesList.prototype.showEditForm = function (elem) {
 
 	$routeItem.toggleClass('js-edit-form--show');
 }
-
-Forms.prototype.getFormData = function (form) {
-	const returnData = {};
-	$(form).serializeArray().map(v => returnData[v.name] = v.value);
-	return returnData;
-};
-
-$('img').on('error', function (error) {
-	console.log(error);
-})
+// ----------------------------------------------------------------------------------------

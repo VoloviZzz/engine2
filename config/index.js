@@ -3,7 +3,7 @@ module.exports = {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'test-routes'
+        database: 'test_routes'
     },
     web: {
         port: 3000
