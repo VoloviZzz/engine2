@@ -19,5 +19,8 @@
 		"fs-extra": "^5.0.0",
 		"mysql": "^2.15.0",
 		"require-dir": "^0.3.2"
+	},
+	"devDependencies": {
+		"nodemon": "^1.14.11"
 	}
 }

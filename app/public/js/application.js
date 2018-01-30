@@ -3,9 +3,12 @@ function Shop() { };
 
 Shop.prototype.addCategories = function (data = {}) {
 
-	data = {
-		level: 1
+	defaultData = {
+		level: 0,
+		paretn_id: false
 	}
+
+	data = Object.assign(defaultData, data);
 
 	$.post(`/api/shop/addCategories`, data).done(result => {
 		if (result.status !== 'ok') {

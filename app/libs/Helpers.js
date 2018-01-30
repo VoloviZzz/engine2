@@ -12,9 +12,35 @@ module.exports = {
 		return str.replace(/[А-яёЁ]/g, replacer)
 	},
 
+	replaceImageIfNotExist(photoPath, replaceStr = '/img/image-not-found.jpg') {
+		if (!!photoPath === false) {
+			return replaceStr;
+		}
+
+		photoPath = path.join(AppRoot, 'public', photoPath);
+
+		try {
+			photoStat = fs.statSync(photoPath);
+
+			if (photoStat.isFile() == false) {
+				throw new Error();
+			}
+
+			return photoPath;
+		}
+		catch (e) {
+			return replaceStr;
+		}
+	},
+
 	checkPhoto(photoPath) {
-		photoPath = path.join(__dirname, 'public', photoPath);
+
+		if (!!photoPath === false) {
+			return false;
+		}
+
 		let photoStat;
+		photoPath = path.join(__dirname, 'public', photoPath);
 
 		try {
 			photoStat = fs.statSync(photoPath);

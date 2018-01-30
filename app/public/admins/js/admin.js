@@ -6,7 +6,10 @@ $(document).ready(() => {
 	const shop = new Shop();
 
 	$('.js-goodsCategories-add').on('click', function (e) {
-		return shop.addCategories({ level: 1 });
+		const level = $(this).data('level') || 0;
+		const parent_id = $(this).data('parentId') || false;
+
+		return shop.addCategories({ level, parent_id });
 	})
 
 	$('.js-goodsCategories-upd').on('input', function (e) {
@@ -14,11 +17,19 @@ $(document).ready(() => {
 		const target = $(this).data('target');
 		const value = $(this).val().trim();
 
+		if (!!target === false || !!value === false || !!id === false) {
+			console.log('target: ', target, 'value: ', value, 'id: ', id);
+			return alert('Что-то не так с данными');
+		}
+
 		return shop.updCategories({ id, target, value });
 	})
 
 	$('.js-goodsCategories-delete').on('click', function (e) {
 		const id = $(this).data('id');
+
+		if (!confirm('Удалить данную категорию с сайта?')) return false;
+
 		return shop.delCategories({ id });
 	})
 
@@ -37,7 +48,7 @@ $(document).ready(() => {
 			contentType: false,
 			type: 'POST',
 			success(result) {
-				if(result.status !== 'ok') {
+				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
 				}

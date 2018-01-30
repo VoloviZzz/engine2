@@ -2,10 +2,10 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1
--- Время создания: Янв 30 2018 г., 09:15
--- Версия сервера: 5.7.19-log
--- Версия PHP: 7.2.0
+-- Хост: localhost
+-- Время создания: Янв 30 2018 г., 19:55
+-- Версия сервера: 5.7.21-log
+-- Версия PHP: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -111,7 +111,7 @@ CREATE TABLE `fragments` (
 
 INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `block_id`, `priority`, `created`) VALUES
 (59, 1, 49, 2, 1, '2018-01-25 07:14:52'),
-(70, 4, 61, 2, 1, '2018-01-25 11:56:34'),
+(70, 4, 61, 4, 1, '2018-01-25 11:56:34'),
 (77, 9, 48, 3, 1, '2018-01-26 09:42:11'),
 (78, 2, 48, 2, 1, '2018-01-26 09:45:14'),
 (79, 2, 48, 2, 1, '2018-01-26 09:54:11'),
@@ -209,8 +209,8 @@ CREATE TABLE `goods_cats` (
   `title` varchar(60) NOT NULL,
   `description` text,
   `img` text COMMENT 'Фото для слайдера',
-  `parent_id` int(11) DEFAULT '0',
-  `level` int(11) NOT NULL DEFAULT '0',
+  `parent_id` int(11) DEFAULT NULL,
+  `level` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -225,9 +225,9 @@ INSERT INTO `goods_cats` (`id`, `title`, `description`, `img`, `parent_id`, `lev
 (5, 'Гробы', 'Каталог гробов, производимых МП КПРУ.', '/uploads/upload_e608f7807a899eeaa08a7153a791de5e.jpg', NULL, 0, '2018-01-29 08:13:49'),
 (8, 'Ограды', 'Каталог оград и кованых изделий', '/uploads/upload_2627dbb6db61a304759e65ad3791ac79.jpg', NULL, 0, '2018-01-29 08:36:23'),
 (10, 'Венки \"Корзина\"', NULL, NULL, 3, 1, '2018-01-29 10:13:02'),
-(11, 'Проверка', NULL, NULL, 10, 2, '2018-01-29 11:51:39'),
-(12, 'Проверка 2', NULL, NULL, 11, 3, '2018-01-29 11:52:15'),
-(13, 'Проверка', NULL, NULL, 3, 0, '2018-01-29 11:56:26');
+(41, 'Новая категория', NULL, NULL, 3, 1, '2018-01-30 18:55:02'),
+(42, 'Новая категория', NULL, NULL, 3, 1, '2018-01-30 18:55:03'),
+(43, 'Новая категория', NULL, NULL, 3, 1, '2018-01-30 18:55:03');
 
 -- --------------------------------------------------------
 
@@ -238,7 +238,9 @@ INSERT INTO `goods_cats` (`id`, `title`, `description`, `img`, `parent_id`, `lev
 CREATE TABLE `goods_pos` (
   `id` int(11) NOT NULL,
   `title` varchar(60) NOT NULL,
+  `coast` decimal(11,2) NOT NULL,
   `cat_id` int(11) NOT NULL,
+  `main_photo` text,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -246,8 +248,9 @@ CREATE TABLE `goods_pos` (
 -- Дамп данных таблицы `goods_pos`
 --
 
-INSERT INTO `goods_pos` (`id`, `title`, `cat_id`, `created`) VALUES
-(1, 'Новый товар', 2, '2018-01-29 10:07:43');
+INSERT INTO `goods_pos` (`id`, `title`, `coast`, `cat_id`, `main_photo`, `created`) VALUES
+(1, 'Новый товар', '10000.00', 2, '/photos/goods/1/photo.jpg', '2018-01-29 10:07:43'),
+(2, 'ФЫвфывфыв', '123123.00', 2, NULL, '2018-01-30 18:10:24');
 
 -- --------------------------------------------------------
 
@@ -550,7 +553,8 @@ ALTER TABLE `global_site_config`
 -- Индексы таблицы `goods_cats`
 --
 ALTER TABLE `goods_cats`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `goods_cats_ibfk_1` (`parent_id`);
 
 --
 -- Индексы таблицы `goods_pos`
@@ -675,13 +679,13 @@ ALTER TABLE `global_site_config`
 -- AUTO_INCREMENT для таблицы `goods_cats`
 --
 ALTER TABLE `goods_cats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_pos`
 --
 ALTER TABLE `goods_pos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `header_nav`
@@ -735,19 +739,19 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2128;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2486;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -772,6 +776,12 @@ ALTER TABLE `fragments`
 ALTER TABLE `fragments_data`
   ADD CONSTRAINT `fragments_data_ibfk_1` FOREIGN KEY (`component_id`) REFERENCES `components` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fragments_data_ibfk_2` FOREIGN KEY (`fragment_id`) REFERENCES `fragments` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Ограничения внешнего ключа таблицы `goods_cats`
+--
+ALTER TABLE `goods_cats`
+  ADD CONSTRAINT `goods_cats_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `goods_cats` (`id`) ON DELETE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `goods_pos`

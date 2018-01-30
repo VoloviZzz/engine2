@@ -1,11 +1,12 @@
 <% data.forEach((cat) => { %>
 	<div class="goods-group">
-		<h1 class="goods-group__title"><%= cat.title %></h1>
-		<div class="goods-list">
-			<div class="goods-list__items-wrapper">
-				
+		<% if(user.adminMode) { %>
+			<input class="js-goodsCategories-upd input-text" data-target="title" data-id="<%= cat.id -%>" type="text" value="<%= cat.title %>">
+			<div class="text-right">
+				<button class="btn js-goodsCategories-delete" data-id="<%= cat.id -%>">Удалить категорию</button>
 			</div>
-		</div>
+		<% } else { %> 
+			<h1 class="goods-group__title"><%= cat.title %></h1>
+		<% } %>
 	</div>	
 <% }) %>
-

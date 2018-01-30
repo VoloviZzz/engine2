@@ -35,6 +35,9 @@ module.exports = (app) => {
 			
 			[, categoriesByParent] = await Model.goodsCategories.get({ parent_id: object_id });
 
+			[, currentCat]= await Model.goodsCategories.get({ id: object_id });
+			dataViews.currentCat = currentCat[0];
+
 			if(categoriesByParent.length > 0) {
 				dataViews.tpl = 'cats-list';
 				dataViews.data = categoriesByParent;
@@ -44,7 +47,6 @@ module.exports = (app) => {
 				dataViews.tpl = 'pos-list';
 				dataViews.data = goodsPositions;
 			}
-
 
             Object.assign(dataViews.user, data.locals.user);
             Object.assign(dataViews.locals, data.locals);
