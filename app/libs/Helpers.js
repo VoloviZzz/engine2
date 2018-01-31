@@ -17,10 +17,10 @@ module.exports = {
 			return replaceStr;
 		}
 
-		photoPath = path.join(AppRoot, 'public', photoPath);
+		const absolutePhotoPath = path.join(AppRoot, 'public', photoPath);
 
 		try {
-			photoStat = fs.statSync(photoPath);
+			photoStat = fs.statSync(absolutePhotoPath);
 
 			if (photoStat.isFile() == false) {
 				throw new Error();

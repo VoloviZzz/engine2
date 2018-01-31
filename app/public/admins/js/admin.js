@@ -44,7 +44,7 @@ $(document).ready(() => {
 
 		const fd = new FormData();
 
-		fd.append('upload', this.files[0])
+		fd.append('upload', this.files[0]);
 
 		$.ajax({
 			url: '/api/shop/setImage',

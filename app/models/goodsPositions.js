@@ -23,12 +23,16 @@ exports.add = function (data = {}) {
 }
 
 exports.get = function (data = {}) {
-	data.cat_id = typeof data.cat_id !== "undefined" ? `AND cat_id = ${data.cat_id}` : ``;
-	data.id = typeof data.id !== "undefined" ? `AND id = ${data.id}` : ``;
+	data.cat_id = typeof data.cat_id !== "undefined" ? `AND gp.cat_id = ${data.cat_id}` : ``;
+	data.id = typeof data.id !== "undefined" ? `AND gp.id = ${data.id}` : ``;
 	return db.execQuery(`
-		SELECT * FROM goods_pos
+		SELECT gp.*,
+			p.path as photo_path,
+			p.name as photo_name
+		FROM goods_pos gp
+			LEFT JOIN photos p ON p.id = gp.main_photo
 		WHERE
-			id > 0
+			gp.id > 0
 			${data.cat_id}
 			${data.id}
 	`);

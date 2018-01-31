@@ -7,11 +7,11 @@
 			<h1 class="good-info__title"><%= position.title %></h1>
 		<% } %>
 		<div class="good-info__img-wrapp">
-			<img class="good-info__img" src="<%= position.main_photo %>" alt="">
+			<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>" alt="">
 			<% if(user.adminMode) { %>
 				<span>Выбрать основное фото: </span>
 				<input id="uploadable-files" type="file">
-				<button id="uploadAllFiles" class="btn">Загрузить</button>
+				<button id="uploadAllFiles" data-id="<%= position.id -%>" class="btn">Загрузить</button>
 			<% } %>
 		</div>
 		<div class="good-info__params-wrapp">
@@ -121,3 +121,4 @@
 		</div>
 	</div>
 </div>
+<script src="/js/goods-view.js" defer></script>
