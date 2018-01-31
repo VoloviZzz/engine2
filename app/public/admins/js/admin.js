@@ -5,6 +5,11 @@ $(document).ready(() => {
 	const slider = new Slider();
 	const shop = new Shop();
 
+	$('.js-goodsPositions-add').on('click', function(e) {
+		const cat_id = $(this).data('catId');
+		return shop.addPosition({cat_id});
+	})
+
 	$('.js-goodsCategories-add').on('click', function (e) {
 		const level = $(this).data('level') || 0;
 		const parent_id = $(this).data('parentId') || false;

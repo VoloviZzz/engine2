@@ -3,12 +3,11 @@
 	<% if(user.adminMode) { %>
 		<% if(tpl == 'cats-list') { %>
 			<button class="btn js-goodsCategories-add" data-parent-id="<%= currentCat.id -%>" data-level="<%= currentCat.level + 1 -%>">Добавить категорию</button>
-		<% }
-		else if(data.length == 0) { %>
+		<% } else if(data.length == 0) { %>
 			<button class="btn js-goodsCategories-add" data-parent-id="<%= currentCat.id -%>" data-level="<%= currentCat.level + 1 -%>">Добавить категорию</button>
-			<button class="btn">Добавить товар</button>
+			<button class="btn js-goodsPositions-add" data-cat-id="<%= currentCat.id -%>">Добавить товар</button>
 		<% } else { %>
-			<button class="btn">Добавить товар</button>
+			<button class="btn js-goodsPositions-add" data-cat-id="<%= currentCat.id -%>">Добавить товар</button>
 		<% } %>
 	<% } %>
 </div>

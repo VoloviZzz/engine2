@@ -3,18 +3,23 @@ const db = require('../libs/db');
 exports.add = function (data = {}) {
 
 	const defaultData = {
-		title: `Новая категория`
+		title: `Новый товар`,
+		cat_id: ''
 	};
 
-	Object.assign(data, defaultData);
+	data = Object.assign(defaultData, data);
 
-	return db.insertQuery(`
+	// if (!!data.cat_id !== false) data.cat_id = `, cat_id = ${data.cat_id}`;
+	if (!!data.cat_id === false) return Promise.resolve([new Error(`Отсутствует номер категории`), null]);
+
+		return db.insertQuery(`
 		INSERT INTO 
 			goods_pos 
 		SET 
 			title = '${data.title}',
-			created = NOW()`
-	);
+			cat_id = '${data.cat_id}',
+			created = NOW()
+		`);
 }
 
 exports.get = function (data = {}) {
@@ -38,7 +43,7 @@ exports.upd = function (data = {}) {
 }
 
 exports.del = function (data = {}) {
-	if(!!data.id === false) return Promise.resolve(['Нет параметра id для удаления категории', null]);
+	if (!!data.id === false) return Promise.resolve(['Нет параметра id для удаления категории', null]);
 	return db.execQuery(`
 		DELETE FROM goods_pos
 		WHERE id = ${data.id}

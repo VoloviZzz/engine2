@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="/css/goods-view.css">
+<div class="good-wrapp">
+	<div class="good-info">
+		<% if(user.adminMode) { %>
+			<input class="js-good-edit good-info__title" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
+		<% } else { %>
+			<h1 class="good-info__title"><%= position.title %></h1>
+		<% } %>
+		<div class="good-info__img-wrapp">
+			<img class="good-info__img" src="<%= position.main_photo %>" alt="">
+			<% if(user.adminMode) { %>
+				<span>Выбрать основное фото: </span>
+				<input id="uploadable-files" type="file">
+				<button id="uploadAllFiles" class="btn">Загрузить</button>
+			<% } %>
+		</div>
+		<div class="good-info__params-wrapp">
+			<div class="good-info__things-wrapp">
+				<% if(position.count > 0) { %>
+					<div class="good-info__available">Есть в наличии</div>
+				<% }
+				else { %>
+					<div class="good-info__available">Нет в наличии</div>
+				<% } %>
+				<% if(user.adminMode) { %>
+					<div>
+						<span>Количество:</span>
+						<input class="js-good-edit" data-id="<%= position.id -%>" data-target="count"  type="number" min="0" name="good_count" value="<%= position.count -%>">
+					</div>
+				<% } %>
+			</div>
+			<div class="good-price">
+				<div class="good-price__label">Цена:
+					<% if(user.adminMode) { %>
+						<input class="js-good-edit" data-id="<%=position.id-%>" data-target="coast" type="number" min="1" name="good_price" value="<%=position.coast -%>">
+					<% } else { %>
+						<span>
+							<%= Helpers.formatCoast(position.coast) %>
+						</span> руб.
+					<% } %>
+				</div>
+				<% if(position.count > 0) { %>
+					<button id="js-add-to-cart" data-id="<%=position.id%>" class="good-price__buy">Купить</button>
+				<% }
+				else { %>
+					<button class="good-price__buy disabled" disabled>Товара нет в наличии</button>
+				<% } %>
+			</div>
+			<div class="text-indent_p good-info__description text-margin-bottom">
+				<% if(user.adminMode) { %>
+					<textarea class="js-good-edit" data-target="description" data-id="<%=position.id -%>" name="good_description" style="min-width: 100%; max-width: 100%; min-height: 100px;"><%= position.description -%></textarea>
+				<% } else { %>
+					<%- Helpers.replaceLineBreaks(position.description || 'Описание отсутствует') %>
+				<% } %>
+			</div>
+			<div class="custom-details">
+				<h2 class="custom-details__title">Детали</h2>
+				<div class="custom-details__collection">Коллекция:
+					<a href="#">
+						<%= `${position.cat_name}/${position.subcat_name}` %>
+					</a>
+				</div>
+				<table class="form-group">
+					<tbody>
+						<% var goodsPropsBindValues = goodsPropsBindValues || [] %>
+						<% goodsPropsBindValues.map(p => { %>
+							<tr>
+								<td class="good-info__params-name"><%=p.prop_title -%></td>
+								<td><%= p.prop_value_title -%></td>
+								<% if(user.adminMode) { %>
+									<td>
+										<button class="btn js-paramsBindValues-delete" data-id="<%=p.id-%>" type="button" name="button">У</button>
+									</td>
+								<% } %>
+							</tr>
+						<% }) %>
+						<% if(user.adminMode) { %>
+							<tr>
+								<td>
+									<select data-id="<%=position.id-%>" class="js-params-select" name="">
+										<option value="0">Не выбрано</option>
+										<% var goodsProps = goodsProps || [] %>
+										<% goodsProps.map(p => { %>
+											<option value="<%=p.id-%>"><%=p.title-%></option>
+										<% }) %>
+									</select>
+								</td>
+								<td>
+									<select data-good="<%=position.id-%>" disabled class="js-params-values-select" name="">
+										<option value="0">Не выбрано</option>
+									</select>
+								</td>
+							</tr>
+						<% } %>
+					</tbody>
+				</table>
+				<% if(user.adminMode) { -%>
+					<div>
+						<div class="js-form-add-params form-add-params">
+							<table class="form-group">
+								<tbody>
+									<tr>
+										<td>
+											<span>Параметр:</span>
+											<input id="js-props-title" type="text" name="param_title">
+										</td>
+										<td>
+											<span>Значение</span>
+											<input id="js-props-value" type="text" name="param_value_title">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="text-right form-group">
+								<button class="btn js-props-values-add" type="button" name="button">Добавить</button>
+							</div>
+						</div>
+					</div>
+				<% } -%>
+			</div>
+		</div>
+	</div>
+</div>
