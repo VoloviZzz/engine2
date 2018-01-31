@@ -88,24 +88,6 @@ module.exports = (app, express) => {
 		}
 
 		return next();
-	}, async function (req, res, next) {
-		const menu_id = req.locals.route.menu_id;
-
-		if (req.session.user.adminMode) {
-			const [menuGroupsError, menuGroups] = await Model.menu.getMenuGroups();
-			if (menuGroupsError) throw new Error(menuGroupsError);
-			res.locals.menuGroups = menuGroups;
-		}
-
-		res.locals.menuTree = {};
-
-		if (!!menu_id) {
-			const menuTree = await Menu.constructMenu({ menu_id });
-
-			res.locals.menuTree = menuTree;
-		}
-
-		next();
 	}, async (req, res, next) => { // получение фрагментов
 
 		const route = req.locals.route;

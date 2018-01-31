@@ -17,7 +17,6 @@ exports.constructMenu = function ({ menu_id = false }) {
 function getTree(dataset) {
 	let tree = {};
 
-
 	for (let key in dataset) {
 		let node = dataset[key];
 

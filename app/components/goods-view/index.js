@@ -28,9 +28,10 @@ module.exports = (app) => {
 				object_id = aliases[0].target_id;
 			}
 
-			const [goodsPropsBindValues, goodsProps] = await Promise.all([
+			const [goodsPropsBindValues, goodsProps, goodsCats] = await Promise.all([
 				Model.goodsPropsBindValues.get({ good_id: object_id }),
-				Model.goodsProps.get()
+				Model.goodsProps.get(),
+				Model.goodsCategories.get()
 			]);
 
 			dataViews.goodsPropsBindValues = goodsPropsBindValues[1];
@@ -41,13 +42,33 @@ module.exports = (app) => {
 
 			dataViews.position = pos[0];
 
+			const catsTree = await app.locals.Helpers.buildTree(goodsCats[1]);
+
+			let positionCollection = [];
+
+			Object.keys(catsTree).some(cat_id => {
+				let cat = catsTree[cat_id];
+				positionCollection = [];
+				positionCollection.push(cat);
+
+				while (cat.childs) {
+					Object.keys(cat.childs).forEach(cat_id => {
+						cat = cat.childs[cat_id];
+						positionCollection.push(cat);
+					})
+				}
+
+				return cat.id === dataViews.position.cat_id;
+			})
+
+			dataViews.position.collection = positionCollection;
+
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
 
 			const templatePath = path.join(__dirname, 'template.ejs');
 			const template = app.render(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
-
 
 				return resolve([err, str]);
 			});

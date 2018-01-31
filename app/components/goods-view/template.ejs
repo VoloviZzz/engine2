@@ -5,6 +5,11 @@
 			<input class="js-good-edit good-info__title" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
 		<% } else { %>
 			<h1 class="good-info__title"><%= position.title %></h1>
+			<div class="custom-details__collection" style="width: 100%">
+				<% position.collection.forEach(({title, id}) => { %>
+					<a href="/shop-categories/<%= id -%>">/ <%= title %></a>
+				<% }) %>
+			</div>
 		<% } %>
 		<div class="good-info__img-wrapp">
 			<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>" alt="">
@@ -55,11 +60,6 @@
 			</div>
 			<div class="custom-details">
 				<h2 class="custom-details__title">Детали</h2>
-				<div class="custom-details__collection">Коллекция:
-					<a href="#">
-						<%= `${position.cat_name}/${position.subcat_name}` %>
-					</a>
-				</div>
 				<table class="form-group">
 					<tbody>
 						<% var goodsPropsBindValues = goodsPropsBindValues || [] %>

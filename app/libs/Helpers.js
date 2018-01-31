@@ -12,6 +12,36 @@ module.exports = {
 		return str.replace(/[А-яёЁ]/g, replacer)
 	},
 
+	buildTree(dataset = []) {
+
+		const resultTreeObj = {};
+
+		dataset.forEach((treeItem) => {
+			resultTreeObj[treeItem.id] = treeItem;
+		})
+
+		return getTree(resultTreeObj);
+
+		function getTree(dataset) {
+			let tree = {};
+
+			for (let key in dataset) {
+				let node = dataset[key];
+
+				if (!node['parent_id']) {
+					tree[key] = node;
+				}
+				else {
+					if (!!dataset[node['parent_id']]['childs'] === false) dataset[node['parent_id']]['childs'] = {};
+
+					dataset[node['parent_id']]['childs'][key] = node;
+				}
+			}
+
+			return tree;
+		}
+	},
+
 	replaceImageIfNotExist(photoPath, replaceStr = '/img/image-not-found.jpg') {
 		if (!!photoPath === false) {
 			return replaceStr;
