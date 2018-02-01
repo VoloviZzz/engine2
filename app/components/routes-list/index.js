@@ -21,7 +21,7 @@ module.exports = (app) => {
 		
 		const templatePath = path.join(__dirname, 'template.ejs');
 		return new Promise((resolve, reject) => {
-			const template = app.ejs.renderFile(templatePath, {user: data.locals.user, url: data.req.url, routesList, templatesList }, (err, str) => {
+			const template = app.ejs.renderFile(templatePath, {user: data.locals.user, routesList, templatesList }, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

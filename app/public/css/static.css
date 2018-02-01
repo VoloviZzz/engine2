@@ -265,7 +265,6 @@ nav a.active-link {
     flex-flow: column;
     flex: 1;
     min-height: 300px;
-    /* overflow: auto; */
 }
 
 .two-sections .section-right {

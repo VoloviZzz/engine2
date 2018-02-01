@@ -9,10 +9,9 @@ exports.add = function (data = {}) {
 
 	data = Object.assign(defaultData, data);
 
-	// if (!!data.cat_id !== false) data.cat_id = `, cat_id = ${data.cat_id}`;
 	if (!!data.cat_id === false) return Promise.resolve([new Error(`Отсутствует номер категории`), null]);
 
-		return db.insertQuery(`
+	return db.insertQuery(`
 		INSERT INTO 
 			goods_pos 
 		SET 
@@ -25,6 +24,8 @@ exports.add = function (data = {}) {
 exports.get = function (data = {}) {
 	data.cat_id = typeof data.cat_id !== "undefined" ? `AND gp.cat_id = ${data.cat_id}` : ``;
 	data.id = typeof data.id !== "undefined" ? `AND gp.id = ${data.id}` : ``;
+	data.ids = typeof data.ids !== "undefined" ? `AND gp.id IN (${data.ids})` : ``;
+
 	return db.execQuery(`
 		SELECT gp.*,
 			p.path as photo_path,
@@ -35,6 +36,7 @@ exports.get = function (data = {}) {
 			gp.id > 0
 			${data.cat_id}
 			${data.id}
+			${data.ids}
 	`);
 }
 

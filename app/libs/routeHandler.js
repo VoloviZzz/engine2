@@ -100,8 +100,8 @@ module.exports = (app, express) => {
 		[err, fragments] = await Model.fragments.get({ route_id: route.id });
 		if (err) return next(err);
 
-		const fragmentsMap = fragments.map(fragment => {
-			return fragmentsHandler(fragment, { req, locals: Object.assign({}, res.locals) })
+		const fragmentsMap = fragments.map(async fragment => {
+			return fragmentsHandler(fragment, { session: Object.assign({}, req.session), locals: Object.assign({}, res.locals) });
 		});
 
 		const fragmentsData = await Promise.all(fragmentsMap);

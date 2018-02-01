@@ -1,0 +1,86 @@
+<link rel="stylesheet" href="/css/cart.css">
+<div class="clear-basket">
+    <button class="js-clear-cart form-clear-basket">очистить корзину</button>
+</div>
+<div class="js-goods-container basket-list-wrap">
+    <% if(Object.keys(cart.goods).length > 0) { %>
+        <ul class="basket-list">
+            <% var totalCoast = 0; %>
+            <% Object.keys(cart.goods).map(key => { %>
+				<% var g = goodsList[key] %>
+				<% var cartItem = cart.goods[key] %>
+                <% totalCoast += +g.coast * cartItem.countInShopCart; %>
+                <li data-id="<%=g.id%>" class="js-goods-item basket-list__item">
+                    <div class="basket-list__item-img">
+                        <div>
+                            <img src="<%= Helpers.replaceImageIfNotExist(`${g.photo_path}/preview/${g.photo_name}`) -%>" alt="Гроб Элитный">
+                        </div>
+                    </div>
+                    <div class="basket-list__item-info">
+                        <table class="basket-list__item-info__params basket-table">
+                            <tbody>
+                                <tr class="basket-table__caption">
+                                    <th class="basket-table__name">
+                                        <div><span>Название</span></div>
+                                    </th>
+                                    <th class="basket-table__counter">
+                                        <div><span>Количество</span></div>
+                                    </th>
+                                    <th class="basket-table__price">
+                                        <div><span>Стоимость</span></div>
+                                    </th>
+                                </tr>
+                                <tr class="order-table__hr">
+                                    <td class="order-table__hr-small" colspan="5">
+                                        <div class="hr"></div>
+                                    </td>
+                                </tr>
+                                <tr class="basket-table__value">
+                                    <td class="basket-table__name">
+                                        <div>
+                                            <a href="/product/<%= g.id -%>">
+                                                <span><%=g.title%></span>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="basket-table__counter">
+                                        <button class="basket-table__counter-btn counter-btn-minus"></button>
+                                        <div><span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span></div>
+                                        <button class="basket-table__counter-btn counter-btn-plus"></button>
+                                    </td>
+                                    <td class="basket-table__price">
+                                        <div><span><%=Helpers.formatCoast(g.coast * cartItem.countInShopCart)%> руб.</span></div>
+                                    </td>
+                                </tr>
+                                <tr class="order-table__hr">
+                                    <td class="order-table__hr-small" colspan="5">
+                                        <div class="hr"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="basket-list__item-remove">
+                        <a href="#" data-id="<%= g.id -%>" class="js-item-remove basket-list__item-remove-link">Убрать из корзины</a>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+        <div class="basket-content">
+            <div class="basket-content--shadow"></div>
+            <hr>
+        </div>
+        <div class="basket-total">
+            <div class="basket-total__sum">
+                Итоговая стоимость:
+                <span id="js-total-coast" class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(totalCoast)%></span>
+                <small>руб.</small>
+            </div>
+            <a href="/order" class="basket-total__next">Оформить заказ</a>
+        </div>
+    <% }
+    else { %>
+        <h1>Сейчас в корзине ничего нет</h1>
+    <% } %>
+</div>
+<script src="/js/cart.js" defer></script>

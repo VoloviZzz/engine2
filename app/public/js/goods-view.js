@@ -1,7 +1,14 @@
 $(document).ready(() => {
 
-	// загрузка главного фото товара
+	$('#js-goodsView-add-to-cart').on('click', function (e) {
+		const position_id = $(this).data('id');
 
+		$.post('/api/shoppingCart/addToCart', { position_id }).done(result => {
+			console.log(result);
+		})
+	})
+
+	// загрузка главного фото товара
 	$('#uploadAllFiles').on('click', function (e) {
 		const files = $('#uploadable-files').get(0).files[0];
 		const fd = new FormData();
@@ -21,7 +28,7 @@ $(document).ready(() => {
 					return alert(result.message);
 				}
 
-				$.post('/api/goodsPosition/upd', { target: 'main_photo', value: result.data.photoId, id}).done((result) => {
+				$.post('/api/goodsPosition/upd', { target: 'main_photo', value: result.data.photoId, id }).done((result) => {
 
 					if (result.status !== 'ok') {
 						console.log(result);
