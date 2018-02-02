@@ -26,6 +26,7 @@ module.exports = (app) => {
 		dataViews.goodsList = goodsList;
 		dataViews.userData = {};
 		dataViews.cart = cart;
+		dataViews.orderData = session.orderData || {};
 		dataViews.deliveryData = {
 			data: {}
 		};

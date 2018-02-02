@@ -30,7 +30,7 @@
 						<span class="label__text">Фамилия
 							<strong>*</strong>
 						</span>
-						<input class="js-order-data input input--simple required" value="<%= !!userData.surname ? userData.surname : '' %>" type="text" maxlength="30" name="surname" required>
+						<input class="js-order-data input input--simple required" value="<%= !!orderData.surname ? orderData.surname : '' %>" type="text" maxlength="30" name="surname" required>
 					</span>
 				</label>
 				<label class="label label--complex">
@@ -38,19 +38,19 @@
 						<span class="label__text">Имя
 							<strong>*</strong>
 						</span>
-						<input class="js-order-data input input--simple required" value="<%= !!userData.firstname ? userData.firstname : '' %>" type="text" maxlength="30" name="firstname" required>
+						<input class="js-order-data input input--simple required" value="<%= !!orderData.firstname ? orderData.firstname : '' %>" type="text" maxlength="30" name="firstname" required>
 					</span>
 				</label>
 				<label class="label label--complex label--middle">
 					<span class="label__inside">
 						<span class="label__text">Отчество</span>
-						<input class="js-order-data input input--simple" type="text" value="<%= !!userData.patronymic ? userData.patronymic : '' %>" maxlength="30" name="patronymic">
+						<input class="js-order-data input input--simple" type="text" value="<%= !!orderData.patronymic ? orderData.patronymic : '' %>" maxlength="30" name="patronymic">
 					</span>
 				</label>
 				<label class="label label--complex">
 					<span class="label__inside">
 						<span class="label__text">Электронная почта</span>
-						<input class="js-order-data input input--simple" value="<%= !!userData.mail ? userData.mail : '' %>" type="email" maxlength="80" name="mail">
+						<input class="js-order-data input input--simple" value="<%= !!orderData.mail ? orderData.mail : '' %>" type="email" maxlength="80" name="mail">
 					</span>
 				</label>
 				<label class="label label--complex">
@@ -58,7 +58,7 @@
 						<span class="label__text">Телефон
 							<strong>*</strong>
 						</span>
-						<input class="js-order-data input input--simple required" value="<%= !!userData.phone ? userData.phone : '' %>" type="text" maxlength="255" name="phone" required>
+						<input id="testId" class="js-order-data input input--simple required" value="<%= !!orderData.phone ? orderData.phone : '' %>" type="text" maxlength="255" name="phone" required>
 					</span>
 				</label>
 				<small class="required-explanation">
@@ -72,20 +72,18 @@
 						<small>руб.</small>
 					</div>
 				</div>
-				<button data-href="/order/delivery" disabled class="js-go-next-step basket-total__next">
-					Выбрать способ доставки
-				</button>
+				<button class="js-go-next-step basket-total__next order-disabled">Выбрать способ доставки</button>
 			</div>
 		</div>
 	</div>
 </div>
-<div data-target="delivery" style="display: ">
+<div data-target="delivery" style="display: none">
 	<div class="top-line">
 		<h3>Выберите способ доставки</h3>
 	</div>
 	<div class="basket-content">
 		<div class="basket-tabs">
-			<input type="radio" class="input-tabs" data-value="1" id="del_label1" name="ak" <%= deliveryData.value == 1 ? 'checked' : '' %>/>
+			<input type="radio" class="input-tabs" data-value="1" id="del_label1" name="ak" checked/>
 			<label for="del_label1" class="delivery-label">Самовывоз</label>
 			<div class="history-wrapper">
 				<div class="map-wrap">
@@ -127,7 +125,7 @@
 		</div>
 	</div>
 </div>
-<div data-target="verify" style="display: ">
+<div data-target="verify" style="display: none">
 	<div class="lk-item__block lk-item__basket basket-content grid--center">
 		<div class="lk-item__title top-line">
 			<em>Заказ №395690</em>
@@ -188,9 +186,6 @@
 									</tr>
 								</tbody>
 							</table>
-						</div>
-						<div class="basket-list__item-remove">
-							<a href="#" data-id="<%= g.id -%>" class="js-item-remove basket-list__item-remove-link">Убрать из корзины</a>
 						</div>
 					</li>
 				<% }) %>
@@ -256,7 +251,7 @@
 		</div>
 	</div>
 </div>
-<div data-target="paryment" style="display: ">
+<div data-target="paryment" style="display: none">
 	<div class="basket-content">
 		<form action method="post" class="grid form-payment page-form" id="payment_form">
 			<label data-case="1" class="js-payment-item grid__item one-quarter current">
@@ -281,3 +276,5 @@
 		</div>
 	</div>
 </div>
+<script src="/vendors/maskedinput/jquery.maskedinput.js" defer></script>
+<script src="/js/order.js" defer></script>
