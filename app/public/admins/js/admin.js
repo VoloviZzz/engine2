@@ -5,9 +5,9 @@ $(document).ready(() => {
 	const slider = new Slider();
 	const shop = new Shop();
 
-	$('.js-goodsPositions-add').on('click', function(e) {
+	$('.js-goodsPositions-add').on('click', function (e) {
 		const cat_id = $(this).data('catId');
-		return shop.addPosition({cat_id});
+		return shop.addPosition({ cat_id });
 	})
 
 	$('.js-goodsCategories-add').on('click', function (e) {
@@ -148,6 +148,24 @@ $(document).ready(() => {
 		const fragment_id = $(this).data('fragmentId');
 
 		return slider.deleteSlide({ slide_id, fragment_id });
+	})
+
+	$('.js-slide-moveSlide').on('click', function (e) {
+		const slide_id = $(this).data('id');
+		const current_position = $(this).data('currentPosition');
+		const fragment_id = $(this).data('fragmentId');
+		const move_position = +current_position + +this.dataset.vector;
+
+		$.post('/api/slider/moveSlide', { slide_id, current_position, move_position, fragment_id }).done(data => {
+			if(data.status !== 'ok') {
+				console.log(data);
+				return alert(data.message);
+			}
+
+			return location.reload();
+		})
+
+		return false;
 	})
 
 	$('.js-upd-fragment-component').on('change', function () {
