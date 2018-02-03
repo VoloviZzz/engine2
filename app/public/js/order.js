@@ -3,7 +3,6 @@ $(document).ready(() => {
     $('.js-order-data').on('change', checkFilledForm)
     
 	$("input[name=phone]").mask("+7(999)-999-99-99");
-    checkFilledForm();
 
     function checkFilledForm(e) {
         const orderData = {};

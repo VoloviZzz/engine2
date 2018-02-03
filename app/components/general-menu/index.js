@@ -16,9 +16,15 @@ module.exports = (app) => {
 				locals: {},
 			};
 			
+			
+			const [, menuGroups] = await app.Model.menu.getMenuGroups();
+
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
 			dataViews.menuTree = menuTree;
+			dataViews.locals.menuGroups = menuGroups;
+
+			console.log(dataViews.locals);
 			
 			const templatePath = path.join(__dirname, 'template.ejs');
 			const template = app.render(templatePath, dataViews, (err, str) => {
