@@ -5,23 +5,27 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const cart = session.user.shoppingCart;
-
-		const ids = Object.keys(cart.goods)
-			.map(id => id)
-			.join(',');
-
-		let goods = [];
 		const goodsList = {};
+		let goods = [];
+		let cart = false;
+		
+		if (session.user.shoppingCart) {
+			cart = session.user.shoppingCart;
 
-		if(!!ids === true) {
-			goods = await app.Model.goodsPositions.get({ ids });
-			goods = goods[1];
+			const ids = Object.keys(cart.goods)
+				.map(id => id)
+				.join(',');
+
+			if (!!ids === true) {
+				goods = await app.Model.goodsPositions.get({ ids });
+				goods = goods[1];
+			}
+
+			goods.forEach(g => {
+				goodsList[g.id] = g;
+			})
+
 		}
-
-		goods.forEach(g => {
-			goodsList[g.id] = g;
-		})
 
 		dataViews.cart = cart;
 		dataViews.goodsList = goodsList;

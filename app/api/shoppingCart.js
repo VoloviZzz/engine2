@@ -9,6 +9,7 @@ class ShoppingCart {
 
 		return req.session.user.shoppingCart = {
 			totalCountGoods: 0,
+			totalCoast: 0,
 			goods: {}
 		};
 	}

@@ -1,21 +1,21 @@
 <link rel="stylesheet" href="/css/go-order.css">
 <nav class="order-steps">
-	<ul class="basket-nav">
-		<li class="basket-nav__el current">
+	<ul class="js-basket-nav basket-nav">
+		<li data-target="order" class="basket-nav__el current">
 			<span>Контактные данные</span>
 		</li>
-		<li class="basket-nav__el link-disable">
+		<li data-target="delivery" class="basket-nav__el link-disable">
 			<span>Доставка</span>
 		</li>
-		<li class="basket-nav__el link-disable">
-			<span>Подтверждение заказа</span>
-		</li>
-		<li class="basket-nav__el link-disable">
+		<li data-target="payment" class="basket-nav__el link-disable">
 			<span>Способ оплаты</span>
+		</li>
+		<li data-target="verify" class="basket-nav__el link-disable">
+			<span>Подтверждение заказа</span>
 		</li>
 	</ul>
 </nav>
-<div data-target="order">
+<div data-target="section-order">
 	<div class="basket-content">
 		<div class="basket-contacts__form">
 			<div class="basket-contacts__form-notify">
@@ -68,22 +68,22 @@
 				<div class="basket-total">
 					<div class="basket-total__sum">
 						Итоговая стоимость:
-						<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.goodsTotalCoast)%></span>
+						<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
 						<small>руб.</small>
 					</div>
 				</div>
-				<button class="js-go-next-step basket-total__next order-disabled">Выбрать способ доставки</button>
+				<button class="js-go-delivery basket-total__next order-disabled">Выбрать способ доставки</button>
 			</div>
 		</div>
 	</div>
 </div>
-<div data-target="delivery" style="display: none">
+<div data-target="section-delivery" style="display: none">
 	<div class="top-line">
 		<h3>Выберите способ доставки</h3>
 	</div>
 	<div class="basket-content">
 		<div class="basket-tabs">
-			<input type="radio" class="input-tabs" data-value="1" id="del_label1" name="ak" checked/>
+			<input type="radio" class="js-input-tabs input-tabs" data-value="1" id="del_label1" name="ak" checked/>
 			<label for="del_label1" class="delivery-label">Самовывоз</label>
 			<div class="history-wrapper">
 				<div class="map-wrap">
@@ -115,24 +115,49 @@
 	<div class="basket-content--shadow"></div>
 	<div class="basket-total-wrap">
 		<div class="basket-total">
-			<a href="/order" class="basket-total__prev">Назад к контактным данным</a>
+			<button data-href="section-order" data-current="section-delivery" class="js-go-back basket-total__prev">Назад к контактным данным</button>
 			<div class="basket-total__sum">
 				Итоговая стоимость:
-				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.goodsTotalCoast)%></span>
+				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
 				<small>руб.</small>
 			</div>
-			<button data-href="/order/verify" class="js-delivery-next-step basket-total__next">Подтверждение заказа</button>
+			<button class="js-go-payment basket-total__next">Выбрать способ оплаты</button>
 		</div>
 	</div>
 </div>
-<div data-target="verify" style="display: none">
+<div data-target="section-payment" style="display: none">
+	<div class="basket-content">
+		<form action method="post" class="grid form-payment page-form" id="payment_form">
+			<label class="js-payment-item grid__item one-quarter current">
+				<input data-case="1" type="radio" name="payment_type" class="js-input-payment input-payment input-payment-cash" checked>
+				<div class="payment-method">
+					<div class="payment-method-img"></div>
+					<span class="payment-method-name">Наличными или картой на месте выдачи</span>
+				</div>
+			</label>
+		</form>
+		<hr>
+	</div>
+	<div class="basket-total-wrap">
+		<div class="basket-total">
+			<button data-href="section-delivery" data-current="section-verify" class="js-go-back basket-total__prev">Назад к выбору доставки</button>
+			<div class="basket-total__sum">
+				Итоговая стоимость:
+				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
+				<small>руб.</small>
+			</div>
+			<button class="js-go-verify basket-total__next">Подтверждение заказа</button>
+		</div>
+	</div>
+</div>
+<div data-target="section-verify" style="display: none">
 	<div class="lk-item__block lk-item__basket basket-content grid--center">
 		<div class="lk-item__title top-line">
 			<em>Заказ №395690</em>
 		</div>
 		<div class="basket-list-wrap">
 			<ul class="basket-list">
-				 <% var totalCoast = 0; %>
+				<% var totalCoast = 0; %>
 				<% Object.keys(cart.goods).map(key => { %>
 					<% var g = goodsList[key] %>
 					<% var cartItem = cart.goods[key] %>
@@ -171,9 +196,7 @@
 											</div>
 										</td>
 										<td class="basket-table__counter">
-											<button class="basket-table__counter-btn counter-btn-minus"></button>
 											<div><span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span></div>
-											<button class="basket-table__counter-btn counter-btn-plus"></button>
 										</td>
 										<td class="basket-table__price">
 											<div><span><%=Helpers.formatCoast(g.coast * cartItem.countInShopCart)%> руб.</span></div>
@@ -193,7 +216,7 @@
 		</div> 
 		<div class="lk-item__title top-line line-bef">
 			<h3>Доставка</h3>
-			<% if (deliveryData.value == 1) { -%>
+			<div data-delivery-method="1">
 				<em>Самовывоз</em>
 				<div class="two-thirds lk-item__block__content">
 					<div class="delivery__content grid__item one-half">
@@ -215,22 +238,7 @@
 						<span class="delivery-price-value">бесплатно</span>
 					</div>
 				</div>
-			<% } else { -%>
-				<em>До пункта назначения</em>
-				<div class="two-thirds lk-item__block__content">
-					<span class="input input--simple">г. <%=deliveryData.data.city%></span>
-					<span class="input input--simple">улица <%=deliveryData.data.street%></span>
-					<span class="input input--simple">дом <%=deliveryData.data.house%></span>
-					<% if(!!deliveryData.data.building === true) { %>
-						<span class="input input--simple">строение <%=deliveryData.data.building%></span>
-					<% } %>
-					<span class="input input--simple">Квартира/офис <%=deliveryData.data.apartment%></span>
-					<p class="lk-item__basket-total delivery-price">
-						<span class="delivery-price-title">Стоимость доставки</span>
-						<span class="delivery-price-value"><%=Helpers.formatCoast(deliveryData.coast)%></span>
-					</p>
-				</div>
-			<% } -%>
+			</div>
 		</div>
 	</div>
 	<div class="lk__form form form--variant">
@@ -241,38 +249,13 @@
 	</div>
 	<div class="basket-total-wrap">
 		<div class="basket-total">
-			<a href="/order/delivery" class="basket-total__prev">Назад к выбору доставки</a>
+			<button data-href="section-payment" data-current="section-verify" class="js-go-back basket-total__prev">Назад к подтверждению</button>
 			<div class="basket-total__sum">
 				Итоговая стоимость:
-				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.goodsTotalCoast)%></span>
+				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
 				<small>руб.</small>
 			</div>
-			<a href="/order/payment" class="basket-total__next">Выбрать способ оплаты</a>
-		</div>
-	</div>
-</div>
-<div data-target="paryment" style="display: none">
-	<div class="basket-content">
-		<form action method="post" class="grid form-payment page-form" id="payment_form">
-			<label data-case="1" class="js-payment-item grid__item one-quarter current">
-				<input type="radio" name="payment_type" class="input-payment input-payment-cash">
-				<div class="payment-method">
-					<div class="payment-method-img"></div>
-					<span class="payment-method-name">Наличными или картой на месте выдачи</span>
-				</div>
-			</label>
-		</form>
-		<hr>
-	</div>
-	<div class="basket-total-wrap">
-		<div class="basket-total">
-			<a href="/order/verify" class="basket-total__prev">Назад к подтверждению</a>
-			<div class="basket-total__sum">
-				Итоговая стоимость:
-				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.goodsTotalCoast)%></span>
-				<small>руб.</small>
-			</div>
-			<a href="#" id="js-payment-add" class="basket-total__next">Готово</a>
+			<button href="#" id="js-payment-add" class="basket-total__next">Готово</button>
 		</div>
 	</div>
 </div>

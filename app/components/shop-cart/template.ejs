@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="/css/cart.css">
-<div class="clear-basket">
-    <button class="js-clear-cart form-clear-basket">очистить корзину</button>
-</div>
 <div class="js-goods-container basket-list-wrap">
-    <% if(Object.keys(cart.goods).length > 0) { %>
+    <% if(!!cart === true && Object.keys(cart.goods).length > 0) { %>
+		<div class="clear-basket">
+			<button class="js-clear-cart form-clear-basket">очистить корзину</button>
+		</div>
         <ul class="basket-list">
             <% var totalCoast = 0; %>
             <% Object.keys(cart.goods).map(key => { %>

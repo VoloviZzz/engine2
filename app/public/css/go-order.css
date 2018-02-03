@@ -80,6 +80,7 @@ ul {
     margin-left: -1px;
     border-right: none;
     position: relative;
+    cursor: pointer;
 }
 
 .basket-nav__el span {
@@ -664,7 +665,6 @@ span.delivery-price-none {
 
 .basket-list__item-info {
     padding: 28px 40px 72px 40px;
-    background-color: #fafafa;
     display: inline-block;
     vertical-align: top;
     width: 82%;

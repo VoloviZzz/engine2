@@ -6,6 +6,8 @@ module.exports = (app) => {
 
 		const cart = session.user.shoppingCart;
 
+		if(typeof cart === 'undefined') return [, 'Корзина пуста'];
+
 		const ids = Object.keys(cart.goods)
 			.map(id => id)
 			.join(',');
@@ -22,16 +24,23 @@ module.exports = (app) => {
 			goodsList[g.id] = g;
 		})
 
-		dataViews.goods = goods;
+		let totalCartCoast = 0;
+		for(let key in cart.goods) {
+			const productInCart = cart.goods[key];
+			const productCoast = goodsList[key].coast;
+			const totalProductCoast = productInCart.countInShopCart * productCoast;
+			totalCartCoast += totalProductCoast;
+		}
+
+		cart.totalCoast = totalCartCoast;
+
 		dataViews.goodsList = goodsList;
 		dataViews.userData = {};
 		dataViews.cart = cart;
 		dataViews.orderData = session.orderData || {};
 		dataViews.deliveryData = {
-			data: {}
+			data: {},
 		};
-
-		console.log(cart);
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
