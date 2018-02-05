@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Фев 03 2018 г., 18:40
+-- Время создания: Фев 05 2018 г., 21:18
 -- Версия сервера: 5.7.21-log
 -- Версия PHP: 7.2.1
 
@@ -91,7 +91,8 @@ INSERT INTO `components` (`id`, `title`, `ctrl`, `block_id`, `static`, `once`, `
 (13, 'Общая навигация', 'general-menu', 1, 0, 0, NULL, NULL, NULL, '2018-01-29 10:37:05'),
 (14, 'отображение товара', 'goods-view', 2, 0, 0, NULL, NULL, NULL, '2018-01-31 06:32:44'),
 (15, 'Корзина пользователя', 'shop-cart', 2, 0, 0, NULL, NULL, NULL, '2018-02-01 08:19:52'),
-(16, 'Оформление заказа', 'go-order', 2, 0, 0, NULL, NULL, NULL, '2018-02-01 11:20:25');
+(16, 'Оформление заказа', 'go-order', 2, 0, 0, NULL, NULL, NULL, '2018-02-01 11:20:25'),
+(17, 'Управление компонентами', 'components-manage', 2, 0, 0, NULL, NULL, NULL, '2018-02-05 17:43:42');
 
 -- --------------------------------------------------------
 
@@ -132,7 +133,9 @@ INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `block_id`, `priority
 (102, 14, 64, 2, 1, '2018-01-31 06:22:11'),
 (103, 15, 65, 2, 1, '2018-02-01 08:20:51'),
 (104, 16, 66, 2, 1, '2018-02-01 11:21:13'),
-(105, 3, 32, 4, 1, '2018-02-02 09:57:58');
+(105, 3, 32, 4, 1, '2018-02-02 09:57:58'),
+(106, 13, 67, 1, 1, '2018-02-05 17:40:56'),
+(107, 17, 67, 2, 1, '2018-02-05 17:42:55');
 
 -- --------------------------------------------------------
 
@@ -400,7 +403,8 @@ INSERT INTO `menu_items` (`id`, `title`, `href`, `parent_id`, `route_id`, `group
 (3, 'Посещаемость', '/admin-attendance', 0, NULL, 1, '2018-01-25 08:34:10'),
 (4, 'Реквизиты', '/contacts-doc', 0, NULL, 2, '2018-01-25 09:14:02'),
 (5, 'Расположение', '/contacts-place', 0, NULL, 2, '2018-01-25 09:14:18'),
-(6, 'фыв', 'ыфвфывфыв', 0, NULL, 2, '2018-01-29 11:33:44');
+(6, 'фыв', 'ыфвфывфыв', 0, NULL, 2, '2018-01-29 11:33:44'),
+(7, 'Управление компанентами', '/admin-components', 0, NULL, 1, '2018-02-05 17:37:43');
 
 -- --------------------------------------------------------
 
@@ -532,7 +536,8 @@ INSERT INTO `routes` (`id`, `title`, `url`, `template_id`, `menu_id`, `access`, 
 (63, 'Страница категории товаров', '/shop-categories', 2, NULL, 1, 1, 1, 1, '', '', '2018-01-29 08:51:10', '2018-01-29 11:15:15'),
 (64, 'Страница продукта', '/product', 2, NULL, 1, 1, 1, 1, '', '', '2018-01-31 06:21:49', '2018-01-31 06:21:49'),
 (65, 'Корзина пользователя', '/cart', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 08:13:30', '2018-02-01 08:13:30'),
-(66, 'Оформление заказа', '/order', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 11:14:39', '2018-02-01 11:14:39');
+(66, 'Оформление заказа', '/order', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 11:14:39', '2018-02-01 11:14:39'),
+(67, 'Управление компанентами', '/admin-components', 2, 1, 3, 0, 1, 1, '', '', '2018-02-05 17:38:19', '2018-02-05 17:42:02');
 
 -- --------------------------------------------------------
 
@@ -829,13 +834,13 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT для таблицы `components`
 --
 ALTER TABLE `components`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments_blocks`
@@ -901,7 +906,7 @@ ALTER TABLE `menu_groups`
 -- AUTO_INCREMENT для таблицы `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `news`
@@ -925,7 +930,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
@@ -949,19 +954,19 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3721;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3830;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
