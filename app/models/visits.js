@@ -8,7 +8,7 @@ module.exports = {
 
 		return new Promise((resolve, reject) => {
 
-			console.log(arg);
+			// console.log(arg);
 
 			Model
 				.checkRequired(arg, ['id'])
@@ -69,7 +69,7 @@ module.exports = {
 				${period}
 		`;
 
-		console.log(q);
+		// console.log(q);
 
 		return Model.executeQuery(q);
 	},

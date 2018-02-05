@@ -1,0 +1,125 @@
+<section>
+	<div style="display: flex; width: 100%; justify-content: space-between">
+		<h1>Список компонентов</h1>
+		<button class="js-show-add-component-form btn">Добавить</button>
+	</div>
+	<div>
+		<form method="POST" class="js-add-component-form">
+			<div>
+				<span>Название:</span>
+				<input type="text">
+			</div>
+			<div>
+				<div>
+					<span>Название контроллера:</span>
+					<input type="text">
+				</div>
+				<div>
+					<span>Место на странице:</span>
+					<select name="block_id">
+						<% componentBlocks.forEach((block) => { -%>
+							<option value="<%= block.id -%>"><%= block.title -%></option>
+						<% }) -%>
+					</select>
+				</div>
+				<div>
+					<span>Статический:</span>
+					<label>
+						<span>Да</span>
+						<input type="radio" name="static" />
+					</label>
+					<label>
+						<span>Нет</span>
+						<input type="radio" name="static" />
+					</label>
+				</div>
+				<div>
+					<span>Один на странице:</span>
+					<label>
+						<span>Да</span>
+						<input type="radio" name="once" />
+					</label>
+					<label>
+						<span>Нет</span>
+						<input type="radio" name="once" />
+					</label>
+				</div>
+				<div>
+					<span>Стили:</span>
+				</div>
+				<div>
+					<span>Скрипты:</span>
+				</div>
+				<div>
+					<span>Начальные настройки:</span>
+				</div>
+			</div>
+			<button class="js-add-component-form--submit btn">Добавить</button>
+		</form>
+	</div>
+	<% componentsList.forEach((component) => { -%>
+		<div style="border: 1px #c3c3c3 solid; padding: 10px; margin-bottom: 20px;">
+			<form>
+				<div>
+					<h1><%= component.title -%></h1>
+				</div>
+				<div>
+					<div>
+						<span>Название контроллера:</span>
+						<span><%= component.ctrl -%></span>
+					</div>
+					<div>
+						<span>Место на странице:</span>
+						<select name="block_id">
+							<% componentBlocks.forEach((block) => { -%>
+								<% if(block.id === component.block_id) { %>
+									<option selected value="<%= block.id -%>"><%= block.title -%></option>
+								<% } else { %>
+									<option value="<%= block.id -%>"><%= block.title -%></option>
+								<% } %>
+							<% }) -%>
+						</select>
+					</div>
+					<div>
+						<span>Статический:</span>
+						<label>
+							<span>Да</span>
+							<input type="radio" name="static" <%= component.static == 1 ? 'checked' : '' -%> />
+						</label>
+						<label>
+							<span>Нет</span>
+							<input type="radio" name="static"  <%= component.static == 0 ? 'checked' : '' -%>>
+						</label>
+					</div>
+					<div>
+						<span>Один на странице:</span>
+						<label>
+							<span>Да</span>
+							<input type="radio" name="once" <%= component.once == 1 ? 'checked' : '' -%> />
+						</label>
+						<label>
+							<span>Нет</span>
+							<input type="radio" name="once" <%= component.once == 0 ? 'checked' : '' -%> />
+						</label>
+					</div>
+					<div>
+						<span>Стили:</span>
+						<span><%= component.styles -%></span>
+					</div>
+					<div>
+						<span>Скрипты:</span>
+						<span><%= component.scripts -%></span>
+					</div>
+					<div>
+						<span>Начальные настройки:</span>
+						<span><%= component.default_config -%></span>
+					</div>
+					<div>
+						<span>Дата добавления:</span>
+						<span><%= Helpers.formatDate(component.created, 'dd-MM-yyyy') -%></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	<% }) -%>
+</section>
