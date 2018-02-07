@@ -4,14 +4,12 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon app.js",
-		"babel-node": "nodemon app.js --exec babel-node  --presets es2015,stage-2"
+		"start": "nodemon app.js"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"async": "^2.6.0",
 		"cookie-session": "^2.0.0-beta.3",
 		"ejs": "^2.5.7",
 		"express": "^4.16.2",
@@ -22,6 +20,7 @@
 		"mysql": "^2.15.0",
 		"node-smsc": "^0.2.3",
 		"nodemailer": "^4.4.2",
+		"pdfkit": "^0.8.3",
 		"require-dir": "^0.3.2",
 		"resize-crop": "0.0.3"
 	},

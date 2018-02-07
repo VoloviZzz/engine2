@@ -9,7 +9,7 @@ const app = express();
 const config = require('./config');
 const db = require('./app/libs/db');
 
-const Model  = require('./app/models/index');
+const Model = require('./app/models/index');
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
@@ -84,7 +84,17 @@ db.connect(db.MODE_TEST, async (err) => {
 	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
 
+	const PDFDocument = require('pdfkit')
+
 	// общие маршруты приложения
+	app.get('/test-pdf', function (req, res, next) {
+		const doc = new PDFDocument()
+		res.setHeader('Content-type', 'application/pdf')
+		doc.y = 300
+		doc.text(``, 50, 50)
+		doc.pipe(res)
+		doc.end()
+	});
 	app.post('/toggle-admin', toggleAdminMode);
 	app.get('/logout', clearSessionData);
 
