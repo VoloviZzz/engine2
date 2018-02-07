@@ -9,7 +9,7 @@ class ShoppingCart {
 
 		return req.session.user.shoppingCart = {
 			totalCountGoods: 0,
-			totalCoast: 0,
+			totalPrice: 0,
 			goods: {}
 		};
 	}
@@ -50,6 +50,7 @@ class ShoppingCart {
 
 	clearCart() {
 		this.cart.totalCountGoods = 0;
+		this.cart.totalPrice = 0;
 		this.cart.goods = {};
 	}
 }

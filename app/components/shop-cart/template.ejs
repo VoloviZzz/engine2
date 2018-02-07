@@ -5,11 +5,11 @@
 			<button class="js-clear-cart form-clear-basket">очистить корзину</button>
 		</div>
         <ul class="basket-list">
-            <% var totalCoast = 0; %>
+            <% var totalPrice = 0; %>
             <% Object.keys(cart.goods).map(key => { %>
 				<% var g = goodsList[key] %>
 				<% var cartItem = cart.goods[key] %>
-                <% totalCoast += +g.coast * cartItem.countInShopCart; %>
+                <% totalPrice += +g.price * cartItem.countInShopCart; %>
                 <li data-id="<%=g.id%>" class="js-goods-item basket-list__item">
                     <div class="basket-list__item-img">
                         <div>
@@ -51,7 +51,7 @@
                                         <button data-vector="1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table__counter-btn counter-btn-plus"></button>
                                     </td>
                                     <td class="basket-table__price">
-                                        <div><span><%=Helpers.formatCoast(g.coast * cartItem.countInShopCart)%> руб.</span></div>
+                                        <div><span><%=Helpers.formatPrice(g.price * cartItem.countInShopCart)%> руб.</span></div>
                                     </td>
                                 </tr>
                                 <tr class="order-table__hr">
@@ -75,7 +75,7 @@
         <div class="basket-total">
             <div class="basket-total__sum">
                 Итоговая стоимость:
-                <span id="js-total-coast" class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(totalCoast)%></span>
+                <span id="js-total-price" class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(totalPrice)%></span>
                 <small>руб.</small>
             </div>
             <a href="/order" class="basket-total__next">Оформить заказ</a>

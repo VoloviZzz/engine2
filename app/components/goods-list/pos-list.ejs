@@ -12,9 +12,9 @@
 						<img src="<%= Helpers.replaceImageIfNotExist(`${p.photo_path}/preview/${p.photo_name}`) %>" alt="Товары">
 					</a>
 				</div>
-				<div class="goods-item__coast">
+				<div class="goods-item__price">
 					<span>
-						<%= Helpers.formatCoast(p.coast) + 'р.' -%>
+						<%= Helpers.formatPrice(p.price) + 'р.' -%>
 					</span>
 					<a href="/product/<%= p.id -%>" class="btn">Купить</a>
 				</div>

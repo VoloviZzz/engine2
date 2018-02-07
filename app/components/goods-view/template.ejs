@@ -37,10 +37,10 @@
 			<div class="good-price">
 				<div class="good-price__label">Цена:
 					<% if(user.adminMode) { %>
-						<input class="js-good-edit" data-id="<%=position.id-%>" data-target="coast" type="number" min="1" name="good_price" value="<%=position.coast -%>">
+						<input class="js-good-edit" data-id="<%=position.id-%>" data-target="price" type="number" min="1" name="good_price" value="<%=position.price -%>">
 					<% } else { %>
 						<span>
-							<%= Helpers.formatCoast(position.coast) %>
+							<%= Helpers.formatPrice(position.price) %>
 						</span> руб.
 					<% } %>
 				</div>

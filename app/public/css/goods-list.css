@@ -17,7 +17,7 @@
     padding-bottom: 0px;
 }
 
-.goods-item__coast {
+.goods-item__price {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -28,13 +28,13 @@
     align-items: center;
 }
 
-.goods-item__coast span {
+.goods-item__price span {
     font-weight: bold;
     font-size: 150%;
     text-indent: 0px;
 }
 
-.goods-item__coast button {
+.goods-item__price button {
     padding: 7px 15px;
 }
 
@@ -48,7 +48,7 @@
     padding: 7px 20px !important;
 }
 
-.goods-item__coast .btn {
+.goods-item__price .btn {
     width: 50%;
 }
 
@@ -178,14 +178,14 @@
     }
 }
 
-.goods-item__coast span {
+.goods-item__price span {
     width: 50%;
     font-weight: bold;
     font-size: 25px;
     text-indent: 0px;
 }
 
-.goods-item__coast button {
+.goods-item__price button {
     padding: 7px 15px;
 }
 

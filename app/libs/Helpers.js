@@ -86,7 +86,7 @@ module.exports = {
 		}
 	},
 
-	formatCoast(data) {
+	formatPrice(data) {
 		let price = Number.prototype.toFixed.call(parseFloat(data) || 0, 2),
 			//заменяем точку на запятую
 			price_sep = price.replace(/(\D)/g, ",");

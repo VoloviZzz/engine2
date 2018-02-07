@@ -6,7 +6,7 @@ module.exports = (app) => {
 
 		const cart = session.user.shoppingCart;
 
-		if(typeof cart === 'undefined') return [, 'Корзина пуста'];
+		if (typeof cart === 'undefined') return [, 'Корзина пуста'];
 
 		const ids = Object.keys(cart.goods)
 			.map(id => id)
@@ -15,7 +15,7 @@ module.exports = (app) => {
 		let goods = [];
 		const goodsList = {};
 
-		if(!!ids === true) {
+		if (!!ids === true) {
 			goods = await app.Model.goodsPositions.get({ ids });
 			goods = goods[1];
 		}
@@ -24,15 +24,16 @@ module.exports = (app) => {
 			goodsList[g.id] = g;
 		})
 
-		let totalCartCoast = 0;
-		for(let key in cart.goods) {
+		let totalCartPrice = 0;
+		for (let key in cart.goods) {
 			const productInCart = cart.goods[key];
-			const productCoast = goodsList[key].coast;
-			const totalProductCoast = productInCart.countInShopCart * productCoast;
-			totalCartCoast += totalProductCoast;
+			const productPrice = goodsList[key].price;
+			const totalProductPrice = productInCart.countInShopCart * productPrice;
+			productInCart.price = totalProductPrice;
+			totalCartPrice += totalProductPrice;
 		}
 
-		cart.totalCoast = totalCartCoast;
+		cart.totalPrice = totalCartPrice;
 
 		dataViews.goodsList = goodsList;
 		dataViews.userData = {};

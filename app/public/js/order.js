@@ -32,7 +32,12 @@ $(document).ready(() => {
 
 	function addOrder() {
 		$.post('/api/order/addOrder', State.postData).done(result => {
-			console.log(result);
+			if(result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.href = '/order-complete/' + result.orderHash;
 		})
 	}
 

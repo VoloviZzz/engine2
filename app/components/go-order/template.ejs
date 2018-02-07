@@ -68,7 +68,7 @@
 				<div class="basket-total">
 					<div class="basket-total__sum">
 						Итоговая стоимость:
-						<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
+						<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(cart.totalPrice)%></span>
 						<small>руб.</small>
 					</div>
 				</div>
@@ -118,7 +118,7 @@
 			<button data-href="section-order" data-current="section-delivery" class="js-go-back basket-total__prev">Назад к контактным данным</button>
 			<div class="basket-total__sum">
 				Итоговая стоимость:
-				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
+				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(cart.totalPrice)%></span>
 				<small>руб.</small>
 			</div>
 			<button class="js-go-payment basket-total__next">Выбрать способ оплаты</button>
@@ -143,7 +143,7 @@
 			<button data-href="section-delivery" data-current="section-verify" class="js-go-back basket-total__prev">Назад к выбору доставки</button>
 			<div class="basket-total__sum">
 				Итоговая стоимость:
-				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
+				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(cart.totalPrice)%></span>
 				<small>руб.</small>
 			</div>
 			<button class="js-go-verify basket-total__next">Подтверждение заказа</button>
@@ -157,11 +157,11 @@
 		</div>
 		<div class="basket-list-wrap">
 			<ul class="basket-list">
-				<% var totalCoast = 0; %>
+				<% var totalPrice = 0; %>
 				<% Object.keys(cart.goods).map(key => { %>
 					<% var g = goodsList[key] %>
 					<% var cartItem = cart.goods[key] %>
-					<% totalCoast += +g.coast * cartItem.countInShopCart; %>
+					<% totalPrice += +g.price * cartItem.countInShopCart; %>
 					<li data-id="<%=g.id%>" class="js-goods-item basket-list__item">
 						<div class="basket-list__item-img">
 							<div>
@@ -199,7 +199,7 @@
 											<div><span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span></div>
 										</td>
 										<td class="basket-table__price">
-											<div><span><%=Helpers.formatCoast(g.coast * cartItem.countInShopCart)%> руб.</span></div>
+											<div><span><%=Helpers.formatPrice(g.price * cartItem.countInShopCart)%> руб.</span></div>
 										</td>
 									</tr>
 									<tr class="order-table__hr">
@@ -252,7 +252,7 @@
 			<button data-href="section-payment" data-current="section-verify" class="js-go-back basket-total__prev">Назад к подтверждению</button>
 			<div class="basket-total__sum">
 				Итоговая стоимость:
-				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatCoast(cart.totalCoast)%></span>
+				<span class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(cart.totalPrice)%></span>
 				<small>руб.</small>
 			</div>
 			<button href="#" id="js-payment-add" class="basket-total__next">Готово</button>
