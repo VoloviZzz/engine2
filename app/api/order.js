@@ -29,6 +29,8 @@ exports.addOrder = (req, res, next) => {
 		req.body.client_id = req.session.user.id;
 	}
 
+	if (Object.keys(clientCart.goods).length < 1) return { message: 'Не выбрано ни одного товара.' }
+
 	const orderHash = md5(Date.now() + JSON.stringify(req.body));
 
 	req.body.hash = orderHash;
@@ -42,7 +44,7 @@ exports.addOrder = (req, res, next) => {
 		for (const good_id of Object.keys(clientCart.goods)) {
 			const goodsItem = clientCart.goods[good_id];
 			const [error] = await Model.ordersGoods.add({ order_id, good_id, count: goodsItem.countInShopCart, price: goodsItem.price });
-			if(error) console.log(error);
+			if (error) console.log(error);
 		}
 
 		// return smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })

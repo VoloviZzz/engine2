@@ -6,7 +6,7 @@ module.exports = (app) => {
 
 		const cart = session.user.shoppingCart;
 
-		if (typeof cart === 'undefined') return [, 'Корзина пуста'];
+		if (typeof cart === 'undefined' || Object.keys(cart.goods).length < 1) return [, 'Корзина пуста'];
 
 		const ids = Object.keys(cart.goods)
 			.map(id => id)
@@ -39,9 +39,6 @@ module.exports = (app) => {
 		dataViews.userData = {};
 		dataViews.cart = cart;
 		dataViews.orderData = session.orderData || {};
-		dataViews.deliveryData = {
-			data: {},
-		};
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

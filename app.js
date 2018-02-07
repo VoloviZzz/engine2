@@ -84,17 +84,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
 
-	const PDFDocument = require('pdfkit')
-
 	// общие маршруты приложения
-	app.get('/test-pdf', function (req, res, next) {
-		const doc = new PDFDocument()
-		res.setHeader('Content-type', 'application/pdf')
-		doc.y = 300
-		doc.text(``, 50, 50)
-		doc.pipe(res)
-		doc.end()
-	});
 	app.post('/toggle-admin', toggleAdminMode);
 	app.get('/logout', clearSessionData);
 
