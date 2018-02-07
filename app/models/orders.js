@@ -1,10 +1,11 @@
 const db = require('../libs/db');
 
 exports.add = function (data) {
-	let { surname, firstname, patronymic, mail, phone, deliveryMethod, paymentMethod } = data;
+	let { surname, firstname, patronymic, mail, phone, deliveryMethod, paymentMethod, client_id } = data;
 
-	if(!!patronymic === true) patronymic = `, patronymic = '${patronymic}'`;
-	if(!!mail === true) mail = `, email = '${mail}'`;
+	patronymic =  typeof patronymic !== "undefined" ? patronymic = `, patronymic = '${patronymic}'` : '';
+	client_id =  typeof client_id !== "undefined" ? client_id = `, client_id = '${client_id}'` : '';
+	mail =  typeof mail !== "undefined" ? mail = `, email = '${mail}'` : '';
 
 	return db.insertQuery(`
 		INSERT INTO orders SET 
@@ -15,5 +16,6 @@ exports.add = function (data) {
 			paymentMethod = '${paymentMethod}'
 			${mail}
 			${patronymic}
+			${client_id}
 	`);
 }

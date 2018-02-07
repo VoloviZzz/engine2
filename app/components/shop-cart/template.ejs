@@ -44,9 +44,11 @@
                                         </div>
                                     </td>
                                     <td class="basket-table__counter">
-                                        <button class="basket-table__counter-btn counter-btn-minus"></button>
-                                        <div><span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span></div>
-                                        <button class="basket-table__counter-btn counter-btn-plus"></button>
+                                        <button data-vector="-1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table__counter-btn counter-btn-minus"></button>
+                                        <div>
+											<span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span>
+										</div>
+                                        <button data-vector="1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table__counter-btn counter-btn-plus"></button>
                                     </td>
                                     <td class="basket-table__price">
                                         <div><span><%=Helpers.formatCoast(g.coast * cartItem.countInShopCart)%> руб.</span></div>
