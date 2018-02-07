@@ -2,10 +2,10 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Хост: localhost
--- Время создания: Фев 05 2018 г., 21:18
--- Версия сервера: 5.7.21-log
--- Версия PHP: 7.2.1
+-- Хост: 127.0.0.1
+-- Время создания: Фев 07 2018 г., 07:42
+-- Версия сервера: 5.7.19-log
+-- Версия PHP: 7.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -42,7 +42,7 @@ CREATE TABLE `clients` (
   `mail` varchar(255) CHARACTER SET cp1251 DEFAULT NULL,
   `address` text CHARACTER SET cp1251,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 --
 -- Дамп данных таблицы `clients`
@@ -355,7 +355,8 @@ INSERT INTO `header_nav` (`id`, `title`, `href`, `created`) VALUES
 (1, 'Главная', '/', '2018-01-25 04:57:57'),
 (2, 'Компания', '/company', '2018-01-25 04:58:04'),
 (14, 'Кладбища', '/cemeteries', '2018-01-25 09:28:58'),
-(15, 'Магазин', '/shop', '2018-01-26 10:15:35');
+(15, 'Магазин', '/shop', '2018-01-26 10:15:35'),
+(16, 'Корзина', '/cart', '2018-02-07 05:38:39');
 
 -- --------------------------------------------------------
 
@@ -439,6 +440,7 @@ INSERT INTO `news` (`id`, `title`, `text`, `counter_views`, `published`, `creato
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
   `surname` varchar(60) NOT NULL,
   `firstname` varchar(60) NOT NULL,
   `patronymic` varchar(60) DEFAULT NULL,
@@ -453,10 +455,49 @@ CREATE TABLE `orders` (
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `surname`, `firstname`, `patronymic`, `email`, `phone`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
-(1, 'Зуев', 'Никита', NULL, NULL, '+7(912)-793-78-10', 1, 1, '2018-02-03 12:18:01'),
-(2, 'Зуев', 'Никита', NULL, NULL, '+7(912)-793-78-10', 1, 1, '2018-02-03 12:18:01'),
-(3, 'Зуев', 'Никита', 'Дмитриевич', 'bubl174rus@gmail.com', '+7(912)-793-78-10', 1, 1, '2018-02-03 12:20:52');
+INSERT INTO `orders` (`id`, `client_id`, `surname`, `firstname`, `patronymic`, `email`, `phone`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
+(2, 8, 'Зуев', 'Никита', NULL, NULL, '+7(912)-793-78-10', 1, 1, '2018-02-07 06:13:24'),
+(3, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:18:55'),
+(4, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:20:47'),
+(5, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:21:17'),
+(6, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:21:33'),
+(7, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:22:18'),
+(8, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:22:31'),
+(9, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:23:29'),
+(10, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:23:42'),
+(11, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:24:22'),
+(12, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:25:20'),
+(13, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:25:43'),
+(14, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:28:14'),
+(15, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:28:39'),
+(16, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:31:42'),
+(17, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:31:45'),
+(18, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:33:49'),
+(19, 8, 'Зуев', 'Никита', '123', '123', '+7(912)-793-78-10', 1, 1, '2018-02-07 06:34:01');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `orders_goods`
+--
+
+CREATE TABLE `orders_goods` (
+  `id` int(11) NOT NULL,
+  `good_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `count` int(11) NOT NULL COMMENT 'Количество в заказе',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `orders_goods`
+--
+
+INSERT INTO `orders_goods` (`id`, `good_id`, `order_id`, `count`, `created`) VALUES
+(1, 56, 18, 2, '2018-02-07 06:33:49'),
+(2, 55, 18, 1, '2018-02-07 06:33:49'),
+(3, 56, 19, 2, '2018-02-07 06:34:01'),
+(4, 55, 19, 1, '2018-02-07 06:34:01');
 
 -- --------------------------------------------------------
 
@@ -537,7 +578,8 @@ INSERT INTO `routes` (`id`, `title`, `url`, `template_id`, `menu_id`, `access`, 
 (64, 'Страница продукта', '/product', 2, NULL, 1, 1, 1, 1, '', '', '2018-01-31 06:21:49', '2018-01-31 06:21:49'),
 (65, 'Корзина пользователя', '/cart', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 08:13:30', '2018-02-01 08:13:30'),
 (66, 'Оформление заказа', '/order', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 11:14:39', '2018-02-01 11:14:39'),
-(67, 'Управление компанентами', '/admin-components', 2, 1, 3, 0, 1, 1, '', '', '2018-02-05 17:38:19', '2018-02-05 17:42:02');
+(67, 'Управление компанентами', '/admin-components', 2, 1, 3, 0, 1, 1, '', '', '2018-02-05 17:38:19', '2018-02-05 17:42:02'),
+(68, 'Личный кабинет', '/my', 2, NULL, 2, 0, 1, 1, '', '', '2018-02-07 06:35:22', '2018-02-07 06:35:22');
 
 -- --------------------------------------------------------
 
@@ -766,7 +808,16 @@ ALTER TABLE `news`
 -- Индексы таблицы `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`);
+
+--
+-- Индексы таблицы `orders_goods`
+--
+ALTER TABLE `orders_goods`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `good_id` (`good_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Индексы таблицы `photos`
@@ -894,7 +945,7 @@ ALTER TABLE `goods_props_values`
 -- AUTO_INCREMENT для таблицы `header_nav`
 --
 ALTER TABLE `header_nav`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `menu_groups`
@@ -918,7 +969,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT для таблицы `orders_goods`
+--
+ALTER TABLE `orders_goods`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `photos`
@@ -930,7 +987,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
@@ -954,19 +1011,19 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3830;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3963;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -1017,6 +1074,19 @@ ALTER TABLE `goods_props_bind_values`
 --
 ALTER TABLE `menu_items`
   ADD CONSTRAINT `menu_items_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `menu_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Ограничения внешнего ключа таблицы `orders_goods`
+--
+ALTER TABLE `orders_goods`
+  ADD CONSTRAINT `orders_goods_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods_pos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `orders_goods_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ограничения внешнего ключа таблицы `routes`
