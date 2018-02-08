@@ -1,8 +1,14 @@
 const path = require('path');
 
 module.exports = (app) => {
+	const { Model } = app;
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
+
+		const { id } = session.user;
+		const [, [user]] = await Model.clients.get({ id });
+		
+		dataViews.user = user;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

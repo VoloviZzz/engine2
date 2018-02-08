@@ -1,5 +1,9 @@
-$('.header-nav .toggle-menu.btn').on('click', function (e) {
-	$('.menu-container').toggleClass('menu-container__active');
+$(document).ready(() => {
+	$('.header-nav .toggle-menu.btn').on('click', function (e) {
+		$('.menu-container').toggleClass('menu-container__active');
+	})
+
+	$(".js-masked-phone").mask("+7(999)-999-99-99"); //номер телефона
 })
 
 // ----------------------------------------------------------------------------------------
