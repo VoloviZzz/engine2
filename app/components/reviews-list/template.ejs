@@ -3,11 +3,11 @@
     <p class="text-margin-bottom text-indent">На этой странице Вы можете просмотреть отзывы клиентов, которые уже воспользовались услугами МП КПРУ. Для добавления собственного отзыва введите текст в форму внизу страницы и нажмите кнопку "Добавить".</p>
     <p class="text-margin-bottom text-indent">Администрация МП КПРУ выражает Вам благодарность за Ваши отзывы, которые Вы присылаете в адрес нашей компании. Обращаем Ваше внимание, что из-за технических особенностей работы сервера Ваш отзыв может появиться не сразу.</p>
 </div>
-<div class="reviews-list-wrapp"><%
-    %><ul class="reviews-list"><%
-        reviews.map(r => {
-            if(r.public == 0 && r.client != userId) return false;
-            %><li class="reviews-item" data-id="<%= r.id %>">
+<div class="reviews-list-wrapp">
+    <ul class="reviews-list">
+        <% reviews.map(r => { %>
+            <% if(r.public == 0 && r.client != userId) return false; %>
+            <li class="reviews-item" data-id="<%= r.id %>">
                 <div class="review-wrapp">
                     <div class="reviews-wrap-items">
                         <div class="reviews-title">
