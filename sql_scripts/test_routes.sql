@@ -549,7 +549,7 @@ CREATE TABLE `routes` (
   `seo_keywords` text,
   `seo_description` text,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `updated` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
