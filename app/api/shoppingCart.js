@@ -6,7 +6,7 @@ exports.addToCart = (req, res, next) => {
 
 	shoppingCart.addToCart({ id: req.body.position_id });
 
-	return { data: { cart: myCart } };
+	return { status: 'ok', data: { cart: myCart } };
 }
 
 exports.clearCart = (req, res, next) => {

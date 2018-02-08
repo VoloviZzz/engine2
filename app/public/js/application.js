@@ -1,3 +1,7 @@
+$('.header-nav .toggle-menu.btn').on('click', function (e) {
+	$('.menu-container').toggleClass('menu-container__active');
+})
+
 // ----------------------------------------------------------------------------------------
 function Shop() { };
 

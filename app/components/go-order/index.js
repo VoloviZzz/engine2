@@ -4,7 +4,7 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const cart = session.user.shoppingCart;
+		const cart = session.shoppingCart;
 
 		if (typeof cart === 'undefined' || Object.keys(cart.goods).length < 1) return [, 'Корзина пуста'];
 

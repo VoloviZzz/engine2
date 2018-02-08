@@ -23,7 +23,11 @@ global.DocumentRoot = __dirname;
 global.AppRoot = path.join(__dirname, 'app');
 global.path = require('path');
 
-function setDefaultSessionData(req, res, next) {
+
+const ShoppingCart = require('./app/classes/ShoppingCart');
+
+const setDefaultSessionData = (req, res, next) => {
+	const shoppingCart = new ShoppingCart(req);
 	req.session.user = req.session.user || {};
 	req.session.user.id = req.session.user.id || false;
 	req.session.user.admin = req.session.user.admin || false;
@@ -35,8 +39,8 @@ function setDefaultSessionData(req, res, next) {
 	next();
 }
 
-function clearSessionData(req, res, next) {
-	req.session = null;
+const clearSessionData = (req, res, next) => {
+	req.session.user = null;
 	res.redirect('/');
 }
 

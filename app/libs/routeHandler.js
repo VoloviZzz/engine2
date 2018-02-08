@@ -115,10 +115,12 @@ module.exports = (app, express) => {
 			user: req.session.user,
 			componentsList: app.componentsList,
 			componentsObj: app.componentsObj,
-			route: {}
+			route: {},
+			session: {}
 		};
 
 		Object.assign(viewsData.route, req.locals.route);
+		Object.assign(viewsData.session, req.session);
 
 		return res.render(req.locals.route.template_name, viewsData);
 	})
