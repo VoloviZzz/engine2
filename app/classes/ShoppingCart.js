@@ -5,9 +5,9 @@ class ShoppingCart {
 
 	init(req) {
 		if (!!req.session.user === false) req.session.user = {};
-		if (req.session.user.shoppingCart) return req.session.user.shoppingCart;
+		if (req.session.shoppingCart) return req.session.shoppingCart;
 
-		return req.session.user.shoppingCart = {
+		return req.session.shoppingCart = {
 			totalCountGoods: 0,
 			totalPrice: 0,
 			goods: {}
@@ -36,6 +36,7 @@ class ShoppingCart {
 		}
 
 		const productCount = this.getProductCount(product_id);
+		this.cart.totalCountGoods -= productCount;
 
 		delete this.cart.goods[product_id];
 	}
@@ -45,6 +46,10 @@ class ShoppingCart {
 	}
 
 	setProductCount(product_id, count) {
+		const oldCount = this.getProductCount(product_id);
+		const newCount = count;
+		const difference = oldCount - newCount;
+		this.cart.totalCountGoods -= difference;
 		return this.cart.goods[product_id].countInShopCart = count;
 	}
 
