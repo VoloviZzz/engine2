@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 07 2018 г., 13:28
+-- Время создания: Фев 08 2018 г., 11:49
 -- Версия сервера: 5.7.19-log
 -- Версия PHP: 7.2.0
 
@@ -50,7 +50,8 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`id`, `admin`, `root`, `confirmed`, `surname`, `firstname`, `patronymic`, `name`, `phone`, `password`, `mail`, `address`, `created`) VALUES
 (8, 1, 1, 1, 'Зуев', 'Никита', 'Дмитриевич', 'Зуев Н.', '+7(912)-793-78-10', 'e10adc3949ba59abbe56e057f20f883e', 'zuarel@icloud.com', NULL, '2018-01-25 06:54:10'),
-(9, 1, 0, 1, 'Иванов', 'Иван', 'Иванович', 'Иванов И.', '+7(123)-456-78-90', '202cb962ac59075b964b07152d234b70', NULL, NULL, '2018-01-25 08:24:27');
+(9, 1, 0, 1, 'Иванов', 'Иван', 'Иванович', 'Иванов И.', '+7(123)-456-78-90', '202cb962ac59075b964b07152d234b70', NULL, NULL, '2018-01-25 08:24:27'),
+(10, 1, 0, 1, 'Иванов', 'Никита', 'Сергеевич', 'Иванов Н.', '+7(912)-793-78-00', 'e10adc3949ba59abbe56e057f20f883e', 'bubl174rus@gmail.com', NULL, '2018-02-08 06:13:44');
 
 -- --------------------------------------------------------
 
@@ -95,7 +96,9 @@ INSERT INTO `components` (`id`, `title`, `ctrl`, `block_id`, `static`, `once`, `
 (17, 'Управление компонентами', 'components-manage', 2, 0, 0, NULL, NULL, NULL, '2018-02-05 17:43:42'),
 (18, 'Личный кабинет', 'my-cabinet', 2, 0, 0, NULL, NULL, NULL, '2018-02-07 06:47:14'),
 (19, 'Успешный заказ', 'order-complete', 2, 0, 0, NULL, NULL, NULL, '2018-02-07 08:39:42'),
-(20, 'Управление переменными сайта', 'global-variables', 2, 0, 0, NULL, NULL, NULL, '2018-02-07 11:33:46');
+(20, 'Управление переменными сайта', 'global-variables', 2, 0, 0, NULL, NULL, NULL, '2018-02-07 11:33:46'),
+(21, 'Список моих заказов', 'my-orders', 2, 0, 0, NULL, NULL, NULL, '2018-02-08 07:35:41'),
+(22, 'Отзывы', 'reviews-list', 2, 0, 0, NULL, NULL, NULL, '2018-02-08 10:29:38');
 
 -- --------------------------------------------------------
 
@@ -126,7 +129,7 @@ INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `block_id`, `priority
 (96, 13, 49, 1, 1, '2018-01-29 11:41:21'),
 (97, 13, 48, 1, 1, '2018-01-29 11:42:49'),
 (98, 13, 51, 1, 1, '2018-01-29 11:43:02'),
-(99, 8, 50, 2, 1, '2018-01-29 11:43:26'),
+(99, 7, 50, 2, 1, '2018-01-29 11:43:26'),
 (100, 13, 50, 1, 1, '2018-01-29 11:43:34'),
 (101, 12, 64, 1, 1, '2018-01-31 06:21:53'),
 (102, 14, 64, 2, 1, '2018-01-31 06:22:11'),
@@ -140,7 +143,13 @@ INSERT INTO `fragments` (`id`, `component_id`, `route_id`, `block_id`, `priority
 (110, 19, 69, 2, 1, '2018-02-07 08:39:46'),
 (111, 8, 69, 1, 1, '2018-02-07 08:39:56'),
 (112, 13, 70, 1, 1, '2018-02-07 11:31:49'),
-(113, 20, 70, 2, 1, '2018-02-07 11:32:02');
+(113, 20, 70, 2, 1, '2018-02-07 11:32:02'),
+(114, 21, 71, 2, 1, '2018-02-08 07:37:17'),
+(115, 13, 71, 1, 1, '2018-02-08 07:42:58'),
+(116, 13, 65, 1, 1, '2018-02-08 08:32:12'),
+(117, 8, 51, 2, 1, '2018-02-08 09:28:10'),
+(118, 13, 72, 1, 1, '2018-02-08 10:28:46'),
+(119, 22, 72, 2, 1, '2018-02-08 10:29:16');
 
 -- --------------------------------------------------------
 
@@ -184,7 +193,7 @@ CREATE TABLE `fragments_data` (
 
 INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
 (28, NULL, 89, '{\"content\":{\"slides\":[],\"lastId\":1}}', '2018-01-29 06:58:47'),
-(29, NULL, 105, '{\"content\":{\"slides\":[],\"lastId\":2}}', '2018-02-02 09:58:12');
+(29, NULL, 105, '{\"content\":{\"slides\":[{\"id\":3,\"img\":\"\",\"img_bottom\":\"\",\"title\":\"Слайдера нет\",\"title_bottom\":\"\",\"description\":\"Описание\",\"href\":\"\"}],\"lastId\":3}}', '2018-02-02 09:58:12');
 
 -- --------------------------------------------------------
 
@@ -197,6 +206,7 @@ CREATE TABLE `global_site_config` (
   `title` varchar(60) NOT NULL,
   `target` varchar(60) NOT NULL,
   `value` text NOT NULL,
+  `type` tinyint(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '1 - текст, 2 - число, 3 - логическое, 4 - json',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -205,10 +215,12 @@ CREATE TABLE `global_site_config` (
 -- Дамп данных таблицы `global_site_config`
 --
 
-INSERT INTO `global_site_config` (`id`, `title`, `target`, `value`, `created`, `updated`) VALUES
-(1, 'Логин root-пользователя', 'rootLogin', 'root', '2018-01-25 10:11:49', NULL),
-(2, 'Пароль root-пользователя', 'rootPassword', '4c5fd6d240c4e226e5cc1b53b1dbfaf3', '2018-01-25 10:12:28', NULL),
-(3, 'фыв', 'фыв', 'ыфвфыв', '2018-02-07 12:27:48', NULL);
+INSERT INTO `global_site_config` (`id`, `title`, `target`, `value`, `type`, `created`, `updated`) VALUES
+(1, 'Логин root-пользователя', 'rootLogin', 'root', 1, '2018-01-25 10:11:49', NULL),
+(2, 'Пароль root-пользователя', 'rootPassword', '4c5fd6d240c4e226e5cc1b53b1dbfaf3', 1, '2018-01-25 10:12:28', NULL),
+(3, 'фыв', 'фыв', 'ыфвфыв', 1, '2018-02-07 12:27:48', NULL),
+(4, 'asd', 'asdasd', 'asdasdsad', 1, '2018-02-08 07:11:30', NULL),
+(5, 'фвфы', 'вфыв', 'фывфывфывф', 1, '2018-02-08 09:11:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -253,6 +265,7 @@ CREATE TABLE `goods_pos` (
   `title` varchar(60) NOT NULL,
   `price` decimal(11,2) NOT NULL DEFAULT '999999999.99',
   `count` int(11) NOT NULL DEFAULT '0',
+  `reserv` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Зарезервировано в заказах',
   `cat_id` int(11) NOT NULL,
   `main_photo` int(11) DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -263,10 +276,11 @@ CREATE TABLE `goods_pos` (
 -- Дамп данных таблицы `goods_pos`
 --
 
-INSERT INTO `goods_pos` (`id`, `title`, `price`, `count`, `cat_id`, `main_photo`, `created`, `description`) VALUES
-(55, 'Новый товар', '10000.00', 15, 10, 17, '2018-01-31 10:53:34', NULL),
-(56, 'Бла бла бла', '1500.00', 15, 47, 18, '2018-01-31 11:11:56', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam purus erat, interdum at imperdiet vel, euismod ut nisi. Pellentesque at laoreet nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas gravida vitae justo ac fermentum. In placerat justo nec metus egestas, in luctus mi hendrerit. Vivamus efficitur ac lectus vel sodales. Nulla congue justo felis, ut accumsan justo semper semper.\n\nIn sed felis fermentum, venenatis metus nec, hendrerit ipsum. Nulla non dapibus purus. Sed gravida ante ut risus pharetra rutrum. Pellentesque maximus tincidunt enim. Nunc commodo auctor dolor, eu vulputate justo tincidunt vel. Nullam quis orci mattis, dictum mauris quis, elementum erat. Nunc egestas nunc ac mauris pharetra placerat. Curabitur nisl diam, posuere ac odio eu, suscipit facilisis dolor. Donec ligula eros, euismod ut cursus eget, interdum in dolor.'),
-(57, 'Новый товар', '999999999.99', 1, 48, NULL, '2018-01-31 11:34:17', NULL);
+INSERT INTO `goods_pos` (`id`, `title`, `price`, `count`, `reserv`, `cat_id`, `main_photo`, `created`, `description`) VALUES
+(55, 'Новый товар', '10000.00', 15, 0, 10, 17, '2018-01-31 10:53:34', NULL),
+(56, 'Бла бла бла', '1500.00', 15, 0, 47, 18, '2018-01-31 11:11:56', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam purus erat, interdum at imperdiet vel, euismod ut nisi. Pellentesque at laoreet nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas gravida vitae justo ac fermentum. In placerat justo nec metus egestas, in luctus mi hendrerit. Vivamus efficitur ac lectus vel sodales. Nulla congue justo felis, ut accumsan justo semper semper.\n\nIn sed felis fermentum, venenatis metus nec, hendrerit ipsum. Nulla non dapibus purus. Sed gravida ante ut risus pharetra rutrum. Pellentesque maximus tincidunt enim. Nunc commodo auctor dolor, eu vulputate justo tincidunt vel. Nullam quis orci mattis, dictum mauris quis, elementum erat. Nunc egestas nunc ac mauris pharetra placerat. Curabitur nisl diam, posuere ac odio eu, suscipit facilisis dolor. Donec ligula eros, euismod ut cursus eget, interdum in dolor.'),
+(57, 'Новый товар', '999999999.99', 1, 0, 48, NULL, '2018-01-31 11:34:17', NULL),
+(58, 'Новый товар', '23469.00', 15, 0, 2, NULL, '2018-02-08 05:59:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -357,8 +371,7 @@ INSERT INTO `header_nav` (`id`, `title`, `href`, `created`) VALUES
 (1, 'Главная', '/', '2018-01-25 04:57:57'),
 (2, 'Компания', '/company', '2018-01-25 04:58:04'),
 (14, 'Кладбища', '/cemeteries', '2018-01-25 09:28:58'),
-(15, 'Магазин', '/shop', '2018-01-26 10:15:35'),
-(16, 'Корзина', '/cart', '2018-02-07 05:38:39');
+(15, 'Магазин', '/shop', '2018-01-26 10:15:35');
 
 -- --------------------------------------------------------
 
@@ -379,7 +392,8 @@ CREATE TABLE `menu_groups` (
 INSERT INTO `menu_groups` (`id`, `title`, `created`) VALUES
 (1, 'Меню администратора', '2018-01-25 07:13:14'),
 (2, 'Меню контактов', '2018-01-25 09:12:15'),
-(3, 'Меню личного кабинета', '2018-02-07 06:47:41');
+(3, 'Меню личного кабинета', '2018-02-07 06:47:41'),
+(4, 'Меню корзины', '2018-02-08 08:32:24');
 
 -- --------------------------------------------------------
 
@@ -405,12 +419,13 @@ INSERT INTO `menu_items` (`id`, `title`, `href`, `parent_id`, `route_id`, `group
 (1, 'Маршруты', '/admin-routes', 0, NULL, 1, '2018-01-25 07:13:26'),
 (2, 'Управление пользователями', '/admin-clients', 0, NULL, 1, '2018-01-25 07:13:43'),
 (3, 'Посещаемость', '/admin-attendance', 0, NULL, 1, '2018-01-25 08:34:10'),
-(4, 'Реквизиты', '/contacts-doc', 0, NULL, 2, '2018-01-25 09:14:02'),
-(5, 'Расположение', '/contacts-place', 0, NULL, 2, '2018-01-25 09:14:18'),
-(6, 'фыв', 'ыфвфывфыв', 0, NULL, 2, '2018-01-29 11:33:44'),
-(7, 'Управление компанентами', '/admin-components', 0, NULL, 1, '2018-02-05 17:37:43'),
+(7, 'Управление компонентами', '/admin-components', 0, NULL, 1, '2018-02-05 17:37:43'),
 (8, 'Общее', '/my', 0, NULL, 3, '2018-02-07 06:47:52'),
-(9, 'Глобальные переменные', '/admin-globals', 0, NULL, 1, '2018-02-07 11:27:33');
+(9, 'Глобальные переменные', '/admin-globals', 0, NULL, 1, '2018-02-07 11:27:33'),
+(10, 'Заказы', '/my-orders', 0, NULL, 3, '2018-02-08 07:33:46'),
+(11, 'Список товаров', '/cart', 0, NULL, 4, '2018-02-08 08:32:36'),
+(12, 'Проверка заказа', '/order-check', 0, NULL, 4, '2018-02-08 08:33:09'),
+(13, 'Отзывы', '/reviews', 0, NULL, 2, '2018-02-08 10:28:26');
 
 -- --------------------------------------------------------
 
@@ -450,6 +465,8 @@ CREATE TABLE `orders` (
   `surname` varchar(60) NOT NULL,
   `firstname` varchar(60) NOT NULL,
   `patronymic` varchar(60) DEFAULT NULL,
+  `status` int(10) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Статус заказа: 1 - новый, 2 - в работе, 3 - завершен',
+  `paid_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Состояние оплаты',
   `email` varchar(70) DEFAULT NULL,
   `phone` varchar(20) NOT NULL,
   `price` decimal(11,2) NOT NULL COMMENT 'Общая стоимость',
@@ -462,11 +479,14 @@ CREATE TABLE `orders` (
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `hash`, `client_id`, `surname`, `firstname`, `patronymic`, `email`, `phone`, `price`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
-(1, 'b7f646fc3b9070d7aa74cd3df6bb774f', 9, 'Зуев', 'Никита', 'Дмитриевич', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '4500.00', 1, 1, '2018-02-07 09:55:10'),
-(2, '109aa1de3e468c45a33afa7b349805b8', 9, 'Зуев', 'Никита', 'Дмитриевич', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '10000.00', 1, 1, '2018-02-07 11:02:14'),
-(3, '4548579cc811f270c87bb003d0c21405', 8, 'Зуев', 'Никита', NULL, NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 11:29:00'),
-(4, '0aa202e517498eca83e3214f471297d1', 8, 'Зуев', 'Никита', NULL, NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 12:15:32');
+INSERT INTO `orders` (`id`, `hash`, `client_id`, `surname`, `firstname`, `patronymic`, `status`, `paid_status`, `email`, `phone`, `price`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
+(1, 'b7f646fc3b9070d7aa74cd3df6bb774f', 9, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, 'bubl174rus@gmail.com', '+7(912)-793-78-10', '4500.00', 1, 1, '2018-02-07 09:55:10'),
+(2, '109aa1de3e468c45a33afa7b349805b8', 9, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, 'bubl174rus@gmail.com', '+7(912)-793-78-10', '10000.00', 1, 1, '2018-02-07 11:02:14'),
+(3, '4548579cc811f270c87bb003d0c21405', 8, 'Зуев', 'Никита', NULL, 1, 0, NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 11:29:00'),
+(4, '0aa202e517498eca83e3214f471297d1', 8, 'Зуев', 'Никита', NULL, 1, 0, NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 12:15:32'),
+(5, '37adc1a6bc2f26aca71bf6bc7c88c76a', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 06:07:42'),
+(6, 'f2344904636ea0b430eae9acf7b503dd', 8, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, NULL, '+7(912)-793-78-10', '132938.00', 1, 1, '2018-02-08 07:53:30'),
+(7, 'ae18735ee3c7d76660c271136dbc76f7', 8, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 08:47:54');
 
 -- --------------------------------------------------------
 
@@ -491,7 +511,26 @@ INSERT INTO `orders_goods` (`id`, `good_id`, `order_id`, `count`, `price`, `crea
 (1, 56, 1, 3, '4500.00', '2018-02-07 09:55:10'),
 (2, 55, 2, 1, '10000.00', '2018-02-07 11:02:15'),
 (3, 56, 3, 1, '1500.00', '2018-02-07 11:29:00'),
-(4, 56, 4, 1, '1500.00', '2018-02-07 12:15:32');
+(4, 56, 4, 1, '1500.00', '2018-02-07 12:15:32'),
+(5, 58, 5, 1, '23469.00', '2018-02-08 06:07:42'),
+(6, 55, 6, 8, '80000.00', '2018-02-08 07:53:30'),
+(7, 56, 6, 4, '6000.00', '2018-02-08 07:53:30'),
+(8, 58, 6, 2, '46938.00', '2018-02-08 07:53:31'),
+(9, 58, 7, 1, '23469.00', '2018-02-08 08:47:54');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `order_id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `price` decimal(11,2) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -533,6 +572,31 @@ INSERT INTO `photos` (`id`, `path`, `name`, `created`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `target_type` varchar(50) DEFAULT NULL,
+  `target_id` int(10) UNSIGNED DEFAULT NULL,
+  `text` text NOT NULL,
+  `published` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Опубликован или нет',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `client_id`, `target_type`, `target_id`, `text`, `published`, `created`) VALUES
+(1, 8, NULL, NULL, 'фывфывфывфывфывфыв', 0, '2018-02-08 10:27:35'),
+(2, 9, NULL, NULL, 'asdasdasdasdasdasdasd', 0, '2018-02-08 10:44:38'),
+(3, 9, NULL, NULL, 'asadasdasdasasdasdadasd', 0, '2018-02-08 10:44:42');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `routes`
 --
 
@@ -549,7 +613,7 @@ CREATE TABLE `routes` (
   `seo_keywords` text,
   `seo_description` text,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT NULL
+  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -570,12 +634,14 @@ INSERT INTO `routes` (`id`, `title`, `url`, `template_id`, `menu_id`, `access`, 
 (62, 'Магазин', '/shop', 1, NULL, 1, 0, 1, 1, 'Магазин', 'Описание', '2018-01-26 10:23:30', '2018-01-29 06:53:14'),
 (63, 'Страница категории товаров', '/shop-categories', 2, NULL, 1, 1, 1, 1, '', '', '2018-01-29 08:51:10', '2018-01-29 11:15:15'),
 (64, 'Страница продукта', '/product', 2, NULL, 1, 1, 1, 1, '', '', '2018-01-31 06:21:49', '2018-01-31 06:21:49'),
-(65, 'Корзина пользователя', '/cart', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 08:13:30', '2018-02-01 08:13:30'),
+(65, 'Корзина пользователя', '/cart', 2, 4, 1, 0, 1, 1, '', '', '2018-02-01 08:13:30', '2018-02-08 08:32:24'),
 (66, 'Оформление заказа', '/order', 2, NULL, 1, 0, 1, 1, '', '', '2018-02-01 11:14:39', '2018-02-01 11:14:39'),
-(67, 'Управление компанентами', '/admin-components', 2, 1, 3, 0, 1, 1, '', '', '2018-02-05 17:38:19', '2018-02-05 17:42:02'),
+(67, 'Управление компонентами', '/admin-components', 2, 1, 3, 0, 1, 1, '', '', '2018-02-05 17:38:19', '2018-02-08 09:11:39'),
 (68, 'Личный кабинет', '/my', 2, 3, 2, 0, 1, 1, '', '', '2018-02-07 06:35:22', '2018-02-07 06:47:41'),
 (69, 'Успешный заказ', '/order-complete', 2, NULL, 1, 1, 1, 1, '', '', '2018-02-07 08:04:40', '2018-02-07 08:04:40'),
-(70, 'Глобальные переменные', '/admin-globals', 2, 1, 3, 0, 1, 1, '', '', '2018-02-07 11:31:36', '2018-02-07 11:32:01');
+(70, 'Глобальные переменные', '/admin-globals', 2, 1, 3, 0, 1, 1, '', '', '2018-02-07 11:31:36', '2018-02-07 11:32:01'),
+(71, 'Мои заказы', '/my-orders', 2, 3, 2, 0, 1, 1, '', '', '2018-02-08 07:34:52', '2018-02-08 07:43:03'),
+(72, 'Отзывы', '/reviews', 2, 2, 1, 0, 1, 1, '', '', '2018-02-08 10:28:42', '2018-02-08 10:28:54');
 
 -- --------------------------------------------------------
 
@@ -816,9 +882,21 @@ ALTER TABLE `orders_goods`
   ADD KEY `order_id` (`order_id`);
 
 --
+-- Индексы таблицы `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `photos`
 --
 ALTER TABLE `photos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `reviews`
+--
+ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -875,19 +953,19 @@ ALTER TABLE `visits`
 -- AUTO_INCREMENT для таблицы `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `components`
 --
 ALTER TABLE `components`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments`
 --
 ALTER TABLE `fragments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments_blocks`
@@ -905,7 +983,7 @@ ALTER TABLE `fragments_data`
 -- AUTO_INCREMENT для таблицы `global_site_config`
 --
 ALTER TABLE `global_site_config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_cats`
@@ -917,7 +995,7 @@ ALTER TABLE `goods_cats`
 -- AUTO_INCREMENT для таблицы `goods_pos`
 --
 ALTER TABLE `goods_pos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_props`
@@ -947,13 +1025,13 @@ ALTER TABLE `header_nav`
 -- AUTO_INCREMENT для таблицы `menu_groups`
 --
 ALTER TABLE `menu_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `news`
@@ -965,13 +1043,19 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `orders_goods`
 --
 ALTER TABLE `orders_goods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT для таблицы `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `photos`
@@ -980,10 +1064,16 @@ ALTER TABLE `photos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT для таблицы `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT для таблицы `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT для таблицы `routes_access`
@@ -1007,19 +1097,19 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=445;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1174;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
