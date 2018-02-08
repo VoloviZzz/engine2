@@ -2,6 +2,8 @@ $(document).ready(function (e) {
 
 	const defaultState = {};
 
+	$(".js-masked-phone").mask("+7(999)-999-99-99"); //номер телефона
+
 	$('.form-info').each((i, elem) => {
 		let $this = $(elem);
 

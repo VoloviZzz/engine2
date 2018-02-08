@@ -1,0 +1,47 @@
+<% orders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods}) => { %>
+	<div style="border: 1px #c3c3c3 solid; padding: 10px; margin-bottom: 10px">
+		<div>
+			<%= id -%>
+		</div>
+		<div>
+			<%= hash -%>
+		</div>
+		<div>
+			<%= client_id -%>
+		</div>
+		<div>
+			<%= surname -%>
+		</div>
+		<div>
+			<%= firstname -%>
+		</div>
+		<div>
+			<%= patronymic -%>
+		</div>
+		<div>
+			<%= email -%>
+		</div>
+		<div>
+			<%= phone -%>
+		</div>
+		<div>
+			<%= price -%>
+		</div>
+		<div>
+			<%= deliveryMethod -%>
+		</div>
+		<div>
+			<%= paymentMethod -%>
+		</div>
+		<div>
+			<%= Helpers.formatDate(created, 'dd-MM-yyyy') -%>
+		</div>
+		<div>
+			<% goods.forEach(({id, good_id, order_id, count, price, created, goods_title}) => { %>
+				<div>
+					<%= id -%> / <%= goods_title -%> / <%= good_id -%> / <%= order_id -%> / <%= count -%> / <%= price -%> / <%= Helpers.formatDate(created, 'dd-MM-yyyy') -%>
+				</div>
+			<% }) %>
+		</div>
+	</div>
+<% }) %>
