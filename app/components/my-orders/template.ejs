@@ -1,47 +1,140 @@
-<% orders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods}) => { %>
-	<div style="border: 1px #c3c3c3 solid; padding: 10px; margin-bottom: 10px">
-		<div>
-			<%= id -%>
+<link rel="stylesheet" href="/css/my-orders.css">
+<div class="tabs-wrapper">
+	<ul class="tabs-titles-wrap">
+		<li class="tab active tab-all">Все</li>
+		<li class="tab">Новые</li>
+		<li class="tab">В работе</li>
+		<li class="tab">Завершенные</li>
+	</ul>
+	<div class="tabs-content-wrap">
+		<div class="tab-content active">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+					<th class="title-helper__orders-created">Дата заказа</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<% orders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods, payed_sum}, index) => { %>
+					<tr>
+						<td class="order-item__number"><%= index + 1 -%></td>
+						<td class="order-item__goods-amount"><%= goods.length -%></td>
+						<td class="order-item__total-amount">
+							<span><%= Helpers.formatPrice(price) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
+						</td>
+						<td class="order-item__more-details">
+							<a href="#" class="btn more-order-details">Подробнее</a>
+						</td>
+					</tr>
+				<% }) %>
+			</table>
 		</div>
-		<div>
-			<%= hash -%>
+		<div class="tab-content">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__burial-place">Место захоронения</th>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<tr>
+					<td class="order-item__number">1</td>
+					<td class="order-item__burial-place">Участок
+						<span>№52326</span>
+					</td>
+					<td class="order-item__goods-amount">15</td>
+					<td class="order-item__total-amount">
+						<span>56 000</span>р.</td>
+					<td class="order-item__total-paid">
+						<span>24 000</span>р.</td>
+					<td class="order-item__more-details">
+						<a href="#" class="btn more-order-details">Подробнее</a>
+					</td>
+				</tr>
+			</table>
 		</div>
-		<div>
-			<%= client_id -%>
+		<div class="tab-content">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__burial-place">Место захоронения</th>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<tr>
+					<td class="order-item__number">1</td>
+					<td class="order-item__burial-place">Участок
+						<span>№52325</span>
+					</td>
+					<td class="order-item__goods-amount">5</td>
+					<td class="order-item__total-amount">
+						<span>16 000</span>р.</td>
+					<td class="order-item__total-paid">
+						<span>16 000</span>р.</td>
+					<td class="order-item__more-details">
+						<a href="#" class="btn more-order-details">Подробнее</a>
+					</td>
+				</tr>
+			</table>
 		</div>
-		<div>
-			<%= surname -%>
-		</div>
-		<div>
-			<%= firstname -%>
-		</div>
-		<div>
-			<%= patronymic -%>
-		</div>
-		<div>
-			<%= email -%>
-		</div>
-		<div>
-			<%= phone -%>
-		</div>
-		<div>
-			<%= price -%>
-		</div>
-		<div>
-			<%= deliveryMethod -%>
-		</div>
-		<div>
-			<%= paymentMethod -%>
-		</div>
-		<div>
-			<%= Helpers.formatDate(created, 'dd-MM-yyyy') -%>
-		</div>
-		<div>
-			<% goods.forEach(({id, good_id, order_id, count, price, created, goods_title}) => { %>
-				<div>
-					<%= id -%> / <%= goods_title -%> / <%= good_id -%> / <%= order_id -%> / <%= count -%> / <%= price -%> / <%= Helpers.formatDate(created, 'dd-MM-yyyy') -%>
-				</div>
-			<% }) %>
+		<div class="tab-content">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__burial-place">Место захоронения</th>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<tr>
+					<td class="order-item__number">1</td>
+					<td class="order-item__burial-place">Участок
+						<span>№52324</span>
+					</td>
+					<td class="order-item__goods-amount">1</td>
+					<td class="order-item__total-amount">
+						<span>6 000</span>р.</td>
+					<td class="order-item__total-paid">
+						<span>0</span>р.</td>
+					<td class="order-item__more-details">
+						<a href="#" class="btn more-order-details">Подробнее</a>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
-<% }) %>
+</div>
+<script>
+	 document.addEventListener("DOMContentLoaded", function(event) {
+		const tabs = document.querySelectorAll(".tab");
+		const contents = document.querySelectorAll(".tab-content");
+		const tabsWrap = document.querySelector(".tabs-titles-wrap");
+		const activeClass = "active";
+
+		tabsWrap.addEventListener("click", e => {
+			if (e.target.classList.contains("tab")) {
+				[...tabs].forEach((tab, tabIndex, tabArray) => {
+				tab.classList.remove(activeClass);
+				contents[tabIndex].classList.remove(activeClass);
+				if (e.target === tab) {
+					tab.classList.add(activeClass);
+					contents[tabIndex].classList.add(activeClass);
+				}
+				});
+			}
+		});
+	});
+</script>
