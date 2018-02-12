@@ -64,6 +64,15 @@
 						<input class="js-order-data input input--simple required" value="<%= !!orderData.phone ? orderData.phone : '' %>" type="text" maxlength="255" name="phone" required <%= inputDisabled -%>>
 					</span>
 				</label>
+				<label style="display: none" class="js-confirm-phone label label--complex">
+					<span class="label__inside">
+						<span class="label__text">Подтверждение телефона
+							<strong>*</strong>
+						</span>
+						<input id="js-confirm-phone-input" class="input input--simple required" value="" type="text" maxlength="255" name="confirm_phone" required <%= inputDisabled -%>>
+						<button id="js-confirm-phone-button" class="btn">Подтвердить</button>
+					</span>
+				</label>
 				<small class="required-explanation">
 					Обязательные поля отмечены звездочкой
 					<strong>*</strong>

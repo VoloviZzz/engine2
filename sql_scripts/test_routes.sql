@@ -2,10 +2,10 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1
--- Время создания: Фев 12 2018 г., 12:25
--- Версия сервера: 5.7.19-log
--- Версия PHP: 7.2.0
+-- Хост: localhost
+-- Время создания: Фев 12 2018 г., 18:51
+-- Версия сервера: 5.7.21-log
+-- Версия PHP: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -49,7 +49,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `admin`, `root`, `confirmed`, `surname`, `firstname`, `patronymic`, `name`, `phone`, `password`, `mail`, `address`, `created`) VALUES
-(8, 1, 1, 1, 'Зуев', 'Никита', 'Дмитриевич', 'Зуев Н.', '+7(912)-793-78-10', 'e10adc3949ba59abbe56e057f20f883e', 'zuarel@icloud.com', NULL, '2018-01-25 06:54:10');
+(8, 1, 1, 1, 'Зуев', 'Никита', 'Дмитриевич', 'Зуев Н.', '+7(912)-793-78-10', 'e10adc3949ba59abbe56e057f20f883e', 'bubl174rus@gmail.com', NULL, '2018-01-25 06:54:10');
 
 -- --------------------------------------------------------
 
@@ -132,15 +132,19 @@ CREATE TABLE `confirmed_phones` (
   `phone` varchar(25) NOT NULL,
   `code` int(6) NOT NULL,
   `confirmed` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `confirmed_date` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `confirmed_phones`
 --
 
-INSERT INTO `confirmed_phones` (`id`, `user_id`, `phone`, `code`, `confirmed`, `created`) VALUES
-(5, NULL, '+7(123)-213-12-31', 210994, 1, '2018-02-12 10:20:30');
+INSERT INTO `confirmed_phones` (`id`, `user_id`, `phone`, `code`, `confirmed`, `created`, `confirmed_date`) VALUES
+(5, NULL, '+7(123)-213-12-31', 210994, 1, '2018-02-12 10:20:30', NULL),
+(6, NULL, '+7(111)-111-11-11', 285112, 0, '2018-02-12 16:57:35', NULL),
+(7, NULL, '+7(912)-793-78-10', 628696, 1, '2018-02-12 16:59:25', NULL),
+(10, NULL, '+7(123)-123-12-31', 847583, 0, '2018-02-12 17:25:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -504,7 +508,7 @@ INSERT INTO `news` (`id`, `title`, `text`, `counter_views`, `published`, `creato
 --
 
 CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `hash` varchar(40) NOT NULL,
   `client_id` int(11) DEFAULT NULL,
   `surname` varchar(60) NOT NULL,
@@ -512,6 +516,7 @@ CREATE TABLE `orders` (
   `patronymic` varchar(60) DEFAULT NULL,
   `status` int(10) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Статус заказа: 1 - новый, 2 - в работе, 3 - завершен',
   `paid_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Состояние оплаты',
+  `payed_sum` decimal(10,0) NOT NULL DEFAULT '0' COMMENT 'Выплаченная сумма',
   `email` varchar(70) DEFAULT NULL,
   `phone` varchar(20) NOT NULL,
   `price` decimal(11,2) NOT NULL COMMENT 'Общая стоимость',
@@ -524,14 +529,15 @@ CREATE TABLE `orders` (
 -- Дамп данных таблицы `orders`
 --
 
-INSERT INTO `orders` (`id`, `hash`, `client_id`, `surname`, `firstname`, `patronymic`, `status`, `paid_status`, `email`, `phone`, `price`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
-(1, 'b7f646fc3b9070d7aa74cd3df6bb774f', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, 'bubl174rus@gmail.com', '+7(912)-793-78-10', '4500.00', 1, 1, '2018-02-07 09:55:10'),
-(2, '109aa1de3e468c45a33afa7b349805b8', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, 'bubl174rus@gmail.com', '+7(912)-793-78-10', '10000.00', 1, 1, '2018-02-07 11:02:14'),
-(3, '4548579cc811f270c87bb003d0c21405', 8, 'Зуев', 'Никита', NULL, 1, 0, NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 11:29:00'),
-(4, '0aa202e517498eca83e3214f471297d1', 8, 'Зуев', 'Никита', NULL, 1, 0, NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 12:15:32'),
-(5, '37adc1a6bc2f26aca71bf6bc7c88c76a', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 06:07:42'),
-(6, 'f2344904636ea0b430eae9acf7b503dd', 8, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, NULL, '+7(912)-793-78-10', '132938.00', 1, 1, '2018-02-08 07:53:30'),
-(7, 'ae18735ee3c7d76660c271136dbc76f7', 8, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 08:47:54');
+INSERT INTO `orders` (`id`, `hash`, `client_id`, `surname`, `firstname`, `patronymic`, `status`, `paid_status`, `payed_sum`, `email`, `phone`, `price`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
+(1, 'b7f646fc3b9070d7aa74cd3df6bb774f', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '4500.00', 1, 1, '2018-02-07 09:55:10'),
+(2, '109aa1de3e468c45a33afa7b349805b8', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '10000.00', 1, 1, '2018-02-07 11:02:14'),
+(3, '4548579cc811f270c87bb003d0c21405', 8, 'Зуев', 'Никита', NULL, 1, 0, '0', NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 11:29:00'),
+(4, '0aa202e517498eca83e3214f471297d1', 8, 'Зуев', 'Никита', NULL, 1, 0, '15000', NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 12:15:32'),
+(5, '37adc1a6bc2f26aca71bf6bc7c88c76a', NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0', NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 06:07:42'),
+(6, 'f2344904636ea0b430eae9acf7b503dd', 8, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0', NULL, '+7(912)-793-78-10', '132938.00', 1, 1, '2018-02-08 07:53:30'),
+(7, 'ae18735ee3c7d76660c271136dbc76f7', 8, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0', NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 08:47:54'),
+(8, '61452746647161c1ef072b9b00562307', NULL, 'asdasd', 'asdasd', NULL, 1, 0, '0', NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-12 17:32:14');
 
 -- --------------------------------------------------------
 
@@ -542,7 +548,7 @@ INSERT INTO `orders` (`id`, `hash`, `client_id`, `surname`, `firstname`, `patron
 CREATE TABLE `orders_goods` (
   `id` int(11) NOT NULL,
   `good_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `order_id` int(11) UNSIGNED NOT NULL,
   `count` int(11) NOT NULL COMMENT 'Количество в заказе',
   `price` decimal(11,2) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -561,7 +567,8 @@ INSERT INTO `orders_goods` (`id`, `good_id`, `order_id`, `count`, `price`, `crea
 (6, 55, 6, 8, '80000.00', '2018-02-08 07:53:30'),
 (7, 56, 6, 4, '6000.00', '2018-02-08 07:53:30'),
 (8, 58, 6, 2, '46938.00', '2018-02-08 07:53:31'),
-(9, 58, 7, 1, '23469.00', '2018-02-08 08:47:54');
+(9, 58, 7, 1, '23469.00', '2018-02-08 08:47:54'),
+(10, 58, 8, 1, '23469.00', '2018-02-12 17:32:14');
 
 -- --------------------------------------------------------
 
@@ -576,6 +583,14 @@ CREATE TABLE `payments` (
   `price` decimal(11,2) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `payments`
+--
+
+INSERT INTO `payments` (`id`, `order_id`, `client_id`, `price`, `created`) VALUES
+(1, 4, 8, '10000.00', '2018-02-12 16:21:18'),
+(2, 4, 8, '5000.00', '2018-02-12 16:23:25');
 
 -- --------------------------------------------------------
 
@@ -1243,6 +1258,92 @@ CREATE TABLE `views` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Дамп данных таблицы `views`
+--
+
+INSERT INTO `views` (`id`, `visit_id`, `visitor_id`, `path`, `created`, `updated`, `activated`, `closed`) VALUES
+(1391, 17, 17, '/', '2018-02-12 16:02:42', NULL, NULL, NULL),
+(1392, 17, 17, '/', '2018-02-12 16:02:43', NULL, NULL, NULL),
+(1393, 17, 17, '/company', '2018-02-12 16:02:45', NULL, NULL, NULL),
+(1394, 17, 17, '/cemeteries', '2018-02-12 16:02:46', NULL, NULL, NULL),
+(1395, 17, 17, '/company', '2018-02-12 16:02:47', NULL, NULL, NULL),
+(1396, 17, 17, '/reviews', '2018-02-12 16:02:50', NULL, NULL, NULL),
+(1397, 17, 17, '/questions', '2018-02-12 16:02:52', NULL, NULL, NULL),
+(1398, 17, 17, '/login', '2018-02-12 16:03:17', NULL, NULL, NULL),
+(1399, 17, 17, '/', '2018-02-12 16:03:24', NULL, NULL, NULL),
+(1400, 17, 17, '/', '2018-02-12 16:03:24', NULL, NULL, NULL),
+(1401, 17, 17, '/my', '2018-02-12 16:03:25', NULL, NULL, NULL),
+(1402, 17, 17, '/my', '2018-02-12 16:03:37', NULL, NULL, NULL),
+(1403, 17, 17, '/my-orders', '2018-02-12 16:04:05', NULL, NULL, NULL),
+(1404, 17, 17, '/my-orders', '2018-02-12 16:11:13', NULL, NULL, NULL),
+(1405, 17, 17, '/my-orders', '2018-02-12 16:12:00', NULL, NULL, NULL),
+(1406, 17, 17, '/my-orders', '2018-02-12 16:14:30', NULL, NULL, NULL),
+(1407, 17, 17, '/my-orders', '2018-02-12 16:15:03', NULL, NULL, NULL),
+(1408, 17, 17, '/my-orders', '2018-02-12 16:15:10', NULL, NULL, NULL),
+(1409, 17, 17, '/my-orders', '2018-02-12 16:15:49', NULL, NULL, NULL),
+(1410, 17, 17, '/my-orders', '2018-02-12 16:16:04', NULL, NULL, NULL),
+(1411, 17, 17, '/my-orders', '2018-02-12 16:16:16', NULL, NULL, NULL),
+(1412, 17, 17, '/my-orders', '2018-02-12 16:25:59', NULL, NULL, NULL),
+(1413, 17, 17, '/my-orders', '2018-02-12 16:26:01', NULL, NULL, NULL),
+(1414, 17, 17, '/my-orders', '2018-02-12 16:26:21', NULL, NULL, NULL),
+(1415, 17, 17, '/my-orders', '2018-02-12 16:26:41', NULL, NULL, NULL),
+(1416, 17, 17, '/my-orders', '2018-02-12 16:27:17', NULL, NULL, NULL),
+(1417, 17, 17, '/my-orders', '2018-02-12 16:28:15', NULL, NULL, NULL),
+(1418, 17, 17, '/my-orders', '2018-02-12 16:28:22', NULL, NULL, NULL),
+(1419, 17, 17, '/my-orders', '2018-02-12 16:28:56', NULL, NULL, NULL),
+(1420, 17, 17, '/my-orders', '2018-02-12 16:29:49', NULL, NULL, NULL),
+(1421, 17, 17, '/my-orders', '2018-02-12 16:33:18', NULL, NULL, NULL),
+(1422, 17, 17, '/my-orders', '2018-02-12 16:33:25', NULL, NULL, NULL),
+(1423, 18, 18, '/', '2018-02-12 16:39:35', NULL, NULL, NULL),
+(1424, 18, 18, '/', '2018-02-12 16:39:35', NULL, NULL, NULL),
+(1425, 18, 18, '/shop', '2018-02-12 16:39:37', NULL, NULL, NULL),
+(1426, 18, 18, '/shop-categories/2', '2018-02-12 16:39:38', NULL, NULL, NULL),
+(1427, 18, 18, '/product/58', '2018-02-12 16:39:40', NULL, NULL, NULL),
+(1428, 18, 18, '/cart', '2018-02-12 16:39:42', NULL, NULL, NULL),
+(1429, 18, 18, '/cart', '2018-02-12 16:39:43', NULL, NULL, NULL),
+(1430, 18, 18, '/order', '2018-02-12 16:39:45', NULL, NULL, NULL),
+(1431, 18, 18, '/order', '2018-02-12 16:49:41', NULL, NULL, NULL),
+(1432, 18, 18, '/order', '2018-02-12 16:51:57', NULL, NULL, NULL),
+(1433, 18, 18, '/order', '2018-02-12 16:52:41', NULL, NULL, NULL),
+(1434, 18, 18, '/order', '2018-02-12 16:53:47', NULL, NULL, NULL),
+(1435, 18, 18, '/order', '2018-02-12 16:54:16', NULL, NULL, NULL),
+(1436, 18, 18, '/order', '2018-02-12 16:54:49', NULL, NULL, NULL),
+(1437, 18, 18, '/order', '2018-02-12 16:55:01', NULL, NULL, NULL),
+(1438, 18, 18, '/order', '2018-02-12 16:59:12', NULL, NULL, NULL),
+(1439, 18, 18, '/order', '2018-02-12 16:59:15', NULL, NULL, NULL),
+(1440, 18, 18, '/order', '2018-02-12 17:03:01', NULL, NULL, NULL),
+(1441, 18, 18, '/order', '2018-02-12 17:04:21', NULL, NULL, NULL),
+(1442, 18, 18, '/order', '2018-02-12 17:05:31', NULL, NULL, NULL),
+(1443, 18, 18, '/order', '2018-02-12 17:07:34', NULL, NULL, NULL),
+(1444, 18, 18, '/order', '2018-02-12 17:07:55', NULL, NULL, NULL),
+(1445, 18, 18, '/order', '2018-02-12 17:11:21', NULL, NULL, NULL),
+(1446, 18, 18, '/order', '2018-02-12 17:13:31', NULL, NULL, NULL),
+(1447, 18, 18, '/order', '2018-02-12 17:15:42', NULL, NULL, NULL),
+(1448, 18, 18, '/order', '2018-02-12 17:16:47', NULL, NULL, NULL),
+(1449, 18, 18, '/order', '2018-02-12 17:17:59', NULL, NULL, NULL),
+(1450, 18, 18, '/order', '2018-02-12 17:23:38', NULL, NULL, NULL),
+(1451, 18, 18, '/order', '2018-02-12 17:23:57', NULL, NULL, NULL),
+(1452, 18, 18, '/order', '2018-02-12 17:24:28', NULL, NULL, NULL),
+(1453, 18, 18, '/order', '2018-02-12 17:25:02', NULL, NULL, NULL),
+(1454, 18, 18, '/order', '2018-02-12 17:25:40', NULL, NULL, NULL),
+(1455, 18, 18, '/order', '2018-02-12 17:25:56', NULL, NULL, NULL),
+(1456, 18, 18, '/order', '2018-02-12 17:26:01', NULL, NULL, NULL),
+(1457, 18, 18, '/order', '2018-02-12 17:28:15', NULL, NULL, NULL),
+(1458, 18, 18, '/order', '2018-02-12 17:28:53', NULL, NULL, NULL),
+(1459, 18, 18, '/order', '2018-02-12 17:30:07', NULL, NULL, NULL),
+(1460, 18, 18, '/order', '2018-02-12 17:30:19', NULL, NULL, NULL),
+(1461, 19, 19, '/order', '2018-02-12 17:31:16', NULL, NULL, NULL),
+(1462, 19, 19, '/shop', '2018-02-12 17:31:18', NULL, NULL, NULL),
+(1463, 19, 19, '/shop-categories/2', '2018-02-12 17:31:19', NULL, NULL, NULL),
+(1464, 19, 19, '/product/58', '2018-02-12 17:31:20', NULL, NULL, NULL),
+(1465, 19, 19, '/cart', '2018-02-12 17:31:22', NULL, NULL, NULL),
+(1466, 19, 19, '/order', '2018-02-12 17:31:24', NULL, NULL, NULL),
+(1467, 19, 19, '/order', '2018-02-12 17:31:45', NULL, NULL, NULL),
+(1468, 19, 19, '/order', '2018-02-12 17:31:46', NULL, NULL, NULL),
+(1469, 19, 19, '/order', '2018-02-12 17:32:01', NULL, NULL, NULL),
+(1470, 19, 19, '/order-complete/61452746647161c1ef072b9b00562307', '2018-02-12 17:32:14', NULL, NULL, NULL);
+
+--
 -- Триггеры `views`
 --
 DELIMITER $$
@@ -1262,6 +1363,15 @@ CREATE TABLE `visitors` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Пользователи';
 
+--
+-- Дамп данных таблицы `visitors`
+--
+
+INSERT INTO `visitors` (`id`, `name`, `created`) VALUES
+(17, NULL, '2018-02-12 16:02:42'),
+(18, NULL, '2018-02-12 16:39:35'),
+(19, NULL, '2018-02-12 17:31:16');
+
 -- --------------------------------------------------------
 
 --
@@ -1277,6 +1387,15 @@ CREATE TABLE `visits` (
   `updated` timestamp NULL DEFAULT NULL,
   `closed` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `visits`
+--
+
+INSERT INTO `visits` (`id`, `visitor_id`, `count_views`, `visitor_ip`, `created`, `updated`, `closed`) VALUES
+(17, 17, 32, '1', '2018-02-12 16:02:42', NULL, NULL),
+(18, 18, 38, '1', '2018-02-12 16:39:35', NULL, NULL),
+(19, 19, 10, '1', '2018-02-12 17:31:16', NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -1416,7 +1535,8 @@ ALTER TABLE `orders_goods`
 -- Индексы таблицы `payments`
 --
 ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Индексы таблицы `photos`
@@ -1508,7 +1628,7 @@ ALTER TABLE `confirmed_emails`
 -- AUTO_INCREMENT для таблицы `confirmed_phones`
 --
 ALTER TABLE `confirmed_phones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `fragments`
@@ -1592,19 +1712,19 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `orders_goods`
 --
 ALTER TABLE `orders_goods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `photos`
@@ -1652,19 +1772,19 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1391;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1471;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -1727,7 +1847,13 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `orders_goods`
   ADD CONSTRAINT `orders_goods_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods_pos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `orders_goods_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `orders_goods_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `routes`

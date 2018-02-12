@@ -12,6 +12,25 @@ $(document).ready(() => {
 
 	$("input[name=phone]").mask("+7(999)-999-99-99");
 
+	$('#js-confirm-phone-button').on('click', function (e) {
+		const code = $('#js-confirm-phone-input').val();
+		$.post('/api/order/confirmPhone', { code }).done((result) => {
+			if (result.status === 'ok') {
+				$('[data-target=section-order]').hide();
+				$('[data-target=section-delivery]').show();
+				$('.section-content').scrollTop(0)
+
+				State.activeSection = 'section-delivery';
+
+				nextNav('delivery');
+			}
+			else {
+				console.log(result);
+				alert(result.message)
+			}
+		})
+	})
+
 	$('.js-basket-nav').on('click', '.basket-nav__el', function (e) {
 		const target = this.dataset.target;
 
@@ -32,7 +51,7 @@ $(document).ready(() => {
 
 	function addOrder() {
 		$.post('/api/order/addOrder', State.postData).done(result => {
-			if(result.status !== 'ok') {
+			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
@@ -74,18 +93,23 @@ $(document).ready(() => {
 		Object.assign(State.postData, orderData);
 
 		return $.post('/api/order/setOrderData', orderData).done(result => {
-			if (result.status !== 'ok') {
+			if (result.status == 'confirm phone') {
+				$('.js-order-data').attr('disabled', 'disabled');
+				return $('.js-confirm-phone').show();
+			}
+			else if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
+			else {
+				$('[data-target=section-order]').hide();
+				$('[data-target=section-delivery]').show();
+				$('.section-content').scrollTop(0)
 
-			$('[data-target=section-order]').hide();
-			$('[data-target=section-delivery]').show();
-			$('.section-content').scrollTop(0)
+				State.activeSection = 'section-delivery';
 
-			State.activeSection = 'section-delivery';
-
-			nextNav('delivery');
+				nextNav('delivery');
+			}
 		})
 	}
 
