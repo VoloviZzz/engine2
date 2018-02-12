@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/css/questions-list.css">
+<ol class="default-list">
+	<% questions.map(q => { %>
+        <li class="answer">
+            <span class="show-question-button"><%-q.question%></span>
+            <div class="text-indent question">
+                <%-Helpers.replaceLineBreaks(q.answer)%>
+            </div>
+        </li>    
+    <% }) %>
+</ol>
+<div class="add-text-form">
+    <input type="text" class="add-text add-question-text" id="questionText" placeholder="Вопрос">
+    <button class="btn add-button add-question-button">Добавить</button>
+</div>
+<script src="/js/questions-list.js" defer></script>
