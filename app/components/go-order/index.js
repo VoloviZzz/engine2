@@ -1,10 +1,17 @@
 const path = require('path');
 
 module.exports = (app) => {
+	const Model = app.Model;
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
 		const cart = session.shoppingCart;
+		const userId = session.user.id || false;
+		let user = false;
+
+		if (!!userId === true) {
+			[, [user]] = await Model.clients.get({ id: userId });
+		}
 
 		if (typeof cart === 'undefined' || Object.keys(cart.goods).length < 1) return [, 'Корзина пуста'];
 
@@ -16,7 +23,7 @@ module.exports = (app) => {
 		const goodsList = {};
 
 		if (!!ids === true) {
-			goods = await app.Model.goodsPositions.get({ ids });
+			goods = await Model.goodsPositions.get({ ids });
 			goods = goods[1];
 		}
 
@@ -35,10 +42,17 @@ module.exports = (app) => {
 
 		cart.totalPrice = totalCartPrice;
 
+		dataViews.session = session;
 		dataViews.goodsList = goodsList;
 		dataViews.userData = {};
 		dataViews.cart = cart;
-		dataViews.orderData = session.orderData || {};
+		dataViews.orderData = session.orderData || {
+			surname: user.surname || false,
+			firstname: user.firstname || false,
+			patronymic: user.patronymic || false,
+			mail: user.mail || false,
+			phone: user.phone || false
+		};
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

@@ -1,3 +1,6 @@
+<%
+	var inputDisabled = !!session.user.id === true ? `disabled` : ``;
+-%>
 <link rel="stylesheet" href="/css/go-order.css">
 <nav class="order-steps">
 	<ul class="js-basket-nav basket-nav">
@@ -20,7 +23,7 @@
 		<div class="basket-contacts__form">
 			<div class="basket-contacts__form-notify">
 				<p class="basket-contacts__form-notify-text">
-					Заполните пожалуйста контактные данные или
+					Заполните контактные данные или
 					<a class="basket-contacts__form-notify-link" href="/login">авторизуйтесь</a>
 				</p>
 			</div>
@@ -30,7 +33,7 @@
 						<span class="label__text">Фамилия
 							<strong>*</strong>
 						</span>
-						<input class="js-order-data input input--simple required" value="<%= !!orderData.surname ? orderData.surname : '' %>" type="text" maxlength="30" name="surname" required>
+						<input class="js-order-data input input--simple required" value="<%= !!orderData.surname ? orderData.surname : '' %>" type="text" maxlength="30" name="surname" required <%= inputDisabled -%>>
 					</span>
 				</label>
 				<label class="label label--complex">
@@ -38,19 +41,19 @@
 						<span class="label__text">Имя
 							<strong>*</strong>
 						</span>
-						<input class="js-order-data input input--simple required" value="<%= !!orderData.firstname ? orderData.firstname : '' %>" type="text" maxlength="30" name="firstname" required>
+						<input class="js-order-data input input--simple required" value="<%= !!orderData.firstname ? orderData.firstname : '' %>" type="text" maxlength="30" name="firstname" required <%= inputDisabled -%>>
 					</span>
 				</label>
 				<label class="label label--complex label--middle">
 					<span class="label__inside">
 						<span class="label__text">Отчество</span>
-						<input class="js-order-data input input--simple" type="text" value="<%= !!orderData.patronymic ? orderData.patronymic : '' %>" maxlength="30" name="patronymic">
+						<input class="js-order-data input input--simple" type="text" value="<%= !!orderData.patronymic ? orderData.patronymic : '' %>" maxlength="30" name="patronymic" <%= inputDisabled -%>>
 					</span>
 				</label>
 				<label class="label label--complex">
 					<span class="label__inside">
 						<span class="label__text">Электронная почта</span>
-						<input class="js-order-data input input--simple" value="<%= !!orderData.mail ? orderData.mail : '' %>" type="email" maxlength="80" name="mail">
+						<input class="js-order-data input input--simple" value="<%= !!orderData.mail ? orderData.mail : '' %>" type="email" maxlength="80" name="mail" <%= inputDisabled -%>>
 					</span>
 				</label>
 				<label class="label label--complex">
@@ -58,7 +61,7 @@
 						<span class="label__text">Телефон
 							<strong>*</strong>
 						</span>
-						<input id="testId" class="js-order-data input input--simple required" value="<%= !!orderData.phone ? orderData.phone : '' %>" type="text" maxlength="255" name="phone" required>
+						<input class="js-order-data input input--simple required" value="<%= !!orderData.phone ? orderData.phone : '' %>" type="text" maxlength="255" name="phone" required <%= inputDisabled -%>>
 					</span>
 				</label>
 				<small class="required-explanation">
