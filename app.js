@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const ejs = require('ejs');
 const cookieSession = require('cookie-session');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -62,7 +63,29 @@ app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 app.locals.uploadDir = path.join(__dirname, 'app', 'public', 'uploads');
-app.locals.Helpers = require('./app/libs/Helpers');
+app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
+
+const smsc = require('node-smsc')({
+	login: 'sandalb',
+	password: '5d93ceb70e2bf5daa84ec3d0cd2c731a', // password is md5-hashed implicitly unless "hashed" option is passed.
+	hashed: true,
+	sender: 'mpkpru.ru'
+})
+
+app.smsc = smsc;
+
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'bubl174rus@gmail.com',
+		pass: 'nikita174Bubl'
+	},
+	tls: {
+		rejectUnauthorized: false
+	}
+});
+
+app.transporter = transporter;
 
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
 // не знаю куда его вынести
@@ -91,6 +114,34 @@ db.connect(db.MODE_TEST, async (err) => {
 	// общие маршруты приложения
 	app.post('/toggle-admin', toggleAdminMode);
 	app.get('/logout', clearSessionData);
+	app.get('/confirm-email', (req, res, next) => {
+		if (!req.query.t) return res.json({ status: 'bad' });
+		
+		return Model.confirmEmails.get({ hash: req.query.t }).then(([error, results]) => {
+
+			if (results.length < 1) {
+				return Promise.reject({ status: 'bad', message: 'Неправильный hash' });
+			}
+
+			return Promise.resolve(results[0]);
+		}).then((result) => {
+			if (result.checked == '1') {
+				return Promise.reject({ status: 'bad', message: 'Почта уже подтвеждена' });
+			}
+
+			clientId = result.client_id;
+
+			return Promise.resolve(result);
+		}).then(result => {
+			return Model.confirmEmails.upd({ target: 'checked', value: '1', id: result.id })
+		}).then(() => {
+			return Model.clients.upd({ id: clientId, target: 'confirmed', value: '1' })
+		}).then(result => {
+			res.redirect('/login');
+		}).catch(error => {
+			res.json(error);
+		})
+	})
 
 	// контроллер для обработки входящих запросов
 	app.use(routeHandler);

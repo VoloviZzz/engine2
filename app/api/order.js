@@ -1,12 +1,6 @@
 const ShoppingCart = require('../classes/ShoppingCart');
 const md5 = require('md5');
 
-const smsc = require('node-smsc')({
-	login: 'sandalb',
-	password: '5d93ceb70e2bf5daa84ec3d0cd2c731a', // password is md5-hashed implicitly unless "hashed" option is passed.
-	hashed: true
-})
-
 exports.setOrderData = (req, res, next) => {
 	req.session.orderData = req.body;
 	return { status: 'ok' }
@@ -47,7 +41,7 @@ exports.addOrder = (req, res, next) => {
 			if (error) console.log(error);
 		}
 
-		// return smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })
+		// return req.app.smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })
 	}).then(() => {
 		shoppingCart.clearCart();
 		return { status: 'ok', orderHash }

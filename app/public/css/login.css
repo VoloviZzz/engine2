@@ -148,10 +148,6 @@ body {
     display: block;
 }
 
-.confirm-button {
-    display: none;
-}
-
 .register-next__hidden {
     display: none;
 }
