@@ -1,0 +1,30 @@
+<% orders.newOrders.forEach((order, index) => { %>
+	<div>
+		<div class="order-item__number">
+			<%= index + 1 -%>
+		</div>
+		<div class="order-item__goods-amount">
+			<span>
+				<%= order.goods_count -%>
+			</span>
+		</div>
+		<div class="order-item__total-amount">
+			<span>
+				<%= Helpers.formatPrice(order.price) -%>
+			</span>р.
+		</div>
+		<div class="order-item__total-paid">
+			<span>
+				<%= Helpers.formatPrice(order.payed_sum) -%>
+			</span>р.
+		</div>
+		<div class="order-item__total-paid">
+			<span>
+				<%= Helpers.formatDate(order.created, 'dd.MM.yyyy hh:mm') -%>
+			</span>
+		</div>
+		<div class="order-item__more-details">
+			<a href="#" class="btn more-order-details">Подробнее</a>
+		</div>
+	</div>
+<% }) %>
