@@ -68,8 +68,7 @@ app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
 const smsc = require('node-smsc')({
 	login: 'sandalb',
 	password: '5d93ceb70e2bf5daa84ec3d0cd2c731a', // password is md5-hashed implicitly unless "hashed" option is passed.
-	hashed: true,
-	sender: 'mpkpru.ru'
+	hashed: true
 })
 
 app.smsc = smsc;
