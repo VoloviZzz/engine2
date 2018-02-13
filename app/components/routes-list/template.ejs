@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/admin.css">
 <style>
     .js-route-edit-form {
         display: none;
@@ -77,15 +78,15 @@
             <button>Добавить</button>
         </div>
     </form>
-    <ul>
+    <ul class="route-items">
         <% routesList.map((r) => { %>
-            <li class="js-route-item" style="border: 1px #000 solid;padding: 10px; margin-bottom: 10px">
+            <li class="js-route-item route-item" style="">
                 <a href="<%= r.url -%>"><%= r.url + ' - ' + r.title -%></a>
                 <button class="js-show-edit-route-form" data-route-id="<%= r.id -%>">Редактировать</button>
                 <button class="js-delete-route" data-route-id="<%= r.id -%>">Удалить маршрут</button>
                 <br>
                 <br>
-                <div class="js-route-edit-form" style="border: 1px #000 solid; padding: 10px;">
+                <div class="js-route-edit-form" style="">
                     <form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
                         <h1>Изменить маршрут</h1>
                         <div>

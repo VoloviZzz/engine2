@@ -6,8 +6,9 @@ $(document).ready(() => {
 	$('.js-delete-route').on('click', function() {
 		return routesList.delete(this.dataset.routeId);
 	});
-
+	
 	$('.js-show-edit-route-form').on('click', function() {
+		$('.section-center .section-content').scrollTop(0);
 		return routesList.showEditForm(this);
 	})
 
