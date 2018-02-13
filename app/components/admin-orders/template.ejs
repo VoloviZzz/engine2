@@ -1,30 +1,121 @@
-<% orders.newOrders.forEach((order, index) => { %>
-	<div>
-		<div class="order-item__number">
-			<%= index + 1 -%>
+<link rel="stylesheet" href="/css/my-orders.css">
+<div class="tabs-wrapper">
+	<ul class="tabs-titles-wrap">
+		<li class="tab active tab-all">Новые</li>
+		<li class="tab">В работе</li>
+		<li class="tab">Завершенные</li>
+	</ul>
+	<div class="tabs-content-wrap">
+		<div class="tab-content active">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+					<th class="title-helper__orders-created">Дата заказа</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<% orders.newOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
+					<tr>
+						<td class="order-item__number"><%= index + 1 -%></td>
+						<td class="order-item__goods-amount"><%= goods_count -%></td>
+						<td class="order-item__total-amount">
+							<span><%= Helpers.formatPrice(price) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
+						</td>
+						<td class="order-item__more-details">
+							<a href="#" class="btn more-order-details">Подробнее</a>
+						</td>
+					</tr>
+				<% }) %>
+			</table>
 		</div>
-		<div class="order-item__goods-amount">
-			<span>
-				<%= order.goods_count -%>
-			</span>
+		<div class="tab-content">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+					<th class="title-helper__orders-created">Дата заказа</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<% orders.inWorkOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
+					<tr>
+						<td class="order-item__number"><%= index + 1 -%></td>
+						<td class="order-item__goods-amount"><%= goods_count -%></td>
+						<td class="order-item__total-amount">
+							<span><%= Helpers.formatPrice(price) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
+						</td>
+						<td class="order-item__more-details">
+							<a href="#" class="btn more-order-details">Подробнее</a>
+						</td>
+					</tr>
+				<% }) %>
+			</table>
 		</div>
-		<div class="order-item__total-amount">
-			<span>
-				<%= Helpers.formatPrice(order.price) -%>
-			</span>р.
-		</div>
-		<div class="order-item__total-paid">
-			<span>
-				<%= Helpers.formatPrice(order.payed_sum) -%>
-			</span>р.
-		</div>
-		<div class="order-item__total-paid">
-			<span>
-				<%= Helpers.formatDate(order.created, 'dd.MM.yyyy hh:mm') -%>
-			</span>
-		</div>
-		<div class="order-item__more-details">
-			<a href="#" class="btn more-order-details">Подробнее</a>
+		<div class="tab-content">
+			<table class="title-helper">
+				<tr>
+					<th class="title-helper__goods-amount">Товаров</th>
+					<th class="title-helper__total-amount">Общая сумма</th>
+					<th class="title-helper__total-paid">Оплачено</th>
+					<th class="title-helper__orders-created">Дата заказа</th>
+				</tr>
+			</table>
+			<table class="order-item">
+				<% orders.finishedOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
+					<tr>
+						<td class="order-item__number"><%= index + 1 -%></td>
+						<td class="order-item__goods-amount"><%= goods_count -%></td>
+						<td class="order-item__total-amount">
+							<span><%= Helpers.formatPrice(price) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
+						</td>
+						<td class="order-item__total-paid">
+							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
+						</td>
+						<td class="order-item__more-details">
+							<a href="#" class="btn more-order-details">Подробнее</a>
+						</td>
+					</tr>
+				<% }) %>
+			</table>
 		</div>
 	</div>
-<% }) %>
+</div>
+<script>
+	 document.addEventListener("DOMContentLoaded", function(event) {
+		const tabs = document.querySelectorAll(".tab");
+		const contents = document.querySelectorAll(".tab-content");
+		const tabsWrap = document.querySelector(".tabs-titles-wrap");
+		const activeClass = "active";
+
+		tabsWrap.addEventListener("click", e => {
+			if (e.target.classList.contains("tab")) {
+				[...tabs].forEach((tab, tabIndex, tabArray) => {
+					tab.classList.remove(activeClass);
+					contents[tabIndex].classList.remove(activeClass);
+					if (e.target === tab) {
+						tab.classList.add(activeClass);
+						contents[tabIndex].classList.add(activeClass);
+					}
+				});
+			}
+		});
+	});
+</script>
