@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 13 2018 г., 11:48
+-- Время создания: Фев 13 2018 г., 12:50
 -- Версия сервера: 5.7.19-log
 -- Версия PHP: 7.2.0
 
@@ -534,16 +534,17 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `hash`, `client_id`, `manager_id`, `surname`, `firstname`, `patronymic`, `status`, `paid_status`, `payed_sum`, `email`, `phone`, `price`, `deliveryMethod`, `paymentMethod`, `created`) VALUES
-(1, 'b7f646fc3b9070d7aa74cd3df6bb774f', NULL, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '4500.00', 1, 1, '2018-02-07 09:55:10'),
-(2, '109aa1de3e468c45a33afa7b349805b8', NULL, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '10000.00', 1, 1, '2018-02-07 11:02:14'),
+(1, 'b7f646fc3b9070d7aa74cd3df6bb774f', NULL, NULL, 'Зуев', 'Никита', 'Дмитриевич', 3, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '4500.00', 1, 1, '2018-02-07 09:55:10'),
+(2, '109aa1de3e468c45a33afa7b349805b8', NULL, NULL, 'Зуев', 'Никита', 'Дмитриевич', 3, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '10000.00', 1, 1, '2018-02-07 11:02:14'),
 (3, '4548579cc811f270c87bb003d0c21405', 8, NULL, 'Зуев', 'Никита', NULL, 1, 0, '0.00', NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 11:29:00'),
-(4, '0aa202e517498eca83e3214f471297d1', 8, NULL, 'Зуев', 'Никита', NULL, 2, 0, '750.00', NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 12:15:32'),
+(4, '0aa202e517498eca83e3214f471297d1', 8, NULL, 'Зуев', 'Никита', NULL, 3, 0, '750.00', NULL, '+7(912)-793-78-10', '1500.00', 1, 1, '2018-02-07 12:15:32'),
 (5, '37adc1a6bc2f26aca71bf6bc7c88c76a', NULL, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 06:07:42'),
 (6, 'f2344904636ea0b430eae9acf7b503dd', 8, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', NULL, '+7(912)-793-78-10', '132938.00', 1, 1, '2018-02-08 07:53:30'),
 (7, 'ae18735ee3c7d76660c271136dbc76f7', 8, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', NULL, '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-08 08:47:54'),
 (8, '33f496430c93a428bc30b183731bb288', NULL, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '70407.00', 1, 1, '2018-02-13 05:55:38'),
 (9, '74d42cbe3b17f14ca2161031399a22fe', 8, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-13 09:36:09'),
-(10, '2632a6c185994900fdd8233294ba5132', 8, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-13 10:45:44');
+(10, '2632a6c185994900fdd8233294ba5132', 8, NULL, 'Зуев', 'Никита', 'Дмитриевич', 1, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '23469.00', 1, 1, '2018-02-13 10:45:44'),
+(11, '477b364dc705ea28bc50c03755229e82', 8, 8, 'Зуев', 'Никита', 'Дмитриевич', 3, 0, '0.00', 'bubl174rus@gmail.com', '+7(912)-793-78-10', '187752.00', 1, 1, '2018-02-13 10:50:45');
 
 -- --------------------------------------------------------
 
@@ -576,7 +577,8 @@ INSERT INTO `orders_goods` (`id`, `good_id`, `order_id`, `count`, `price`, `crea
 (9, 58, 7, 1, '23469.00', '2018-02-08 08:47:54'),
 (10, 58, 8, 3, '70407.00', '2018-02-13 05:55:38'),
 (11, 58, 9, 1, '23469.00', '2018-02-13 09:36:09'),
-(12, 58, 10, 1, '23469.00', '2018-02-13 10:45:44');
+(12, 58, 10, 1, '23469.00', '2018-02-13 10:45:44'),
+(13, 58, 11, 8, '187752.00', '2018-02-13 10:50:45');
 
 -- --------------------------------------------------------
 
@@ -3089,7 +3091,97 @@ INSERT INTO `views` (`id`, `visit_id`, `visitor_id`, `path`, `created`, `updated
 (1821, 20, 20, '/cart', '2018-02-13 10:44:55', NULL, NULL, NULL),
 (1822, 20, 20, '/cart', '2018-02-13 10:44:56', NULL, NULL, NULL),
 (1823, 20, 20, '/order', '2018-02-13 10:45:38', NULL, NULL, NULL),
-(1824, 20, 20, '/order-complete/2632a6c185994900fdd8233294ba5132', '2018-02-13 10:45:44', NULL, NULL, NULL);
+(1824, 20, 20, '/order-complete/2632a6c185994900fdd8233294ba5132', '2018-02-13 10:45:44', NULL, NULL, NULL),
+(1825, 20, 20, '/order-complete/2632a6c185994900fdd8233294ba5132', '2018-02-13 10:48:37', NULL, NULL, NULL),
+(1826, 20, 20, '/', '2018-02-13 10:48:39', NULL, NULL, NULL),
+(1827, 20, 20, '/', '2018-02-13 10:48:39', NULL, NULL, NULL),
+(1828, 20, 20, '/admin', '2018-02-13 10:48:41', NULL, NULL, NULL),
+(1829, 20, 20, '/admin-orders', '2018-02-13 10:48:42', NULL, NULL, NULL),
+(1830, 20, 20, '/admin-routes', '2018-02-13 10:48:46', NULL, NULL, NULL),
+(1831, 20, 20, '/admin-globals', '2018-02-13 10:49:00', NULL, NULL, NULL),
+(1832, 20, 20, '/admin-components', '2018-02-13 10:49:01', NULL, NULL, NULL),
+(1833, 20, 20, '/admin-orders', '2018-02-13 10:49:02', NULL, NULL, NULL),
+(1834, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 10:49:08', NULL, NULL, NULL),
+(1835, 20, 20, '/product/58', '2018-02-13 10:50:23', NULL, NULL, NULL),
+(1836, 20, 20, '/cart', '2018-02-13 10:50:26', NULL, NULL, NULL),
+(1837, 20, 20, '/cart', '2018-02-13 10:50:27', NULL, NULL, NULL),
+(1838, 20, 20, '/cart', '2018-02-13 10:50:28', NULL, NULL, NULL),
+(1839, 20, 20, '/cart', '2018-02-13 10:50:29', NULL, NULL, NULL),
+(1840, 20, 20, '/cart', '2018-02-13 10:50:29', NULL, NULL, NULL),
+(1841, 20, 20, '/cart', '2018-02-13 10:50:30', NULL, NULL, NULL),
+(1842, 20, 20, '/cart', '2018-02-13 10:50:30', NULL, NULL, NULL),
+(1843, 20, 20, '/cart', '2018-02-13 10:50:31', NULL, NULL, NULL),
+(1844, 20, 20, '/order', '2018-02-13 10:50:32', NULL, NULL, NULL),
+(1845, 20, 20, '/order-complete/477b364dc705ea28bc50c03755229e82', '2018-02-13 10:50:45', NULL, NULL, NULL),
+(1846, 20, 20, '/cart', '2018-02-13 10:51:00', NULL, NULL, NULL),
+(1847, 20, 20, '/shop', '2018-02-13 10:51:01', NULL, NULL, NULL),
+(1848, 20, 20, '/shop-categories/2', '2018-02-13 10:51:02', NULL, NULL, NULL),
+(1849, 20, 20, '/product/58', '2018-02-13 10:51:03', NULL, NULL, NULL),
+(1850, 20, 20, '/cart', '2018-02-13 10:51:05', NULL, NULL, NULL),
+(1851, 20, 20, '/order', '2018-02-13 10:51:06', NULL, NULL, NULL),
+(1852, 20, 20, '/shop', '2018-02-13 10:51:46', NULL, NULL, NULL),
+(1853, 20, 20, '/admin-routes', '2018-02-13 10:52:10', NULL, NULL, NULL),
+(1854, 20, 20, '/admin-orders', '2018-02-13 10:52:24', NULL, NULL, NULL),
+(1855, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 10:52:25', NULL, NULL, NULL),
+(1856, 20, 20, '/my', '2018-02-13 10:54:40', NULL, NULL, NULL),
+(1857, 20, 20, '/my-orders', '2018-02-13 10:54:40', NULL, NULL, NULL),
+(1858, 20, 20, '/my-orders', '2018-02-13 11:02:19', NULL, NULL, NULL),
+(1859, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:02:29', NULL, NULL, NULL),
+(1860, 20, 20, '/cemeteries', '2018-02-13 11:03:17', NULL, NULL, NULL),
+(1861, 20, 20, '/company', '2018-02-13 11:03:19', NULL, NULL, NULL),
+(1862, 20, 20, '/', '2018-02-13 11:03:20', NULL, NULL, NULL),
+(1863, 20, 20, '/', '2018-02-13 11:03:20', NULL, NULL, NULL),
+(1864, 20, 20, '/company', '2018-02-13 11:03:21', NULL, NULL, NULL),
+(1865, 20, 20, '/cemeteries', '2018-02-13 11:03:21', NULL, NULL, NULL),
+(1866, 20, 20, '/admin', '2018-02-13 11:03:25', NULL, NULL, NULL),
+(1867, 20, 20, '/admin-orders', '2018-02-13 11:03:26', NULL, NULL, NULL),
+(1868, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:03:27', NULL, NULL, NULL),
+(1869, 20, 20, '/admin-orders', '2018-02-13 11:05:18', NULL, NULL, NULL),
+(1870, 20, 20, '/order-page/4548579cc811f270c87bb003d0c21405', '2018-02-13 11:05:21', NULL, NULL, NULL),
+(1871, 20, 20, '/order-page/4548579cc811f270c87bb003d0c21405', '2018-02-13 11:08:53', NULL, NULL, NULL),
+(1872, 20, 20, '/order-page/4548579cc811f270c87bb003d0c21405', '2018-02-13 11:08:57', NULL, NULL, NULL),
+(1873, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:09:12', NULL, NULL, NULL),
+(1874, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:09:19', NULL, NULL, NULL),
+(1875, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:11:26', NULL, NULL, NULL),
+(1876, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:12:50', NULL, NULL, NULL),
+(1877, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:13:01', NULL, NULL, NULL),
+(1878, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:13:02', NULL, NULL, NULL),
+(1879, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:13:03', NULL, NULL, NULL),
+(1880, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:13:12', NULL, NULL, NULL),
+(1881, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:13:49', NULL, NULL, NULL),
+(1882, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:13:56', NULL, NULL, NULL),
+(1883, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:14:26', NULL, NULL, NULL),
+(1884, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:14:28', NULL, NULL, NULL),
+(1885, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:16:08', NULL, NULL, NULL),
+(1886, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:16:11', NULL, NULL, NULL),
+(1887, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:16:17', NULL, NULL, NULL),
+(1888, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:16:31', NULL, NULL, NULL),
+(1889, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:16:53', NULL, NULL, NULL),
+(1890, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:17:42', NULL, NULL, NULL),
+(1891, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:18:53', NULL, NULL, NULL),
+(1892, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:20:29', NULL, NULL, NULL),
+(1893, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:28:19', NULL, NULL, NULL),
+(1894, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:28:38', NULL, NULL, NULL),
+(1895, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:28:42', NULL, NULL, NULL),
+(1896, 20, 20, '/admin-orders', '2018-02-13 11:31:04', NULL, NULL, NULL),
+(1897, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:31:07', NULL, NULL, NULL),
+(1898, 20, 20, '/order-page/477b364dc705ea28bc50c03755229e82', '2018-02-13 11:32:31', NULL, NULL, NULL),
+(1899, 20, 20, '/admin-globals', '2018-02-13 11:32:35', NULL, NULL, NULL),
+(1900, 20, 20, '/admin-orders', '2018-02-13 11:32:36', NULL, NULL, NULL),
+(1901, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:32:43', NULL, NULL, NULL),
+(1902, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:37:32', NULL, NULL, NULL),
+(1903, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:37:41', NULL, NULL, NULL),
+(1904, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:37:44', NULL, NULL, NULL),
+(1905, 20, 20, '/order-page/b7f646fc3b9070d7aa74cd3df6bb774f', '2018-02-13 11:37:59', NULL, NULL, NULL),
+(1906, 20, 20, '/admin-orders', '2018-02-13 11:38:00', NULL, NULL, NULL),
+(1907, 20, 20, '/order-page/109aa1de3e468c45a33afa7b349805b8', '2018-02-13 11:38:02', NULL, NULL, NULL),
+(1908, 20, 20, '/order-page/109aa1de3e468c45a33afa7b349805b8', '2018-02-13 11:38:03', NULL, NULL, NULL),
+(1909, 20, 20, '/admin-orders', '2018-02-13 11:38:04', NULL, NULL, NULL),
+(1910, 20, 20, '/order-page/109aa1de3e468c45a33afa7b349805b8', '2018-02-13 11:38:07', NULL, NULL, NULL),
+(1911, 20, 20, '/order-page/0aa202e517498eca83e3214f471297d1', '2018-02-13 11:38:07', NULL, NULL, NULL),
+(1912, 20, 20, '/order-page/109aa1de3e468c45a33afa7b349805b8', '2018-02-13 11:38:09', NULL, NULL, NULL),
+(1913, 20, 20, '/order-page/0aa202e517498eca83e3214f471297d1', '2018-02-13 11:38:10', NULL, NULL, NULL),
+(1914, 20, 20, '/admin-orders', '2018-02-13 11:38:25', NULL, NULL, NULL);
 
 --
 -- Триггеры `views`
@@ -3177,7 +3269,7 @@ INSERT INTO `visits` (`id`, `visitor_id`, `count_views`, `visitor_ip`, `created`
 (17, 17, 67, '1', '2018-02-12 11:28:12', NULL, NULL),
 (18, 18, 20, '1', '2018-02-13 07:19:09', NULL, NULL),
 (19, 19, 259, '1', '2018-02-13 07:33:50', NULL, NULL),
-(20, 20, 81, '1', '2018-02-13 10:19:29', NULL, NULL);
+(20, 20, 171, '1', '2018-02-13 10:19:29', NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -3493,13 +3585,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `orders_goods`
 --
 ALTER TABLE `orders_goods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `payments`
@@ -3553,7 +3645,7 @@ ALTER TABLE `templates`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1825;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1915;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`

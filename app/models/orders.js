@@ -48,3 +48,23 @@ exports.get = (data = {}) => {
 		GROUP BY o.id
 	`)
 }
+
+exports.upd = (args = {}) => {
+
+	const { target, value, id, hash } = args;
+	let whereData = '';
+
+	if(!!id === true) {
+		whereData = `id = ${id}`;
+	}
+	else if(!!hash === true) {
+		whereData = `hash = '${hash}'`;
+	}
+	else {
+		return Promise.reject([new Error('Отсутствует условие')]);
+	}
+
+	return db.execQuery(`
+		UPDATE orders SET ${target} = '${value}' WHERE ${whereData}
+	`)
+};
