@@ -1,5 +1,4 @@
-var mysql = require('mysql')
-	, async = require('async')
+var mysql = require('mysql');
 
 var PRODUCTION_DB = 'test-routes'
 	, TEST_DB = 'test-routes'
@@ -7,7 +6,7 @@ var PRODUCTION_DB = 'test-routes'
 exports.MODE_TEST = 'mode_test'
 exports.MODE_PRODUCTION = 'mode_production'
 
-var state = {
+let state = {
 	pool: null,
 	mode: null,
 }
@@ -28,41 +27,29 @@ exports.get = function () {
 exports.execQuery = function (queryStr, data = {}) {
 	return new Promise((resolve, reject) => {
 		exports.get().query(queryStr, data, (err, rows) => {
-			if(err) return resolve([err, null]);
+			if (err) return resolve([err, null]);
 			return resolve([err, rows]);
 		})
 	})
 }
 
-exports.insertQuery = function(queryStr, data = {}) {
+exports.insertQuery = function (queryStr, data = {}) {
 	return new Promise((resolve, reject) => {
 		exports.get().query(queryStr, data, (err, rows) => {
-			if(err) return resolve([err, null]);
+			if (err) return resolve([err, null]);
 			return resolve([err, rows.insertId]);
 		})
 	})
 }
 
-exports.fixtures = function (data) {
-	var pool = state.pool
-	if (!pool) return done(new Error('Missing database connection.'))
+exports.updateQuery = ({ table = '', data = {}, fields = {} }) => {
+	let fieldsStr = Object.keys(fields).map(fieldName => `${fieldName} = '${fields[fieldName]}'`).join(', ');
+	let queryStr = `UPDATE \`${table}\` SET ${fieldsStr} WHERE id = ${data.id}`;
 
-	var names = Object.keys(data.tables)
-	async.each(names, function (name, cb) {
-		async.each(data.tables[name], function (row, cb) {
-			var keys = Object.keys(row)
-				, values = keys.map(function (key) { return "'" + row[key] + "'" })
-
-			pool.query('INSERT INTO ' + name + ' (' + keys.join(',') + ') VALUES (' + values.join(',') + ')', cb)
-		}, cb)
-	}, done)
-}
-
-exports.drop = function (tables, done) {
-	var pool = state.pool
-	if (!pool) return done(new Error('Missing database connection.'))
-
-	async.each(tables, function (name, cb) {
-		pool.query('DELETE * FROM ' + name, cb)
-	}, done)
+	return new Promise((resolve, reject) => {
+		exports.get().query(queryStr, {}, (err, rows) => {
+			if (err) return resolve([err, null]);
+			return resolve([err, rows]);
+		})
+	})
 }
