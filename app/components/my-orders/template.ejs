@@ -2,22 +2,25 @@
 <div class="tabs-wrapper">
 	<ul class="tabs-titles-wrap">
 		<li class="tab active tab-all">Все</li>
-		<li class="tab">Новые</li>
+		<!--<li class="tab">Новые</li>
 		<li class="tab">В работе</li>
-		<li class="tab">Завершенные</li>
+		<li class="tab">Завершенные</li>-->
 	</ul>
 	<div class="tabs-content-wrap">
 		<div class="tab-content active">
-			<table class="title-helper">
-				<tr>
-					<th class="title-helper__goods-amount">Товаров</th>
-					<th class="title-helper__total-amount">Общая сумма</th>
-					<th class="title-helper__total-paid">Оплачено</th>
-					<th class="title-helper__orders-created">Дата заказа</th>
-				</tr>
-			</table>
 			<table class="order-item">
+				<thead class="title-helper">
+					<tr>
+						<th></th>
+						<th class="title-helper__goods-amount">Товаров</th>
+						<th class="title-helper__total-amount">Общая сумма</th>
+						<th class="title-helper__total-paid">Оплачено</th>
+						<th class="title-helper__orders-created">Дата заказа</th>
+						<th></th>
+					</tr>
+				</thead>
 				<% orders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods, payed_sum}, index) => { %>
+					
 					<tr>
 						<td class="order-item__number"><%= index + 1 -%></td>
 						<td class="order-item__goods-amount"><%= goods.length -%></td>
