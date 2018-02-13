@@ -2,20 +2,22 @@
 <div class="tabs-wrapper">
 	<ul class="tabs-titles-wrap">
 		<li class="tab active tab-all">Новые</li>
-		<li class="tab">В работе</li>
-		<li class="tab">Завершенные</li>
+		<li class="tab tab-all">В работе</li>
+		<li class="tab tab-all">Завершенные</li>
 	</ul>
 	<div class="tabs-content-wrap">
 		<div class="tab-content active">
-			<table class="title-helper">
-				<tr>
-					<th class="title-helper__goods-amount">Товаров</th>
-					<th class="title-helper__total-amount">Общая сумма</th>
-					<th class="title-helper__total-paid">Оплачено</th>
-					<th class="title-helper__orders-created">Дата заказа</th>
-				</tr>
-			</table>
 			<table class="order-item">
+				<thead class="title-helper">
+					<tr>
+						<th></th>
+						<th class="title-helper__goods-amount">Товаров</th>
+						<th class="title-helper__total-amount">Общая сумма</th>
+						<th class="title-helper__total-paid">Оплачено</th>
+						<th class="title-helper__orders-created">Дата заказа</th>
+						<th></th>
+					</tr>
+				</thead>
 				<% orders.newOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
 					<tr>
 						<td class="order-item__number"><%= index + 1 -%></td>
@@ -30,22 +32,24 @@
 							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
 						</td>
 						<td class="order-item__more-details">
-							<a href="#" class="btn more-order-details">Подробнее</a>
+							<a href="/admin-order/<%= id -%>" class="btn more-order-details">Подробнее</a>
 						</td>
 					</tr>
 				<% }) %>
 			</table>
 		</div>
 		<div class="tab-content">
-			<table class="title-helper">
-				<tr>
-					<th class="title-helper__goods-amount">Товаров</th>
-					<th class="title-helper__total-amount">Общая сумма</th>
-					<th class="title-helper__total-paid">Оплачено</th>
-					<th class="title-helper__orders-created">Дата заказа</th>
-				</tr>
-			</table>
 			<table class="order-item">
+				<thead class="title-helper">
+					<tr>
+						<th></th>
+						<th class="title-helper__goods-amount">Товаров</th>
+						<th class="title-helper__total-amount">Общая сумма</th>
+						<th class="title-helper__total-paid">Оплачено</th>
+						<th class="title-helper__orders-created">Дата заказа</th>
+						<th></th>
+					</tr>
+				</thead>
 				<% orders.inWorkOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
 					<tr>
 						<td class="order-item__number"><%= index + 1 -%></td>
@@ -60,22 +64,24 @@
 							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
 						</td>
 						<td class="order-item__more-details">
-							<a href="#" class="btn more-order-details">Подробнее</a>
+							<a href="/admin-order/<%= id -%>" class="btn more-order-details">Подробнее</a>
 						</td>
 					</tr>
 				<% }) %>
 			</table>
 		</div>
 		<div class="tab-content">
-			<table class="title-helper">
-				<tr>
-					<th class="title-helper__goods-amount">Товаров</th>
-					<th class="title-helper__total-amount">Общая сумма</th>
-					<th class="title-helper__total-paid">Оплачено</th>
-					<th class="title-helper__orders-created">Дата заказа</th>
-				</tr>
-			</table>
 			<table class="order-item">
+				<thead class="title-helper">
+					<tr>
+						<th></th>
+						<th class="title-helper__goods-amount">Товаров</th>
+						<th class="title-helper__total-amount">Общая сумма</th>
+						<th class="title-helper__total-paid">Оплачено</th>
+						<th class="title-helper__orders-created">Дата заказа</th>
+						<th></th>
+					</tr>
+				</thead>
 				<% orders.finishedOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
 					<tr>
 						<td class="order-item__number"><%= index + 1 -%></td>
@@ -90,7 +96,7 @@
 							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
 						</td>
 						<td class="order-item__more-details">
-							<a href="#" class="btn more-order-details">Подробнее</a>
+							<a href="/admin-order/<%= id -%>" class="btn more-order-details">Подробнее</a>
 						</td>
 					</tr>
 				<% }) %>
@@ -98,24 +104,3 @@
 		</div>
 	</div>
 </div>
-<script>
-	 document.addEventListener("DOMContentLoaded", function(event) {
-		const tabs = document.querySelectorAll(".tab");
-		const contents = document.querySelectorAll(".tab-content");
-		const tabsWrap = document.querySelector(".tabs-titles-wrap");
-		const activeClass = "active";
-
-		tabsWrap.addEventListener("click", e => {
-			if (e.target.classList.contains("tab")) {
-				[...tabs].forEach((tab, tabIndex, tabArray) => {
-					tab.classList.remove(activeClass);
-					contents[tabIndex].classList.remove(activeClass);
-					if (e.target === tab) {
-						tab.classList.add(activeClass);
-						contents[tabIndex].classList.add(activeClass);
-					}
-				});
-			}
-		});
-	});
-</script>
