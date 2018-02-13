@@ -45,6 +45,6 @@ exports.get = (data = {}) => {
 			${client_id}
 			${phone}
 			${status}
-		GROUP BY og.order_id
+		GROUP BY o.id
 	`)
 }
