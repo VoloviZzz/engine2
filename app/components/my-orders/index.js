@@ -4,10 +4,11 @@ module.exports = (app) => {
 	const Model = app.Model;
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
-
 		const client_id = session.user.id;
 
-		const [, orders] = await Model.orders.get({ client_id });
+		const [errorOrders, orders] = await Model.orders.get({ client_id });
+
+		console.log(errorOrders.sql);
 
 		for (let order of orders) {
 			const { id } = order;
