@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/css/my-orders.css">
+<link rel="stylesheet" href="/css/c_tabs.css">
+<link rel="stylesheet" href="/css/orders-list.css">
 <div class="tabs-wrapper">
 	<ul class="tabs-titles-wrap">
 		<li class="tab active tab-all">Новые</li>
@@ -7,100 +8,13 @@
 	</ul>
 	<div class="tabs-content-wrap">
 		<div class="tab-content active">
-			<table class="order-item">
-				<thead class="title-helper">
-					<tr>
-						<th></th>
-						<th class="title-helper__goods-amount">Товаров</th>
-						<th class="title-helper__total-amount">Общая сумма</th>
-						<th class="title-helper__total-paid">Оплачено</th>
-						<th class="title-helper__orders-created">Дата заказа</th>
-						<th></th>
-					</tr>
-				</thead>
-				<% orders.newOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
-					<tr>
-						<td class="order-item__number"><%= index + 1 -%></td>
-						<td class="order-item__goods-amount"><%= goods_count -%></td>
-						<td class="order-item__total-amount">
-							<span><%= Helpers.formatPrice(price) -%></span>р.
-						</td>
-						<td class="order-item__total-paid">
-							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
-						</td>
-						<td class="order-item__total-paid">
-							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
-						</td>
-						<td class="order-item__more-details">
-							<a href="/admin-order/<%= id -%>" class="btn more-order-details">Подробнее</a>
-						</td>
-					</tr>
-				<% }) %>
-			</table>
+			<%- include('./v-orders-list.ejs', { orders: orders.newOrders }) -%>
 		</div>
 		<div class="tab-content">
-			<table class="order-item">
-				<thead class="title-helper">
-					<tr>
-						<th></th>
-						<th class="title-helper__goods-amount">Товаров</th>
-						<th class="title-helper__total-amount">Общая сумма</th>
-						<th class="title-helper__total-paid">Оплачено</th>
-						<th class="title-helper__orders-created">Дата заказа</th>
-						<th></th>
-					</tr>
-				</thead>
-				<% orders.inWorkOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
-					<tr>
-						<td class="order-item__number"><%= index + 1 -%></td>
-						<td class="order-item__goods-amount"><%= goods_count -%></td>
-						<td class="order-item__total-amount">
-							<span><%= Helpers.formatPrice(price) -%></span>р.
-						</td>
-						<td class="order-item__total-paid">
-							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
-						</td>
-						<td class="order-item__total-paid">
-							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
-						</td>
-						<td class="order-item__more-details">
-							<a href="/admin-order/<%= id -%>" class="btn more-order-details">Подробнее</a>
-						</td>
-					</tr>
-				<% }) %>
-			</table>
+			<%- include('./v-orders-list.ejs', { orders: orders.inWorkOrders }) -%>
 		</div>
 		<div class="tab-content">
-			<table class="order-item">
-				<thead class="title-helper">
-					<tr>
-						<th></th>
-						<th class="title-helper__goods-amount">Товаров</th>
-						<th class="title-helper__total-amount">Общая сумма</th>
-						<th class="title-helper__total-paid">Оплачено</th>
-						<th class="title-helper__orders-created">Дата заказа</th>
-						<th></th>
-					</tr>
-				</thead>
-				<% orders.finishedOrders.forEach(({id, hash, client_id, surname, firstname, patronymic, email, phone, price, deliveryMethod, paymentMethod, created, goods_count, payed_sum}, index) => { %>
-					<tr>
-						<td class="order-item__number"><%= index + 1 -%></td>
-						<td class="order-item__goods-amount"><%= goods_count -%></td>
-						<td class="order-item__total-amount">
-							<span><%= Helpers.formatPrice(price) -%></span>р.
-						</td>
-						<td class="order-item__total-paid">
-							<span><%= Helpers.formatPrice(payed_sum) -%></span>р.
-						</td>
-						<td class="order-item__total-paid">
-							<span><%= Helpers.formatDate(created, 'dd.MM.yyyy hh:mm') -%></span>
-						</td>
-						<td class="order-item__more-details">
-							<a href="/admin-order/<%= id -%>" class="btn more-order-details">Подробнее</a>
-						</td>
-					</tr>
-				<% }) %>
-			</table>
+			<%- include('./v-orders-list.ejs', { orders: orders.finishedOrders }) -%>
 		</div>
 	</div>
 </div>
