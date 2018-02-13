@@ -52,7 +52,10 @@
                         <% } %>
                     </ul>
                     <ul class="header-menu header-menu-right">
-                        <% if(!user.id) { %> 
+                        <li>
+							<a href="/cart"><i class="fa fa-shopping-cart fa-lg"></i> (<span id="js-shoppingCart-goodsCount"><%= session.shoppingCart.totalCountGoods -%></span>)</a>
+						</li>
+						<% if(!user.id) { %> 
                             <li>
                                 <a href="/login">Вход</a>
                             </li>

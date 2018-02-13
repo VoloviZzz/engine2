@@ -9,8 +9,8 @@ module.exports = (app) => {
 		let goods = [];
 		let cart = false;
 		
-		if (session.user.shoppingCart) {
-			cart = session.user.shoppingCart;
+		if (session.shoppingCart) {
+			cart = session.shoppingCart;
 
 			const ids = Object.keys(cart.goods)
 				.map(id => id)

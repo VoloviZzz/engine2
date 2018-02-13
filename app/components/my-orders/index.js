@@ -1,14 +1,21 @@
 const path = require('path');
 
 module.exports = (app) => {
-	const { Model } = app;
+	const Model = app.Model;
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const { id } = session.user;
-		const [, [user]] = await Model.clients.get({ id });
-		
-		dataViews.user = user;
+		const client_id = session.user.id;
+
+		const [, orders] = await Model.orders.get({ client_id });
+
+		for (let order of orders) {
+			const { id } = order;
+			const [, orderGoods] = await Model.ordersGoods.get({ order_id: id });
+			order.goods = orderGoods;
+		}
+
+		dataViews.orders = orders;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
