@@ -295,7 +295,7 @@ $(document).ready(() => {
 	});
 
 	// добавить ссылку на социальную сеть
-	$('.js-add-social-link').on('click', function(e) {
+	$('.js-add-social-link').on('click', function (e) {
 		$.post('/api/socialLinks/add').done((result) => {
 			if (result.status !== 'ok') {
 				console.log(result);
@@ -306,4 +306,32 @@ $(document).ready(() => {
 		})
 		return false;
 	});
+
+	$('.js-siteLogo-file').on('change', function (e) {
+
+		const fd = new FormData();
+
+		fd.append('upload', this.files[0]);
+
+		$.ajax({
+			url: `/api/images/upload?filename=${this.files[0].name}`,
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success(result) {
+				$.post('/api/globalSiteConfig/setValue', {target: 'siteLogo', value: result.data.fileUrl}).done((result) => {
+					if(result.status !== 'ok') {
+						console.log(result);
+						alert(result.message)
+					}
+					else {
+						location.reload();
+					}
+				})
+			}
+		});
+
+		return false;
+	})
 })
