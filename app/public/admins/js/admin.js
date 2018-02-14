@@ -331,7 +331,6 @@ $(document).ready(() => {
 				})
 			}
 		});
-
 		return false;
 	})
 })
