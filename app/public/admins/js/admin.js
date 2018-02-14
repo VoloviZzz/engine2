@@ -320,8 +320,8 @@ $(document).ready(() => {
 			contentType: false,
 			type: 'POST',
 			success(result) {
-				$.post('/api/globalSiteConfig/setValue', {target: 'siteLogo', value: result.data.fileUrl}).done((result) => {
-					if(result.status !== 'ok') {
+				$.post('/api/globalSiteConfig/setValue', { target: 'siteLogo', value: result.data.fileUrl }).done((result) => {
+					if (result.status !== 'ok') {
 						console.log(result);
 						alert(result.message)
 					}
