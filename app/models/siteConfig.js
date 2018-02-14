@@ -1,22 +1,27 @@
 const db = require('../libs/db');
 
-exports.get = (data) => {
+exports.get = (data = {}) => {
+
+	let { target } = data;
+
+	target = !!target === true ? `AND target = '${target}'` : ``;
+
 	return db.execQuery(`
 		SELECT *
 		FROM global_site_config
 		WHERE id > 0
+			${target}
 	`);
 }
 
 exports.add = (data = {}) => {
 
-	if (!!data.title === false) return Promise.resolve([new Error('Отсутствует параметр title')]);
 	if (!!data.target === false) return Promise.resolve([new Error('Отсутствует параметр target')]);
 	if (!!data.value === false) return Promise.resolve([new Error('Отсутствует параметр value')]);
 
-	return db.insertQuery(`
-		INSERT INTO global_site_config SET title = '${data.title}', target = '${data.target}', value = '${data.value}'
-	`);
+	data.title = !!data.title ? data.title : ``;
+
+	return db.insertQuery(`INSERT INTO global_site_config SET title = '${data.title}', target = '${data.target}', value = '${data.value}'`);
 }
 
 exports.upd = (data = {}) => {
@@ -27,6 +32,16 @@ exports.upd = (data = {}) => {
 
 	return db.execQuery(`
 		UPDATE global_site_config SET ${data.target} = '${data.value}' WHERE id = '${data.id}'
+	`);
+}
+
+exports.setValue = (data = {}) => {
+
+	if(!!data.value === false) return Promise.resolve([new Error('Нет параметра value')]);
+	if(!!data.target === false) return Promise.resolve([new Error('Нет параметра target')]);
+
+	return db.execQuery(`
+		UPDATE global_site_config SET value = '${data.value}' WHERE target = '${data.target}'
 	`);
 }
 

@@ -157,7 +157,7 @@ $(document).ready(() => {
 		const move_position = +current_position + +this.dataset.vector;
 
 		$.post('/api/slider/moveSlide', { slide_id, current_position, move_position, fragment_id }).done(data => {
-			if(data.status !== 'ok') {
+			if (data.status !== 'ok') {
 				console.log(data);
 				return alert(data.message);
 			}
@@ -232,6 +232,20 @@ $(document).ready(() => {
 		const fragment_id = $(this).data('fragmentId')
 		$.post('/api/slider/add', { fragment_id }).done(result => {
 			if (result.status == 'ok') return location.reload();
+		})
+	})
+
+	// ------------------------------------------
+	$('.js-set-siteConfig').on('change', function (e) {
+
+		const target = $(this).data('target');
+		const value = $(this).val();
+
+		$.post('/api/globalSiteConfig/setValue', { target, value }).done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+			}
 		})
 	})
 })

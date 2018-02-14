@@ -4,7 +4,13 @@
                 <img src="/img/leta-logo.png" alt="Лета-Индекс">
             </a>
         </div>          
-            <div class="copyright">© ООО "Евросервис" 2017г.</div>
+            <div class="copyright">
+				<% if(session.user.adminMode) { %>
+					<input class="js-set-siteConfig" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
+				<% } else { %>
+					<%= siteConfig.get('footerText') -%>
+				<% } %>
+			</div>
         <div class="footer-social">
             <a class="social-btn social-btn-fb" href="#">Фэйсбук</a>
             <a class="social-btn social-btn-tw" href="#">Твиттер</a>
