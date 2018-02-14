@@ -5,26 +5,36 @@
             </a>
         </div>          
             <div class="copyright">
-				<% if(session.user.adminMode) { %>
+				<% if(user.adminMode) { %>
 					<input class="js-set-siteConfig" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
 				<% } else { %>
 					<%= siteConfig.get('footerText') -%>
 				<% } %>
 			</div>
         <div class="footer-social">
-            <a class="social-btn social-btn-fb" href="#">Фэйсбук</a>
-            <a class="social-btn social-btn-tw" href="#">Твиттер</a>
-            <a class="social-btn social-btn-vk" href="#">Вконтакте</a>
-            <a class="social-btn social-btn-od" href="#">Одноклассники</a>
-            <a class="social-btn social-btn-ut" href="#">Ютуб</a>
-            <a class="social-btn social-btn-inst" href="#">Инстаграм</a>
+			<% if(user.adminMode) { %>
+				<button class="js-add-social-link">+</button>
+			<% } %>
+			<% socialLinks.get().forEach((item) => { %>
+				<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">
+					<% if(user.adminMode) { %>
+						<div class="js-social-link-form" style="display: none">
+							<button class="js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
+							<input class="js-socialLink-edit" data-target="href" data-id="<%= item.id -%>" type="text" name="href" placeholder="Ссылка" value="<%= item.href -%>" style="width: 70px">
+							<input class="js-socialLink-edit" data-target="title" data-id="<%= item.id -%>" type="text" name="title" placeholder="Заголовок" value="<%= item.title -%>" style="width: 70px">
+							<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">
+						</div>
+					<% } %>
+					<i class="fa <%= item.icon -%>"></i>
+				</a>	
+			<% }) %>
         </div>
     </footer>
 </body>
 <script type="text/javascript" src="/vendors/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/js/application.js"></script>
-<% if(!!user.adminMode === true) { %> 
+<% if(!!user.adminMode === true) { %>
     <script src="/admins/js/admin.js"></script>
 <% } %>
 <% if(user.admin) { %>
