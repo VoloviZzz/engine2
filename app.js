@@ -107,6 +107,7 @@ db.connect(db.MODE_TEST, async (err) => {
 
 	await require('./componentsList')(app);
 	await require('./siteConfig')(app);
+	await require('./socialLinks')(app);
 
 	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
