@@ -5,7 +5,7 @@
             </a>
         </div>          
             <div class="copyright">
-				<% if(session.user.adminMode) { %>
+				<% if(user.adminMode) { %>
 					<input class="js-set-siteConfig" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
 				<% } else { %>
 					<%= siteConfig.get('footerText') -%>
