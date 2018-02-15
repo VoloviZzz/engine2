@@ -36,8 +36,16 @@ exports.create = function ({ email, firstname, surname, patronymic, address, pho
 	`);
 }
 
-exports.upd = function ({ target, value, id }) {
-	return db.execQuery(`
-		UPDATE clients SET ${target} = '${value}' WHERE id = ${id}
-	`);
+exports.upd = function ({ target, value, id, queryStr = '' }) {
+
+	let queryData = ``;
+
+	if (!!target === true && !!value === true) {
+		queryData = `${target} = '${value}'`;
+	}
+	else if (!!queryStr === true) {
+		queryData = queryStr;
+	}
+
+	return db.execQuery(`UPDATE clients SET ${queryData} WHERE id = ${id}`);
 }

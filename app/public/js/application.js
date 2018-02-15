@@ -2,6 +2,24 @@ $(document).ready(() => {
 	$('.header-nav .toggle-menu.btn').on('click', function (e) {
 		$('.menu-container').toggleClass('menu-container__active');
 	})
+
+	const tabs = document.querySelectorAll(".tab");
+	const contents = document.querySelectorAll(".tab-content");
+	const $tabsWrap = $(".tabs-titles-wrap");
+	const activeClass = "active";
+
+	$tabsWrap.on("click", e => {
+		if (e.target.classList.contains("tab")) {
+			[...tabs].forEach((tab, tabIndex, tabArray) => {
+				tab.classList.remove(activeClass);
+				contents[tabIndex].classList.remove(activeClass);
+				if (e.target === tab) {
+					tab.classList.add(activeClass);
+					contents[tabIndex].classList.add(activeClass);
+				}
+			});
+		}
+	});
 })
 
 // ----------------------------------------------------------------------------------------

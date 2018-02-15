@@ -73,7 +73,6 @@
     margin-bottom: 0 !important;
 }
 
-
 .input-group > label {
     display: flex;
     -webkit-align-items: center;
@@ -110,7 +109,7 @@
 }
 
 .first-item i {
-    content:"";
+    content: "";
     position: absolute;
     right: -20px;
     width: 15px;
@@ -132,7 +131,6 @@
         padding-top: 29px;
         padding-left: 40px;
         padding-right: 40px;
-
     }
 
     .input-group > label {
@@ -172,13 +170,14 @@ span.item__title {
     .my__item-wrapp {
         width: auto;
     }
-    
+
     .my__right {
         height: 100%;
     }
-    
+
     .my__button-wrapp {
         text-align: left;
+        padding: 10px 0px;
     }
 
     .personal .my__item {
@@ -219,7 +218,6 @@ span.item__title {
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-
 }
 
 @media (min-width: 1200px) {

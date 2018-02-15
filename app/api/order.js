@@ -1,6 +1,7 @@
 const ShoppingCart = require('../classes/ShoppingCart');
 const md5 = require('md5');
 
+// добавление данных оформления заказа в сессию
 exports.setOrderData = (req, res, next) => {
 	const { Model } = req.app;
 	const data = req.body;
@@ -25,23 +26,23 @@ exports.setOrderData = (req, res, next) => {
 			let [, codeId] = await Model.confirmedPhones.add({ phone: data.phone, code });
 
 			// await req.app.smsc.send({ phones: req.body.phone, mes: code });
-			
+
 			req.session.tempOrderData.code = code;
 			req.session.tempOrderData.codeId = codeId;
-			
+
 			return { status: 'confirm phone' }
 		}
 		// если номер есть в базе, но не подтверждён, то отправить пользователю уже существующий код
 		else if (confirmedPhones.length == 1 && confirmedPhones[0].confirmed == '0') {
-			
+
 			code = confirmedPhones[0].code;
 			codeId = confirmedPhones[0].id;
-			
+
 			req.session.tempOrderData.codeId = codeId;
 			req.session.tempOrderData.code = code;
 
 			// await req.app.smsc.send({ phones: req.body.phone, mes: code });
-			
+
 			return { status: 'confirm phone' }
 		}
 		// если есть в базе и подтверждён, то просто продолжить
@@ -107,5 +108,16 @@ exports.addOrder = (req, res, next) => {
 	}).catch(error => {
 		console.log(error);
 		return { message: error.message, error }
+	})
+}
+
+exports.changeStatus = (req, res, next) => {
+	const { hash, status } = req.body;
+	const { Model } = req.app;
+
+	return Model.orders.upd({ hash, target: 'status', value: status }).then(([error]) => {
+		if (error) return { message: error.message, error };
+
+		return { status: 'ok' }
 	})
 }

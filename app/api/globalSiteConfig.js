@@ -7,3 +7,12 @@ exports.add = (req, res, next) => {
 		return { status: 'ok' };
 	})
 }
+
+exports.setValue = (req, res, next) => {
+	const Model = req.app.Model;
+	const { target, value } = req.body;
+
+	return req.app.siteConfig.set({ target, value }).then(() => {
+		return { status: 'ok' }
+	})
+}

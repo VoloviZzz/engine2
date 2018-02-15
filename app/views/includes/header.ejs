@@ -19,7 +19,13 @@
         <header class="document-header">
             <nav class="header-nav">
                 <div class="site-band">
-                    <img class="nav-band" <%= user.admin ? `id=toggle-admin-mode` : '' %> src="/img/logo.png">
+                    <img class="nav-band" src="<%= siteConfig.get('siteLogo') -%>" <%= user.admin ? `id=toggle-admin-mode` : '' %>>
+					<% if(user.adminMode) { %>
+						<label class="js-siteLogo-edit-btn" style="cursor: pointer">
+							<span>+</span>
+							<input class="js-siteLogo-file" type="file" style="display: none;">
+						</label>
+					<% } %>
                     <button class="toggle-menu btn"></button>
                 </div>
                 <div class="menu-container">
