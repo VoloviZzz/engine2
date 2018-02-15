@@ -2,3 +2,4 @@ node_modules/
 .vs
 
 config/index.js
+app/public/uploads/*
