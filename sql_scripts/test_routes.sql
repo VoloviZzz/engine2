@@ -644,7 +644,7 @@ CREATE TABLE `questions` (
   `answer` text COMMENT 'ответ',
   `public` int(2) NOT NULL DEFAULT '0' COMMENT 'Публиковать',
   `creator` int(11) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='faq';
 
 --
@@ -1146,7 +1146,7 @@ CREATE TABLE `routes` (
   `seo_keywords` text,
   `seo_description` text,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `updated` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
