@@ -1,6 +1,9 @@
 const path = require('path');
 
 module.exports = (app) => {
+
+	const Model = app.Model;
+
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 

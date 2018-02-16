@@ -1,70 +1,36 @@
 $(document).ready(function (e) {
 
 	const defaultState = {};
+	const { getFormData } = new Forms();
 
 	$(".js-masked-phone").mask("+7(999)-999-99-99"); //номер телефона
 
-	$('.form-info').each((i, elem) => {
-		let $this = $(elem);
+	$('.form-info').on('submit', function (e) {
+		e.preventDefault();
+		const url = $(this).attr('action');
+		const formData = getFormData(this);
+		let validForm = true;
 
-		$this.serializeArray().map(v => {
-			defaultState[v.name] = v.value;
-		})
+		$(this).serializeArray().map(v => {
+			const checkValidRes = checkValid(v.name, v.value);
 
-	})
-
-	$('.js-my__accept-button').on('click', function (e) {
-
-		if (!confirm('Изменить личные данные?')) return false;
-
-		const $forms = $('.form-info');
-		const postArrays = [];
-		const postData = {
-			ctrl: 'change-user-data'
-		}
-
-		$forms.each((i, e) => {
-
-			const $this = $(e);
-
-			$this.serializeArray().map(v => {
-				if (defaultState[v.name] == v.value) return false;
-
-				const checkValidRes = checkValid(v.name, v.value);
-
-				if (checkValidRes === false) {
-					alert('Недопустимый формат ввода для поля: ' + getRusFiledName(v.name));
-					return false;
-				}
-
-				postData['target'] = v.name;
-				postData['value'] = v.value;
-
-				postArrays.push(new Promise((resolve, reject) => {
-					$.post('/api/my-cabinet/changeInfo', postData).done(res => {
-						return resolve(res);
-					})
-				}));
-			});
-		})
-
-		if (postArrays.length == 0) return false;
-
-		Promise.all(postArrays).then(results => {
-			const errorsArray = [];
-
-			results.map(r => {
-				if (r.status !== 'ok') {
-					errorsArray.push(r);
-					return alert(r.message);
-				}
-			})
-
-			if (errorsArray.length == 0) {
-				return location.reload();
+			if (checkValidRes === false) {
+				validForm = false;
+				alert('Недопустимый формат ввода для поля: ' + getRusFiledName(v.name));
+				delete formData[v.name]
+				return false;
 			}
-		}).catch(error => {
-			console.log(error);
+		});
+
+		if(validForm === false) return false;
+
+		$.post(url, formData).done(result => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
 		})
 	})
 
@@ -95,7 +61,7 @@ $(document).ready(function (e) {
 			return alert('Недопустимые символы при наборе пароля. Допускаются буквы латинского алфавита, а также числа.');
 		}
 
-		$.post("", postData).done(result => {
+		$.post("/api/my-cabinet/changeSecurity", postData).done(result => {
 			if (result.status !== 'ok') return alert(result.message);
 
 			location.reload();

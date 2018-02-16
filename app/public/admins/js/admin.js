@@ -157,7 +157,7 @@ $(document).ready(() => {
 		const move_position = +current_position + +this.dataset.vector;
 
 		$.post('/api/slider/moveSlide', { slide_id, current_position, move_position, fragment_id }).done(data => {
-			if(data.status !== 'ok') {
+			if (data.status !== 'ok') {
 				console.log(data);
 				return alert(data.message);
 			}
@@ -233,5 +233,104 @@ $(document).ready(() => {
 		$.post('/api/slider/add', { fragment_id }).done(result => {
 			if (result.status == 'ok') return location.reload();
 		})
+	})
+
+	// ------------------------------------------
+	$('.js-set-siteConfig').on('change', function (e) {
+
+		const target = $(this).data('target');
+		const value = $(this).val();
+
+		$.post('/api/globalSiteConfig/setValue', { target, value }).done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+			}
+		})
+	})
+
+	// редактирование иконок
+	$('.js-socialLink-edit').on('change', function (e) {
+		const target = $(this).data('target');
+		const id = $(this).data('id');
+		const value = $(this).val();
+
+		$.post('/api/socialLinks/upd', { target, id, value }).done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+			}
+		})
+
+		return false;
+	})
+
+	// Удаление иконок
+	$('.js-socialLink-delete').on('click', function (e) {
+		e.preventDefault()
+		console.log('here');
+		const id = $(this).data('id');
+
+		$.post('/api/socialLinks/del', { id }).done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+			} else {
+				location.reload();
+			}
+		})
+
+		return false;
+	})
+
+	// отмена скрытия формы, по клику на неё
+	$('.js-social-link-form').on('click', function (e) {
+		return false;
+	})
+
+	// показать форму редактирования ссылки на соц. сеть
+	$('.js-social-btn').on('click', function (e) {
+		$(this).find('.js-social-link-form').toggle();
+		return false;
+	});
+
+	// добавить ссылку на социальную сеть
+	$('.js-add-social-link').on('click', function (e) {
+		$.post('/api/socialLinks/add').done((result) => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+			} else {
+				location.reload();
+			}
+		})
+		return false;
+	});
+
+	$('.js-siteLogo-file').on('change', function (e) {
+
+		const fd = new FormData();
+
+		fd.append('upload', this.files[0]);
+
+		$.ajax({
+			url: `/api/images/upload?filename=${this.files[0].name}`,
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success(result) {
+				$.post('/api/globalSiteConfig/setValue', { target: 'siteLogo', value: result.data.fileUrl }).done((result) => {
+					if (result.status !== 'ok') {
+						console.log(result);
+						alert(result.message)
+					}
+					else {
+						location.reload();
+					}
+				})
+			}
+		});
+		return false;
 	})
 })

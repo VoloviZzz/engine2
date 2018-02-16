@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="/css/reviews-list.css">
+<div class="reviews-page-text clearfix">
+    <p class="text-margin-bottom text-indent">На этой странице Вы можете просмотреть отзывы клиентов, которые уже воспользовались услугами МП КПРУ. Для добавления собственного отзыва введите текст в форму внизу страницы и нажмите кнопку "Добавить".</p>
+    <p class="text-margin-bottom text-indent">Администрация МП КПРУ выражает Вам благодарность за Ваши отзывы, которые Вы присылаете в адрес нашей компании. Обращаем Ваше внимание, что из-за технических особенностей работы сервера Ваш отзыв может появиться не сразу.</p>
+</div>
+<div class="reviews-list-wrapp">
+    <ul class="reviews-list">
+        <% reviews.map(r => { %>
+            <% if(r.public == 0 && r.client != userId) return false; %>
+            <li class="reviews-item" data-id="<%= r.id %>">
+                <div class="review-wrapp">
+                    <div class="reviews-wrap-items">
+                        <div class="reviews-title">
+                            <div>
+                                <span class="reviews-name"><%= r.clientName || 'Неизвестно' -%></span>
+                                <% if(r.published == 0 && r.client_id == session.user.id) { %>
+                                    <span>(Отзыв находится на модерации)</span>
+                                <% } %>
+                            </div>
+                            <span class="reviews-time"><%=Helpers.formatDate(r.created, 'dd MMMM yy hh:mm')%></span>
+                        </div>
+                        <div class="reviews-text">
+                            <p class="text-indent"><%=r.text%></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+<% if(session.user.id) { %>
+    <div class="reviews-add-wrapper">
+        <input type="text" class="new-reviews-text" id="add-review-text" placeholder="Написать отзыв...">
+        <button class="btn new-reviews-button btn-inverse">Добавить</button>
+    </div>
+<% } else { %>
+    <div class="text-center">
+        <h3>
+            <b>Добавлять отзывы могут только зарегистрированные пользователи</b>
+        </h3>
+    </div>
+<% } %>
+<script src="/js/reviews-list.js" defer></script>

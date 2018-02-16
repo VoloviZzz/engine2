@@ -25,7 +25,7 @@
 							<% if(user.adminMode) { %>
 								<div>
 									<label>Добавить фото
-									<input class="js-slide-addSlide" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
+									<input class="js-slide-addSlidePhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
 									</label>
 								</div>
 							<% } %>
@@ -56,7 +56,7 @@
 								<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
 								<label>
 								Добавить фото
-								<input type="file" class="js-slide-addSlide" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
+								<input type="file" class="js-slide-addSlidePhoto" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
 								</label>
 							</div>
 							<% if(index > 0) { %>
