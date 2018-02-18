@@ -39,7 +39,7 @@ exports.upload = (req, res, next) => {
 
 		form.on('file', function (field, file) {
 			//rename the incoming file to the file's name
-			fs.rename(file.path, path.join(form.uploadDir, getQuery.filename));
+			fs.rename(file.path, path.join(form.uploadDir, getQuery.filename || file.name));
 		});
 
 		form.parse(req, function (err, fields, files) {

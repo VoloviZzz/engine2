@@ -1,0 +1,14 @@
+<section>
+	<% shops.forEach((shop) => { %>
+		<div>
+			<h1><%= shop.title -%></h1>
+			<div>
+				<%- Helpers.trimStr(Helpers.replaceLineBreaks(shop.text), 175) -%>
+			</div>
+			<div>
+				<span>Адрес: <%= shop.address -%></span>
+			</div>
+			<a href="/shop-page/<%= shop.id -%>">Подробнее...</a>
+		</div>
+	<% }) %>
+</section>
