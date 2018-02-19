@@ -38,10 +38,3 @@ exports.setImage = async function (req, res, next) {
 		});
 	})
 }
-
-exports.addProduct = function (req, res, next) {
-	return Model.goodsPositions.add(req.body).then(([error, newProduct]) => {
-		if(error) return {message: error.message, error};
-		return {status: 'ok'}
-	})
-}

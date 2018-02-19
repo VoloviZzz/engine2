@@ -13,12 +13,14 @@
 		</div>
 		<div class="good-info__img-wrapp">
 			<div class="baguetteBox" style="width: 90%">
-				<div class="js-photos-slider">
+				<div class="js-photos-slider flexslider">
 					<ul class="slides">
 						<% goodsPhotos.forEach((photo) => { %>
 							<li>
 								<% if(user.adminMode) { %>
-									<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+									<div style="position: absolute;">
+										<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+									</div>
 								<% } %>
 								<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
 									<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
@@ -30,8 +32,7 @@
 			</div>
 			<% if(user.adminMode) { %>
 				<span>Загрузить фото: </span>
-				<input id="uploadable-files" type="file">
-				<button id="uploadAllFiles" data-id="<%= position.id -%>" class="btn">Загрузить</button>
+				<input id="uploadable-files" data-id="<%= position.id -%>" type="file">
 			<% } %>
 		</div>
 		<div class="good-info__params-wrapp">

@@ -13,13 +13,15 @@ $(document).ready(() => {
 		})
 	})
 
-	// загрузка главного фото товара
-	$('#uploadAllFiles').on('click', function (e) {
-		const files = $('#uploadable-files').get(0).files[0];
+	$('#uploadable-files').on('change', function (e) {
+		const $input = $(this);
+		const files = $input.get(0).files[0];
 		const fd = new FormData();
-		const id = $(this).data('id');
+		const id = $input.data('id');
 
 		fd.append('upload', files);
+
+		$input.attr('disabled', 'disabled');
 
 		$.ajax({
 			url: `/api/goodsPosition/addPhoto?goodId=${id}`,
@@ -28,6 +30,8 @@ $(document).ready(() => {
 			contentType: false,
 			type: 'POST',
 			success(result) {
+				$input.removeAttr('disabled');
+
 				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
@@ -37,6 +41,31 @@ $(document).ready(() => {
 			}
 		});
 	})
+
+	// загрузка главного фото товара
+	// $('#uploadAllFiles').on('click', function (e) {
+	// 	const files = $('#uploadable-files').get(0).files[0];
+	// 	const fd = new FormData();
+	// 	const id = $(this).data('id');
+
+	// 	fd.append('upload', files);
+
+	// 	$.ajax({
+	// 		url: `/api/goodsPosition/addPhoto?goodId=${id}`,
+	// 		data: fd,
+	// 		processData: false,
+	// 		contentType: false,
+	// 		type: 'POST',
+	// 		success(result) {
+	// 			if (result.status !== 'ok') {
+	// 				console.log(result);
+	// 				return alert(result.message);
+	// 			}
+
+	// 			location.reload();
+	// 		}
+	// 	});
+	// })
 	// $('#uploadAllFiles').on('click', function (e) {
 	// 	const files = $('#uploadable-files').get(0).files[0];
 	// 	const fd = new FormData();

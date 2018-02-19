@@ -112,7 +112,6 @@ module.exports = (req, res, next, data = { pathToFolder: path.join(AppRoot, 'pub
 
 					// обработчик завершения загрузки
 					form.on('close', function () {
-						console.log('on close')
 						// если ошибок нет
 						if (errors.length == 0) {
 							resolve();

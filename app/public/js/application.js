@@ -79,7 +79,7 @@ Shop.prototype.addPosition = function ({ cat_id = false }) {
 
 	if (!!cat_id === false) return alert('Отсутствует или неправильный параметр cat_id');
 
-	$.post(`/api/shop/addProduct`, { cat_id }).done(result => {
+	$.post(`/api/goodsPosition/addProduct`, { cat_id }).done(result => {
 		if (result.status !== 'ok') {
 			console.log(result);
 			return alert(result.message);
