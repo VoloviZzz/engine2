@@ -1,5 +1,20 @@
 $(document).ready(() => {
 
+	$('.js-goodsPosition-delete').on('click', function (e) {
+		const id = $(this).data('id');
+
+		if(!confirm('Удалить товар с сайта?')) return false;
+
+		$.post('/api/goodsPosition/delete', { id }).done(result => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.href = '/shop';
+		})
+	})
+
 	$('.js-goodsPhoto-delete').on('click', function (e) {
 		const id = $(this).data('id');
 
@@ -41,62 +56,6 @@ $(document).ready(() => {
 			}
 		});
 	})
-
-	// загрузка главного фото товара
-	// $('#uploadAllFiles').on('click', function (e) {
-	// 	const files = $('#uploadable-files').get(0).files[0];
-	// 	const fd = new FormData();
-	// 	const id = $(this).data('id');
-
-	// 	fd.append('upload', files);
-
-	// 	$.ajax({
-	// 		url: `/api/goodsPosition/addPhoto?goodId=${id}`,
-	// 		data: fd,
-	// 		processData: false,
-	// 		contentType: false,
-	// 		type: 'POST',
-	// 		success(result) {
-	// 			if (result.status !== 'ok') {
-	// 				console.log(result);
-	// 				return alert(result.message);
-	// 			}
-
-	// 			location.reload();
-	// 		}
-	// 	});
-	// })
-	// $('#uploadAllFiles').on('click', function (e) {
-	// 	const files = $('#uploadable-files').get(0).files[0];
-	// 	const fd = new FormData();
-	// 	const id = $(this).data('id');
-
-	// 	fd.append('upload', files);
-
-	// 	$.ajax({
-	// 		url: '/api/goodsPosition/setMainPhoto',
-	// 		data: fd,
-	// 		processData: false,
-	// 		contentType: false,
-	// 		type: 'POST',
-	// 		success(result) {
-	// 			if (result.status !== 'ok') {
-	// 				console.log(result);
-	// 				return alert(result.message);
-	// 			}
-
-	// 			$.post('/api/goodsPosition/upd', { target: 'main_photo', value: result.data.photoId, id }).done((result) => {
-
-	// 				if (result.status !== 'ok') {
-	// 					console.log(result);
-	// 					return alert(result.message);
-	// 				}
-
-	// 				return location.reload();
-	// 			});
-	// 		}
-	// 	});
-	// })
 
 	$('.js-good-edit').on('input', function (e) {
 		const postData = {}

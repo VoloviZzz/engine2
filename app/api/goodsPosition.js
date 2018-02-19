@@ -1,14 +1,19 @@
 const UploadPhotos = require('../libs/UploadPhotos');
 
 exports.addProduct = function (req, res, next) {
+	const { Model } = req.app;
 	return Model.goodsPositions.add(req.body).then(([error, newProduct]) => {
-		if(error) return {message: error.message, error};
-		return {status: 'ok'}
+		if (error) return { message: error.message, error };
+		return { status: 'ok' }
 	})
 }
 
 exports.delete = (req, res, next) => {
-	return { status: 'ok' }
+	const { Model } = req.app;
+	return Model.goodsPositions.del(req.body).then(([error]) => {
+		if (error) return { message: error.message, error };
+		return { status: 'ok' }
+	})
 }
 
 exports.upd = function (req, res, next) {
@@ -100,7 +105,7 @@ exports.addPhoto = (req, res, next) => {
 			State.photoId = photoId;
 			return Model.goodsPositions.get({ id: goodId });
 		}).then(([error, goodsPos]) => {
-			if(error) return Promise.reject(error);
+			if (error) return Promise.reject(error);
 			goodsPos = goodsPos[0];
 			if (!!goodsPos.main_photo === false) {
 				return Model.goodsPositions.upd({ target: 'main_photo', value: State.photoId, id: goodsPos.id });
@@ -108,7 +113,7 @@ exports.addPhoto = (req, res, next) => {
 
 			return Promise.resolve([null]);
 		}).then(([error]) => {
-			if(error) return Promise.reject(error);
+			if (error) return Promise.reject(error);
 			return { status: 'ok' };
 		})
 		.catch(error => {

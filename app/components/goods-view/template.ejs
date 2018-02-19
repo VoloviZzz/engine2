@@ -4,6 +4,9 @@
 <div class="good-wrapp">
 	<div class="good-info">
 		<% if(user.adminMode) { %>
+			<div class="text-right" style="width: 100%">
+				<button class="btn js-goodsPosition-delete" data-id="<%= position.id -%>">Удалить товар</button>
+			</div>
 			<input class="js-good-edit good-info__title input-text text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
 		<% } %>
 		<div class="custom-details__collection" style="width: 100%">
