@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const cookieSession = require('cookie-session');
 const nodemailer = require('nodemailer');
 const favicon = require('serve-favicon');
+const fs = require('fs');
 
 const app = express();
 
@@ -48,6 +49,16 @@ function toggleAdminMode(req, res, next) {
 	req.session.user.adminMode = !req.session.user.adminMode;
 	res.json({ status: 'ok' });
 }
+
+process.on('unhandledRejection', (error, p) => {
+	console.error(error.message);
+
+	if(!!error.sql === true) {
+		console.log(error.sql);
+	}
+
+	fs.appendFileSync(path.join(__dirname, 'logs', 'unhandledRejection-log.log'), new Date().toLocaleString() + ': ' + error.stack + '\n\n');
+});
 
 app.use(setDefaultSessionData);
 

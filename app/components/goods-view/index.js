@@ -39,9 +39,11 @@ module.exports = (app) => {
 
 			const [posError, [pos]] = await app.Model.goodsPositions.get({ id: object_id });
 			if (posError) return resolve([, posError.message]);
-			if(!!pos === false) return resolve([, 'Страница не найдена']);
-			
+			if (!!pos === false) return resolve([, 'Страница не найдена']);
+
 			dataViews.position = pos;
+
+			data.locals.route.title = pos.title;
 
 			const catsTree = await app.locals.Helpers.buildTree(goodsCats[1]);
 
@@ -52,8 +54,9 @@ module.exports = (app) => {
 				positionCollection = [];
 				positionCollection.push(cat);
 
-				while (cat.childs) {
+				while (!!cat.childs === true) {
 					Object.keys(cat.childs).forEach(cat_id => {
+						if (!!cat.childs[cat_id] === false) return false; // заглушка. непонятно почему категория (cat) была undefined
 						cat = cat.childs[cat_id];
 						positionCollection.push(cat);
 					})

@@ -1,0 +1,99 @@
+2018-2-19 07:08:12: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:60:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:09:02: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:60:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:09:30: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:60:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:53:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:10:30: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:58:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:52:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:11:36: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:60:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:12:23: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:57:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:13:16: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:58:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:57:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:13:25: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:57:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:13:33: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:57:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:13:52: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:57:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
+2018-2-19 07:14:34: TypeError: Cannot read property 'childs' of undefined
+    at Object.keys.forEach.cat_id (D:\projects\engine\app\components\goods-view\index.js:59:17)
+    at Array.forEach (<anonymous>)
+    at Object.keys.some.cat_id (D:\projects\engine\app\components\goods-view\index.js:57:30)
+    at Array.some (<anonymous>)
+    at Promise (D:\projects\engine\app\components\goods-view\index.js:51:26)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+
