@@ -24,12 +24,6 @@ $(document).ready(() => {
 		}
 	}
 
-	$('#add-review-text').on('keydown', (e) => {
-		const ENTER_KEY = 13;
-		e = e || window.event;
-		if (e.keyCode === ENTER_KEY) return Reviews.add();
-	})
-
 	$('.new-reviews-button').on('click', Reviews.add);
 })
 
