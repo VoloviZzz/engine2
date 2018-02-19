@@ -1,5 +1,18 @@
 $(document).ready(() => {
 
+	$('.js-goodsPhoto-delete').on('click', function (e) {
+		const id = $(this).data('id');
+
+		$.post('/api/photos/delete', { id }).done(result => {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		})
+	})
+
 	// загрузка главного фото товара
 	$('#uploadAllFiles').on('click', function (e) {
 		const files = $('#uploadable-files').get(0).files[0];

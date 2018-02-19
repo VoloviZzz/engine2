@@ -41,6 +41,7 @@ exports.get = function (data = {}) {
 }
 
 exports.upd = function (data = {}) {
+	if(!!data.value === false) return Promise.resolve([new Error('Нет value')])
 	return db.execQuery(`
 		UPDATE goods_pos
 		SET ${data.target} = '${data.value}'

@@ -15,16 +15,16 @@
 			<div class="baguetteBox" style="width: 90%">
 				<div class="js-photos-slider">
 					<ul class="slides">
-						<li>
-							<a href="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
-								<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
-							</a>
-						</li>
-						<li>
-							<a href="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
-								<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
-							</a>
-						</li>
+						<% goodsPhotos.forEach((photo) => { %>
+							<li>
+								<% if(user.adminMode) { %>
+									<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+								<% } %>
+								<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
+									<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
+								</a>
+							</li>
+						<% }) %>
 					</ul>
 				</div>
 			</div>

@@ -78,13 +78,25 @@ exports.addPhoto = (req, res, next) => {
 	const Model = req.app.Model;
 	const goodId = req.query.goodId;
 	const photosPath = path.join(AppRoot, 'public', 'photos');
-
+	const State = {
+		photoId: null
+	};
 	return UploadPhotos(req, res, next, { pathToFolder: photosPath })
 		.then((result) => {
 			return Model.photos.add({ target: 'goodsPosition', target_id: goodId, path: result.url, name: result.filename });
 		})
-		.then((result) => {
-			return { status: 'ok', data: { photoId: result[1] } };
+		.then(([, photoId]) => {
+			State.photoId = photoId;
+			return Model.goodsPositions.get({ id: goodId });
+		}).then(([, [goodsPos]]) => {
+			if (!!goodsPos.main_photo === false) {
+				return Model.goodsPositions.upd({ target: 'main_photo', value: State.photoId, id: goodsPos.id });
+			}
+
+			return Promise.resolve();
+		}).then(([error]) => {
+			if(error) return Promise.reject(error);
+			return { status: 'ok' };
 		})
 		.catch(error => {
 			console.log(error);
