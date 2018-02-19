@@ -1,28 +1,28 @@
 $(document).ready(() => {
 
-	$('.js-documents-title-update').on('input', updDocumentTitle);
-	$('.js-documents-toggle-public').on('click', toggleDocumentPublic);
-	$('.js-documents-delete').on('click', deleteDocument);
-	$('.js-documents-add').on('click', addDocument);
-	$('.js-documentsText-update').on('change', updDocumentText);
+	$('.js-vacancies-title-update').on('input', updVacanciesTitle);
+	$('.js-vacancies-toggle-public').on('click', toggleVacanciesPublic);
+	$('.js-vacancies-delete').on('click', deleteVacancies);
+	$('.js-vacancies-add').on('click', addVacancies);
+	$('.js-vacanciesText-update').on('change', updVacanciesText);
 
-	const documentId = $('#js-document-id').val();
+	const vacanciesId = $('#js-vacancies-id').val();
 
-	function updDocumentText(e, data) {
+	function updVacanciesText(e, data) {
 		const postData = {
-			id: documentId,
+			id: vacanciesId,
 			value: data.trim(),
 			target: 'text'
 		};
 
-		sendRequest('/api/documents/upd', postData).catch(error => {
+		sendRequest('/api/vacancies/upd', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
 		});
 	}
 
-	function updDocumentTitle() {
+	function updVacanciesTitle() {
 
 		$this = $(this);
 
@@ -32,14 +32,14 @@ $(document).ready(() => {
 			target: 'title'
 		};
 
-		sendRequest('/api/documents/upd', postData).catch(error => {
+		sendRequest('/api/vacancies/upd', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
 		});
 	}
 
-	function toggleDocumentPublic() {
+	function toggleVacanciesPublic() {
 		$this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
@@ -51,7 +51,7 @@ $(document).ready(() => {
 			value: $this.val()
 		};
 
-		sendRequest('/api/documents/togglePublished', postData).catch(error => {
+		sendRequest('/api/vacancies/togglePublished', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
@@ -60,7 +60,7 @@ $(document).ready(() => {
 		});
 	}
 
-	function deleteDocument() {
+	function deleteVacancies() {
 		$this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
@@ -71,7 +71,7 @@ $(document).ready(() => {
 			id: $this.data('id'),
 		};
 
-		sendRequest('/api/documents/del', postData).catch(error => {
+		sendRequest('/api/vacancies/del', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
@@ -80,7 +80,7 @@ $(document).ready(() => {
 		});
 	}
 
-	function addDocument() {
+	function addVacancies() {
 		$this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
@@ -89,7 +89,7 @@ $(document).ready(() => {
 
 		const postData = {};
 
-		sendRequest('/api/documents/add', postData).then(() => {
+		sendRequest('/api/vacancies/add', postData).then(() => {
 			return location.reload();
 		}).catch(error => {
 			console.log(error.message);

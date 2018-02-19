@@ -1,6 +1,6 @@
 exports['upd'] = (req, res, next) => {
 	const { Model } = req.app;
-	return Model.documents.upd({ target: req.body.target, value: req.body.value, id: req.body.id }).then(data => {
+	return Model.vacancies.upd({ target: req.body.target, value: req.body.value, id: req.body.id }).then(data => {
 		return { status: 'ok' };
 	}).catch(e => {
 		console.log('Ошибка во время выполнения запроса');
@@ -11,7 +11,7 @@ exports['upd'] = (req, res, next) => {
 
 exports['togglePublished'] = (req, res, next) => {
 	const { Model } = req.app;
-	return Model.documents.upd({ target: 'published', value: req.body.value, id: req.body.id }).then(data => {
+	return Model.vacancies.upd({ target: 'published', value: req.body.value, id: req.body.id }).then(data => {
 		return { status: 'ok' };
 	}).catch(e => {
 		console.log('Ошибка во время выполнения запроса');
@@ -22,7 +22,7 @@ exports['togglePublished'] = (req, res, next) => {
 
 exports['del'] = (req, res, next) => {
 	const { Model } = req.app;
-	return Model.documents.del({ id: req.body.id }).then(data => {
+	return Model.vacancies.del({ id: req.body.id }).then(data => {
 		return { status: 'ok' };
 	}).catch(e => {
 		console.log('Ошибка во время выполнения запроса');
@@ -33,7 +33,8 @@ exports['del'] = (req, res, next) => {
 
 exports['add'] = (req, res, next) => {
 	const { Model } = req.app;
-	return Model.documents.add({ creator: req.session.userId }).then(data => {
+	return Model.vacancies.add({ creator: req.session.userId }).then(([error, resultId]) => {
+		if (error) return { message: error.message, error }
 		return { status: 'ok' };
 	}).catch(e => {
 		console.log('Ошибка во время выполнения запроса');

@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/css/vacancies-view.css">
+<input type="hidden" id="js-vacancies-id" value="<%= vacancy.id -%>">
+<div id="all" class="menu-sections menu-sections__default">
+	<% if(user.adminMode) { %>
+		<div class="admin-control-container">
+			<button data-id="<%= vacancy.id %>" class="btn js-vacancies-delete">Удалить</button>
+			<% if(vacancy.published) { %>
+				<button value="0" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
+			<% }
+			else { %>
+				<button value="1" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
+			<% } %>
+		</div>
+	<% } %>
+	<% if(user.adminMode) { %>
+		<input data-id="<%= vacancy.id %>" type="text" class="input-text js-vacancies-title-update" value="<%= vacancy.title %>">
+	<% } %>
+	<% if(user.adminMode) { %>
+		<textarea class="js-vacanciesText-update js-ckeditor-edit"><%- Helpers.replaceLineBreaks(vacancy.text) %></textarea>
+	<% } else { %>
+		<div data-id="<%= vacancy.id %>" class="vacancy-text text-margin-bottom-p text-indent">
+			<%- Helpers.replaceLineBreaks(vacancy.text) %>
+		</div>
+	<% } %>
+</div>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/vacancies-list.js" defer></script>
+<% } %>

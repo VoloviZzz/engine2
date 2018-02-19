@@ -184,6 +184,10 @@ $(document).ready(() => {
 		CKEDITOR.replace(elem);
 	})
 
+	$('.js-staticFragment-edit').on('change', function (e, data) {
+		fragments.setData({ fragment_id: this.dataset.fragmentId, data });
+	})
+
 	$.each(CKEDITOR.instances, (i, elem) => {
 		elem.on('change', function () {
 			const editorData = this.getData();
@@ -191,13 +195,6 @@ $(document).ready(() => {
 			$(editorElement).trigger('change', [editorData]);
 		})
 	})
-	// $.each(CKEDITOR.instances, (i, elem) => {
-	// 	elem.on('change', function () {
-	// 		const editorData = this.getData();
-	// 		const editorElement = this.element.$;
-	// 		fragments.setData({ fragment_id: editorElement.dataset.fragmentId, data: editorData });
-	// 	})
-	// })
 
 	$(".fragment-setting-window .setting-call-btn").click(function () {
 		$(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");

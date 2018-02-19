@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/css/vacancies-list.css">
+<div class="menu-sections menu-sections__default">
+	<div class="vacancies-container">
+		<% if(user.adminMode) { %>
+			<div class="admin-control-container">
+				<button class="btn js-vacancies-add">Добавить новую вакансию</button>
+			</div>
+		<% } %>
+		<% vacancies.map(d => { %>
+			<div class="vacancies-item">
+				<% if(user.adminMode) { %>
+					<div class="admin-control-container">
+						<button data-id="<%= d.id %>" class="btn js-vacancies-delete">Удалить</button>
+						<% if(d.published) { %>
+							<button value="0" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
+						<% }
+						else { %>
+							<button value="1" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
+						<% } %>
+					</div>
+				<% } %>
+				<% if(user.adminMode) { %>
+					<div>
+						<input data-id="<%= d.id %>" class="input-text js-vacancies-title-update" type="text" value="<%= d.title %>">
+					</div>
+				<% }
+				else { %>
+					<h1 class="vacancies-item__title"><%= d.title %></h1>
+				<% } %>
+				<div class="vacancies-item__text text-margin-bottom-p text-indent">
+					<%- Helpers.replaceLineBreaks(Helpers.trimStr(d.text, 200)) %>
+				</div>
+				<div class="vacancies-item__more">
+					<a class="page-link" href="/vacancy/<%= d.id %>">Подробнее</a>
+				</div>
+			</div>
+		<% }) %>		
+	</div>
+</div>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/vacancies-list.js" defer></script>
+<% } %>

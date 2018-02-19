@@ -7,15 +7,9 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const documentId = locals.dynamicRouteNumber;
+		const [, vacancies] = await Model.vacancies.get();
 
-		const [, [document]] = await Model.documents.get({ id: documentId });
-
-		if (!!document === false) return Promise.resolve([, "Не найдено"]);
-
-		locals.route.title = document.title;
-
-		dataViews.document = document;
+		dataViews.vacancies = vacancies;
 		dataViews.user = session.user;
 
 		return new Promise((resolve, reject) => {

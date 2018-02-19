@@ -26,7 +26,13 @@
                 </div>
             </div>
         <% } %>
-        <div class="fragment-body <%= fragment.isStatic && fragment.component_id == 2 && user.adminMode ? 'js-ckeditor-edit' : '' -%>" data-fragment-id="<%= id -%>" ><%- content -%></div>
+		<div class="fragment-body 
+			<%= fragment.isStatic &&
+				fragment.component_id == 2 && 
+				user.adminMode ? 'js-staticFragment-edit js-ckeditor-edit' : '' -%>" 
+				data-fragment-id="<%= id -%>" >
+					<%- content -%>
+		</div>
     </div>
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 
