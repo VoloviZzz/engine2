@@ -37,10 +37,11 @@ module.exports = (app) => {
 			dataViews.goodsPropsBindValues = goodsPropsBindValues[1];
 			dataViews.goodsProps = goodsProps[1];
 
-			const [posError, pos] = await app.Model.goodsPositions.get({ id: object_id });
+			const [posError, [pos]] = await app.Model.goodsPositions.get({ id: object_id });
 			if (posError) return resolve([, posError.message]);
-
-			dataViews.position = pos[0];
+			if(!!pos === false) return resolve([, 'Страница не найдена']);
+			
+			dataViews.position = pos;
 
 			const catsTree = await app.locals.Helpers.buildTree(goodsCats[1]);
 

@@ -96,6 +96,7 @@ module.exports = (app, express) => {
 		res.locals.user = Object.assign({}, req.session.user);
 		res.locals.routeId = route.id;
 		res.locals.route = route;
+		res.locals.fullUrl = req.url;
 
 		[err, fragments] = await Model.fragments.get({ route_id: route.id });
 		if (err) return next(err);
