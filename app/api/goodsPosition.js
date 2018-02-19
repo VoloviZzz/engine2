@@ -1,7 +1,9 @@
+const UploadPhotos = require('../libs/UploadPhotos');
+
 exports.upd = function (req, res, next) {
 	const Model = req.app.Model;
 
-	if(!!req.body.id === false)  return {message: 'Отсутствует параметр id'};
+	if (!!req.body.id === false) return { message: 'Отсутствует параметр id' };
 
 	return Model.goodsPositions.upd(req.body).then(([error, result]) => {
 		if (error) return { message: error.message, error };
@@ -54,8 +56,6 @@ exports.deleteParamsBindValues = async function (req, res, next) {
 	})
 }
 
-const UploadPhotos = require('../libs/UploadPhotos');
-
 exports.setMainPhoto = function (req, res, next) {
 	const Model = req.app.Model;
 	const goodId = req.params.goodId;
@@ -66,7 +66,25 @@ exports.setMainPhoto = function (req, res, next) {
 			return Model.photos.add({ path: result.url, name: result.filename });
 		})
 		.then((result) => {
-			return { status: 'ok', data: {photoId: result[1]} };
+			return { status: 'ok', data: { photoId: result[1] } };
+		})
+		.catch(error => {
+			console.log(error);
+			return { status: 'bad', error, message: error.message }
+		})
+}
+
+exports.addPhoto = (req, res, next) => {
+	const Model = req.app.Model;
+	const goodId = req.query.goodId;
+	const photosPath = path.join(AppRoot, 'public', 'photos');
+
+	return UploadPhotos(req, res, next, { pathToFolder: photosPath })
+		.then((result) => {
+			return Model.photos.add({ target: 'goodsPosition', target_id: goodId, path: result.url, name: result.filename });
+		})
+		.then((result) => {
+			return { status: 'ok', data: { photoId: result[1] } };
 		})
 		.catch(error => {
 			console.log(error);

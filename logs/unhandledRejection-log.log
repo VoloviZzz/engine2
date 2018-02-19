@@ -97,3 +97,8 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:160:7)
 
+2018-2-19 07:50:01: TypeError: Cannot read property 'sendData' of undefined
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:145:25)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:160:7)
+

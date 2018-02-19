@@ -1,8 +1,10 @@
 <link rel="stylesheet" href="/css/goods-view.css">
+<link rel="stylesheet" href="/vendors/baguettebox.js/dist/baguetteBox.min.css">
+<link rel="stylesheet" href="/vendors/flexSlider/flexslider.css">
 <div class="good-wrapp">
 	<div class="good-info">
 		<% if(user.adminMode) { %>
-			<input class="js-good-edit good-info__title" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
+			<input class="js-good-edit good-info__title input-text text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
 		<% } %>
 		<div class="custom-details__collection" style="width: 100%">
 			<% position.collection.forEach(({title, id}) => { %>
@@ -10,9 +12,24 @@
 			<% }) %>
 		</div>
 		<div class="good-info__img-wrapp">
-			<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>" alt="">
+			<div class="baguetteBox" style="width: 90%">
+				<div class="js-photos-slider">
+					<ul class="slides">
+						<li>
+							<a href="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
+								<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
+							</a>
+						</li>
+						<li>
+							<a href="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
+								<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/prod/${position.photo_name}`) %>">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 			<% if(user.adminMode) { %>
-				<span>Выбрать основное фото: </span>
+				<span>Загрузить фото: </span>
 				<input id="uploadable-files" type="file">
 				<button id="uploadAllFiles" data-id="<%= position.id -%>" class="btn">Загрузить</button>
 			<% } %>
@@ -119,4 +136,9 @@
 		</div>
 	</div>
 </div>
+<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js" defer></script>
+<script src="/vendors/flexSlider/jquery.flexslider-min.js" defer></script>
 <script src="/js/goods-view.js" defer></script>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/goods-view.js" defer></script>
+<% } %>

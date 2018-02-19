@@ -120,6 +120,10 @@ table tr:nth-child(2n + 1) {
     background-color: #f3f3f3;
 }
 
+.js-photos-slider {
+    position: relative;
+}
+
 @media (min-width: 440px) and (max-width: 768px) {
     .good-price {
         flex-direction: row;
@@ -150,10 +154,6 @@ table tr:nth-child(2n + 1) {
 
     .good-info__img-wrapp {
         width: 50%;
-    }
-
-    .good-info__img {
-        width: 90%;
     }
 
     .good-info__params-wrapp {

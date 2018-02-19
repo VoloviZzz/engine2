@@ -67,6 +67,8 @@ module.exports = (app) => {
 
 			dataViews.position.collection = positionCollection;
 
+			[, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPositions', target_id: dataViews.position.id });
+
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
 

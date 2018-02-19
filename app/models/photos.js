@@ -6,7 +6,14 @@ exports.get = function (data = { id: '' }) {
 }
 
 exports.add = function (data = { path: '', name: '' }) {
+
+	let { target, target_id } = data;
+
 	if (!!data.path === false) return Promise.resolve([new Error('Отсутствует путь до файла'), null]);
 	if (!!data.name === false) return Promise.resolve([new Error('Отсутствует название файла'), null]);
-	return db.insertQuery(`INSERT INTO photos SET path = '${data.path}', name = '${data.name}'`);
+
+	target = !!target === true ? `, target = '${target}'` : '';
+	target_id = !!target_id === true ? `, target_id = '${target_id}'` : '';
+
+	return db.insertQuery(`INSERT INTO photos SET path = '${data.path}', name = '${data.name}' ${target} ${target_id}`);
 }
