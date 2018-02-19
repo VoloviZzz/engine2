@@ -43,9 +43,8 @@ module.exports = (app) => {
 
 			dataViews.position = pos;
 
-			data.locals.route.title = pos.title;
-
 			const catsTree = await app.locals.Helpers.buildTree(goodsCats[1]);
+			let rootLevelCats = goodsCats[1].filter(c => c.level == '0');
 
 			let positionCollection = [];
 
@@ -65,7 +64,9 @@ module.exports = (app) => {
 				return cat.id === dataViews.position.cat_id;
 			})
 
+			dataViews.rootLevelCats = rootLevelCats;
 			dataViews.position.collection = positionCollection;
+			data.locals.route.title = pos.title;
 
 			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
 

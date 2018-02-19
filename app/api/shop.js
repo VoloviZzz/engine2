@@ -9,6 +9,13 @@ exports.addCategories = async function (req, res, next) {
 	});
 }
 
+exports.getCategories = async function (req, res, next) {
+	return Model.goodsCategories.get(req.body).then(([error, categories]) => {
+		if (error) return { message: error.message, error }
+		return { status: 'ok', data: { categories } };
+	});
+}
+
 exports.updCategories = async function (req, res, next) {
 	return Model.goodsCategories.upd(req.body).then(([error, insertId]) => {
 		if (error) return { status: 'bad', error, message: error.message }
