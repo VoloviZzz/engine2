@@ -32,9 +32,12 @@
 		<form>
 			<div class="form-group">
 				<span><%= s.title -%>: </span>
-				<input type="text" value="<%= s.value -%>">
+				<input class="js-input-value" data-target="<%= s.target -%>"  type="text" value="<%= s.value -%>">
+				<% if(s.type == "5") { %>
+					<input class="js-upload-image" data-target="<%= s.target -%>" type="file">
+				<% } %>
 			</div>
 		</form>
 	<% }) %>
 </section>
-<script src="/js/globalConfig.js" defer></script>
+<script src="/admins/js/globalConfig.js" defer></script>

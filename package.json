@@ -22,7 +22,8 @@
 		"nodemailer": "^4.4.2",
 		"pdfkit": "^0.8.3",
 		"require-dir": "^0.3.2",
-		"resize-crop": "0.0.3"
+		"resize-crop": "0.0.3",
+		"serve-favicon": "^2.4.5"
 	},
 	"devDependencies": {
 		"nodemon": "^1.14.11"

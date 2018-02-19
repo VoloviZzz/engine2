@@ -4,6 +4,7 @@ const path = require('path');
 const ejs = require('ejs');
 const cookieSession = require('cookie-session');
 const nodemailer = require('nodemailer');
+const favicon = require('serve-favicon');
 
 const app = express();
 
@@ -12,6 +13,7 @@ const db = require('./app/libs/db');
 
 const Model = require('./app/models/index');
 
+// app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
@@ -19,11 +21,6 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 app.use(cookieSession(config.session));
-
-global.DocumentRoot = __dirname;
-global.AppRoot = path.join(__dirname, 'app');
-global.path = require('path');
-
 
 const ShoppingCart = require('./app/classes/ShoppingCart');
 
@@ -64,6 +61,11 @@ app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 app.locals.uploadDir = path.join(__dirname, 'app', 'public', 'uploads');
 app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
+
+global.DocumentRoot = __dirname;
+global.AppRoot = path.join(__dirname, 'app');
+global.PublicDir = path.join(__dirname, 'app', 'public');
+global.path = require('path');
 
 const smsc = require('node-smsc')({
 	login: 'sandalb',
