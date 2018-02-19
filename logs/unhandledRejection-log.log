@@ -102,3 +102,27 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:160:7)
 
+2018-2-20 01:23:59: ReferenceError: Model is not defined
+    at exports.delete (D:\projects\engine\app\api\goodsPosition.js:11:2)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
+2018-2-20 01:35:31: ReferenceError: Model is not defined
+    at exports.addProduct (D:\projects\engine\app\api\goodsPosition.js:4:2)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
