@@ -2,7 +2,9 @@
 	<div class="goods-list__items-wrapper">
 		<% data.forEach((p, i) => { %>
 			<div class="goods-list__item">
-				<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
+				<% if(user.adminMode) { %>
+					<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
+				<% } %>
 				<div class="goods-item__title">
 					<span>
 						<%= p.title %>
