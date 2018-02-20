@@ -13,7 +13,7 @@
 		</div>
 		<div class="good-info__img-wrapp">
 			<div class="baguetteBox" style="width: 90%">
-				<div class="js-photos-slider">
+				<div class="js-photos-slider flexslider">
 					<ul class="slides">
 						<% goodsPhotos.forEach((photo) => { %>
 							<li>
@@ -60,7 +60,10 @@
 					<% } %>
 				</div>
 				<% if(position.count > 0) { %>
-					<button id="js-goodsView-add-to-cart" data-id="<%=position.id%>" class="good-price__buy">Добавить в корзину</button>
+					<button id="js-goodsView-add-to-cart" data-id="<%=position.id%>" class="good-price__buy">
+						<span class="add-to-cart-stick">Добавить в корзину</span>
+						<em class="added-to-cart">Добавлено</em>
+					</button>
 				<% }
 				else { %>
 					<button class="good-price__buy disabled" disabled>Товара нет в наличии</button>

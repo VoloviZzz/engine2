@@ -102,3 +102,13 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:160:7)
 
+2018-2-19 19:42:06: Error: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at D:\РАБОТА, ДОКИ И Т.Д,\LetaIndex\Различные задания\engine\app\models\routes.js:18:18
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+
+2018-2-19 19:42:39: Error: Error: connect ECONNREFUSED 127.0.0.1:3306
+    at D:\РАБОТА, ДОКИ И Т.Д,\LetaIndex\Различные задания\engine\app\models\routes.js:18:18
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+
