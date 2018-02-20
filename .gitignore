@@ -1,5 +1,8 @@
+logs/
 node_modules/
 .vs
 
 config/index.js
 app/public/uploads/*
+!app/public/uploads/logo.*
+app/public/photos/*

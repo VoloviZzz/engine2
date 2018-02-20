@@ -9,6 +9,13 @@ exports.addCategories = async function (req, res, next) {
 	});
 }
 
+exports.getCategories = async function (req, res, next) {
+	return Model.goodsCategories.get(req.body).then(([error, categories]) => {
+		if (error) return { message: error.message, error }
+		return { status: 'ok', data: { categories } };
+	});
+}
+
 exports.updCategories = async function (req, res, next) {
 	return Model.goodsCategories.upd(req.body).then(([error, insertId]) => {
 		if (error) return { status: 'bad', error, message: error.message }
@@ -36,12 +43,5 @@ exports.setImage = async function (req, res, next) {
 
 			return resolve({ status: 'ok', data: { fileUrl } });
 		});
-	})
-}
-
-exports.addProduct = function (req, res, next) {
-	return Model.goodsPositions.add(req.body).then(([error, newProduct]) => {
-		if(error) return {message: error.message, error};
-		return {status: 'ok'}
 	})
 }

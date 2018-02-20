@@ -4,6 +4,9 @@
 <div class="good-wrapp">
 	<div class="good-info">
 		<% if(user.adminMode) { %>
+			<div class="text-right" style="width: 100%">
+				<button class="btn js-goodsPosition-delete" data-id="<%= position.id -%>">Удалить товар</button>
+			</div>
 			<input class="js-good-edit good-info__title input-text text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
 		<% } %>
 		<div class="custom-details__collection" style="width: 100%">
@@ -18,7 +21,9 @@
 						<% goodsPhotos.forEach((photo) => { %>
 							<li>
 								<% if(user.adminMode) { %>
-									<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+									<div style="position: absolute;">
+										<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+									</div>
 								<% } %>
 								<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
 									<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
@@ -30,8 +35,7 @@
 			</div>
 			<% if(user.adminMode) { %>
 				<span>Загрузить фото: </span>
-				<input id="uploadable-files" type="file">
-				<button id="uploadAllFiles" data-id="<%= position.id -%>" class="btn">Загрузить</button>
+				<input id="uploadable-files" data-id="<%= position.id -%>" type="file">
 			<% } %>
 		</div>
 		<div class="good-info__params-wrapp">

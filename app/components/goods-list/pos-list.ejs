@@ -2,6 +2,9 @@
 	<div class="goods-list__items-wrapper">
 		<% data.forEach((p, i) => { %>
 			<div class="goods-list__item">
+				<% if(user.adminMode) { %>
+					<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
+				<% } %>
 				<div class="goods-item__title">
 					<span>
 						<%= p.title %>
@@ -22,3 +25,6 @@
 		<% }) %>
 	</div>
 </div>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/goods-list.js" defer></script>
+<% } %>

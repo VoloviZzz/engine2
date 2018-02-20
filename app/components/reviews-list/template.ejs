@@ -20,7 +20,7 @@
                             <span class="reviews-time"><%=Helpers.formatDate(r.created, 'dd MMMM yy hh:mm')%></span>
                         </div>
                         <div class="reviews-text">
-                            <p class="text-indent"><%=r.text%></p>
+                            <p class="text-indent"><%- Helpers.replaceLineBreaks(r.text) -%></p>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
 </div>
 <% if(session.user.id) { %>
     <div class="reviews-add-wrapper">
-        <input type="text" class="new-reviews-text" id="add-review-text" placeholder="Написать отзыв...">
+		<textarea class="input-text new-reviews-text" id="add-review-text" name="reviews-text"></textarea>
         <button class="btn new-reviews-button btn-inverse">Добавить</button>
     </div>
 <% } else { %>
