@@ -48,13 +48,14 @@ module.exports = (app) => {
 
 			let positionCollection = [];
 
-			Object.keys(catsTree).some(cat_id => {
+			Object.keys(catsTree).some((cat_id, index) => {
 				let cat = catsTree[cat_id];
 				positionCollection = [];
 				positionCollection.push(cat);
 
-				while (!!cat.childs === true) {
-					Object.keys(cat.childs).forEach(cat_id => {
+				while (cat.childs === true) {
+					Object.keys(cat.childs).forEach((cat_id, index) => {
+						if (cat.childs === false) return false; // заглушка. непонятно почему категория (cat) была undefined
 						if (!!cat.childs[cat_id] === false) return false; // заглушка. непонятно почему категория (cat) была undefined
 						cat = cat.childs[cat_id];
 						positionCollection.push(cat);
