@@ -1,14 +1,17 @@
+<link rel="stylesheet" href="/css/shops-list.css">
 <section>
 	<% shops.forEach((shop) => { %>
-		<div>
-			<h1><%= shop.title -%></h1>
-			<div>
+		<div class="shops-item">
+			<h1 class="shops-item__title"><%= shop.title -%></h1>
+			<div class="shops-item__text text-margin-bottom-p text-indent">
 				<%- Helpers.trimStr(Helpers.replaceLineBreaks(shop.text), 175) -%>
 			</div>
-			<div>
+			<div class="shops-item__text text-margin-bottom-p text-indent">
 				<span>Адрес: <%= shop.address -%></span>
 			</div>
-			<a href="/shop-page/<%= shop.id -%>">Подробнее...</a>
+			<div class="shops-item__more">
+					<a class="page-link" href="/shop-page/<%= shop.id -%>">Подробнее...</a>
+			</div>
 		</div>
 	<% }) %>
 </section>
