@@ -104,7 +104,7 @@
 }
 
 .good-price__buy.added span {
-    animation: slideone 2s cubic-bezier(.4,.02,.63,1.02) 0s 2 alternate both;
+    animation: slideone 1.3s cubic-bezier(.4,.02,.63,1.02) 0s 2 alternate both;
 }
 
 @keyframes slide {
@@ -113,7 +113,7 @@
 }
 
 .good-price__buy.added em {
-    animation: slide 2s cubic-bezier(.4,.02,.63,1.02) 0s 2 alternate both;
+    animation: slide 1.3s cubic-bezier(.4,.02,.63,1.02) 0s 2 alternate both;
 }
 
 .good-info__description {

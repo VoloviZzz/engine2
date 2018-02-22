@@ -112,3 +112,11 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:188:7)
 
+2018-2-22 09:22:05: TypeError: Cannot read property 'replace' of undefined
+    at createVisit (D:\РАБОТА, ДОКИ И Т.Д,\LetaIndex\Различные задания\engine\app\libs\visits.js:6:113)
+    at Layer.handle [as handle_request] (D:\РАБОТА, ДОКИ И Т.Д,\LetaIndex\Различные задания\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\РАБОТА, ДОКИ И Т.Д,\LetaIndex\Различные задания\engine\node_modules\express\lib\router\route.js:137:13)
+    at createVisitor (D:\РАБОТА, ДОКИ И Т.Д,\LetaIndex\Различные задания\engine\app\libs\visitors.js:17:12)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+

@@ -31,12 +31,12 @@ var addToCartBtn = document.querySelector(".good-price__buy");
 			addToCartBtn.classList.add("added");
 			setTimeout(function() {
 				addToCartBtn.removeAttribute("disabled")
-			}, 4100);
+			}, 2600);
 		} else {
 			addToCartBtn.setAttribute("disabled", "disabled");
 			addToCartBtn.classList.add("added");
 			setTimeout(function() {
 				addToCartBtn.removeAttribute("disabled")
-			}, 4100);
+			}, 2600);
 		}
 	});
