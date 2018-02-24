@@ -101,7 +101,8 @@ exports.addPhoto = (req, res, next) => {
 		.then((result) => {
 			return Model.photos.add({ target: 'goodsPosition', target_id: goodId, path: result.url, name: result.filename });
 		})
-		.then(([, photoId]) => {
+		.then(([error, photoId]) => {
+			if(error) return Promise.reject(error);
 			State.photoId = photoId;
 			return Model.goodsPositions.get({ id: goodId });
 		}).then(([error, goodsPos]) => {
