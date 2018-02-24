@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Фев 19 2018 г., 22:15
+-- Время создания: Фев 24 2018 г., 23:08
 -- Версия сервера: 5.7.21-log
 -- Версия PHP: 7.2.2
 
@@ -49,7 +49,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `admin`, `root`, `confirmed`, `surname`, `firstname`, `patronymic`, `name`, `phone`, `password`, `mail`, `address`, `created`) VALUES
-(8, 1, 1, 1, 'Зуев', 'Никита', 'Дмитриевич', 'Зуев Н.', '+7(912)-793-78-10', 'e10adc3949ba59abbe56e057f20f883e', 'zuarel@icloud.com', NULL, '2018-01-25 06:54:10');
+(8, 1, 1, 1, 'Зуев', 'Никита', 'Дмитриевич', 'Зуев Н.', '+7(987)-654-32-10', '202cb962ac59075b964b07152d234b70', 'zuarel@icloud.com', NULL, '2018-01-25 06:54:10');
 
 -- --------------------------------------------------------
 
@@ -283,7 +283,7 @@ CREATE TABLE `fragments_data` (
 
 INSERT INTO `fragments_data` (`id`, `component_id`, `fragment_id`, `data`, `created`) VALUES
 (28, NULL, 89, '{\"content\":{\"slides\":[],\"lastId\":1}}', '2018-01-29 06:58:47'),
-(29, NULL, 105, '{\"content\":{\"slides\":[],\"lastId\":4}}', '2018-02-02 09:58:12'),
+(29, NULL, 105, '{\"content\":{\"slides\":[{\"id\":5,\"img\":\"/uploads/upload_ed7a72e029c4fd6cba83c33c3b39e200.jpg\",\"img_bottom\":\"\",\"title\":\"\",\"title_bottom\":\"\",\"description\":\"\",\"href\":\"\"}],\"lastId\":5}}', '2018-02-02 09:58:12'),
 (30, NULL, 129, '{\"content\":{\"body\":\"<p>asdasd</p>\\n\"}}', '2018-02-19 00:33:33'),
 (31, NULL, 129, '{\"content\":{\"body\":\"<p>asdasd</p>\\n\"}}', '2018-02-19 00:33:33');
 
@@ -311,7 +311,7 @@ INSERT INTO `global_site_config` (`id`, `title`, `target`, `value`, `type`, `cre
 (1, 'Логин root-пользователя', 'rootLogin', 'root', 1, '2018-01-25 10:11:49', NULL),
 (2, 'Пароль root-пользователя', 'rootPassword', '4c5fd6d240c4e226e5cc1b53b1dbfaf3', 1, '2018-01-25 10:12:28', NULL),
 (6, 'Текст для футера', 'footerText', 'ООО \"Евросервис\" 2018г.', 1, '2018-02-14 05:48:39', NULL),
-(12, 'Логотип сайта', 'siteLogo', '/uploads/logo[1].png', 5, '2018-02-14 09:02:06', NULL),
+(12, 'Логотип сайта', 'siteLogo', '/uploads/logo.png', 5, '2018-02-14 09:02:06', NULL),
 (13, 'Иконка сайта', 'favicon', 'пусто', 5, '2018-02-19 00:52:10', NULL),
 (14, 'Текст в конце заголовка', 'appendTitle', 'Пусто', 1, '2018-02-19 00:54:23', NULL);
 
@@ -336,16 +336,17 @@ CREATE TABLE `goods_cats` (
 --
 
 INSERT INTO `goods_cats` (`id`, `title`, `description`, `img`, `parent_id`, `level`, `created`) VALUES
-(2, 'Ритуальные товары', 'Каталог ритуальных товаров и принадлежностей для погребения, предлагаемых в магазинах компании.', '/uploads/upload_2607bd3db7f0bc89ff1fff55c4ac2c01.jpg', NULL, 0, '2018-01-29 08:03:56'),
+(2, 'Ритуальные товары', 'Каталог ритуальных товаров и принадлежностей для погребения, предлагаемых в магазинах компании.', '/uploads/upload_d10babdb04603f15bb8ac2dee82cc73c.jpg', NULL, 0, '2018-01-29 08:03:56'),
 (3, 'Цветы и венки', 'В этом разделе вы можете найти все виды и типы цветочной продукции, производимой МП КПРУ.', '/uploads/upload_053f850ff24dc084aacec1d2a0d03101.jpg', NULL, 0, '2018-01-29 08:06:02'),
 (4, 'Памятники', 'В разделе представлены все виды памятников и комплектующих к ним, а также варианты изображений и шрифтов для оформления памятников.', '/uploads/upload_3bbc45f54f84e26750cbd9a0e742df31.jpg', NULL, 0, '2018-01-29 08:11:22'),
 (5, 'Гробы', 'Каталог гробов, производимых МП КПРУ.', '/uploads/upload_e608f7807a899eeaa08a7153a791de5e.jpg', NULL, 0, '2018-01-29 08:13:49'),
 (8, 'Ограды', 'Каталог оград и кованых изделий', '/uploads/upload_2627dbb6db61a304759e65ad3791ac79.jpg', NULL, 0, '2018-01-29 08:36:23'),
-(10, 'Венки \"Корзина\"', NULL, NULL, 3, 1, '2018-01-29 10:13:02'),
-(45, 'Элитные', NULL, '/uploads/upload_84d070d8ece8e56b42351725f7deb627.jpg', 4, 1, '2018-01-31 11:11:37'),
-(46, 'Новая категория 2', NULL, NULL, 45, 2, '2018-01-31 11:11:39'),
-(47, 'Новая категория 3', NULL, NULL, 46, 3, '2018-01-31 11:11:40'),
-(48, 'Новая категория 55', NULL, NULL, 5, 1, '2018-01-31 11:34:13');
+(10, 'Венки \"Корзина\"', NULL, '/uploads/upload_fb5519c5ef97e45333151d5edbc704e5.jpg', 3, 1, '2018-01-29 10:13:02'),
+(45, 'Одиночные гранитные', NULL, '/uploads/upload_84d070d8ece8e56b42351725f7deb627.jpg', 4, 1, '2018-01-31 11:11:37'),
+(46, 'Габбро чёрный', NULL, NULL, 45, 2, '2018-01-31 11:11:39'),
+(48, 'Новая категория 55', NULL, NULL, 5, 1, '2018-01-31 11:34:13'),
+(55, 'Венки \"Сердце\"', NULL, '/uploads/upload_5bab4d735c6e84ce3d122ad9f9482d25.jpg', 3, 1, '2018-02-20 05:54:42'),
+(56, 'Венки \"Звезда\"', NULL, '/uploads/upload_5ba944d55ff2663c9011736b159e1818.jpg', 3, 1, '2018-02-20 05:54:56');
 
 -- --------------------------------------------------------
 
@@ -371,7 +372,8 @@ CREATE TABLE `goods_pos` (
 
 INSERT INTO `goods_pos` (`id`, `title`, `price`, `count`, `reserv`, `cat_id`, `main_photo`, `created`, `description`) VALUES
 (55, 'Новый товар', '10000.00', 15, 0, 10, NULL, '2018-01-31 10:53:34', NULL),
-(63, 'Новый товар', '999999999.99', 0, 0, 48, NULL, '2018-02-19 20:36:46', NULL);
+(63, 'Новый товар', '15000.00', 1, 0, 48, 17, '2018-02-19 20:36:46', NULL),
+(67, 'Новый товар', '999999999.99', 0, 0, 46, NULL, '2018-02-20 05:58:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -432,7 +434,6 @@ CREATE TABLE `header_nav` (
 INSERT INTO `header_nav` (`id`, `title`, `href`, `created`) VALUES
 (1, 'Главная', '/', '2018-01-25 04:57:57'),
 (2, 'Компания', '/company', '2018-01-25 04:58:04'),
-(14, 'Кладбища', '/cemeteries', '2018-01-25 09:28:58'),
 (15, 'Магазин', '/shop', '2018-01-26 10:15:35');
 
 -- --------------------------------------------------------
@@ -584,7 +585,7 @@ CREATE TABLE `photos` (
   `target` varchar(25) DEFAULT NULL,
   `target_id` int(10) UNSIGNED DEFAULT NULL,
   `path` text NOT NULL,
-  `name` varchar(60) NOT NULL,
+  `name` text NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -594,7 +595,8 @@ CREATE TABLE `photos` (
 
 INSERT INTO `photos` (`id`, `target`, `target_id`, `path`, `name`, `created`) VALUES
 (15, 'goodsPosition', 58, '/photos/e5', '4beR78a3[1].jpg', '2018-02-19 20:05:12'),
-(16, 'goodsPosition', 58, '/photos/07', 'ifGzAbfB[1].jpg', '2018-02-19 20:09:11');
+(16, 'goodsPosition', 58, '/photos/07', 'ifGzAbfB[1].jpg', '2018-02-19 20:09:11'),
+(17, 'goodsPosition', 63, '/photos/f1', 'flat-1366x768-forest-deer-4k-5k-iphone-wallpaper-abstract-11925.jpg', '2018-02-20 12:20:27');
 
 -- --------------------------------------------------------
 
@@ -4905,7 +4907,210 @@ INSERT INTO `views` (`id`, `visit_id`, `visitor_id`, `path`, `created`, `updated
 (3598, 21, 21, '/product/63', '2018-02-19 21:11:20', NULL, NULL, NULL),
 (3599, 21, 21, '/product/63', '2018-02-19 21:12:06', NULL, NULL, NULL),
 (3600, 21, 21, '/product/63', '2018-02-19 21:14:44', NULL, NULL, NULL),
-(3601, 21, 21, '/product/63', '2018-02-19 21:14:45', NULL, NULL, NULL);
+(3601, 21, 21, '/product/63', '2018-02-19 21:14:45', NULL, NULL, NULL),
+(3602, 22, 22, '/', '2018-02-20 05:18:01', NULL, NULL, NULL),
+(3603, 22, 22, '/login', '2018-02-20 05:18:08', NULL, NULL, NULL),
+(3604, 22, 22, '/', '2018-02-20 05:18:17', NULL, NULL, NULL),
+(3605, 22, 22, '/admin', '2018-02-20 05:18:20', NULL, NULL, NULL),
+(3606, 22, 22, '/admin', '2018-02-20 05:18:24', NULL, NULL, NULL),
+(3607, 22, 22, '/admin', '2018-02-20 05:18:57', NULL, NULL, NULL),
+(3608, 22, 22, '/admin', '2018-02-20 05:19:48', NULL, NULL, NULL),
+(3609, 22, 22, '/admin', '2018-02-20 05:20:12', NULL, NULL, NULL),
+(3610, 22, 22, '/admin', '2018-02-20 05:20:16', NULL, NULL, NULL),
+(3611, 22, 22, '/admin', '2018-02-20 05:20:18', NULL, NULL, NULL),
+(3612, 22, 22, '/admin', '2018-02-20 05:20:22', NULL, NULL, NULL),
+(3613, 22, 22, '/admin-routes', '2018-02-20 05:34:32', NULL, NULL, NULL),
+(3614, 22, 22, '/company', '2018-02-20 05:34:39', NULL, NULL, NULL),
+(3615, 22, 22, '/', '2018-02-20 05:34:40', NULL, NULL, NULL),
+(3616, 22, 22, '/shop', '2018-02-20 05:34:41', NULL, NULL, NULL),
+(3617, 22, 22, '/shop', '2018-02-20 05:34:49', NULL, NULL, NULL),
+(3618, 22, 22, '/shop', '2018-02-20 05:35:06', NULL, NULL, NULL);
+INSERT INTO `views` (`id`, `visit_id`, `visitor_id`, `path`, `created`, `updated`, `activated`, `closed`) VALUES
+(3619, 22, 22, '/shop', '2018-02-20 05:35:15', NULL, NULL, NULL),
+(3620, 22, 22, '/shop', '2018-02-20 05:35:16', NULL, NULL, NULL),
+(3621, 22, 22, '/shop', '2018-02-20 05:35:26', NULL, NULL, NULL),
+(3622, 22, 22, '/', '2018-02-20 05:35:27', NULL, NULL, NULL),
+(3623, 22, 22, '/admin', '2018-02-20 05:35:30', NULL, NULL, NULL),
+(3624, 22, 22, '/', '2018-02-20 05:35:33', NULL, NULL, NULL),
+(3625, 22, 22, '/', '2018-02-20 05:35:37', NULL, NULL, NULL),
+(3626, 22, 22, '/', '2018-02-20 05:35:41', NULL, NULL, NULL),
+(3627, 22, 22, '/', '2018-02-20 05:35:41', NULL, NULL, NULL),
+(3628, 22, 22, '/', '2018-02-20 05:38:13', NULL, NULL, NULL),
+(3629, 22, 22, '/', '2018-02-20 05:38:14', NULL, NULL, NULL),
+(3630, 22, 22, '/', '2018-02-20 05:38:15', NULL, NULL, NULL),
+(3631, 22, 22, '/', '2018-02-20 05:38:15', NULL, NULL, NULL),
+(3632, 22, 22, '/', '2018-02-20 05:38:27', NULL, NULL, NULL),
+(3633, 22, 22, '/', '2018-02-20 05:38:28', NULL, NULL, NULL),
+(3634, 22, 22, '/', '2018-02-20 05:48:15', NULL, NULL, NULL),
+(3635, 22, 22, '/', '2018-02-20 05:48:15', NULL, NULL, NULL),
+(3636, 22, 22, '/', '2018-02-20 05:51:08', NULL, NULL, NULL),
+(3637, 22, 22, '/', '2018-02-20 05:51:08', NULL, NULL, NULL),
+(3638, 22, 22, '/', '2018-02-20 05:51:16', NULL, NULL, NULL),
+(3639, 22, 22, '/', '2018-02-20 05:51:16', NULL, NULL, NULL),
+(3640, 22, 22, '/company', '2018-02-20 05:51:18', NULL, NULL, NULL),
+(3641, 22, 22, '/cemeteries', '2018-02-20 05:51:19', NULL, NULL, NULL),
+(3642, 22, 22, '/shop', '2018-02-20 05:51:21', NULL, NULL, NULL),
+(3643, 22, 22, '/', '2018-02-20 05:51:28', NULL, NULL, NULL),
+(3644, 22, 22, '/', '2018-02-20 05:51:28', NULL, NULL, NULL),
+(3645, 22, 22, '/company', '2018-02-20 05:51:29', NULL, NULL, NULL),
+(3646, 22, 22, '/', '2018-02-20 05:51:33', NULL, NULL, NULL),
+(3647, 22, 22, '/', '2018-02-20 05:51:33', NULL, NULL, NULL),
+(3648, 22, 22, '/admin', '2018-02-20 05:53:59', NULL, NULL, NULL),
+(3649, 22, 22, '/admin', '2018-02-20 05:54:01', NULL, NULL, NULL),
+(3650, 22, 22, '/admin', '2018-02-20 05:54:02', NULL, NULL, NULL),
+(3651, 22, 22, '/admin', '2018-02-20 05:54:04', NULL, NULL, NULL),
+(3652, 22, 22, '/', '2018-02-20 05:54:07', NULL, NULL, NULL),
+(3653, 22, 22, '/', '2018-02-20 05:54:07', NULL, NULL, NULL),
+(3654, 22, 22, '/', '2018-02-20 05:54:10', NULL, NULL, NULL),
+(3655, 22, 22, '/', '2018-02-20 05:54:10', NULL, NULL, NULL),
+(3656, 22, 22, '/', '2018-02-20 05:54:14', NULL, NULL, NULL),
+(3657, 22, 22, '/', '2018-02-20 05:54:18', NULL, NULL, NULL),
+(3658, 22, 22, '/company', '2018-02-20 05:54:20', NULL, NULL, NULL),
+(3659, 22, 22, '/shop', '2018-02-20 05:54:21', NULL, NULL, NULL),
+(3660, 22, 22, '/shop-categories/2', '2018-02-20 05:54:24', NULL, NULL, NULL),
+(3661, 22, 22, '/shop-categories/3', '2018-02-20 05:54:25', NULL, NULL, NULL),
+(3662, 22, 22, '/shop-categories/10', '2018-02-20 05:54:27', NULL, NULL, NULL),
+(3663, 22, 22, '/shop-categories/3', '2018-02-20 05:54:30', NULL, NULL, NULL),
+(3664, 22, 22, '/shop-categories/10', '2018-02-20 05:54:33', NULL, NULL, NULL),
+(3665, 22, 22, '/shop-categories/3', '2018-02-20 05:54:35', NULL, NULL, NULL),
+(3666, 22, 22, '/shop-categories/3', '2018-02-20 05:54:39', NULL, NULL, NULL),
+(3667, 22, 22, '/shop-categories/3', '2018-02-20 05:54:42', NULL, NULL, NULL),
+(3668, 22, 22, '/shop-categories/3', '2018-02-20 05:54:56', NULL, NULL, NULL),
+(3669, 22, 22, '/shop-categories/3', '2018-02-20 05:55:19', NULL, NULL, NULL),
+(3670, 22, 22, '/shop-categories/3', '2018-02-20 05:55:22', NULL, NULL, NULL),
+(3671, 22, 22, '/shop-categories/3', '2018-02-20 05:55:25', NULL, NULL, NULL),
+(3672, 22, 22, '/shop-categories/3', '2018-02-20 05:55:27', NULL, NULL, NULL),
+(3673, 22, 22, '/shop-categories/55', '2018-02-20 05:55:29', NULL, NULL, NULL),
+(3674, 22, 22, '/shop-categories/56', '2018-02-20 05:55:31', NULL, NULL, NULL),
+(3675, 22, 22, '/shop-categories/10', '2018-02-20 05:55:32', NULL, NULL, NULL),
+(3676, 22, 22, '/shop-categories/2', '2018-02-20 05:56:01', NULL, NULL, NULL),
+(3677, 22, 22, '/shop-categories/10', '2018-02-20 05:56:03', NULL, NULL, NULL),
+(3678, 22, 22, '/shop-categories/2', '2018-02-20 05:56:47', NULL, NULL, NULL),
+(3679, 22, 22, '/shop-categories/2', '2018-02-20 05:56:49', NULL, NULL, NULL),
+(3680, 22, 22, '/shop-categories/2', '2018-02-20 05:56:51', NULL, NULL, NULL),
+(3681, 22, 22, '/shop-categories/2', '2018-02-20 05:56:53', NULL, NULL, NULL),
+(3682, 22, 22, '/shop-categories/2', '2018-02-20 05:56:54', NULL, NULL, NULL),
+(3683, 22, 22, '/shop-categories/2', '2018-02-20 05:56:57', NULL, NULL, NULL),
+(3684, 22, 22, '/shop-categories/2', '2018-02-20 05:56:58', NULL, NULL, NULL),
+(3685, 22, 22, '/shop-categories/2', '2018-02-20 05:57:00', NULL, NULL, NULL),
+(3686, 22, 22, '/shop-categories/45', '2018-02-20 05:57:06', NULL, NULL, NULL),
+(3687, 22, 22, '/shop-categories/4', '2018-02-20 05:57:09', NULL, NULL, NULL),
+(3688, 22, 22, '/shop-categories/4', '2018-02-20 05:57:29', NULL, NULL, NULL),
+(3689, 22, 22, '/shop-categories/46', '2018-02-20 05:57:31', NULL, NULL, NULL),
+(3690, 22, 22, '/shop-categories/46', '2018-02-20 05:57:54', NULL, NULL, NULL),
+(3691, 22, 22, '/shop-categories/46', '2018-02-20 05:57:57', NULL, NULL, NULL),
+(3692, 22, 22, '/shop-categories/45', '2018-02-20 05:57:58', NULL, NULL, NULL),
+(3693, 22, 22, '/shop-categories/46', '2018-02-20 05:57:59', NULL, NULL, NULL),
+(3694, 22, 22, '/shop-categories/46', '2018-02-20 05:58:02', NULL, NULL, NULL),
+(3695, 22, 22, '/shop-categories/45', '2018-02-20 05:58:03', NULL, NULL, NULL),
+(3696, 22, 22, '/shop-categories/46', '2018-02-20 05:58:19', NULL, NULL, NULL),
+(3697, 22, 22, '/shop-categories/46', '2018-02-20 05:58:21', NULL, NULL, NULL),
+(3698, 22, 22, '/shop-categories/46', '2018-02-20 05:59:39', NULL, NULL, NULL),
+(3699, 22, 22, '/shop-categories/46', '2018-02-20 07:44:46', NULL, NULL, NULL),
+(3700, 22, 22, '/shop-categories/46', '2018-02-20 07:48:45', NULL, NULL, NULL),
+(3701, 22, 22, '/shop-categories/46', '2018-02-20 07:49:19', NULL, NULL, NULL),
+(3702, 21, 21, '/shop', '2018-02-20 08:05:44', NULL, NULL, NULL),
+(3703, 21, 21, '/shop-categories/2', '2018-02-20 08:05:55', NULL, NULL, NULL),
+(3704, 21, 21, '/shop-categories/46', '2018-02-20 08:05:56', NULL, NULL, NULL),
+(3705, 21, 21, '/shop-categories/55', '2018-02-20 08:08:45', NULL, NULL, NULL),
+(3706, 21, 21, '/shop-categories/10', '2018-02-20 08:08:46', NULL, NULL, NULL),
+(3707, 21, 21, '/shop-categories/56', '2018-02-20 08:08:47', NULL, NULL, NULL),
+(3708, 21, 21, '/shop-categories/45', '2018-02-20 08:08:48', NULL, NULL, NULL),
+(3709, 21, 21, '/shop-categories/46', '2018-02-20 08:08:49', NULL, NULL, NULL),
+(3710, 21, 21, '/product/67', '2018-02-20 08:10:48', NULL, NULL, NULL),
+(3711, 21, 21, '/', '2018-02-20 11:24:19', NULL, NULL, NULL),
+(3712, 21, 21, '/shop', '2018-02-20 11:30:10', NULL, NULL, NULL),
+(3713, 21, 21, '/shop-categories/2', '2018-02-20 11:30:11', NULL, NULL, NULL),
+(3714, 21, 21, '/shop-categories/10', '2018-02-20 12:14:29', NULL, NULL, NULL),
+(3715, 21, 21, '/shop-categories/5', '2018-02-20 12:14:31', NULL, NULL, NULL),
+(3716, 21, 21, '/shop-categories/5', '2018-02-20 12:14:34', NULL, NULL, NULL),
+(3717, 21, 21, '/shop-categories/5', '2018-02-20 12:14:59', NULL, NULL, NULL),
+(3718, 21, 21, '/shop-categories/5', '2018-02-20 12:15:38', NULL, NULL, NULL),
+(3719, 21, 21, '/shop-categories/48', '2018-02-20 12:15:39', NULL, NULL, NULL),
+(3720, 21, 21, '/product/63', '2018-02-20 12:15:41', NULL, NULL, NULL),
+(3721, 21, 21, '/product/63', '2018-02-20 12:15:43', NULL, NULL, NULL),
+(3722, 21, 21, '/product/63', '2018-02-20 12:16:29', NULL, NULL, NULL),
+(3723, 21, 21, '/product/63', '2018-02-20 12:17:39', NULL, NULL, NULL),
+(3724, 21, 21, '/product/63', '2018-02-20 12:18:09', NULL, NULL, NULL),
+(3725, 21, 21, '/product/63', '2018-02-20 12:18:30', NULL, NULL, NULL),
+(3726, 21, 21, '/product/63', '2018-02-20 12:19:59', NULL, NULL, NULL),
+(3727, 21, 21, '/product/63', '2018-02-20 12:20:24', NULL, NULL, NULL),
+(3728, 21, 21, '/product/63', '2018-02-20 12:20:27', NULL, NULL, NULL),
+(3729, 21, 21, '/product/63', '2018-02-20 14:33:47', NULL, NULL, NULL),
+(3730, 21, 21, '/product/63', '2018-02-20 14:34:01', NULL, NULL, NULL),
+(3731, 21, 21, '/product/63', '2018-02-20 14:34:04', NULL, NULL, NULL),
+(3732, 21, 21, '/product/63', '2018-02-20 14:47:04', NULL, NULL, NULL),
+(3733, 21, 21, '/product/63', '2018-02-20 14:47:36', NULL, NULL, NULL),
+(3734, 21, 21, '/product/63', '2018-02-20 14:49:27', NULL, NULL, NULL),
+(3735, 21, 21, '/product/63', '2018-02-20 14:52:00', NULL, NULL, NULL),
+(3736, 21, 21, '/product/63', '2018-02-20 14:52:40', NULL, NULL, NULL),
+(3737, 21, 21, '/product/63', '2018-02-20 14:54:16', NULL, NULL, NULL),
+(3738, 21, 21, '/product/63', '2018-02-20 14:55:07', NULL, NULL, NULL),
+(3739, 21, 21, '/product/63', '2018-02-20 14:55:24', NULL, NULL, NULL),
+(3740, 21, 21, '/product/63', '2018-02-20 14:55:32', NULL, NULL, NULL),
+(3741, 21, 21, '/product/63', '2018-02-20 14:55:36', NULL, NULL, NULL),
+(3742, 21, 21, '/product/63', '2018-02-20 14:58:52', NULL, NULL, NULL),
+(3743, 21, 21, '/cart', '2018-02-20 14:59:57', NULL, NULL, NULL),
+(3744, 21, 21, '/cart', '2018-02-20 14:59:59', NULL, NULL, NULL),
+(3745, 21, 21, '/product/63', '2018-02-20 15:00:01', NULL, NULL, NULL),
+(3746, 21, 21, '/product/63', '2018-02-20 15:01:01', NULL, NULL, NULL),
+(3747, 21, 21, '/product/63', '2018-02-20 15:01:03', NULL, NULL, NULL),
+(3748, 21, 21, '/product/63', '2018-02-20 15:01:10', NULL, NULL, NULL),
+(3749, 21, 21, '/product/63', '2018-02-20 15:01:22', NULL, NULL, NULL),
+(3750, 21, 21, '/company', '2018-02-20 19:18:27', NULL, NULL, NULL),
+(3751, 21, 21, '/shops', '2018-02-20 19:18:28', NULL, NULL, NULL),
+(3752, 23, 23, '/', '2018-02-24 16:26:36', NULL, NULL, NULL),
+(3753, 23, 23, '/company', '2018-02-24 16:26:40', NULL, NULL, NULL),
+(3754, 23, 23, '/vacancies', '2018-02-24 16:26:42', NULL, NULL, NULL),
+(3755, 23, 23, '/login', '2018-02-24 16:27:03', NULL, NULL, NULL),
+(3756, 23, 23, '/', '2018-02-24 16:34:25', NULL, NULL, NULL),
+(3757, 23, 23, '/my', '2018-02-24 16:34:28', NULL, NULL, NULL),
+(3758, 23, 23, '/my', '2018-02-24 16:34:33', NULL, NULL, NULL),
+(3759, 23, 23, '/vacancies', '2018-02-24 16:34:39', NULL, NULL, NULL),
+(3760, 23, 23, '/vacancies', '2018-02-24 16:34:41', NULL, NULL, NULL),
+(3761, 23, 23, '/vacancies', '2018-02-24 16:34:46', NULL, NULL, NULL),
+(3762, 23, 23, '/vacancies', '2018-02-24 16:35:32', NULL, NULL, NULL),
+(3763, 23, 23, '/vacancy/1', '2018-02-24 16:35:40', NULL, NULL, NULL),
+(3764, 23, 23, '/vacancy/1', '2018-02-24 16:35:44', NULL, NULL, NULL),
+(3765, 23, 23, '/vacancy/1', '2018-02-24 16:35:57', NULL, NULL, NULL),
+(3766, 23, 23, '/vacancy/1', '2018-02-24 16:38:14', NULL, NULL, NULL),
+(3767, 23, 23, '/vacancies', '2018-02-24 16:38:17', NULL, NULL, NULL),
+(3768, 23, 23, '/vacancies', '2018-02-24 16:38:19', NULL, NULL, NULL),
+(3769, 24, 24, '/vacancies', '2018-02-24 16:38:26', NULL, NULL, NULL),
+(3770, 24, 24, '/vacancies', '2018-02-24 16:38:48', NULL, NULL, NULL),
+(3771, 23, 23, '/vacancies', '2018-02-24 16:39:33', NULL, NULL, NULL),
+(3772, 23, 23, '/vacancies', '2018-02-24 16:40:38', NULL, NULL, NULL),
+(3773, 23, 23, '/vacancies', '2018-02-24 16:40:50', NULL, NULL, NULL),
+(3774, 23, 23, '/vacancy/1', '2018-02-24 16:52:40', NULL, NULL, NULL),
+(3775, 23, 23, '/vacancy/1', '2018-02-24 16:54:38', NULL, NULL, NULL),
+(3776, 23, 23, '/vacancies', '2018-02-24 16:54:42', NULL, NULL, NULL),
+(3777, 23, 23, '/vacancy/1', '2018-02-24 16:54:44', NULL, NULL, NULL),
+(3778, 23, 23, '/vacancies', '2018-02-24 16:54:45', NULL, NULL, NULL),
+(3779, 23, 23, '/vacancy/1', '2018-02-24 16:55:09', NULL, NULL, NULL),
+(3780, 23, 23, '/vacancies', '2018-02-24 16:55:11', NULL, NULL, NULL),
+(3781, 23, 23, '/vacancy/1', '2018-02-24 16:55:16', NULL, NULL, NULL),
+(3782, 25, 25, '/', '2018-02-24 17:03:19', NULL, NULL, NULL),
+(3783, 25, 25, '/', '2018-02-24 17:03:26', NULL, NULL, NULL),
+(3784, 25, 25, '/', '2018-02-24 17:04:11', NULL, NULL, NULL),
+(3785, 25, 25, '/', '2018-02-24 17:04:33', NULL, NULL, NULL),
+(3786, 25, 25, '/', '2018-02-24 17:05:38', NULL, NULL, NULL),
+(3787, 25, 25, '/', '2018-02-24 17:06:15', NULL, NULL, NULL),
+(3788, 25, 25, '/', '2018-02-24 17:06:34', NULL, NULL, NULL),
+(3789, 25, 25, '/', '2018-02-24 17:06:54', NULL, NULL, NULL),
+(3790, 23, 23, '/', '2018-02-24 21:19:56', NULL, NULL, NULL),
+(3791, 23, 23, '/', '2018-02-24 21:20:01', NULL, NULL, NULL),
+(3792, 25, 25, '/', '2018-02-24 21:20:29', NULL, NULL, NULL),
+(3793, 25, 25, '/company', '2018-02-24 21:20:39', NULL, NULL, NULL),
+(3794, 25, 25, '/reviews', '2018-02-24 21:20:41', NULL, NULL, NULL),
+(3795, 25, 25, '/shops', '2018-02-24 21:20:50', NULL, NULL, NULL),
+(3796, 25, 25, '/', '2018-02-24 21:21:05', NULL, NULL, NULL),
+(3797, 25, 25, '/shop', '2018-02-24 21:21:07', NULL, NULL, NULL),
+(3798, 25, 25, '/shop-categories/2', '2018-02-24 21:21:17', NULL, NULL, NULL),
+(3799, 25, 25, '/shop-categories/3', '2018-02-24 21:21:25', NULL, NULL, NULL),
+(3800, 25, 25, '/shop-categories/10', '2018-02-24 21:21:26', NULL, NULL, NULL),
+(3801, 25, 25, '/product/55', '2018-02-24 21:21:27', NULL, NULL, NULL),
+(3802, 25, 25, '/cart', '2018-02-24 21:21:36', NULL, NULL, NULL),
+(3803, 23, 23, '/cart', '2018-02-24 21:22:32', NULL, NULL, NULL);
 
 --
 -- Триггеры `views`
@@ -4953,7 +5158,10 @@ INSERT INTO `visitors` (`id`, `name`, `created`) VALUES
 (19, NULL, '2018-02-13 07:33:49'),
 (20, NULL, '2018-02-13 10:19:29'),
 (21, NULL, '2018-02-18 08:58:44'),
-(22, NULL, '2018-02-18 14:19:32');
+(22, NULL, '2018-02-18 14:19:32'),
+(23, NULL, '2018-02-24 16:26:36'),
+(24, NULL, '2018-02-24 16:38:26'),
+(25, NULL, '2018-02-24 17:03:18');
 
 -- --------------------------------------------------------
 
@@ -4996,8 +5204,11 @@ INSERT INTO `visits` (`id`, `visitor_id`, `count_views`, `visitor_ip`, `created`
 (18, 18, 20, '1', '2018-02-13 07:19:09', NULL, NULL),
 (19, 19, 259, '1', '2018-02-13 07:33:50', NULL, NULL),
 (20, 20, 776, '1', '2018-02-13 10:19:29', NULL, NULL),
-(21, 21, 1075, '1', '2018-02-18 08:58:44', NULL, NULL),
-(22, 22, 7, '1', '2018-02-18 14:19:32', NULL, NULL);
+(21, 21, 1125, '1', '2018-02-18 08:58:44', NULL, NULL),
+(22, 22, 107, '1', '2018-02-18 14:19:32', NULL, NULL),
+(23, 23, 31, '1', '2018-02-24 16:26:36', NULL, NULL),
+(24, 24, 2, '1', '2018-02-24 16:38:26', NULL, NULL),
+(25, 25, 19, '1', '2018-02-24 17:03:18', NULL, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -5290,31 +5501,31 @@ ALTER TABLE `global_site_config`
 -- AUTO_INCREMENT для таблицы `goods_cats`
 --
 ALTER TABLE `goods_cats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_pos`
 --
 ALTER TABLE `goods_pos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_props`
 --
 ALTER TABLE `goods_props`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_props_bind_values`
 --
 ALTER TABLE `goods_props_bind_values`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `goods_props_values`
 --
 ALTER TABLE `goods_props_values`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `header_nav`
@@ -5344,13 +5555,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `orders_goods`
 --
 ALTER TABLE `orders_goods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `payments`
@@ -5362,7 +5573,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT для таблицы `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `questions`
@@ -5422,19 +5633,19 @@ ALTER TABLE `vacancies`
 -- AUTO_INCREMENT для таблицы `views`
 --
 ALTER TABLE `views`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3602;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3804;
 
 --
 -- AUTO_INCREMENT для таблицы `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT для таблицы `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
