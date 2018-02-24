@@ -1,115 +1,113 @@
-'use strict';
+$(document).ready(() => {
 
-$(document).ready(function () {
+	$('.js-documents-title-update').on('input', updDocumentTitle);
+	$('.js-documents-toggle-public').on('click', toggleDocumentPublic);
+	$('.js-documents-delete').on('click', deleteDocument);
+	$('.js-documents-add').on('click', addDocument);
+	$('.js-documentsText-update').on('change', updDocumentText);
 
-	$('.js-vacancies-title-update').on('input', updVacanciesTitle);
-	$('.js-vacancies-toggle-public').on('click', toggleVacanciesPublic);
-	$('.js-vacancies-delete').on('click', deleteVacancies);
-	$('.js-vacancies-add').on('click', addVacancies);
-	$('.js-vacanciesText-update').on('change', updVacanciesText);
+	const documentId = $('#js-document-id').val();
 
-	var vacanciesId = $('#js-vacancies-id').val();
-
-	function updVacanciesText(e, data) {
-		var postData = {
-			id: vacanciesId,
+	function updDocumentText(e, data) {
+		const postData = {
+			id: documentId,
 			value: data.trim(),
 			target: 'text'
 		};
 
-		sendRequest('/api/vacancies/upd', postData).catch(function (error) {
+		sendRequest('/api/documents/upd', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
 		});
 	}
 
-	function updVacanciesTitle() {
+	function updDocumentTitle() {
 
 		$this = $(this);
 
-		var postData = {
+		const postData = {
 			id: $this.data('id'),
 			value: $this.val().trim(),
 			target: 'title'
 		};
 
-		sendRequest('/api/vacancies/upd', postData).catch(function (error) {
+		sendRequest('/api/documents/upd', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
 		});
 	}
 
-	function toggleVacanciesPublic() {
+	function toggleDocumentPublic() {
 		$this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
 		}
 
-		var postData = {
+		const postData = {
 			id: $this.data('id'),
 			value: $this.val()
 		};
 
-		sendRequest('/api/vacancies/togglePublished', postData).catch(function (error) {
+		sendRequest('/api/documents/togglePublished', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
-		}).then(function () {
+		}).then(() => {
 			return location.reload();
 		});
 	}
 
-	function deleteVacancies() {
+	function deleteDocument() {
 		$this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
 		}
 
-		var postData = {
-			id: $this.data('id')
+		const postData = {
+			id: $this.data('id'),
 		};
 
-		sendRequest('/api/vacancies/del', postData).catch(function (error) {
+		sendRequest('/api/documents/del', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
-		}).then(function () {
+		}).then(() => {
 			return location.reload();
 		});
 	}
 
-	function addVacancies() {
+	function addDocument() {
 		$this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
 		}
 
-		var postData = {};
+		const postData = {};
 
-		sendRequest('/api/vacancies/add', postData).then(function () {
+		sendRequest('/api/documents/add', postData).then(() => {
 			return location.reload();
-		}).catch(function (error) {
+		}).catch(error => {
 			console.log(error.message);
 			return alert('Произошла ошибка во время выполнения запроса');
-		});
+		})
 	}
 
 	function sendRequest(url, postData) {
-		return new Promise(function (resolve, reject) {
-			$.post(url, postData).done(function (data) {
+		return new Promise((resolve, reject) => {
+			$.post(url, postData).done(data => {
 				if (data.status != 'ok') {
 					return reject(data);
 				}
 
 				return resolve(data);
-			}).fail(function (error) {
+			}).fail(error => {
 				return reject(error);
 			});
-		});
+		})
 	}
-});
+})

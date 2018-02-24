@@ -1,96 +1,96 @@
-$(document).ready(() => {
+'use strict';
+
+$(document).ready(function () {
     $('.input-tabs').on('change', setDelivery);
     $('.js-delivery-data').on('input', checkFilledForm);
     $('.js-delivery-next-step').on('click', goNextStep);
-    
-    
-    let deliveryValue = $('.input-tabs:checked').data('value');
-    
+
+    var deliveryValue = $('.input-tabs:checked').data('value');
+
     checkNextStep(deliveryValue);
 
     function goNextStep(e) {
-        
-        const $elem = $(this);
-        
-        const postData = {
+        var _this = this;
+
+        var $elem = $(this);
+
+        var postData = {
             ctrl: 'setDeliveryData',
             value: deliveryValue,
             data: {}
         };
 
-        $('.js-delivery-data').each((i, e) => {
-            let $e = $(e);
-            
-            const dataRequired = $e.hasClass('required');
-            const dataValue = $e.val();
-            const dataName = $e.prop('name');
-            
-            if(dataValue.length > 0) {
+        $('.js-delivery-data').each(function (i, e) {
+            var $e = $(e);
+
+            var dataRequired = $e.hasClass('required');
+            var dataValue = $e.val();
+            var dataName = $e.prop('name');
+
+            if (dataValue.length > 0) {
                 postData.data[dataName] = dataValue;
             }
-        })
+        });
 
         postData.data = JSON.stringify(postData.data);
-        
-        $.post('', postData).done((result) => {
+
+        $.post('', postData).done(function (result) {
             console.log(result);
-            if(result.status == 'bad') {
+            if (result.status == 'bad') {
                 return alert(result.message);
             }
-            
-            location.href = $(this).data('href');
-        })
+
+            location.href = $(_this).data('href');
+        });
     }
-    
+
     function checkNextStep(value) {
-        if(value == 2) {
+        if (value == 2) {
             checkFilledForm();
-        }
-        else {
+        } else {
             $('.js-delivery-next-step').removeAttr('disabled');
         }
 
         deliveryValue = value;
     }
-    
+
     function checkFilledForm() {
-        const deliveryData = {};
-        
-        let allInputFilled = true;
-        
-        $('.js-delivery-data').each((i, elem) => {
+        var deliveryData = {};
+
+        var allInputFilled = true;
+
+        $('.js-delivery-data').each(function (i, elem) {
             $elem = $(elem);
-            
-            const dataRequired = $elem.hasClass('required');
-            const dataValue = $elem.val();
-            
-            if(dataRequired === true && dataValue.length == 0) {
+
+            var dataRequired = $elem.hasClass('required');
+            var dataValue = $elem.val();
+
+            if (dataRequired === true && dataValue.length == 0) {
                 allInputFilled = false;
             }
-        })
-        
-        if(allInputFilled === true) {
+        });
+
+        if (allInputFilled === true) {
             $('.js-delivery-next-step').removeAttr('disabled');
-        }
-        else {
+        } else {
             $('.js-delivery-next-step').attr('disabled', 'disabled');
         }
     }
-    
+
     function setDelivery() {
-        const $elem = $(this);
-        const postData = {
+        var $elem = $(this);
+        var postData = {
             ctrl: 'setDelivery',
             value: $elem.data('value')
         };
-        
+
         checkNextStep(postData.value);
-        
-        $.post('', postData).done((result) => {
+
+        $.post('', postData).done(function (result) {
             console.log(result);
-            if(result.status == 'bad') {
+            if (result.status == 'bad') {
                 return alert(result.message);
             }
-        })
+        });
     }
-})
+});

@@ -1,6 +1,4 @@
-'use strict';
-
-$(document).ready(function () {
+$(document).ready(() => {
 
 	$('.js-vacancies-title-update').on('input', updVacanciesTitle);
 	$('.js-vacancies-toggle-public').on('click', toggleVacanciesPublic);
@@ -8,16 +6,16 @@ $(document).ready(function () {
 	$('.js-vacancies-add').on('click', addVacancies);
 	$('.js-vacanciesText-update').on('change', updVacanciesText);
 
-	var vacanciesId = $('#js-vacancies-id').val();
+	const vacanciesId = $('#js-vacancies-id').val();
 
 	function updVacanciesText(e, data) {
-		var postData = {
+		const postData = {
 			id: vacanciesId,
 			value: data.trim(),
 			target: 'text'
 		};
 
-		sendRequest('/api/vacancies/upd', postData).catch(function (error) {
+		sendRequest('/api/vacancies/upd', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
@@ -28,13 +26,13 @@ $(document).ready(function () {
 
 		$this = $(this);
 
-		var postData = {
+		const postData = {
 			id: $this.data('id'),
 			value: $this.val().trim(),
 			target: 'title'
 		};
 
-		sendRequest('/api/vacancies/upd', postData).catch(function (error) {
+		sendRequest('/api/vacancies/upd', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
@@ -48,16 +46,16 @@ $(document).ready(function () {
 			return false;
 		}
 
-		var postData = {
+		const postData = {
 			id: $this.data('id'),
 			value: $this.val()
 		};
 
-		sendRequest('/api/vacancies/togglePublished', postData).catch(function (error) {
+		sendRequest('/api/vacancies/togglePublished', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
-		}).then(function () {
+		}).then(() => {
 			return location.reload();
 		});
 	}
@@ -69,15 +67,15 @@ $(document).ready(function () {
 			return false;
 		}
 
-		var postData = {
-			id: $this.data('id')
+		const postData = {
+			id: $this.data('id'),
 		};
 
-		sendRequest('/api/vacancies/del', postData).catch(function (error) {
+		sendRequest('/api/vacancies/del', postData).catch(error => {
 			console.log(error.message);
 			alert('Произошла ошибка во время выполнения запроса');
 			return;
-		}).then(function () {
+		}).then(() => {
 			return location.reload();
 		});
 	}
@@ -89,27 +87,27 @@ $(document).ready(function () {
 			return false;
 		}
 
-		var postData = {};
+		const postData = {};
 
-		sendRequest('/api/vacancies/add', postData).then(function () {
+		sendRequest('/api/vacancies/add', postData).then(() => {
 			return location.reload();
-		}).catch(function (error) {
+		}).catch(error => {
 			console.log(error.message);
 			return alert('Произошла ошибка во время выполнения запроса');
-		});
+		})
 	}
 
 	function sendRequest(url, postData) {
-		return new Promise(function (resolve, reject) {
-			$.post(url, postData).done(function (data) {
+		return new Promise((resolve, reject) => {
+			$.post(url, postData).done(data => {
 				if (data.status != 'ok') {
 					return reject(data);
 				}
 
 				return resolve(data);
-			}).fail(function (error) {
+			}).fail(error => {
 				return reject(error);
 			});
-		});
+		})
 	}
-});
+})

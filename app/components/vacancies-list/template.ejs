@@ -7,6 +7,9 @@
 			</div>
 		<% } %>
 		<% vacancies.map(d => { %>
+			<% if(d.published == "0" && user.admin == "0") {
+				return false;
+			} %>
 			<div class="vacancies-item">
 				<% if(user.adminMode) { %>
 					<div class="admin-control-container">
@@ -25,7 +28,9 @@
 					</div>
 				<% }
 				else { %>
-					<h1 class="vacancies-item__title"><%= d.title %></h1>
+					<a class="page-link" href="/vacancy/<%= d.id %>">
+						<h1 class="vacancies-item__title"><%= d.title %> <%= d.published == "0" ? '(Неопубликовано)' : '' -%></h1>
+					</a>
 				<% } %>
 				<div class="vacancies-item__text text-margin-bottom-p text-indent">
 					<%- Helpers.replaceLineBreaks(Helpers.trimStr(d.text, 200)) %>

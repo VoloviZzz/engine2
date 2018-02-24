@@ -1,29 +1,27 @@
-'use strict';
+$(document).ready(() => {
 
-$(document).ready(function () {
-
-	var forms = new Forms();
+	const forms = new Forms();
 
 	$('.js-add-globalVariables--form').on('submit', function (e) {
-		var $this = $(this);
-		var formData = forms.getFormData(this);
+		const $this = $(this);
+		const formData = forms.getFormData(this);
 
-		$.post('/api/globalSiteConfig/add', formData).done(function (result) {
+		$.post('/api/globalSiteConfig/add', formData).done((result) => {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
 
 			location.reload();
-		});
+		})
 
 		return false;
-	});
+	})
 
 	$('.js-upload-image').on('change', function (e) {
-		var id = shopId;
+		const id = shopId;
 
-		var fd = new FormData();
+		const fd = new FormData();
 
 		fd.append('upload', this.files[0]);
 
@@ -35,11 +33,11 @@ $(document).ready(function () {
 			processData: false,
 			contentType: false,
 			type: 'POST',
-			success: function success(result) {
+			success(result) {
 				console.log(result);
 			}
 		});
 
 		return false;
-	});
-});
+	})
+})

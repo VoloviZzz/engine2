@@ -1,6 +1,8 @@
-$(document).ready(() => {
+"use strict";
 
-	const State = {
+$(document).ready(function () {
+
+	var State = {
 		activeTab: 'login',
 		formData: {}
 	};
@@ -8,15 +10,14 @@ $(document).ready(() => {
 	$("input[name=phone]").mask("+7(999)-999-99-99"); //номер телефона
 
 	$('.login-title__item').on('click', function (e) {
-		if ($(this).data("item") == State.activeTab)
-			return false;
+		if ($(this).data("item") == State.activeTab) return false;
 
-		$(`.login-title__item[data-item=${State.activeTab}]`).attr("data-select", "false");
+		$(".login-title__item[data-item=" + State.activeTab + "]").attr("data-select", "false");
 		$(this).attr("data-select", "true");
 
 		State.activeTab = $(this).data("item");
 
-		let activeTab = `reg`;
+		var activeTab = "reg";
 
 		if (State.activeTab == 'login') {
 			activeTab = 'auth';
@@ -26,11 +27,10 @@ $(document).ready(() => {
 	});
 
 	$('#js-get-new-pass').on('click', function (e) {
-		let reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
-		let userEmail = prompt('Введите почту, указанную при ригестрации:');
+		var reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
+		var userEmail = prompt('Введите почту, указанную при ригестрации:');
 
-		if (!!userEmail === false)
-			return false;
+		if (!!userEmail === false) return false;
 
 		userEmail = userEmail.trim();
 
@@ -38,33 +38,34 @@ $(document).ready(() => {
 			return alert('Поле обязательно для заполнения!');
 		}
 
-		if (reEmail.test(userEmail) === false)
-			return alert('Ошибка! Почта набрана в неправильном формате!!!')
+		if (reEmail.test(userEmail) === false) return alert('Ошибка! Почта набрана в неправильном формате!!!');
 
-		const postData = { userEmail };
+		var postData = { userEmail: userEmail };
 
-		$.post('/api/get-new-pass/index', postData).done(result => {
+		$.post('/api/get-new-pass/index', postData).done(function (result) {
 			return alert(result.message);
-		})
-	})
+		});
+	});
 
-	let registerFormData = {};
+	var registerFormData = {};
 
 	$('#register-form').on('submit', function (e) {
+		var _this = this;
+
 		e.preventDefault();
 
-		let data = {};
+		var data = {};
 
-		$(this).find('.login-body__input').each((i, elem) => {
-			let dataName = $(elem).attr('name');
-			let dataValue = $(elem).val();
+		$(this).find('.login-body__input').each(function (i, elem) {
+			var dataName = $(elem).attr('name');
+			var dataValue = $(elem).val();
 
 			data[dataName] = dataValue;
-		})
+		});
 
-		let reText = /^[A-Za-zА-Яа-яЁё]+$/;
-		let reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
-		let rePhone = /(\+?\d[- .]*){7,13}/;
+		var reText = /^[A-Za-zА-Яа-яЁё]+$/;
+		var reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
+		var rePhone = /(\+?\d[- .]*){7,13}/;
 
 		if (data.password !== data['check-password']) {
 			return alert('Пароли не совпадают');
@@ -84,78 +85,71 @@ $(document).ready(() => {
 
 		registerFormData = data;
 
-		$.post("/api/register", registerFormData).done(result => {
+		$.post("/api/register", registerFormData).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				alert(result.message);
-			}
-			else {
-				$(this).hide();
+			} else {
+				$(_this).hide();
 				$('#confirmRegisterForm').show();
 			}
-		})
-	})
+		});
+	});
 
 	$('#confirmRegisterForm').on('submit', function (e) {
 		e.preventDefault();
 
-		const code = $('#confirmedCode').val();
+		var code = $('#confirmedCode').val();
 
-		$.post("/api/register/confirmRegister", { code }).done(result => {
+		$.post("/api/register/confirmRegister", { code: code }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				alert(result.message);
-			}
-			else {
+			} else {
 
 				location.reload();
 			}
-		})
-	})
+		});
+	});
 
 	$('#auth-form').on('submit', function (e) {
 		e.preventDefault();
 
-		let data = {
+		var data = {
 			ctrl: 'signin'
 		};
 
-		$(this).find('.login-body__input').each((i, elem) => {
-			let dataName = $(elem).attr('name');
-			let dataValue = $(elem).val();
+		$(this).find('.login-body__input').each(function (i, elem) {
+			var dataName = $(elem).attr('name');
+			var dataValue = $(elem).val();
 
 			data[dataName] = dataValue;
-		})
+		});
 
-		$.post("/api/login", data).done(result => {
-			if (result.status == 'ok')
-				return location.href = "/";
+		$.post("/api/login", data).done(function (result) {
+			if (result.status == 'ok') return location.href = "/";
 
 			if (result.status == 'not confirmed') {
-				let sendConfirmAgain = confirm(result.message);
+				var sendConfirmAgain = confirm(result.message);
 
 				if (sendConfirmAgain === true) {
-					let reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
-					let userEmail = prompt('Введите почту, на которую была произведена регистрация:')
+					var reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
+					var userEmail = prompt('Введите почту, на которую была произведена регистрация:');
 
-					if (userEmail === false)
-						return false;
+					if (userEmail === false) return false;
 
 					userEmail = userEmail.trim();
 
-					if (userEmail == "")
-						return alert('Ошибка! Почта не должна оставаться пустой!!!');
-					if (reEmail.test(userEmail) === false)
-						return alert('Ошибка! Почта набрана в неправильном формате!!!')
+					if (userEmail == "") return alert('Ошибка! Почта не должна оставаться пустой!!!');
+					if (reEmail.test(userEmail) === false) return alert('Ошибка! Почта набрана в неправильном формате!!!');
 
-					return $.post('/api/register/sendConfirmAgain', { userEmail }).done(result => {
+					return $.post('/api/register/sendConfirmAgain', { userEmail: userEmail }).done(function (result) {
 						return alert(result.message);
-					})
+					});
 				}
-			}
-			else {
+			} else {
 				return alert(result.message);
 			}
-		})
-	})
-})
+		});
+	});
+});
