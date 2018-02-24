@@ -29,6 +29,30 @@ $(document).ready(() => {
 			$('#js-shoppingCart-goodsCount').text(result.data.cart.totalCountGoods);
 			addToCartBtn.setAttribute("disabled", "disabled");
 			addToCartBtn.classList.add("added");
+			setTimeout(function () {
+				addToCartBtn.removeAttribute("disabled")
+			}, 2600);
 		})
 	})
 })
+
+// var addToCartBtn = document.querySelector(".good-price__buy");
+
+// addToCartBtn.addEventListener("click", function (event) {
+// 	event.preventDefault();
+// 	if (addToCartBtn.classList.contains('added')) {
+// 		addToCartBtn.classList.remove("added");
+// 		addToCartBtn.setAttribute("disabled", "disabled");
+// 		getComputedStyle(addToCartBtn).width;
+// 		addToCartBtn.classList.add("added");
+// 		setTimeout(function () {
+// 			addToCartBtn.removeAttribute("disabled")
+// 		}, 2600);
+// 	} else {
+// 		addToCartBtn.setAttribute("disabled", "disabled");
+// 		addToCartBtn.classList.add("added");
+// 		setTimeout(function () {
+// 			addToCartBtn.removeAttribute("disabled")
+// 		}, 2600);
+// 	}
+// });
