@@ -268,6 +268,10 @@ p.top-slide-info, .slider-info p {
     }
 }
 
+.setting-call-btn {
+    position: absolute;
+}
+
 @media (min-width: 768px) {
     .info-desp {
         display: flex;
