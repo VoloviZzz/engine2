@@ -5,9 +5,11 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const [error, reviews] = await Model.reviews.get();
+		const [, reviews] = await Model.reviews.get({public: '1'});
+		const [, reviewsNotPublished] = await Model.reviews.get({public: '0'});
 
 		dataViews.reviews = reviews;
+		dataViews.reviewsNotPublished = reviewsNotPublished;
 		dataViews.session = session;
 
 		return new Promise((resolve, reject) => {
