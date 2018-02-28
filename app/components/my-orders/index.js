@@ -8,8 +8,6 @@ module.exports = (app) => {
 
 		const [errorOrders, orders] = await Model.orders.get({ client_id });
 
-		console.log(errorOrders.sql);
-
 		for (let order of orders) {
 			const { id } = order;
 			const [, orderGoods] = await Model.ordersGoods.get({ order_id: id });
