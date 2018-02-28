@@ -6,3 +6,4 @@ config/index.js
 app/public/uploads/*
 !app/public/uploads/logo.*
 app/public/photos/*
+app/dist
