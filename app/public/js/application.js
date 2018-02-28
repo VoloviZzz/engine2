@@ -31,9 +31,20 @@ $(document).ready(function () {
 	// ------------------ Вкладки --------------------------------
 
 
-	App.sendRequest = function (url, data) {
-		return new Promise(function(resolve, reject) {
-			
+	App.sendPost = function (url, data) {
+		return new Promise(function (resolve, reject) {
+			$.post(url, data).done(function (result) {
+				if (result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message || 'Что-то пошло не так');
+				}
+				else {
+					return resolve(result.data || {});
+				}
+			}).catch(function (error) {
+				console.log(result);
+				return alert(result.message || 'Что-то пошло не так');
+			})
 		})
 	}
 });

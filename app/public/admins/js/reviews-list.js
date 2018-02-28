@@ -4,10 +4,8 @@ $(document).ready(function (e) {
 	function reviewsTogglePublished(event) {
 		const id = $(this).data('id');
 		const published = '1';
-
-		// $.post('/api/reviews/togglePublished', { id, value: published })
 		
-		App.sendRequest('/api/reviews/togglePublished', { id, value: published }).then(() => {
+		App.sendPost('/api/reviews/togglePublished', { id, value: published }).then(function(data) {
 			
 		})
 	}
