@@ -34,6 +34,7 @@ $(document).ready(function () {
 	App.sendPost = function (url, data) {
 		return new Promise(function (resolve, reject) {
 			$.post(url, data).done(function (result) {
+				return resolve('123');
 				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message || 'Что-то пошло не так');

@@ -20,7 +20,7 @@
 							<span class="reviews-time"><%=Helpers.formatDate(r.created, 'dd MMMM yyyy, hh:mm')%></span>
 						</div>
 						<div class="reviews-text">
-							<p class="text-indent"><%- Helpers.replaceLineBreaks(r.text) -%></p>
+							<%- Helpers.replaceLineBreaks(r.text) -%>
 						</div>
 					</div>
 				</div>

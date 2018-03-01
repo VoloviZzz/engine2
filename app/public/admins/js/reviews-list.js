@@ -5,8 +5,8 @@ $(document).ready(function (e) {
 		const id = $(this).data('id');
 		const published = '1';
 		
-		App.sendPost('/api/reviews/togglePublished', { id, value: published }).then(function(data) {
-			
+		App.sendPost('/api/reviews/togglePublished', { id: id, value: published }).then(function(data) {
+			console.log(data);
 		})
 	}
 })
