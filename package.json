@@ -5,9 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "nodemon app.js",
-		"build": "babel ./app/public -d ./app/dist --ignore vendors --presets=es2015",
-		"webpack-build-dev": "webpack --mode development",
-		"webpack-build-prod": "webpack --mode production"
+		"dev": "npm-run-all --parallel watch:build watch:server",
+		"watch:build": "webpack --watch",
+		"watch:server": "nodemon app.js --ignore dist/"
 	},
 	"keywords": [],
 	"author": "",
@@ -31,8 +31,12 @@
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
+		"babel-loader": "^7.1.3",
 		"babel-preset-es2015": "^6.24.1",
+		"glob": "^7.1.2",
 		"nodemon": "^1.17.1",
+		"npm-run-all": "^4.1.2",
+		"watch-ignore-webpack-plugin": "^1.0.0",
 		"webpack": "^4.0.1",
 		"webpack-cli": "^2.0.9"
 	}

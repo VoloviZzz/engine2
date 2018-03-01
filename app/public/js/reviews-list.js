@@ -1,7 +1,6 @@
 'use strict';
 
 $(document).ready(function () {
-	// reviewsListSetHeight();
 
 	var Reviews = {
 		add: function add() {
