@@ -149,7 +149,7 @@ $(document).ready(function () {
 		var orderData = {};
 
 		$('.js-order-data').each(function (i, elem) {
-			$elem = $(elem);
+			var $elem = $(elem);
 
 			var dataRequired = $elem.hasClass('required');
 			var dataValue = $elem.val();
