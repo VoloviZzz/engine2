@@ -5,7 +5,7 @@ const { createVisitor } = require('./visitors');
 const { createVisit } = require('./visits');
 const { createView } = require('./views');
 
-module.exports = (app, express) => {
+module.exports = (app) => {
 
 	const Router = app.express.Router();
 	const fragmentsHandler = require('./fragments')(app);
