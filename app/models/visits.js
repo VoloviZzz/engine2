@@ -1,3 +1,4 @@
+const Helpers = require('../libs/Helpers');
 const db = require('../libs/db');
 
 // работа с подключениями
@@ -5,22 +6,16 @@ module.exports = {
 
 	// изменение подключения
 	set: arg => {
-
 		return new Promise((resolve, reject) => {
+			Model.checkRequired(arg, ['id']).then(() => {
 
-			// console.log(arg);
+				var activated = '',
+					closed = '';
 
-			Model
-				.checkRequired(arg, ['id'])
-				.then(() => {
+				if (arg.activated) activated = `activated = CURRENT_TIMESTAMP(),`;
+				if (arg.closed) closed = `closed = CURRENT_TIMESTAMP(),`;
 
-					var activated = '',
-						closed = '';
-
-					if (arg.activated) activated = `activated = CURRENT_TIMESTAMP(),`;
-					if (arg.closed) closed = `closed = CURRENT_TIMESTAMP(),`;
-
-					var q = `
+				var q = `
 						UPDATE views
 						SET
 							${activated}
@@ -29,23 +24,14 @@ module.exports = {
 						WHERE id = ${arg.id}
 					`;
 
-					// console.log(q);
-
-					Model
-						.executeQuery(q)
-						.then(result => {
-							resolve(result);
-						})
-						.catch(error => {
-							reject(error);
-						});
-
+				Model.executeQuery(q).then(result => {
+					resolve(result);
+				}).catch(error => {
+					reject(error);
 				});
 
-
-
+			});
 		});
-
 	},
 
 	// запрос списка подключений
@@ -54,11 +40,11 @@ module.exports = {
 		let period = '';
 		const today = new Date();
 		let defaultBegin = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-		
+
 		defaultBegin = Helpers.formatDate(defaultBegin, 'yyyy-MM-dd');
 		period = `AND created >= '${defaultBegin} 00:00'`;
 
-		if(arg.end && arg.begin) {
+		if (arg.end && arg.begin) {
 			period = `AND created >= '${arg.begin} 00:00' AND created <= '${arg.end} 23:59'`;
 		}
 
@@ -69,14 +55,12 @@ module.exports = {
 				${period}
 		`;
 
-		// console.log(q);
-
-		return Model.executeQuery(q);
+		return db.execQuery(q);
 	},
 
 	// добавление визита
 	add: (arg) => {
-		if(!!arg.visitorId === false) throw new Error(`Отсутствует обязательный параметр visitorId: ${arg.visitorId}`);
+		if (!!arg.visitorId === false) throw new Error(`Отсутствует обязательный параметр visitorId: ${arg.visitorId}`);
 		return db.insertQuery(`INSERT INTO visits SET visitor_id = ${arg.visitorId}, visitor_ip = '${arg.visitorIp}'`);
 	},
 }
