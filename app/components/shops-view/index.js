@@ -13,7 +13,9 @@ module.exports = (app) => {
 
 		if(!!shop === false) return Promise.resolve([, 'Страница не найдена'])
 
-		locals.route.title = shop.title;
+		if(locals.route.use_component_title) {
+			locals.route.title = shop.title;
+		}
 
 		shop.phones = shop.phones.split(',');
 		shop.schedule = JSON.parse(shop.schedule);

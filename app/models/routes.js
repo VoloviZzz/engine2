@@ -33,8 +33,8 @@ exports.add = async ({ url, title, dynamic, access, seo_keywords, seo_descriptio
 	if (typeof template_id != 'undefined') template_id = `, template_id = '${template_id}'`;
 
 	const [err, insertId] = await db.insertQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${seo_description} ${seo_keywords} ${template_id}`);
-	if(err) throw new Error(err.sql);
-	
+	if (err) throw new Error(err.sql);
+
 	const [queryErr, newRoute] = await exports.get({ id: insertId });
 	return Promise.resolve([null, newRoute]);
 }
@@ -59,18 +59,21 @@ exports.upd = (arg = {}) => {
 
 	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
 	arg.template_id = typeof arg.template_id !== 'undefined' ? `, template_id = '${arg.template_id}'` : ``;
-	
+
 	arg.seo_description = typeof arg.seo_description !== 'undefined' ? `, seo_description = '${arg.seo_description}'` : ``;
 	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
-
+	
+	arg.show_title = typeof arg.show_title !== 'undefined' ? `, show_title = '${arg.show_title}'` : ``;
+	arg.use_component_title = typeof arg.use_component_title !== 'undefined' ? `, use_component_title = '${arg.use_component_title}'` : ``;
 
 	arg.targetValue = '';
-	
-	
-	if(arg.target && arg.value == "null") {
+
+	if (arg.target && arg.value == "null") {
 		arg.targetValue = `, ${arg.target} = NULL`
 	}
-	else if(arg.target && typeof arg.value != "undefined") arg.targetValue = `, ${arg.target} = '${arg.value}'`;
+	else if (arg.target && typeof arg.value != "undefined") {
+		arg.targetValue = `, ${arg.target} = '${arg.value}'`;
+	}
 
 
 	return db.execQuery(`UPDATE routes
@@ -87,5 +90,7 @@ exports.upd = (arg = {}) => {
 			${arg.template_id}
 			${arg.delete_access}
 			${arg.edit_access}
+			${arg.show_title}
+			${arg.use_component_title}
 		WHERE id = ${arg.id}`)
 }
