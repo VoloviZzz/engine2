@@ -24,9 +24,12 @@ app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 app.use(cookieSession(config.session));
 
 const ShoppingCart = require('./app/classes/ShoppingCart');
+const initClientShopCart = (req, res, next) => {
+	const shoppingCart = new ShoppingCart(req);
+	next();
+}
 
 const setDefaultSessionData = (req, res, next) => {
-	const shoppingCart = new ShoppingCart(req);
 	req.session.user = req.session.user || {};
 	req.session.user.id = req.session.user.id || false;
 	req.session.user.admin = req.session.user.admin || false;
@@ -50,10 +53,12 @@ function toggleAdminMode(req, res, next) {
 	res.json({ status: 'ok' });
 }
 
+// обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
+// не знаю куда его вынести
 process.on('unhandledRejection', (error, p) => {
 	console.error(error.message);
 
-	if(!!error.sql === true) {
+	if (!!error.sql === true) {
 		console.log(error.sql);
 	}
 
@@ -99,12 +104,6 @@ const transporter = nodemailer.createTransport({
 
 app.transporter = transporter;
 
-// обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
-// не знаю куда его вынести
-process.on('unhandledRejection', (error) => {
-	console.log('unhandledRejection', error);
-});
-
 const fragments = require('./app/libs/fragments')(app);
 
 db.connect(db.MODE_TEST, async (err) => {
@@ -130,7 +129,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	app.get('/logout', clearSessionData);
 	app.get('/confirm-email', (req, res, next) => {
 		if (!req.query.t) return res.json({ status: 'bad' });
-		
+
 		return Model.confirmEmails.get({ hash: req.query.t }).then(([error, results]) => {
 
 			if (results.length < 1) {
@@ -161,21 +160,8 @@ db.connect(db.MODE_TEST, async (err) => {
 	app.use(routeHandler);
 
 	// error handler
-	app.use(function (err, req, res, next) {
-		// set locals, only providing error in development
-		res.locals.message = err.message;
-		res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-		// render the error page
-		res.status(err.status || 500);
-
-		if (req.xhr) {
-			return res.json({ message: err.message });
-		}
-		else {
-			return res.render('error');
-		}
-	});
+	const errorHandler = require('./app/functions/errorHandler');
+	app.use(errorHandler);
 
 	app.listen(config.web.port, (err) => {
 		if (err) return console.log("Ошибка запуска сервера:" + err.message);
