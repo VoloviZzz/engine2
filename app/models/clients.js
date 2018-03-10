@@ -1,17 +1,20 @@
 const db = require('../libs/db');
 
-exports.get = function ({ id = '', login = '', email = '', password = '', phone = '', search = '' }) {
+exports.get = function ({ id = '', login = '', email = '', password = '', phone = '', search = '', orderBy = '' }) {
 	if (!!id === true) id = `AND c.id = ${id}`;
 	if (!!login === true) login = `AND c.login = '${login}'`;
 	if (!!email === true) email = `AND c.mail = '${email}'`;
 	if (!!password === true) password = `AND c.password = MD5('${password}')`;
 	if (!!phone === true) phone = `AND c.phone = '${phone}'`;
+
+	if(!!orderBy === true) orderBy = `ORDER BY ${orderBy}`;
+
 	search = search ? `
 				AND c.phone LIKE '%${search}%' 
 				OR c.mail LIKE '%${search}%'
 				OR CONCAT(c.surname, ' ', c.firstname, ' ', c.patronymic) LIKE '%${search}%'` : ``;
 
-	return db.execQuery(`SELECT c.* FROM clients c WHERE c.id > 0 ${id} ${login} ${email} ${password} ${phone} ${search}`);
+	return db.execQuery(`SELECT c.* FROM clients c WHERE c.id > 0 ${id} ${login} ${email} ${password} ${phone} ${search} ${orderBy}`);
 }
 
 exports.create = function ({ email, firstname, surname, patronymic, address, phone, password, name }) {

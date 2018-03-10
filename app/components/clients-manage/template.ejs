@@ -1,6 +1,30 @@
 <link rel="stylesheet" href="/css/clients-manage.css">
 <div class="clients-search">
-    <input class="clients-search__input" type="text" placeholder="Введите e-mail или номер телефона для поиска">
+	<input class="clients-search__input" type="text" placeholder="Введите e-mail или номер телефона для поиска">
 </div>
-<div id="clients-list" class="clients-list"></div>
+<div id="clients-list" class="clients-list">
+	<% clients.forEach((c) => { %>
+		<div class="client-card">
+			<div class="client-card__title">
+				<h2>#<%= c.id -%> - <%= c.surname -%> <%= c.firstname -%> <%= c.patronymic -%></h2>
+				<ul class="text-left">
+					<li>Электронный адрес:
+						<a class="page-link" href="mailto:<%= c.mail -%>"><%= c.mail -%></a>
+					</li>
+					<li>Номер телефона:
+						<a class="page-link" href="callto:<%= c.phone -%>"><%= c.phone -%></a>
+					</li>
+					<label>
+						Администратор: 
+						<% if(c.admin) { %>
+							<button class="btn js-clients-toggleAdmin" data-user-id="<%= c.id -%>" value="0">Убрать администратора</button>
+						<% } else { %>
+							<button class="btn js-clients-toggleAdmin" data-user-id="<%= c.id -%>" value="1">Сделать администратором</button>
+						<% } %>
+					</label>
+				</ul>
+			</div>
+		</div>
+	<% }) %>
+</div>
 <script src="/js/clients-manage.js" defer></script>
