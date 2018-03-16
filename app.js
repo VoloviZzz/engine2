@@ -24,12 +24,9 @@ app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
 app.use(cookieSession(config.session));
 
 const ShoppingCart = require('./app/classes/ShoppingCart');
-const initClientShopCart = (req, res, next) => {
-	const shoppingCart = new ShoppingCart(req);
-	next();
-}
 
 const setDefaultSessionData = (req, res, next) => {
+	const shoppingCart = new ShoppingCart(req);
 	req.session.user = req.session.user || {};
 	req.session.user.id = req.session.user.id || false;
 	req.session.user.admin = req.session.user.admin || false;
@@ -160,7 +157,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	app.use(routeHandler);
 
 	// error handler
-	const errorHandler = require('./app/functions/errorHandler');
+	const errorHandler = require('./app/functions/error-handler');
 	app.use(errorHandler);
 
 	app.listen(config.web.port, (err) => {
