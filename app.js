@@ -124,6 +124,9 @@ db.connect(db.MODE_TEST, async (err) => {
 	// общие маршруты приложения
 	app.post('/toggle-admin', toggleAdminMode);
 	app.get('/logout', clearSessionData);
+	app.get('/admin-login', (req, res, next) => {
+		res.render('admin-login');
+	});
 	app.get('/confirm-email', (req, res, next) => {
 		if (!req.query.t) return res.json({ status: 'bad' });
 
