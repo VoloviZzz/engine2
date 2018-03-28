@@ -2,14 +2,14 @@
 <div class="news">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container news-admin-control-container">
-			<button class="btn news-add">Добавить</button>
+			<button class="btn news-add js-news-add">Добавить</button>
 		</div>
 	<% } %>
 	<% news.map(n => { %>
 		<article class="news__item">
             <% if(user.adminMode) { %>
                 <div class="admin-control-container">
-                    <button data-id="<%= n.id -%>" class="btn news-delete">Удалить</button>
+                    <button data-id="<%= n.id -%>" class="btn news-delete js-news-delete">Удалить</button>
                     <% if(n.published) { %>
                         <button data-id="<%= n.id -%>" data-value="0" class="btn news-publicate">Снять с публикации</button>
                     <% } else { %>
@@ -25,13 +25,13 @@
             </div>
             <div class="news__title-wrap">
                 <h2 class="news__title">
-                    <a href="/news/<%= n.id -%>" class="news__title-link">
-                        <% if(user.adminMode) { %>
-                            <input class="news-title-edit" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
-                        <% } else { %>
-                            <span><%= n.title -%></span>
-                        <% } %>
-                    </a>
+					<% if(user.adminMode) { %>
+						<input class="news-title-edit" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
+					<% } else { %>
+						<a href="/news/<%= n.id -%>" class="news__title-link">
+							<span><%= n.title -%></span>
+						</a>
+					<% } %>
                 </h2>
             </div>
             <div class="news__content-wrapp">
@@ -46,3 +46,6 @@
         </article>
 	<% }) %>
 </div>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/news-list.js" defer></script>
+<% } %>

@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 	function updDocumentTitle() {
 
-		$this = $(this);
+		var $this = $(this);
 
 		var postData = {
 			id: $this.data('id'),
@@ -42,7 +42,7 @@ $(document).ready(function () {
 	}
 
 	function toggleDocumentPublic() {
-		$this = $(this);
+		var $this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
@@ -63,7 +63,7 @@ $(document).ready(function () {
 	}
 
 	function deleteDocument() {
-		$this = $(this);
+		var $this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
@@ -83,7 +83,7 @@ $(document).ready(function () {
 	}
 
 	function addDocument() {
-		$this = $(this);
+		var $this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;

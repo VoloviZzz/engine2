@@ -47,7 +47,10 @@ exports.add = (arg = {}) => {
 }
 
 exports.upd = (arg = {}) => {
-
+	if(typeof arg.id == 'undefined') return Promise.resolve([new Error('Нет параметра id')]);
+	if(typeof arg.target == 'undefined') return Promise.resolve([new Error('Нет параметра target')]);
+	if(typeof arg.value == 'undefined') return Promise.resolve([new Error('Нет параметра value')]);
+	return db.execQuery(`UPDATE questions SET ${arg.target} = '${arg.value}' WHERE id = ${arg.id}`);
 }
 
 exports.del = (arg = {}) => {

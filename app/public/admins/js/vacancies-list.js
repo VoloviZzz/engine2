@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 	function updVacanciesTitle() {
 
-		$this = $(this);
+		var $this = $(this);
 
 		var postData = {
 			id: $this.data('id'),
@@ -42,7 +42,7 @@ $(document).ready(function () {
 	}
 
 	function toggleVacanciesPublic() {
-		$this = $(this);
+		var $this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
@@ -63,7 +63,7 @@ $(document).ready(function () {
 	}
 
 	function deleteVacancies() {
-		$this = $(this);
+		var $this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;
@@ -83,7 +83,7 @@ $(document).ready(function () {
 	}
 
 	function addVacancies() {
-		$this = $(this);
+		var $this = $(this);
 
 		if (confirm('Подвердить действие?') === false) {
 			return false;

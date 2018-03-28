@@ -18,3 +18,75 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:118:7)
 
+2018-3-28 15:05:10: TypeError: Cannot read property 'then' of undefined
+    at exports.editAnswer (D:\projects\engine\app\api\questions.js:42:90)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
+2018-3-28 15:05:13: TypeError: Cannot read property 'then' of undefined
+    at exports.editAnswer (D:\projects\engine\app\api\questions.js:42:90)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
+2018-3-28 15:05:13: TypeError: Cannot read property 'then' of undefined
+    at exports.editAnswer (D:\projects\engine\app\api\questions.js:42:90)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
+2018-3-28 15:05:13: TypeError: Cannot read property 'then' of undefined
+    at exports.editAnswer (D:\projects\engine\app\api\questions.js:42:90)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
+2018-3-28 15:05:13: TypeError: Cannot read property 'then' of undefined
+    at exports.editAnswer (D:\projects\engine\app\api\questions.js:42:90)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+
+2018-3-28 15:05:13: TypeError: Cannot read property 'then' of undefined
+    at exports.editAnswer (D:\projects\engine\app\api\questions.js:42:90)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:143:35)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\projects\engine\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (D:\projects\engine\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (D:\projects\engine\node_modules\express\lib\router\layer.js:95:5)
+    at D:\projects\engine\node_modules\express\lib\router\index.js:281:22
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:354:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+    at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
+

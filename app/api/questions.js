@@ -54,7 +54,7 @@ exports.togglePublication = (req, res, next) => {
 	}
 
 	return Model.questions.upd({ target: 'public', value: req.body.value, id: req.body.id }).then(result => {
-		return { status: 'ok', message: 'error' };
+		return { status: 'ok' };
 	}).catch(error => {
 		return { status: 'bad', message: 'error' };
 	})

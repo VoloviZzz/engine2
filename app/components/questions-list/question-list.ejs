@@ -1,0 +1,21 @@
+<ol class="default-list">
+	<% questions.map(q => { %>
+		<% if(session.user.adminMode) { %>
+			<div class="text-right">
+				<% if(q.public == '0') { %>
+					<button data-id="<%= q.id -%>" data-value="1" class="btn js-question-togglePusblished">Опубликовать</button>
+				<% } %>
+			</div>
+		<% } %>
+		<li class="answer">
+			<span class="show-question-button"><%-q.question%></span>
+			<div class="text-indent question">
+				<% if(session.user.adminMode) { %>
+					<textarea class="js-question-updateAnswer" data-id="<%= q.id -%>" style="max-width: 100%; min-width: 100%"><%- q.answer -%></textarea>
+				<% } else { %>
+					<%- Helpers.replaceLineBreaks(q.answer) -%>
+				<% } %>
+			</div>
+		</li>    
+	<% }) %>
+</ol>

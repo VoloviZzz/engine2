@@ -7,9 +7,12 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const [, questions] = await Model.questions.get({public: 1});
+		const [, questions] = await Model.questions.get({public: '1'});
+		const [, questionsNotPublished] = await Model.questions.get({public: '0'});
 
 		dataViews.questions = questions || [];
+		dataViews.questionsNotPublished = questionsNotPublished || [];
+		dataViews.session = session;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
