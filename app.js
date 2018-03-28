@@ -53,6 +53,7 @@ function toggleAdminMode(req, res, next) {
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
 // не знаю куда его вынести
 process.on('unhandledRejection', (error, p) => {
+	console.log(error);
 	console.error(error.message);
 
 	if (!!error.sql === true) {

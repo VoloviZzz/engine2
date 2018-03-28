@@ -1,7 +1,17 @@
 <link rel="stylesheet" href="/css/shops-list.css">
 <section>
+	<% if(user.adminMode) { %>
+		<div class="text-right">
+			<button class="btn js-add-shopItem">Добавить магазин</button>
+		</div>
+	<% } %>
 	<% shops.forEach((shop) => { %>
 		<div class="shops-item">
+			<% if(user.adminMode) { %>
+				<div class="text-right">
+					<button data-id="<%= shop.id -%>" class="btn js-delete-shopItem">Удалить из списка</button>
+				</div>
+			<% } %>
 			<h1 class="shops-item__title"><%= shop.title -%></h1>
 			<div class="shops-item__text text-margin-bottom-p text-indent">
 				<%- Helpers.trimStr(Helpers.replaceLineBreaks(shop.text), 175) -%>
@@ -15,3 +25,6 @@
 		</div>
 	<% }) %>
 </section>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/shops-list.js" defer></script>
+<% } %>

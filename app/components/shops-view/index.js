@@ -9,16 +9,26 @@ module.exports = (app) => {
 
 		const shopId = locals.dynamicRouteNumber;
 
-		const [, [shop]] = await Model.shopsList.get({id: shopId});
+		const [, [shop]] = await Model.shopsList.get({ id: shopId });
 
-		if(!!shop === false) return Promise.resolve([, 'Страница не найдена'])
+		if (!!shop === false) return Promise.resolve([, 'Страница не найдена'])
 
-		if(locals.route.use_component_title) {
+		if (locals.route.use_component_title) {
 			locals.route.title = shop.title;
 		}
 
-		shop.phones = shop.phones.split(',');
-		shop.schedule = JSON.parse(shop.schedule);
+		if (shop.phones) {
+			shop.phones = shop.phones.split(',');
+		} else {
+			shop.phones = [];
+		}
+
+		if (shop.schedule) {
+			shop.schedule = JSON.parse(shop.schedule);
+		} else {
+
+		}
+
 
 		dataViews.shop = shop;
 		dataViews.user = session.user;

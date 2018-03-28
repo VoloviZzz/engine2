@@ -26,6 +26,7 @@
 		<h3 class="text-center fs-regular">Контактная информация</h3>
 		<ul class="contacts-info-list fs-regular">
 			<% if(user.adminMode) { %>
+				<span>Номер телефона:</span>
 				<input class="input-text js-shopPhone-update" type="text" value="<%= shop.phones.join(',') -%>">
 			<% } else { %>
 				<% shop.phones.forEach((phone, index) => { %>
@@ -36,11 +37,15 @@
 				<% }) %>
 			<% } %>
 			<li class="contacts-info__item tc-blue">
-				<i class="fa fa-map-marker"></i>
 				<% if(user.adminMode) { %>
-					<input class="js-shopAddress-update" type="text" value="<%= shop.address -%>">
-				<% } else { %>
-					<span><%= shop.address -%></span>
+					<span>Адрес:</span>
+					<input class="input-text js-shopAddress-update" type="text" value="<%= shop.address -%>">
+				<% } 
+				else { %>
+					<% if(shop.address) { %>
+						<i class="fa fa-map-marker"></i>
+						<span><%= shop.address -%></span>	
+					<% } %>
 				<% } %>
 			</li>
 		</ul>

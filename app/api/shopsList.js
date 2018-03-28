@@ -21,3 +21,19 @@ exports.update = (req, res, next) => {
 		return { status: 'ok' }
 	})
 }
+
+exports.addItem = (req, res, next) => {
+	const Model = req.app.Model;
+	return Model.shopsList.add().then(([error, rows]) => {
+		if (error) return { message: error.message, error };
+		return { status: 'ok' }
+	})
+}
+
+exports.deleteItem = (req, res, next) => {
+	const Model = req.app.Model;
+	return Model.shopsList.del({ id: req.body.id }).then(([error, rows]) => {
+		if (error) return { message: error.message, error };
+		return { status: 'ok' }
+	})
+}
