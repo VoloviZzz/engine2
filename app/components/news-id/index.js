@@ -2,7 +2,7 @@ const path = require('path');
 const Model = require('../../models');
 
 module.exports = (app) => {
-    return (data = {}) => {
+    return (data) => {
         return new Promise(async (resolve, reject) => {
 
             let news_id, news_alias;
@@ -35,6 +35,8 @@ module.exports = (app) => {
             if (news.length < 1) return resolve([, 'Новость не найдена'])
 
             dataViews.news = news[0];
+
+			data.locals.route.title = news[0].title;
 
             Object.assign(dataViews.user, data.locals.user);
             Object.assign(dataViews.locals, data.locals);

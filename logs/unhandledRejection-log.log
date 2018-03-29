@@ -90,3 +90,8 @@
     at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
     at param (D:\projects\engine\node_modules\express\lib\router\index.js:365:14)
 
+2018-3-29 09:21:34: ReferenceError: locals is not defined
+    at Promise (D:\projects\engine\app\components\news-id\index.js:42:4)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:118:7)
+

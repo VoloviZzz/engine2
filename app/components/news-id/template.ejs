@@ -1,10 +1,17 @@
-<div class="text-center text-margin-bottom">
-	<h3 id="news_id" data-id="<%= news.id %>"><%= news.title %></h3>
-</div>
 <div class="news content">
+	<% if(user.adminMode) { %>
+		<input class="input-text js-news-update" type="text" data-target="title" data-id="<%= news.id -%>" value="<%= news.title -%>">
+	<% } %>
 	<div class="news__news-right">
 		<div class="news__news-text text-indent_p text-margin-bottom-p">
-			<%- Helpers.replaceLineBreaks(news.text) %>
+			<% if(user.adminMode) { %>
+				<textarea data-target="text" data-id="<%= news.id -%>" class="js-news-update js-ckeditor-edit"><%- news.text -%></textarea>
+			<% } else { %>
+				<%- Helpers.replaceLineBreaks(news.text) %>
+			<% } %>
 		</div>
 	</div>
 </div>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/news-id.js" defer></script>
+<% } %>
