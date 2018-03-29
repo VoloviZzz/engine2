@@ -5,11 +5,56 @@ $(document).ready(function () {
 		var id = $this.data('id');
 		var value = value || $this.val().trim();
 
-		$.post('/api/news/upd', { target: target, id: id, value: value }).done(function(result) {
-			if(result.status !== 'ok') {
+		$.post('/api/news/upd', { target: target, id: id, value: value }).done(function (result) {
+			if (result.status !== 'ok') {
 				console.log(result);
 				alert(result.message);
 			}
 		})
 	})
+
+	$('.js-news-togglePublication').on('click', function (e) {
+		var id = $(this).data('id');
+		var value = $(this).data('value');
+		var target = 'public';
+
+		$.post('/api/news/upd', { target: target, id: id, value: value }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		})
+	})
+
+	$('.js-news-upload-mainphoto').on('change', function (e) {
+
+		var fd = new FormData();
+		var id = $(this).data('id');
+
+		fd.append('upload', this.files[0]);
+
+		$.ajax({
+			url: '/api/images/upload?filename=' + this.files[0].name,
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function success(result) {
+				var value = result.data.fileUrl;
+				var target = 'main_photo';
+
+				$.post('/api/news/upd', { target: target, id: id, value: value }).done(function (result) {
+					if (result.status !== 'ok') {
+						console.log(result);
+						return alert(result.message);
+					}
+
+					return location.reload();
+				})
+			}
+		});
+		return false;
+	});
 })

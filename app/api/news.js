@@ -18,7 +18,7 @@ exports.deleteItem = (req, res, next) => {
 exports.upd = (req, res, next) => {
 	const Model = req.app.Model;
 	return Model.news.upd(req.body).then(([error, rows]) => {
-		if (error) return { message: error.message }
+		if (error) return { message: error.message, error }
 		return { status: 'ok' };
 	})
 }

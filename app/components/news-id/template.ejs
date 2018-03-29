@@ -1,5 +1,19 @@
 <div class="news content">
 	<% if(user.adminMode) { %>
+		<div class="admin-control-container">
+			<button data-id="<%= news.id -%>" class="btn news-delete js-news-delete">Удалить</button>
+			<% if(news.public) { %>
+				<button data-id="<%= news.id -%>" data-value="0" class="btn news-publicate js-news-togglePublication">Снять с публикации</button>
+			<% } else { %>
+				<button data-id="<%= news.id -%>" data-value="1" class="btn news-publicate js-news-togglePublication">Публиковать</button>
+			<% } %>
+			<label class="btn news-change-photo">
+				<input type="file" class="js-news-upload-mainphoto" data-id="<%= news.id -%>" id="news-upload-mainphoto" style="display: none">
+				<span>Изменить фото</span>
+			</label>
+		</div>
+	<% } %>
+	<% if(user.adminMode) { %>
 		<input class="input-text js-news-update" type="text" data-target="title" data-id="<%= news.id -%>" value="<%= news.title -%>">
 	<% } %>
 	<div class="news__news-right">
