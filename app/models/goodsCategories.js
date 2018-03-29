@@ -10,7 +10,7 @@ exports.add = function (data = {}) {
 
 	data = Object.assign(defaultData, data);
 
-	if(!!data.parent_id) data.parent_id = `, parent_id = '${data.parent_id}'`
+	if(!!data.parent_id === true && data.parent_id !== 'false') data.parent_id = `, parent_id = '${data.parent_id}'`
 
 	return db.insertQuery(`
 		INSERT INTO 

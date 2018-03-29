@@ -37,11 +37,11 @@ function Shop() { };
 
 Shop.prototype.addCategories = function (data) {
 
-	data = {};
+	data.parent_id = data.parent_id !== false ? data.parent_id : '';
 
-	defaultData = {
+	let defaultData = {
 		level: 0,
-		paretn_id: false
+		parent_id: ''
 	};
 
 	data = Object.assign(defaultData, data);
