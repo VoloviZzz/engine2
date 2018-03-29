@@ -139,11 +139,13 @@ $(document).ready(function () {
 		routesList.updRoute({ id: id, target: target, value: value });
 	});
 
-	$('.js-slide-upd').on('input', function (e) {
+	$('.js-slide-upd').on('change', function (e, CKvalue) {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
 		var target = $(this).data('target');
-		var value = $(this).val().trim();
+		var value = CKvalue || $(this).val().trim();
+
+		console.log(value);
 
 		return slider.updSlide({ slide_id: slide_id, fragment_id: fragment_id, target: target, value: value });
 	});
