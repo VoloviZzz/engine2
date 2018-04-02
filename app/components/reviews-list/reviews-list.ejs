@@ -3,9 +3,12 @@
 		<% reviews.map(r => { %>
 			<% if(r.public == 0 && r.client != userId) return false; %>
 			<li class="reviews-item" data-id="<%= r.id %>">
-				<% if(r.published == '0') { %>
+				<% if(session.user.adminMode) { %>
 					<div class="text-right">
-						<button class="btn js-reviews-togglePublished" data-id="<%= r.id -%>">Опубликовать</button>
+						<% if(r.published == '0') { %>
+								<button class="btn js-reviews-togglePublished" data-id="<%= r.id -%>">Опубликовать</button>
+						<% } %>
+						<button class="btn js-reviews-delete" data-id="<%= r.id -%>">Удалить</button>
 					</div>
 				<% } %>
 				<div class="review-wrapp">

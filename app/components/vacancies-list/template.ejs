@@ -7,7 +7,7 @@
 			</div>
 		<% } %>
 		<% vacancies.map(d => { %>
-			<% if(d.published == "0" && user.admin == "0") {
+			<% if(d.published == "0" && user.adminMode == false) {
 				return false;
 			} %>
 			<div class="vacancies-item">
