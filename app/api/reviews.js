@@ -14,10 +14,21 @@ exports.add = (req, res, next) => {
 
 exports.togglePublished = (req, res, next) => {
 	const Model = req.app.Model;
-	
 	const { id, published } = req.body;
 
 	return Model.reviews.upd({ target: 'published', value: published, id }).then(([error, results]) => {
+		if (error) return { status: 'bad', message: error.message, error };
+
+		return { status: 'ok' };
+	})
+}
+
+exports.delete = (req, res, next) => {
+
+	const { id } = req.body;
+	const Model = req.app.Model;
+
+	return Model.reviews.del({ id }).then(([error, results]) => {
 		if (error) return { status: 'bad', message: error.message, error };
 
 		return { status: 'ok' };
