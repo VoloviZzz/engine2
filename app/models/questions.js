@@ -8,6 +8,7 @@ exports.get = (arg = {}) => {
 	let public = arg.public ? `AND public = ${arg.public}` : ``;
 	let orderBy = arg.orderBy ? `ORDER BY ${arg.orderBy}` : ``;
 	let limit = arg.limit ? `LIMIT ${arg.limit}` : ``;
+	let id = arg.id ? `AND id = '${arg.id}'` : ``;
 
 	let q = `
 			SELECT q.*
@@ -18,6 +19,7 @@ exports.get = (arg = {}) => {
 				${category_id}
 				${author}
 				${public}
+				${id}
 			${orderBy}
 			${limit}
 		`;
@@ -47,12 +49,14 @@ exports.add = (arg = {}) => {
 }
 
 exports.upd = (arg = {}) => {
-	if(typeof arg.id == 'undefined') return Promise.resolve([new Error('Нет параметра id')]);
-	if(typeof arg.target == 'undefined') return Promise.resolve([new Error('Нет параметра target')]);
-	if(typeof arg.value == 'undefined') return Promise.resolve([new Error('Нет параметра value')]);
+	if (typeof arg.id == 'undefined') return Promise.resolve([new Error('Нет параметра id')]);
+	if (typeof arg.target == 'undefined') return Promise.resolve([new Error('Нет параметра target')]);
+	if (typeof arg.value == 'undefined') return Promise.resolve([new Error('Нет параметра value')]);
 	return db.execQuery(`UPDATE questions SET ${arg.target} = '${arg.value}' WHERE id = ${arg.id}`);
 }
 
 exports.del = (arg = {}) => {
+	if (typeof arg.id == 'undefined') return Promise.resolve([new Error('Нет параметра id')]);
 
+	return db.execQuery(`DELETE FROM questions WHERE id = '${arg.id}'`);
 }

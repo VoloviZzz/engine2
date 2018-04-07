@@ -95,3 +95,34 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:118:7)
 
+2018-4-7 17:15:22: TypeError: Cannot read property 'sendData' of undefined
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:145:25)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:118:7)
+
+2018-4-7 17:16:24: TypeError: Cannot read property 'sendData' of undefined
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:145:25)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:118:7)
+
+2018-4-7 17:16:27: TypeError: Cannot read property 'sendData' of undefined
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:145:25)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:118:7)
+
+2018-4-7 17:18:15: TypeError: Converting circular structure to JSON
+    at JSON.stringify (<anonymous>)
+    at stringify (D:\projects\engine\node_modules\express\lib\response.js:1119:12)
+    at ServerResponse.json (D:\projects\engine\node_modules\express\lib\response.js:260:14)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:149:9)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:118:7)
+
+2018-4-7 17:21:42: TypeError: Converting circular structure to JSON
+    at JSON.stringify (<anonymous>)
+    at stringify (D:\projects\engine\node_modules\express\lib\response.js:1119:12)
+    at ServerResponse.json (D:\projects\engine\node_modules\express\lib\response.js:260:14)
+    at Router.post (D:\projects\engine\app\libs\routeHandler.js:149:9)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:118:7)
+
