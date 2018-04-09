@@ -56,7 +56,7 @@ exports.togglePublication = async (req, res, next) => {
 	const [, questions] = await Model.questions.get({ id: req.body.id });
 	const question = questions[0];
 
-	if(!!question.answer === false) {
+	if (!!question.answer === false) {
 		return res.json({ status: 'bad', message: 'Нельзя опубликовать вопрос без текста ответа' })
 	}
 

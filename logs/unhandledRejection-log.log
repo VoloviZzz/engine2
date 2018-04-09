@@ -126,3 +126,47 @@
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:118:7)
 
+2018-4-7 20:03:40: D:\projects\engine\app\api\questions.js:1
+(function (exports, require, module, __filename, __dirname) { export function delQuestion(req, res, next) {
+                                                              ^^^^^^
+
+SyntaxError: Unexpected token export
+    at new Script (vm.js:51:7)
+    at createScript (vm.js:136:10)
+    at Object.runInThisContext (vm.js:197:10)
+    at Module._compile (internal/modules/cjs/loader.js:618:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:665:10)
+    at Module.load (internal/modules/cjs/loader.js:566:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:506:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:498:3)
+    at Module.require (internal/modules/cjs/loader.js:598:17)
+    at require (internal/modules/cjs/helpers.js:11:18)
+
+2018-4-7 20:10:35: D:\projects\engine\app\api\questions.js:52
+	let Model = 123;
+	    ^
+
+SyntaxError: Identifier 'Model' has already been declared
+    at new Script (vm.js:51:7)
+    at createScript (vm.js:136:10)
+    at Object.runInThisContext (vm.js:197:10)
+    at Module._compile (internal/modules/cjs/loader.js:618:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:665:10)
+    at Module.load (internal/modules/cjs/loader.js:566:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:506:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:498:3)
+    at Module.require (internal/modules/cjs/loader.js:598:17)
+    at require (internal/modules/cjs/helpers.js:11:18)
+
+2018-4-7 20:11:02: TypeError: Assignment to constant variable.
+    at Object.<anonymous> (D:\projects\engine\app\api\questions.js:51:5)
+    at Module._compile (internal/modules/cjs/loader.js:654:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:665:10)
+    at Module.load (internal/modules/cjs/loader.js:566:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:506:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:498:3)
+    at Module.require (internal/modules/cjs/loader.js:598:17)
+    at require (internal/modules/cjs/helpers.js:11:18)
+    at requireDir (D:\projects\engine\node_modules\require-dir\index.js:126:33)
+    at module.exports (D:\projects\engine\app\libs\routeHandler.js:129:45)
+
