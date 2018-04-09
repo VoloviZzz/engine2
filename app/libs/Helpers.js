@@ -145,7 +145,7 @@ module.exports = {
 
 	/* заменяет переносы строк указанным разделителем (по умолчанию '<br />') */
 	replaceLineBreaks: (str, divider = `p`) => {
-
+		
 		if (!str) return '';
 
 		var res = ``;
