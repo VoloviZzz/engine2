@@ -141,7 +141,15 @@ db.connect(db.MODE_TEST, async (err) => {
 		res.render('admin-login');
 	});
 
-	app.get('/admin-logs', (req, res, next) => {
+	function checkAdminMiddleware(req, res, next) {
+		if (req.session.user.admin) {
+			return next();
+		} else {
+			return next(new Error('Нет доступа'));
+		}
+	}
+
+	app.get('/admin-logs', checkAdminMiddleware, (req, res, next) => {
 		fs.readdir(path.join(__dirname, 'logs'), (error, files) => {
 			if (error) {
 				return res.send(error);
@@ -153,7 +161,7 @@ db.connect(db.MODE_TEST, async (err) => {
 		})
 	});
 
-	app.get('/admin-logs/:logName', (req, res, next) => {
+	app.get('/admin-logs/:logName', checkAdminMiddleware, (req, res, next) => {
 		fs.readFile(path.join(__dirname, 'logs', req.params.logName), 'utf8', (error, data) => {
 			if (error) {
 				return res.send(error);
