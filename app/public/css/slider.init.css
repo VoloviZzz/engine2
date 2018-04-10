@@ -216,6 +216,7 @@ p.top-slide-info, .slider-info p {
 @media (min-width: 992px) {
     .slider-info {
         display: block;
+        overflow: auto;
     }
 
     #alert-slider {
