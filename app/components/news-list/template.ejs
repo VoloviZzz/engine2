@@ -33,18 +33,14 @@
 						<input class="news-title-edit js-news-update input-text" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
 					<% } else { %>
 						<a href="/news-id/<%= n.id -%>" class="news__title-link">
-							<span><%= n.title -%></span>
+							<span><%= n.title %></span>
 						</a>
 					<% } %>
                 </h2>
             </div>
             <div class="news__content-wrapp">
                 <div class="news__content">
-                    <p>
-                        <%- Helpers.trimStr(n.text, 250) -%>
-                        <br>
-                        <a href="/news-id/<%= n.id -%>" class="news__content-link">Читать далее</a>
-                    </p>
+					<a href="/news-id/<%= n.id -%>" class="news__content-link">Подробнее</a>
                 </div>
             </div>
         </article>
