@@ -143,7 +143,11 @@ $(document).ready(function () {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
 		var target = $(this).data('target');
-		var value = CKvalue || $(this).val().trim();
+		var value = $(this).val().trim();
+
+		if(typeof CKvalue !== 'undefined') {
+			value = CKvalue;
+		}
 
 		console.log(value);
 
