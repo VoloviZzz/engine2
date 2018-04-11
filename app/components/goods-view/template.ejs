@@ -54,13 +54,33 @@
 				<% } %>
 			</div>
 			<div class="good-price">
-				<div class="good-price__label">Цена:
+				<div class="good-price__label">
+					<span style="text-transform: none;">Цена:</span>
 					<% if(user.adminMode) { %>
 						<input class="js-good-edit" data-id="<%=position.id-%>" data-target="price" type="number" min="1" name="good_price" value="<%=position.price -%>">
+						<label>
+							<input type="radio" name="position-price-type" checked>
+							Фиксированная цена
+						</label>
+						<br>
+						<label>
+							<input type="radio" name="position-price-type" <%= position.float_price ? 'checked' : '' -%>>
+							Плавающая цена
+						</label>
+						<br>
+						<label>
+							<input type="radio" name="position-price-type" <%= position.contract_price ? 'checked' : '' -%>>
+							Договорная цена
+						</label>
 					<% } else { %>
-						<span>
-							<%= Helpers.formatPrice(position.price) %>
-						</span> руб.
+						<% if(position.float_price) { %>
+							<span style="text-transform: none;">От</span>
+							<span><%= Helpers.formatPrice(position.price) %> руб.</span>
+						<% } else if(position.contract_price) { %>
+							<span style="text-transform: none;">Договорная</span>
+						<% } else { %>
+							<span><%= Helpers.formatPrice(position.price) %> руб.</span>
+						<% } %>
 					<% } %>
 				</div>
 				<% if(position.count > 0) { %>

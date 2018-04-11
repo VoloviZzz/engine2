@@ -1,14 +1,19 @@
 $(document).ready(function () {
-	$('.js-news-update').on('change', function (e, value) {
+	$('.js-news-update').on('change', function (e, CKvalue) {
 		var $this = $(this);
 		var target = $this.data('target');
 		var id = $this.data('id');
-		var value = value || $this.val().trim();
+
+		var value = $this.val().trim();
+
+		if (typeof CKvalue !== 'undefined') {
+			value = CKvalue;
+		}
 
 		$.post('/api/news/upd', { target: target, id: id, value: value }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
-				alert(result.message);
+				return alert(result.message);
 			}
 		})
 	})

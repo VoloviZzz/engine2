@@ -170,6 +170,7 @@ module.exports = (req, res, next, data = { pathToFolder: path.join(AppRoot, 'pub
 				});
 			})
 			.catch(error => {
+				console.log(error);
 				throw new Error('Ошибка записи файла');
 			})
 			.then(() => {

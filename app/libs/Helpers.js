@@ -145,7 +145,7 @@ module.exports = {
 
 	/* заменяет переносы строк указанным разделителем (по умолчанию '<br />') */
 	replaceLineBreaks: (str, divider = `p`) => {
-
+		
 		if (!str) return '';
 
 		var res = ``;
@@ -168,7 +168,7 @@ module.exports = {
 
 	/* обрезает строку до заданной длины, (по умолчанию - 100 знаков) */
 	trimStr: (str, length) => {
-		if (str == null) return false;
+		if (str == null) return '';
 		length = length || 100;
 		if (str.length > length) return str.substr(0, length - 1) + '...';
 		return str;

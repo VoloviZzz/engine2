@@ -21,11 +21,12 @@
 			<% if(user.adminMode) { %>
 				<textarea data-target="text" data-id="<%= news.id -%>" class="js-news-update js-ckeditor-edit"><%- news.text -%></textarea>
 			<% } else { %>
-				<%- Helpers.replaceLineBreaks(news.text) %>
+				<%-news.text-%>
 			<% } %>
 		</div>
 	</div>
 </div>
 <% if(user.adminMode) { %>
+	<script src="/admins/js/news-list.js" defer></script>
 	<script src="/admins/js/news-id.js" defer></script>
 <% } %>

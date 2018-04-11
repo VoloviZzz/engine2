@@ -4,7 +4,10 @@
 			<div class="text-right">
 				<% if(q.public == '0') { %>
 					<button data-id="<%= q.id -%>" data-value="1" class="btn js-question-togglePusblished">Опубликовать</button>
+				<% } else { %>
+					<button data-id="<%= q.id -%>" data-value="0" class="btn js-question-togglePusblished">Снять с публикации</button>
 				<% } %>
+				<button data-id="<%= q.id -%>" class="btn js-question-delete">Удалить</button>
 			</div>
 		<% } %>
 		<li class="answer">
