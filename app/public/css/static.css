@@ -134,7 +134,7 @@ header.document-header, .document-footer {
 }
 
 img.nav-band {
-    max-width: 100px;
+    height: 30px;
 }
 
 .header-nav {
@@ -318,6 +318,7 @@ li.section-menu-item.active > a {
     position: relative;
     padding: 12px 5px;
     align-items: center;
+    text-decoration: none !important;
 }
 
 .section-content {
@@ -721,6 +722,7 @@ table {
 }
 
 .menu-container {
+    text-align: right;
     width: 100%;
     display: none;
 }
@@ -791,7 +793,6 @@ table {
 
     .menu-container {
         flex-direction: column;
-        background: rgb(38, 38, 38);
         z-index: 1;
     }
 
