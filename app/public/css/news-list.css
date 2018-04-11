@@ -27,6 +27,7 @@
     max-height: 300px;
     background: #cccccc;
     overflow: hidden;
+    height: 200px;
 }
 
 .news__img {
@@ -131,7 +132,6 @@
 
     .news__img {
         width: 100%;
-        height: 200px;
     }
 
     .news__title-wrap {

@@ -177,3 +177,21 @@ SyntaxError: Identifier 'Model' has already been declared
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:182:7)
 
+2018-4-11 13:06:06: ReferenceError: orderBy is not defined
+    at Object.exports.get (D:\projects\engine\app\models\news.js:6:68)
+    at Promise (D:\projects\engine\app\components\news-list\index.js:13:47)
+    at new Promise (<anonymous>)
+    at D:\projects\engine\app\components\news-list\index.js:6:16
+    at fragmentsHandler (D:\projects\engine\app\libs\fragments.js:23:30)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:182:7)
+
+2018-4-11 13:06:10: ReferenceError: orderBy is not defined
+    at Object.exports.get (D:\projects\engine\app\models\news.js:6:68)
+    at Promise (D:\projects\engine\app\components\news-list\index.js:13:47)
+    at new Promise (<anonymous>)
+    at D:\projects\engine\app\components\news-list\index.js:6:16
+    at fragmentsHandler (D:\projects\engine\app\libs\fragments.js:23:30)
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:182:7)
+
