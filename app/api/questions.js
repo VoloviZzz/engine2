@@ -47,10 +47,17 @@ exports.editAnswer = (req, res, next) => {
 
 }
 
-exports.togglePublication = (req, res, next) => {
+exports.togglePublication = async (req, res, next) => {
 	const Model = req.app.Model;
 	if (typeof req.body.id == 'undefined') {
 		return res.json({ status: 'bad', message: 'toggle_publication: Не указан id' })
+	}
+
+	const [, questions] = await Model.questions.get({ id: req.body.id });
+	const question = questions[0];
+
+	if (!!question.answer === false) {
+		return res.json({ status: 'bad', message: 'Нельзя опубликовать вопрос без текста ответа' })
 	}
 
 	return Model.questions.upd({ target: 'public', value: req.body.value, id: req.body.id }).then(result => {

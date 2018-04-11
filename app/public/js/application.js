@@ -56,10 +56,10 @@ Shop.prototype.addCategories = function (data) {
 	});
 };
 
-Shop.prototype.updCategories = function (_ref) {
-	var id = _ref.id,
-		target = _ref.target,
-		value = _ref.value;
+Shop.prototype.updCategories = function (args) {
+	var id = args.id,
+		target = args.target,
+		value = args.value;
 
 	$.post('/api/shop/updCategories', { id: id, target: target, value: value }).done(function (result) {
 		if (result.status !== 'ok') {
@@ -69,8 +69,8 @@ Shop.prototype.updCategories = function (_ref) {
 	});
 };
 
-Shop.prototype.delCategories = function (_ref2) {
-	var id = _ref2.id;
+Shop.prototype.delCategories = function (args) {
+	var id = args.id;
 
 	$.post('/api/shop/delCategories', { id: id }).done(function (result) {
 		if (result.status !== 'ok') {
@@ -82,10 +82,10 @@ Shop.prototype.delCategories = function (_ref2) {
 	});
 };
 
-Shop.prototype.setPhoto = function (_ref3) {
-	var id = _ref3.id,
-		target = _ref3.target,
-		value = _ref3.value;
+Shop.prototype.setPhoto = function (args) {
+	var id = args.id,
+		target = args.target,
+		value = args.value;
 
 	$.post('/api/shop/updCategories', { id: id, target: target, value: value }).done(function (result) {
 		if (result.status !== 'ok') {
@@ -143,11 +143,11 @@ Slider.prototype.deleteSlide = function (_ref5) {
 	});
 };
 
-Slider.prototype.updSlide = function (_ref6) {
-	var slide_id = _ref6.slide_id,
-		fragment_id = _ref6.fragment_id,
-		target = _ref6.target,
-		value = _ref6.value;
+Slider.prototype.updSlide = function (args) {
+	var slide_id = args.slide_id,
+		fragment_id = args.fragment_id,
+		target = args.target,
+		value = args.value;
 
 	$.post('/api/slider/updSlide', { slide_id: slide_id, fragment_id: fragment_id, target: target, value: value }).done(function (result) {
 		if (result.status != 'ok') {
@@ -157,16 +157,17 @@ Slider.prototype.updSlide = function (_ref6) {
 	});
 };
 
-Slider.prototype.setImage = function (_ref7) {
-	var slide_id = _ref7.slide_id,
-		fragment_id = _ref7.fragment_id,
-		target = _ref7.target,
-		value = _ref7.value;
+Slider.prototype.setImage = function (args) {
+	var slide_id = args.slide_id,
+		fragment_id = args.fragment_id,
+		target = args.target,
+		value = args.value;
 
 	$.post('/api/slider/updSlide', { slide_id: slide_id, fragment_id: fragment_id, target: target, value: value }).done(function (result) {
-		if (result.status != 'ok') {
+
+		if (result.status !== 'ok') {
 			console.log(result);
-			alert(result.message);
+			return alert(result.message);
 		}
 
 		return location.reload();
@@ -177,9 +178,9 @@ Slider.prototype.setImage = function (_ref7) {
 // ----------------------------------------------------------------------------------------
 function Fragments() { }
 
-Fragments.prototype.add = function (_ref8) {
-	var route_id = _ref8.route_id,
-		block_id = _ref8.block_id;
+Fragments.prototype.add = function (args) {
+	var route_id = args.route_id,
+		block_id = args.block_id;
 
 	$.post("/api/fragments/add", { route_id: route_id, block_id: block_id }).done(function (result) {
 		if (result.status === 'ok') return location.reload();
@@ -211,9 +212,9 @@ Fragments.prototype.delete = function (fragment_id) {
 	});
 };
 
-Fragments.prototype.setData = function (_ref9) {
-	var fragment_id = _ref9.fragment_id,
-		data = _ref9.data;
+Fragments.prototype.setData = function (args) {
+	var fragment_id = args.fragment_id,
+		data = args.data;
 
 	$.post('/api/fragments/setData', { fragment_id: fragment_id, data: JSON.stringify({ body: data }) }).done(function (result) {
 		console.log(result);

@@ -24,7 +24,7 @@ $(document).ready(function () {
 		var target = $(this).data('target');
 		var value = $(this).val().trim();
 
-		if (!!target === false || !!value === false || !!id === false) {
+		if (!!target === false || typeof value == "undefined" || !!id === false) {
 			console.log('target: ', target, 'value: ', value, 'id: ', id);
 			return alert('Что-то не так с данными');
 		}
@@ -143,7 +143,11 @@ $(document).ready(function () {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
 		var target = $(this).data('target');
-		var value = CKvalue || $(this).val().trim();
+		var value = $(this).val().trim();
+
+		if(typeof CKvalue !== 'undefined') {
+			value = CKvalue;
+		}
 
 		console.log(value);
 

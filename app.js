@@ -20,7 +20,10 @@ app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ limit: '2048mb', extended: false }));
+app.use(bodyParser.urlencoded({
+	limit: '2048mb',
+	extended: false
+}));
 app.use(cookieSession(config.session));
 
 const ShoppingCart = require('./app/classes/ShoppingCart');
@@ -44,10 +47,15 @@ const clearSessionData = (req, res, next) => {
 }
 
 function toggleAdminMode(req, res, next) {
-	if (!!req.session.user.admin === false) return res.json({ status: 'bad', message: `Нет доступа к данной функции` });
+	if (!!req.session.user.admin === false) return res.json({
+		status: 'bad',
+		message: `Нет доступа к данной функции`
+	});
 
 	req.session.user.adminMode = !req.session.user.adminMode;
-	res.json({ status: 'ok' });
+	res.json({
+		status: 'ok'
+	});
 }
 
 // обработка необработанных ошибок, возникающий в промисах (unhandled rejection);
@@ -109,7 +117,9 @@ db.connect(db.MODE_TEST, async (err) => {
 
 	// подключение обработчика маршрутов
 	const routeHandler = require('./app/libs/routeHandler')(app, express);
-	const { initRoutes } = require('./app/libs/router');
+	const {
+		initRoutes
+	} = require('./app/libs/router');
 
 	// инициализация списка маршрутов; на выходе будет объект: {route.url: route, ...}
 	[err, app.locals.routesList] = await initRoutes();
@@ -119,7 +129,9 @@ db.connect(db.MODE_TEST, async (err) => {
 	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
 
-	const { constructHeaderRows } = require('./app/libs/header-nav');
+	const {
+		constructHeaderRows
+	} = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
 
 	// общие маршруты приложения
@@ -128,28 +140,77 @@ db.connect(db.MODE_TEST, async (err) => {
 	app.get('/admin-login', (req, res, next) => {
 		res.render('admin-login');
 	});
-	app.get('/confirm-email', (req, res, next) => {
-		if (!req.query.t) return res.json({ status: 'bad' });
 
-		return Model.confirmEmails.get({ hash: req.query.t }).then(([error, results]) => {
+	function checkAdminMiddleware(req, res, next) {
+		if (req.session.user.admin) {
+			return next();
+		} else {
+			return next(new Error('Нет доступа'));
+		}
+	}
+
+	app.get('/admin-logs', checkAdminMiddleware, (req, res, next) => {
+		fs.readdir(path.join(__dirname, 'logs'), (error, files) => {
+			if (error) {
+				return res.send(error);
+			}
+
+			res.render('admin-logs', {
+				files: files
+			});
+		})
+	});
+
+	app.get('/admin-logs/:logName', checkAdminMiddleware, (req, res, next) => {
+		fs.readFile(path.join(__dirname, 'logs', req.params.logName), 'utf8', (error, data) => {
+			if (error) {
+				return res.send(error);
+			}
+
+			res.send(`<pre>${data}</pre>`);
+		})
+	});
+
+	app.get('/confirm-email', (req, res, next) => {
+		if (!req.query.t) return res.json({
+			status: 'bad'
+		});
+
+		return Model.confirmEmails.get({
+			hash: req.query.t
+		}).then(([error, results]) => {
 
 			if (results.length < 1) {
-				return Promise.reject({ status: 'bad', message: 'Неправильный hash' });
+				return Promise.reject({
+					status: 'bad',
+					message: 'Неправильный hash'
+				});
 			}
 
 			return Promise.resolve(results[0]);
 		}).then((result) => {
 			if (result.checked == '1') {
-				return Promise.reject({ status: 'bad', message: 'Почта уже подтвеждена' });
+				return Promise.reject({
+					status: 'bad',
+					message: 'Почта уже подтвеждена'
+				});
 			}
 
 			clientId = result.client_id;
 
 			return Promise.resolve(result);
 		}).then(result => {
-			return Model.confirmEmails.upd({ target: 'checked', value: '1', id: result.id })
+			return Model.confirmEmails.upd({
+				target: 'checked',
+				value: '1',
+				id: result.id
+			})
 		}).then(() => {
-			return Model.clients.upd({ id: clientId, target: 'confirmed', value: '1' })
+			return Model.clients.upd({
+				id: clientId,
+				target: 'confirmed',
+				value: '1'
+			})
 		}).then(result => {
 			res.redirect('/login');
 		}).catch(error => {

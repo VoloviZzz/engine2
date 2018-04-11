@@ -77,14 +77,14 @@
 							<% if(user.adminMode) { %>
 							<div>
 								<span>Заголовок:</span>
-								<input type="text" class="js-goodsCategories-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%> ">
+								<input type="text" class="js-goodsCategories-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%>">
 							</div>
 							<div>
 								<span>Адрес:</span>
 								<input type="text" class="js-goodsCategories-upd" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
 							</div>
 							<% } else { %>
-								<a href="/shop-categories/<%= s.id %>"><%= s.title %></a>
+								<a href="/shop-categories/<%= s.id %>"><%= s.title_bottom || s.title %></a>
 							<% } %>
 						</div>
 					</div>
