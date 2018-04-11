@@ -183,4 +183,31 @@ $(document).ready(function () {
 			alert('Что-то пошло не так');
 		});
 	});
+
+	$('.js-change-goodsPosition-priceType').on('change', function (e) {
+		var selectedTarget = $(this).data('target');
+		
+		var value = {
+			'default': ['0', '0'],
+			'contract_price': ['1', '0'],
+			'float_price': ['0', '1']
+		}[selectedTarget];
+
+		var postData = {
+			id: $(this).data('id'),
+			target: ['contract_price', 'float_price'],
+			value: value
+		};
+
+		postData = JSON.stringify(postData);
+
+		$.post('/api/goodsPosition/upd', { data: postData }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				if (result.message) {
+					return alert(result.message);
+				}
+			}
+		})
+	})
 });
