@@ -2,7 +2,8 @@ const db = require("../libs/db");
 
 exports.get = (args = { id: '' }) => {
 	args.id = !!args.id === true ? `AND id = ${args.id}` : ``;
-	return db.execQuery(`SELECT * FROM news WHERE id > 0 ${args.id}`);
+	args.orderBy  = typeof args.orderBy != 'undefined' ? args.orderBy = `ORDER BY ${args.orderBy}` : '';
+	return db.execQuery(`SELECT * FROM news WHERE id > 0 ${args.id} ${args.orderBy}`);
 }
 
 exports.add = (args = {}) => {
