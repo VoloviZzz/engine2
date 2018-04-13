@@ -41,10 +41,26 @@ exports.get = function (data = {}) {
 }
 
 exports.upd = function (data = {}) {
-	if(!!data.value === false) return Promise.resolve([new Error('Нет value')])
+	if (!!data.value === false) return Promise.resolve([new Error('Нет value')])
+
+	const targetIsArray = Array.isArray(data.target);
+	let setData = '';
+
+	if(targetIsArray) {
+		if(Array.isArray(data.value)) {
+			setData = data.target.map((target, index) => `${target} = ${data.value[index]}`).join(',');
+		}
+		else {
+			return Promise.reject([, new Error('Values is not array')]);
+		}
+	}
+	else {
+		setData = `${data.target} = '${data.value}'`;
+	}
+
 	return db.execQuery(`
 		UPDATE goods_pos
-		SET ${data.target} = '${data.value}'
+		SET ${setData}
 		WHERE id = ${data.id}
 	`);
 }
