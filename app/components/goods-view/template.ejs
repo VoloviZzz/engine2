@@ -59,17 +59,17 @@
 					<% if(user.adminMode) { %>
 						<input class="js-good-edit" data-id="<%=position.id-%>" data-target="price" type="number" min="1" name="good_price" value="<%=position.price -%>">
 						<label>
-							<input type="radio" name="position-price-type" checked>
+							<input type="radio" data-target="default" data-id="<%= position.id -%>" class="js-change-goodsPosition-priceType" name="position-price-type" checked>
 							Фиксированная цена
 						</label>
 						<br>
 						<label>
-							<input type="radio" name="position-price-type" <%= position.float_price ? 'checked' : '' -%>>
+							<input type="radio" data-target="float_price" data-id="<%= position.id -%>" class="js-change-goodsPosition-priceType" name="position-price-type" <%= position.float_price ? 'checked' : '' -%>>
 							Плавающая цена
 						</label>
 						<br>
 						<label>
-							<input type="radio" name="position-price-type" <%= position.contract_price ? 'checked' : '' -%>>
+							<input type="radio" data-target="contract_price" data-id="<%= position.id -%>" class="js-change-goodsPosition-priceType" name="position-price-type" <%= position.contract_price ? 'checked' : '' -%>>
 							Договорная цена
 						</label>
 					<% } else { %>

@@ -10,7 +10,7 @@ module.exports = (app) => {
                 locals: {},
             };
 
-            const [, news] = await Model.news.get();
+            const [, news] = await Model.news.get({orderBy: 'created DESC'});
 
             dataViews.news = news;
 
