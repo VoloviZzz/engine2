@@ -177,3 +177,11 @@ SyntaxError: Identifier 'Model' has already been declared
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:182:7)
 
+2018-4-11 12:02:55: TypeError: Converting circular structure to JSON
+    at JSON.stringify (<anonymous>)
+    at stringify (/home/public/www/evroservis.ooo/node_modules/express/lib/response.js:1119:12)
+    at ServerResponse.json (/home/public/www/evroservis.ooo/node_modules/express/lib/response.js:260:14)
+    at Router.post (/home/public/www/evroservis.ooo/app/libs/routeHandler.js:149:9)
+    at <anonymous>
+    at process._tickDomainCallback (internal/process/next_tick.js:228:7)
+
