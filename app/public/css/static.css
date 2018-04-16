@@ -771,6 +771,13 @@ table {
     width: 100%;
 }
 
+textarea.input-text {
+	margin-top: 15px;
+	min-height: 150px;
+	min-width: 100%;
+	max-width: 100%;
+}
+
 @media (max-width: 769px) {
     .document-footer {
         flex-direction: column;
