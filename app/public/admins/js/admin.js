@@ -149,8 +149,6 @@ $(document).ready(function () {
 			value = CKvalue;
 		}
 
-		console.log(value);
-
 		return slider.updSlide({ slide_id: slide_id, fragment_id: fragment_id, target: target, value: value });
 	});
 

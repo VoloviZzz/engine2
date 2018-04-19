@@ -82,7 +82,7 @@
 							<% if(user.adminMode) { %>
 							<div>
 								<span>Заголовок:</span>
-								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%>">
+								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
 							</div>
 							<div>
 								<span>Адрес:</span>
