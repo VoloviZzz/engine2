@@ -28,7 +28,7 @@ $(document).ready(function () {
 
 	$('#js-get-new-pass').on('click', function (e) {
 		var reEmail = /[^@]+@[^@]+\.[a-zA-Z]{2,6}/;
-		var userEmail = prompt('Введите почту, указанную при ригестрации:');
+		var userEmail = prompt('Введите почту, указанную при регистрации:');
 
 		if (!!userEmail === false) return false;
 

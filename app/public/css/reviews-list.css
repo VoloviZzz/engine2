@@ -76,7 +76,6 @@ li.reviews-item {
 
 .new-reviews-text {
     height: 100%;
-    min-height: 70px;
     padding: 15px 20px;
     width: 74%;
     border: 1px #c3c3c3 solid;
@@ -87,9 +86,17 @@ li.reviews-item {
     background-color: #ededed;
 }
 
+textarea.input-text {
+    margin-top: 0;
+    min-height: 50px;
+    max-height: 60px;
+    min-width: 100px;
+}
+
+
 button.btn.new-reviews-button {
     height: auto;
-    max-height: 51px;
+    /*max-height: 51px;*/
     width: 24.9%;
     background-color: #4b4f4f;
     font-family: 'Roboto', sans-serif;
