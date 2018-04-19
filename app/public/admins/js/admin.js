@@ -158,6 +158,8 @@ $(document).ready(function () {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
 
+		if(!confirm('Удалить слайд?')) return false;
+
 		return slider.deleteSlide({ slide_id: slide_id, fragment_id: fragment_id });
 	});
 
