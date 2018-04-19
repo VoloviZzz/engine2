@@ -52,17 +52,21 @@ module.exports = (app) => {
 				let cat = catsTree[cat_id];
 				positionCollection = [];
 				positionCollection.push(cat);
+				while (!!cat.childs === true) {
 
-				while (cat.childs === true) {
 					Object.keys(cat.childs).forEach((cat_id, index) => {
-						if (cat.childs === false) return false; // заглушка. непонятно почему категория (cat) была undefined
+						if (!!cat.childs === false) return false; // заглушка. непонятно почему категория (cat) была undefined
 						if (!!cat.childs[cat_id] === false) return false; // заглушка. непонятно почему категория (cat) была undefined
 						cat = cat.childs[cat_id];
 						positionCollection.push(cat);
 					})
 				}
 
-				return cat.id === dataViews.position.cat_id;
+				if(cat.id === dataViews.position.cat_id) {
+					return true;
+				} else {
+					positionCollection = [];
+				}
 			})
 
 			dataViews.rootLevelCats = rootLevelCats;
