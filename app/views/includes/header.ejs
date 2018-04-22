@@ -19,6 +19,7 @@
         <header class="document-header">
             <nav class="header-nav">
                 <div class="site-band">
+                	<button class="aside-toggle btn"> <i class="fa fa-angle-down fa-2x"></i></button>
                     <img class="nav-band" src="<%= siteConfig.get("siteLogo") -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
 					<% if(user.adminMode) { %>
 						<label class="js-siteLogo-edit-btn" style="cursor: pointer">
@@ -103,4 +104,5 @@
 					%></ul>
                 </div>
             </nav>
+            <!--<div class="aside-toggle">Меню слева</div>-->
         </header>

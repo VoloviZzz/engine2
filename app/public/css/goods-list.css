@@ -29,7 +29,7 @@
 }
 
 .goods-item__price .btn {
-    width: 50%;
+  width: 40%;
 }
 
 .goods-item__title {
@@ -159,12 +159,12 @@
 }
 
 .goods-item__price span {
-    /*width: 50%;*/
-    min-width: 142px;
-    font-weight: bold;
-    font-size: 18px;
-    text-align: center;
-    text-indent: 0px;
+	width: 60%;
+	font-weight: bold;
+	font-size: 18px;
+	white-space: nowrap;
+	text-align: left;
+	text-indent: 0px;
 }
 
 .goods-item__price button {
