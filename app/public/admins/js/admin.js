@@ -7,6 +7,33 @@ $(document).ready(function () {
 	var slider = new Slider();
 	var shop = new Shop();
 
+	var aceEditorsElements = $('.js-ace-editor');
+
+	$.each(aceEditorsElements, function (index, elem) {
+		var editor = ace.edit(elem);
+		var $elem = $(elem);
+
+		var fragmentId = $elem.data('fragment-id');
+
+		editor.setTheme("ace/theme/monokai");
+		editor.session.setMode("ace/mode/html");
+
+		editor.session.on('change', function (delta) {
+			var editorValue = editor.getValue();
+			var postData = {};
+
+			postData.fragment_id = fragmentId;
+			postData.data = JSON.stringify({value: editorValue});
+
+			$.post('/api/fragments/setData', postData).done(function(result) {
+				if(result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message)
+				}
+			})
+		});
+	})
+
 	$('.js-goodsPositions-add').on('click', function (e) {
 		var cat_id = $(this).data('catId');
 		return shop.addPosition({ cat_id: cat_id });
@@ -131,8 +158,8 @@ $(document).ready(function () {
 
 	$('.js-routesList-setMenu').on('change', function () {
 		var _$$data = $(this).data(),
-		    id = _$$data.id,
-		    target = _$$data.target;
+			id = _$$data.id,
+			target = _$$data.target;
 
 		var value = $(this).val().trim();
 
@@ -145,7 +172,7 @@ $(document).ready(function () {
 		var target = $(this).data('target');
 		var value = $(this).val().trim();
 
-		if(typeof CKvalue !== 'undefined') {
+		if (typeof CKvalue !== 'undefined') {
 			value = CKvalue;
 		}
 
@@ -156,7 +183,7 @@ $(document).ready(function () {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
 
-		if(!confirm('Удалить слайд?')) return false;
+		if (!confirm('Удалить слайд?')) return false;
 
 		return slider.deleteSlide({ slide_id: slide_id, fragment_id: fragment_id });
 	});
@@ -200,6 +227,7 @@ $(document).ready(function () {
 	});
 
 	$.each(CKEDITOR.instances, function (i, elem) {
+		console.log(elem);
 		elem.on('change', function () {
 			var editorData = this.getData();
 			var editorElement = this.element.$;
