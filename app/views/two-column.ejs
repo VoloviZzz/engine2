@@ -1,0 +1,24 @@
+<%- include('./includes/header') -%>
+<main class="document-content">
+    <aside class="section-left sections">
+        <div class="section-title">
+            <h3 class="fs-regular">Меню</h3>
+        </div>
+        <div class="section-menu-wrapp">
+			<nav>
+				<%- include('./includes/fragments-container', { block_id: 1 }) -%>
+			</nav>
+		</div>
+    </aside>
+    <section class="section-center sections">
+		<% if(route.show_title) { %>
+			<div class="section-title">
+				<h3 class="fs-regular text-center"><%= route.title -%></h3>
+			</div>
+		<% } %>
+        <div class="section-content">
+            <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+        </div>
+    </section>
+</main>
+<%- include('./includes/footer') -%>

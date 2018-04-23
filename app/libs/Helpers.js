@@ -170,6 +170,7 @@ module.exports = {
 	trimStr: (str, length) => {
 		if (str == null) return '';
 		length = length || 100;
+		str = str.replace(/<\/?[^>]+>/g,'');
 		if (str.length > length) return str.substr(0, length - 1) + '...';
 		return str;
 

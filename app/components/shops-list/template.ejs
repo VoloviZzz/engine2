@@ -12,15 +12,20 @@
 					<button data-id="<%= shop.id -%>" class="btn js-delete-shopItem">Удалить из списка</button>
 				</div>
 			<% } %>
-			<h1 class="shops-item__title"><%= shop.title -%></h1>
+			<a class="page-link" href="/shop-page/<%= shop.id -%>">
+				<h1 class="shops-item__title"><%= shop.title -%></h1>
+			</a>
+			<a class="shops-item__image" href="/shop-page/<%= shop.id -%>">
+				<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.main_photo) -%>" alt="">
+			</a>
 			<div class="shops-item__text text-margin-bottom-p text-indent">
-				<%- Helpers.trimStr(Helpers.replaceLineBreaks(shop.text), 175) -%>
+				<%- Helpers.replaceLineBreaks(Helpers.trimStr(shop.text, 175)) -%>
 			</div>
 			<div class="shops-item__text text-margin-bottom-p text-indent">
 				<span>Адрес: <%= shop.address -%></span>
 			</div>
 			<div class="shops-item__more">
-					<a class="page-link" href="/shop-page/<%= shop.id -%>">Подробнее...</a>
+				<a class="page-link" href="/shop-page/<%= shop.id -%>">Подробнее...</a>
 			</div>
 		</div>
 	<% }) %>

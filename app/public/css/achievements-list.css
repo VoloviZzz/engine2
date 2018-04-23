@@ -1,0 +1,34 @@
+.section-content .text-margin-bottom {
+	margin-left: 40px;
+	margin-right: 20px;
+	font-weight: 400;
+}
+
+.achievement-item {
+	width: 50%;
+	padding: 10px;
+	text-align: center;
+	min-width: 320px;
+}
+
+.achievement-item img {
+	width: 300px;
+	cursor: pointer;
+}
+
+.achievements-block {
+	height: 85%;
+}
+
+.achievements-wrapper {
+	display: flex;
+	justify-content: space-between;
+	flex-flow: row wrap;
+}
+
+
+@media (max-width: 767px) {
+	.achievements-wrapper {
+		justify-content: center;
+	}
+}

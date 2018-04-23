@@ -92,6 +92,11 @@
     padding: 8px;
 }
 
+.input-text.js-menuItem-edit {
+    width: 100%;
+    max-width: 300px;
+}
+
 .my__photo {
     margin-right: 18px;
     max-width: 122px;

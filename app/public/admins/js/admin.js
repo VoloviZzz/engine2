@@ -149,14 +149,14 @@ $(document).ready(function () {
 			value = CKvalue;
 		}
 
-		console.log(value);
-
 		return slider.updSlide({ slide_id: slide_id, fragment_id: fragment_id, target: target, value: value });
 	});
 
 	$('.js-slide-delete').on('click', function (e) {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
+
+		if(!confirm('Удалить слайд?')) return false;
 
 		return slider.deleteSlide({ slide_id: slide_id, fragment_id: fragment_id });
 	});

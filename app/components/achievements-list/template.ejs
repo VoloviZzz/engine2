@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="/vendors/baguettebox.js/dist/baguetteBox.min.css">
+<link rel="stylesheet" href="/css/achievements-list.css">
+<section>
+	<% if(user.adminMode) { %>
+		<div class="admin-control-container">
+			<button class="btn js-achievements-add">Добавить</button>
+		</div>
+	<% } %>
+	<div class="achievements-wrapper baguetteBox">
+		<% achievements.map((a, i) => { %>
+			<div class="achievement-item">
+				<% if(user.adminMode) { %>
+					<div class="admin-control-container">
+						<button data-id="<%= a.id -%>" class="btn js-achievements-delete">Удалить</button>
+					</div>
+				<% } %>
+				<div class="achievement-title">
+					<% if(user.adminMode) { %>
+						<input type="text" class="input-text js-achievements-update" data-target="title" data-id="<%= a.id -%>" value="<%= a.title -%>">
+					<% } else { %>
+						<h3 class="text-center"><%= a.title %></h3>
+					<% } %>
+				</div>
+				<% if(user.adminMode) { %>
+					<div>
+						<span>Добавить фото:</span>
+						<label>
+							<input type="file" name="achievement-img" data-id="<%= a.id -%>" class="js-achievements-upload-img">
+						</label>
+					</div>
+				<% } %>
+				<div class="achievement-img">
+					<a href="<%= a.img -%>" title="<%= a.title %>">
+						<img src="<%= a.img -%>" alt="МП КПРУ. Достижения">
+					</a>
+				</div>
+				<div class="achievement-description">
+					<p class="text-indent"><%= a.description %></p>
+				</div>
+			</div>
+		<% }) %>
+	</div>
+</section>
+	<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js"></script>
+	<script src="/js/achievements-list.js" defer></script>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/achievements-list.js" defer></script>
+<% } %>
