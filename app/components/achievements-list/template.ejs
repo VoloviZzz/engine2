@@ -1,33 +1,48 @@
-<link rel="stylesheet" href="/css/partners-list.css">
+<link rel="stylesheet" href="/vendors/baguettebox.js/dist/baguetteBox.min.css">
+<link rel="stylesheet" href="/css/achievements-list.css">
 <section>
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">
-			<button class="btn js-partners-add">Добавить</button>
+			<button class="btn js-achievements-add">Добавить</button>
 		</div>
 	<% } %>
-	<% partners.forEach((partner) => { -%>
-		<% if(partner.publicate == '0' && user.adminMode == '0') return false; %>
-		<div class="partner-item">
-			<% if(user.adminMode) { %>
-				<div class="admin-control-container">
-					<button class="btn js-partners-delete" data-id="<%= partner.id -%>">Удалить</button>
-					<% if(partner.publicate) { %>
-						<button class="btn js-partners-update__publicate" data-value="0" data-id="<%= partner.id -%>">Снять с публикации</button>
+	<div class="achievements-wrapper baguetteBox">
+		<% achievements.map((a, i) => { %>
+			<div class="achievement-item">
+				<% if(user.adminMode) { %>
+					<div class="admin-control-container">
+						<button data-id="<%= a.id -%>" class="btn js-achievements-delete">Удалить</button>
+					</div>
+				<% } %>
+				<div class="achievement-title">
+					<% if(user.adminMode) { %>
+						<input type="text" class="input-text js-achievements-update" data-target="title" data-id="<%= a.id -%>" value="<%= a.title -%>">
 					<% } else { %>
-						<button class="btn js-partners-update__publicate" data-value="1" data-id="<%= partner.id -%>">Опубликовать</button>
+						<h3 class="text-center"><%= a.title %></h3>
 					<% } %>
 				</div>
-			<% } %>
-			<% if(user.adminMode) { %>
-				<input type="text" class="input-text js-partners-update" data-target="title" data-id="<%= partner.id -%>" value="<%= partner.title -%>">
-				<textarea name="partner-text" data-id="<%= partner.id -%>" data-target="text" class="input-text js-partners-update"><%= partner.text -%></textarea>
-			<% } else { %> 
-				<h1 class="partner-item__title"><%= partner.title -%></h1>
-				<p><%- Helpers.replaceLineBreaks(partner.text) -%></p>
-			<% } %>
-		</div>
-	<% }) -%>
+				<% if(user.adminMode) { %>
+					<div>
+						<span>Добавить фото:</span>
+						<label>
+							<input type="file" name="achievement-img" data-id="<%= a.id -%>" class="js-achievements-upload-img">
+						</label>
+					</div>
+				<% } %>
+				<div class="achievement-img">
+					<a href="<%= a.img -%>" title="<%= a.title %>">
+						<img src="<%= a.img -%>" alt="МП КПРУ. Достижения">
+					</a>
+				</div>
+				<div class="achievement-description">
+					<p class="text-indent"><%= a.description %></p>
+				</div>
+			</div>
+		<% }) %>
+	</div>
 </section>
+	<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js"></script>
+	<script src="/js/achievements-list.js" defer></script>
 <% if(user.adminMode) { %>
-	<script src="/admins/js/partners-list.js" defer></script>
+	<script src="/admins/js/achievements-list.js" defer></script>
 <% } %>

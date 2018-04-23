@@ -1,6 +1,6 @@
 CREATE TABLE `test_routes`.`achievements` ( 
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT , 
-	`main_photo` TEXT NULL DEFAULT NULL , 
+	`img` TEXT NULL DEFAULT NULL , 
 	`title` VARCHAR(255) NOT NULL DEFAULT 'Новое достижение' , 
 	`text` TEXT NULL DEFAULT NULL , 
 	`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 

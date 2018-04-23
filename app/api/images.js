@@ -32,7 +32,6 @@ exports.upload = (req, res, next) => {
 	form.uploadDir = req.app.locals.uploadDir;
 	form.keepExtensions = true;
 
-	const funcNum = getQuery.CKEditorFuncNum;
 	const message = 'Файл загружен на сервер';
 
 	return new Promise((resolve, reject) => {

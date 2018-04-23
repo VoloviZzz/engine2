@@ -7,11 +7,11 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		var [error, achievments] = await Model.achievments.get();
+		var [error, achievements] = await Model.achievements.get();
 		if (error) throw new Error(error);
 
 		dataViews.user = session.user;
-		dataViews.achievments = achievments;
+		dataViews.achievements = achievements;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

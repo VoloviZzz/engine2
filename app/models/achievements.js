@@ -6,10 +6,8 @@ exports.get = (arg = {}) => {
 	let id = arg.id ? `AND a.id = ${arg.id}` : ``;
 
 	let q = `
-			SELECT a.*, 
-				p.path as ach_path
+			SELECT a.*
 			FROM achievements a
-				LEFT JOIN photos p ON p.id = a.photo
 			WHERE a.id > 0
 				${id}
 		`;
