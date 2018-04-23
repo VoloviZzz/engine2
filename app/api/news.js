@@ -22,3 +22,18 @@ exports.upd = (req, res, next) => {
 		return { status: 'ok' };
 	})
 }
+
+exports.publicate = async (req, res, next) => {
+
+	const Model = req.app.Model;
+
+	var [error, rows] = await Model.news.upd(req.body)
+	if (error) return { message: error.message, error };
+
+	if (req.body.value == '1') {
+		var [error] = await Model.news.upd({ target: 'published', value: Date.now(), id: req.body.id })
+		if (error) return { message: error.message, error }
+	}
+
+	return { status: 'ok' };
+}

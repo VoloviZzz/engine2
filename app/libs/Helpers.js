@@ -110,6 +110,15 @@ module.exports = {
 	// вывод даты в заданном формате
 	formatDate(date, format) {
 		var resultDateTime = format;
+
+		var regUnix= /^[0-9]+$/;
+
+		var dateIsUnix = regUnix.test(date);
+
+		if(dateIsUnix) {
+			date = Number(date);
+		}
+
 		var d = new Date(date);
 
 		var monthsLong = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
@@ -145,7 +154,7 @@ module.exports = {
 
 	/* заменяет переносы строк указанным разделителем (по умолчанию '<br />') */
 	replaceLineBreaks: (str, divider = `p`) => {
-		
+
 		if (!str) return '';
 
 		var res = ``;
@@ -170,7 +179,7 @@ module.exports = {
 	trimStr: (str, length) => {
 		if (str == null) return '';
 		length = length || 100;
-		str = str.replace(/<\/?[^>]+>/g,'');
+		str = str.replace(/<\/?[^>]+>/g, '');
 		if (str.length > length) return str.substr(0, length - 1) + '...';
 		return str;
 

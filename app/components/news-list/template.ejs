@@ -40,9 +40,15 @@
             </div>
             <div class="news__content-wrapp">
                 <div class="news__content">
-					<a href="/news-id/<%= n.id -%>" class="news__content-link">Подробнее</a>
+					<p><%- Helpers.trimStr(n.text, 75) -%></p>
+					<a href="/news-id/<%= n.id -%>" class="news__content-link">Читать далее...</a>
                 </div>
             </div>
+			<div class="news-meta-wrapp">
+				<div class="news__content text-right">
+					<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+				</div>
+			</div>
         </article>
 	<% }) %>
 </div>

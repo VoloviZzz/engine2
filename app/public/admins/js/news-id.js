@@ -23,7 +23,7 @@ $(document).ready(function () {
 		var value = $(this).data('value');
 		var target = 'public';
 
-		$.post('/api/news/upd', { target: target, id: id, value: value }).done(function (result) {
+		$.post('/api/news/publicate', { target: target, id: id, value: value }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
