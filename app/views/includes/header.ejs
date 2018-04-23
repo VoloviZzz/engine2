@@ -31,7 +31,6 @@
                 </div>
                 <div class="menu-container">
                     <ul class="header-menu header-menu-center">
-						
 						<% HeaderRows.forEach((r) => { %>
 							<li>
 								<% if(user.adminMode) { %>
@@ -51,10 +50,8 @@
 								<% } else { %>
 									<a href="<%= r.href -%>"><%= r.title -%></a>
 								<% } %>
-							
 							</li>
 						<% }) %>
-						
 						<% if (user.id && user.admin) { %>
 							<% if(user.adminMode) { %>
 								<div>
