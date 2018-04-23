@@ -30,15 +30,12 @@
                     <button class="toggle-menu btn"></button>
                 </div>
                 <div class="menu-container">
-                    <ul class="header-menu header-menu-center"><%
+                    <ul class="header-menu header-menu-center">
 						
-						HeaderRows.forEach((r) => {
-							
-							%><li><%
-								
-								if(user.adminMode) {
-								
-									%><div style="display: flex;">
+						<% HeaderRows.forEach((r) => { %>
+							<li>
+								<% if(user.adminMode) { %>
+									<div style="display: flex;">
                                         <div>
                                             <div>
                                                 <input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
@@ -50,58 +47,44 @@
                                         <div>
                                             <button class="btn js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
                                         </div>
-                                    </div><%
-									
-								}
-								else {
-									%><a href="<%= r.href -%>"><%= r.title -%></a><%
-								}
+                                    </div>
+								<% } else { %>
+									<a href="<%= r.href -%>"><%= r.title -%></a>
+								<% } %>
 							
-							%></li><%
+							</li>
+						<% }) %>
 						
-						})
-						
-						if (user.id && user.admin) {
-							
-							/*%><li>
-								<a href="/admin">Администрирование</a>
-							</li><%*/
-							
-							if(user.adminMode) {
-								%><div>
+						<% if (user.id && user.admin) { %>
+							<% if(user.adminMode) { %>
+								<div>
 									<button class="btn js-headerNav-add" style="height: 100%">+</button>
-								</div><%
-							}
-						}
-						
-					%></ul>
+								</div>
+							<% } %>
+						<% } %>
+					</ul>
                     <ul class="header-menu header-menu-right">
                         <li>
 							<a href="/cart"><i class="fa fa-shopping-cart fa-lg"></i> (<span id="js-shoppingCart-goodsCount"><%= session.shoppingCart.totalCountGoods -%></span>)</a>
-						</li><%
-							
-							if(!user.id) {
-								%><li>
-									<a href="/login">Вход</a>
-								</li><%
-							} 
-							else {
-								
-								if (user.admin) {
-									%><li>
-										<a href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
-									</li><%
-								}
-								
-								%><li>
-									<a href="/my"><%= user.clientName %></a>
-								</li>
+						</li>
+						<% if(!user.id) { %>
+							<li>
+								<a href="/login">Вход</a>
+							</li>
+						<% } else { %>
+							<% if (user.admin) { %>
 								<li>
-									<a href="/logout">Выйти</a>
-								</li><%
-								
-							}
-					%></ul>
+									<a href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
+								</li>
+							<% } %>
+							<li>
+								<a href="/my"><%= user.clientName %></a>
+							</li>
+							<li>
+								<a href="/logout">Выйти</a>
+							</li>
+						<% }%>
+					</ul>
                 </div>
             </nav>
             <!--<div class="aside-toggle">Меню слева</div>-->
