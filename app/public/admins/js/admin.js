@@ -227,7 +227,6 @@ $(document).ready(function () {
 	});
 
 	$.each(CKEDITOR.instances, function (i, elem) {
-		console.log(elem);
 		elem.on('change', function () {
 			var editorData = this.getData();
 			var editorElement = this.element.$;
