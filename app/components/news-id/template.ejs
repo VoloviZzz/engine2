@@ -18,18 +18,26 @@
 		<input class="input-text js-news-update" type="text" data-target="title" data-id="<%= news.id -%>" value="<%= news.title -%>">
 		<span>Подзаголовок:</span>
 		<input class="input-text js-news-update" type="text" data-target="subtitle" data-id="<%= news.id -%>" value="<%= news.subtitle -%>">
+		<span>Источник новости:</span>
+		<input class="input-text js-news-update" type="text" data-target="source_link" data-id="<%= news.id -%>" value="<%= news.source_link -%>">
 	<% } %>
 	<div class="news__news-right">
-		<div class="text-center">
-			<h2>
-				<em><%= news.subtitle -%></em>
-			</h2>
-		</div>
+		<% if(!!user.adminMode == false) { %>
+			<div class="text-center">
+				<h2>
+					<em><%= news.subtitle -%></em>
+				</h2>
+			</div>
+		<% } %>
 		<div class="news__news-text text-indent_p text-margin-bottom-p">
 			<% if(user.adminMode) { %>
 				<textarea data-target="text" data-id="<%= news.id -%>" class="js-news-update js-ckeditor-edit"><%- news.text -%></textarea>
 			<% } else { %>
 				<%-news.text-%>
+				<a href="<%= news.source_link -%>" style="text-decoration: underline"><b>Ссылка на источник</b></a>
+				<div class="text-right">
+					<span>Опубликовано <%= Helpers.formatDate(news.published, 'dd MMMM yyyy в hh:mm') -%></span>
+				</div>
 			<% } %>
 		</div>
 	</div>
