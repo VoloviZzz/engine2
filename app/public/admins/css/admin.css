@@ -1,20 +1,15 @@
 .news-admin-control-container {
-	align-self: flex-start;
-	width: 100%;
-	margin-bottom: 10px;
-	margin-top: 10px;
+    align-self: flex-start;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .news__item .admin-control-container {
-	display: flex;
-}
-
-.admin-control-container button {
-	border: 1px solid white;
-	border-radius: 5%;
+    display: flex;
 }
 
 .news-add {
-	font-size: 17px;
-	width: 100%;
+    font-size: 17px;
+    width: 100%;
 }

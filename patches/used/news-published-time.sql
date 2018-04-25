@@ -1,0 +1,1 @@
+ALTER TABLE `news` CHANGE `published` `published` VARCHAR(100) NULL DEFAULT NULL;

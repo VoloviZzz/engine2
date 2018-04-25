@@ -18,18 +18,26 @@
 			<div class="baguetteBox" style="width: 90%">
 				<div class="js-photos-slider flexslider">
 					<ul class="slides">
-						<% goodsPhotos.forEach((photo) => { %>
+						<% if(goodsPhotos.length > 0) { %>
+							<% goodsPhotos.forEach((photo) => { %>
+								<li>
+									<% if(user.adminMode) { %>
+										<div style="position: absolute;">
+											<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+										</div>
+									<% } %>
+									<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
+										<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
+									</a>
+								</li>
+							<% }) %>
+						<% } else { %>
 							<li>
-								<% if(user.adminMode) { %>
-									<div style="position: absolute;">
-										<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
-									</div>
-								<% } %>
-								<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
-									<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
+								<a href="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/preview/${position.photo_name}`) %>">
+									<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${position.photo_path}/preview/${position.photo_name}`) %>">
 								</a>
 							</li>
-						<% }) %>
+						<% } %>
 					</ul>
 				</div>
 			</div>
@@ -102,40 +110,44 @@
 			</div>
 			<div class="custom-details">
 				<h2 class="custom-details__title">Детали</h2>
-				<table class="form-group">
-					<tbody>
-						<% var goodsPropsBindValues = goodsPropsBindValues || [] %>
-						<% goodsPropsBindValues.map(p => { %>
-							<tr>
-								<td class="good-info__params-name"><%=p.prop_title -%></td>
-								<td><%= p.prop_value_title -%></td>
-								<% if(user.adminMode) { %>
+				<% if(goodsPropsBindValues.length > 0) { %>
+					<table class="form-group">
+						<tbody>
+							<% var goodsPropsBindValues = goodsPropsBindValues || [] %>
+							<% goodsPropsBindValues.map(p => { %>
+								<tr>
+									<td class="good-info__params-name"><%=p.prop_title -%></td>
+									<td><%= p.prop_value_title -%></td>
+									<% if(user.adminMode) { %>
+										<td>
+											<button class="btn js-paramsBindValues-delete" data-id="<%=p.id-%>" type="button" name="button">У</button>
+										</td>
+									<% } %>
+								</tr>
+							<% }) %>
+							<% if(user.adminMode) { %>
+								<tr>
 									<td>
-										<button class="btn js-paramsBindValues-delete" data-id="<%=p.id-%>" type="button" name="button">У</button>
+										<select data-id="<%=position.id-%>" class="js-params-select" name="">
+											<option value="0">Не выбрано</option>
+											<% var goodsProps = goodsProps || [] %>
+											<% goodsProps.map(p => { %>
+												<option value="<%=p.id-%>"><%=p.title-%></option>
+											<% }) %>
+										</select>
 									</td>
-								<% } %>
-							</tr>
-						<% }) %>
-						<% if(user.adminMode) { %>
-							<tr>
-								<td>
-									<select data-id="<%=position.id-%>" class="js-params-select" name="">
-										<option value="0">Не выбрано</option>
-										<% var goodsProps = goodsProps || [] %>
-										<% goodsProps.map(p => { %>
-											<option value="<%=p.id-%>"><%=p.title-%></option>
-										<% }) %>
-									</select>
-								</td>
-								<td>
-									<select data-good="<%=position.id-%>" disabled class="js-params-values-select" name="">
-										<option value="0">Не выбрано</option>
-									</select>
-								</td>
-							</tr>
-						<% } %>
-					</tbody>
-				</table>
+									<td>
+										<select data-good="<%=position.id-%>" disabled class="js-params-values-select" name="">
+											<option value="0">Не выбрано</option>
+										</select>
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				<% } else { %>
+				<p>Детали не указаны</p>
+				<% } %>
 				<% if(user.adminMode) { -%>
 					<div>
 						<div class="js-form-add-params form-add-params">

@@ -25,8 +25,30 @@
 	margin: 10px auto;
 }
 
+.shops-item__text p {
+    padding: 0 5px;
+}
+
 @media (min-width: 976px) {
 	.shops-item__text img {
 		max-width: 50%;
 	}
+}
+
+.shops-item__image {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.shops-item__image img {
+    max-height: 250px;
+}
+
+@media (max-width: 400px) {
+
+    .shops-item__image img {
+        width: 100%;
+    }
+
 }

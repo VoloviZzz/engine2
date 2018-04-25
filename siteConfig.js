@@ -1,13 +1,20 @@
 module.exports = async app => {
 
 	const Model = app.Model;
-	let [, configs] = await Model.siteConfig.get();
+	var [, configs] = await Model.siteConfig.get();
+	var configs = configs;
 
 	app.siteConfig = app.locals.siteConfig = {
 		configs,
 		get(target) {
 			const configItem = this.configs.find(configItem => configItem.target === target);
 			return !!configItem ? configItem.value : '';
+		},
+
+		async refresh() {
+			var result = await Model.siteConfig.get();
+			this.configs = result[1];
+			return configs;
 		},
 
 		async set({ target, value, title = '' }) {

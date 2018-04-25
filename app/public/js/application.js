@@ -5,9 +5,30 @@ $(document).ready(function () {
 	const App = {};
 	window.App = App;
 
-	$('.header-nav .toggle-menu.btn').on('click', function (e) {
-		$('.menu-container').toggleClass('menu-container__active');
-	});
+//================ Кнопка вызова бокового меню ===============//
+if($('.section-left').length > 0) {
+	if ($(window).width() < 992) {
+		$('.aside-toggle').show();
+	}
+};
+
+
+$('.header-nav .toggle-menu.btn').on('click', function (e) {
+    $('.menu-container').toggleClass('menu-container__active');
+
+    if ($('.section-left').hasClass('section-left__active')) {
+        $('.section-left').removeClass('section-left__active');
+    }
+});
+
+$('.header-nav .aside-toggle.btn').on('click', function (e) {
+    $('.section-left').toggleClass('section-left__active');
+
+    if ($('.menu-container').hasClass('menu-container__active')) {
+        $('.menu-container').removeClass('menu-container__active');
+    }
+});
+
 
 	// ------------------ Вкладки --------------------------------
 	var tabs = document.querySelectorAll(".tab");

@@ -8,29 +8,31 @@
 					<div class="slider-info__container">
 						<div class="slider-item" style="background-image: url(<%= s.img %>)"></div>
 						<div class="slider-info">
-							<% if(user.adminMode) { %>
-								<input type="text" class="js-slide-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
-							<% } else { %> 
-								<h1><%= s.title %></h1>
-							<% } %>
-							<% if(user.adminMode) { %>
-								<div>
-									<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd js-ckeditor-edit" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
+							<div class="slider-info__wrapper">
+								<% if(user.adminMode) { %>
+									<input type="text" class="js-slide-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+								<% } else { %> 
+									<h1><%= s.title %></h1>
+								<% } %>
+								<% if(user.adminMode) { %>
+									<div>
+										<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd js-ckeditor-edit" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
+									</div>
+								<% } else { %> 
+									<div class="text-center">
+										<%- Helpers.replaceLineBreaks(s.description) %>
+									</div>
+								<% } %>
+								<% if(user.adminMode) { %>
+									<div>
+										<label>Добавить фото
+										<input class="js-slide-addSlidePhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
+										</label>
+									</div>
+								<% } %>
+								<div class="slider-action">
+									<a href="<%= s.href %>" class="btn">Подробнее</a>
 								</div>
-							<% } else { %> 
-								<div class="text-center">
-									<%- Helpers.replaceLineBreaks(s.description) %>
-								</div>
-							<% } %>
-							<% if(user.adminMode) { %>
-								<div>
-									<label>Добавить фото
-									<input class="js-slide-addSlidePhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
-									</label>
-								</div>
-							<% } %>
-							<div class="slider-action">
-								<a href="<%= s.href %>" class="btn">Подробнее</a>
 							</div>
 						</div>
 					</div>
@@ -80,7 +82,7 @@
 							<% if(user.adminMode) { %>
 							<div>
 								<span>Заголовок:</span>
-								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%>">
+								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
 							</div>
 							<div>
 								<span>Адрес:</span>

@@ -24,7 +24,8 @@
 }
 
 .tab-all {
-  width: 15%;
+  /*width: 15%;*/
+  min-width: 100px;
   margin-right: 5%;
   padding-top: 10px;
   padding-bottom: 15px;

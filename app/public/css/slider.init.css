@@ -215,8 +215,12 @@ p.top-slide-info, .slider-info p {
 
 @media (min-width: 992px) {
     .slider-info {
-        display: block;
+        display: flex;
         overflow: auto;
+    }
+
+    .slider-info__wrapper {
+        margin: auto;
     }
 
     #alert-slider {

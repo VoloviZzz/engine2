@@ -105,12 +105,16 @@ nav a:hover {
 
 header.document-header, .document-footer {
     width: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     color: #fff;
     font-family: "Roboto Slab", sans-serif;
     font-weight: 400;
     background-color: #262626;
     background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+}
+
+.document-header {
+    position: relative;
 }
 
 .document-footer {
@@ -143,6 +147,7 @@ img.nav-band {
     justify-content: flex-start;
     padding: 2px 20px;
 }
+
 
 .footer-social {
     display: flex;
@@ -442,7 +447,7 @@ table {
 
 .btn:hover {
     color: #fff;
-    background-color: #ef6c35;
+    background-color: #6d96a0;
 }
 
 .padding-0 {
@@ -771,6 +776,17 @@ table {
     width: 100%;
 }
 
+textarea.input-text {
+	margin-top: 15px;
+	min-height: 150px;
+	min-width: 100%;
+	max-width: 100%;
+}
+
+.aside-toggle {
+    display: none;
+}
+
 @media (max-width: 769px) {
     .document-footer {
         flex-direction: column;
@@ -814,6 +830,7 @@ table {
 
     .header-menu-center li {
         margin-right: 0;
+        margin-left: 0;
     }
 
     .header-menu-center li:last-child {
@@ -823,9 +840,31 @@ table {
     .place__info > div {
         width: 100% !important;
     }
+
+    /*.aside-toggle {
+        display: block;
+        height: auto;
+        text-transform: uppercase;
+    }*/
+
+    .section-left__active {
+        display: block;
+    }
+
+    .section-left {
+        width: 100%;
+        position: fixed;
+        z-index: 10;
+        left: 0px;
+        top: 0px;
+        height: calc(100% - 60px);
+        bottom: 0px;
+        margin-top: 60px;
+    }
 }
 
 @media (min-width: 992px) {
+
     .toggle-menu {
         display: none;
     }
@@ -973,3 +1012,5 @@ blockquote {
     padding-right: 8px;
     border-left-width: 5px;
 }
+
+

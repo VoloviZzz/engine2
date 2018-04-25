@@ -17,7 +17,7 @@
 .route-items {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: center;
 }
 
 .route-item {
@@ -25,7 +25,9 @@
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
-	width: calc((100% / 3) - 30px);
+	width: calc((100% / 3) - 45px);
+	min-width: 290px;
+	margin-right: 15px;
 	margin-bottom: 15px;
 	padding: 40px 10px;
 	background: #e4e3e3;
