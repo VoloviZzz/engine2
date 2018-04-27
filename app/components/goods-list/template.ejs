@@ -11,4 +11,11 @@
 		<% } %>
 	<% } %>
 </div>
+<div style="padding: 20px 0px; border-bottom: #c3c3c3 solid 1px; margin-bottom: 20px">
+	<% if(user.adminMode) { %>
+		<textarea class="js-goodsCategories-upd js-ckeditor-edit" name="cat-desc-update" data-target='description' data-id="<%= currentCat.id -%>"><%= currentCat.description -%></textarea>
+	<% } else { %>
+		<%- currentCat.description || 'Описание отсутствует' -%>
+	<% } %>
+</div>
 <%- include(`./${tpl}.ejs`, {Helpers}) -%>

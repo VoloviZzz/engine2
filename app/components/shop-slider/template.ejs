@@ -16,7 +16,7 @@
 								<% } %>
 								<% if(user.adminMode) { %>
 									<div>
-										<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-goodsCategories-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
+										<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" name="cat-desc-update-<%= s.id -%>" class="js-ckeditor-edit js-goodsCategories-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
 									</div>
 								<% } else { %> 
 									<div class="text-center">

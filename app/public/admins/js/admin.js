@@ -23,10 +23,10 @@ $(document).ready(function () {
 			var postData = {};
 
 			postData.fragment_id = fragmentId;
-			postData.data = JSON.stringify({value: editorValue});
+			postData.data = JSON.stringify({ value: editorValue });
 
-			$.post('/api/fragments/setData', postData).done(function(result) {
-				if(result.status !== 'ok') {
+			$.post('/api/fragments/setData', postData).done(function (result) {
+				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message)
 				}
@@ -46,10 +46,11 @@ $(document).ready(function () {
 		return shop.addCategories({ level: level, parent_id: parent_id });
 	});
 
-	$('.js-goodsCategories-upd').on('input', function (e) {
+	$('.js-goodsCategories-upd').on('change', function (e, ckValue) {
+
 		var id = $(this).data('id');
 		var target = $(this).data('target');
-		var value = $(this).val().trim();
+		var value = typeof ckValue !== "undefined" ? ckValue : $(this).val().trim();
 
 		if (!!target === false || typeof value == "undefined" || !!id === false) {
 			console.log('target: ', target, 'value: ', value, 'id: ', id);
@@ -218,13 +219,11 @@ $(document).ready(function () {
 		return fragments.delete(this.dataset.fragmentId);
 	});
 
-	$('.js-ckeditor-edit').each(function (i, elem) {
-		CKEDITOR.replace(elem);
-	});
+	CKEDITOR.replaceAll('js-ckeditor-edit');
 
-	$('.js-staticFragment-edit').on('change', function (e, data) {
-		fragments.setData({ fragment_id: this.dataset.fragmentId, data: data });
-	});
+	// $('.js-ckeditor-edit').each(function (i, elem) {
+	// CKEDITOR.replace(elem);
+	// });
 
 	$.each(CKEDITOR.instances, function (i, elem) {
 		elem.on('change', function () {
@@ -233,6 +232,11 @@ $(document).ready(function () {
 			$(editorElement).trigger('change', [editorData]);
 		});
 	});
+
+	$('.js-staticFragment-edit').on('change', function (e, data) {
+		fragments.setData({ fragment_id: this.dataset.fragmentId, data: data });
+	});
+
 
 	$(".fragment-setting-window .setting-call-btn").click(function () {
 		$(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");

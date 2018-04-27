@@ -1,7 +1,7 @@
 CREATE TABLE `achievements` ( 
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT , 
 	`img` TEXT NULL DEFAULT NULL , 
-	`title` VARCHAR(255) NOT NULL DEFAULT 'Новое достижение' , 
+	`title` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'Новое достижение' , 
 	`text` TEXT NULL DEFAULT NULL , 
 	`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
 	PRIMARY KEY (`id`)) ENGINE = InnoDB;
