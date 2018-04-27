@@ -86,7 +86,8 @@ app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
 
 global.DocumentRoot = __dirname;
 global.AppRoot = path.join(__dirname, 'app');
-global.PublicDir = path.join(__dirname, 'app', 'public');
+app.publicDir = global.PublicDir = path.join(__dirname, 'app', 'public');
+app.viewsDir = global.ViewsDir = path.join(__dirname, 'app', 'views');
 global.path = require('path');
 
 const smsc = require('node-smsc')({
