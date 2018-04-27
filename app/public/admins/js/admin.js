@@ -46,10 +46,13 @@ $(document).ready(function () {
 		return shop.addCategories({ level: level, parent_id: parent_id });
 	});
 
-	$('.js-goodsCategories-upd').on('input', function (e) {
+	$('.js-goodsCategories-upd').on('change', function (e, ckValue) {
+
+		console.log(ckValue);
+		
 		var id = $(this).data('id');
 		var target = $(this).data('target');
-		var value = $(this).val().trim();
+		var value = ckValue || $(this).val().trim();
 
 		if (!!target === false || typeof value == "undefined" || !!id === false) {
 			console.log('target: ', target, 'value: ', value, 'id: ', id);
@@ -217,14 +220,12 @@ $(document).ready(function () {
 	$('.js-fragment-delete').on('click', function () {
 		return fragments.delete(this.dataset.fragmentId);
 	});
+	
+	CKEDITOR.replaceAll('js-ckeditor-edit');
 
-	$('.js-ckeditor-edit').each(function (i, elem) {
-		CKEDITOR.replace(elem);
-	});
-
-	$('.js-staticFragment-edit').on('change', function (e, data) {
-		fragments.setData({ fragment_id: this.dataset.fragmentId, data: data });
-	});
+	// $('.js-ckeditor-edit').each(function (i, elem) {
+		// CKEDITOR.replace(elem);
+	// });
 
 	$.each(CKEDITOR.instances, function (i, elem) {
 		elem.on('change', function () {
@@ -233,6 +234,11 @@ $(document).ready(function () {
 			$(editorElement).trigger('change', [editorData]);
 		});
 	});
+
+	$('.js-staticFragment-edit').on('change', function (e, data) {
+		fragments.setData({ fragment_id: this.dataset.fragmentId, data: data });
+	});
+
 
 	$(".fragment-setting-window .setting-call-btn").click(function () {
 		$(this).parents(".fragment-setting-window").toggleClass("setting-wrapper-show");
