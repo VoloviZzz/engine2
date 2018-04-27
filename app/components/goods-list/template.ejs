@@ -15,7 +15,7 @@
 	<% if(user.adminMode) { %>
 		<textarea class="js-goodsCategories-upd js-ckeditor-edit" name="cat-desc-update" data-target='description' data-id="<%= currentCat.id -%>"><%= currentCat.description -%></textarea>
 	<% } else { %>
-		<p><%- currentCat.description -%></p>
+		<%- currentCat.description || 'Описание отсутствует' -%>
 	<% } %>
 </div>
 <%- include(`./${tpl}.ejs`, {Helpers}) -%>
