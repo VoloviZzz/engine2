@@ -23,10 +23,10 @@ $(document).ready(function () {
 			var postData = {};
 
 			postData.fragment_id = fragmentId;
-			postData.data = JSON.stringify({value: editorValue});
+			postData.data = JSON.stringify({ value: editorValue });
 
-			$.post('/api/fragments/setData', postData).done(function(result) {
-				if(result.status !== 'ok') {
+			$.post('/api/fragments/setData', postData).done(function (result) {
+				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message)
 				}
@@ -48,11 +48,9 @@ $(document).ready(function () {
 
 	$('.js-goodsCategories-upd').on('change', function (e, ckValue) {
 
-		console.log(ckValue);
-		
 		var id = $(this).data('id');
 		var target = $(this).data('target');
-		var value = ckValue || $(this).val().trim();
+		var value = typeof ckValue !== "undefined" ? ckValue : $(this).val().trim();
 
 		if (!!target === false || typeof value == "undefined" || !!id === false) {
 			console.log('target: ', target, 'value: ', value, 'id: ', id);
@@ -220,11 +218,11 @@ $(document).ready(function () {
 	$('.js-fragment-delete').on('click', function () {
 		return fragments.delete(this.dataset.fragmentId);
 	});
-	
+
 	CKEDITOR.replaceAll('js-ckeditor-edit');
 
 	// $('.js-ckeditor-edit').each(function (i, elem) {
-		// CKEDITOR.replace(elem);
+	// CKEDITOR.replace(elem);
 	// });
 
 	$.each(CKEDITOR.instances, function (i, elem) {
