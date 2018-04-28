@@ -219,11 +219,9 @@ $(document).ready(function () {
 		return fragments.delete(this.dataset.fragmentId);
 	});
 
-	CKEDITOR.replaceAll('js-ckeditor-edit');
-
-	// $('.js-ckeditor-edit').each(function (i, elem) {
-	// CKEDITOR.replace(elem);
-	// });
+	$('.js-ckeditor-edit').each(function (i, elem) {
+		CKEDITOR.replace(elem);
+	});
 
 	$.each(CKEDITOR.instances, function (i, elem) {
 		elem.on('change', function () {
