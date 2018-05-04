@@ -36,5 +36,7 @@
     </div>
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 
-    <button class="js-add-fragment" data-id="<%=routeId-%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
+    <div style="width: 100%">
+		<button class="js-add-fragment" data-id="<%=routeId-%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
+	</div>
 <% } %>
