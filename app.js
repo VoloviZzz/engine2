@@ -117,7 +117,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	if (err) throw new Error(err);
 
 	// подключение обработчика маршрутов
-	const routeHandler = require('./app/libs/routeHandler')(app, express);
+	const routeHandler = require('./app/libs/routeHandler')(app);
 	const {
 		initRoutes
 	} = require('./app/libs/router');
@@ -176,6 +176,8 @@ db.connect(db.MODE_TEST, async (err) => {
 		if (!req.query.t) return res.json({
 			status: 'bad'
 		});
+
+		let clientId;
 
 		return Model.confirmEmails.get({
 			hash: req.query.t
