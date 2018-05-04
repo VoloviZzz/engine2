@@ -945,39 +945,6 @@ textarea.input-text {
     }
 }
 
-/* Стили фрагмента блока и поля настроек */
-.fragment-setting-window {
-    position: relative;
-}
-
-.setting-call-btn {
-    top: 0;
-    left: 0;
-    z-index: 1000000;
-    width: 45px;
-    height: 45px;
-    background: transparent url("../img/settings-icon.png") no-repeat center;
-    background-size: cover;
-    border: none;
-    cursor: pointer;
-}
-
-.setting-wrapper {
-    display: none;
-    position: absolute;
-    top: 46px;
-    left: 2.5em;
-    z-index: 1000000;
-    width: auto;
-    height: auto;
-    background: transparent;
-}
-
-.fragment-setting-window.setting-wrapper-show .setting-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
 .btn-blue, .select-set {
     width: 100%;
     max-width: 262px;
