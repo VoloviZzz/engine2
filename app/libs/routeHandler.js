@@ -142,7 +142,7 @@ module.exports = (app) => {
 
 			const controllerResult = await controllerAction(req, res, next);
 
-			if (controllerResult.sendData) {
+			if (!!controllerResult === true && 'sendData' in controllerResult) {
 				return res.send(controllerResult.sendData)
 			}
 			else {

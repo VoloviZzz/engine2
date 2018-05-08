@@ -1,0 +1,149 @@
+.how-search__wrapp {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.how-search {
+    cursor: pointer;
+}
+
+.scroll-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.search {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+@media (min-width: 767px) {
+    .search {
+        flex-direction: row;
+    }
+}
+
+.search__fio-wrapp {
+    flex: 1;
+    display: flex;
+}
+
+.search-buttons__button {
+    height: 100%;
+}
+
+.search__fio {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px;
+}
+
+.search-input-wrapp {
+    display: flex;
+    width: 100%;
+}
+
+button.btn.search-buttons__button.search__settings {
+    border-radius: 0px;
+    width: 40px;
+    background-color: transparent;
+    color: #000;
+    position: relative;
+    left: 0px;
+}
+
+input.search__fio {
+    padding-right: 40px;
+    margin-right: -80px;
+}
+
+button.btn.search-buttons__button.search__search-button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 20px;
+}
+
+.search-result_buttons .btn {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.search__result-info {
+    margin: 10px 0px;
+}
+
+div#how-seach__info {
+    margin-top: 20px;
+}
+
+.advanced_search {
+    display: none;
+}
+
+#how-seach__info {
+    display: none;
+}
+
+.advanced_search.advanced_search__showed {
+    display: block;
+    margin: 0 0 15px;
+}
+
+.advanced_search .input-text {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.advanced_fio, .advanced_info {
+    display: flex;
+    margin: 10px 0px;
+    flex-flow: column wrap;
+}
+
+.advanced_search label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: column;
+}
+
+.advanced_search span {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.advanced-item {
+    margin-right: 20px;
+}
+
+
+.advanced-search__wrapper {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+@media (min-width: 767px) {
+    button.btn.search-buttons__button.search__search-button {
+        width: 150px;
+        margin: 0px;
+        padding: 10px;
+    }
+
+    .advanced_fio, .advanced_info {
+        flex-flow: row;
+    }
+
+    .advanced_search label {
+        flex-flow: row;
+        justify-content: space-around;
+    }
+
+    .advanced_search .input-text {
+        width: auto;
+        margin-bottom: 20px;
+    }
+}

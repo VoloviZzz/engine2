@@ -28,6 +28,7 @@
 		"node-smsc": "^0.2.3",
 		"nodemailer": "^4.6.4",
 		"pdfkit": "^0.8.3",
+		"request": "^2.85.0",
 		"require-dir": "^1.0.0",
 		"resize-crop": "0.0.3",
 		"serve-favicon": "^2.5.0"

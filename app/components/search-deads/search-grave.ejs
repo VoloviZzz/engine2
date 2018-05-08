@@ -1,0 +1,38 @@
+<!-- <div class="search__result-info">
+    <p>Найдено <%= Object.keys(graves).length %></p>
+</div> -->
+<% Object.keys(graves).map(g => { %>
+    <% g = graves[g] %>
+    <div class="place-item search-result__item">
+        <div class="place-img-wrapp search__img-wrapp">
+            <img class="" src="<%= g.photo %>" alt="">
+        </div>
+        <div class="place__pairs search__pairs-wrapp">
+            <div class="place__pair place__title search__pair search__title">
+                <div>
+                    <h1 class="fs-regular"><%= g.name %></h1>
+                </div>
+                <div>
+                    <span class="fs-regular"><%= g.bornDate %> - <%= g.dieDate %></span>
+                </div>
+            </div>
+            <div class="place__info">
+                <div class="place__pair place-general search__pair">
+                    <div>
+                        <span class="place__info-name">Кладбище:</span>
+                        <span><%= g.cname %></span>
+                    </div>
+                    <div>
+                        <span class="place__info-name">Участок:</span>
+                        <span><%= g.placeId %></span>
+                    </div>
+                </div>
+                <div class="place__buttons search-result_buttons">
+                    <div>
+                        <a href="/cemeteries/place/<%= g.placeId %>" class="btn">Страница участка</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% }) %>
