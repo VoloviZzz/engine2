@@ -88,6 +88,9 @@ global.DocumentRoot = __dirname;
 global.AppRoot = path.join(__dirname, 'app');
 app.publicDir = global.PublicDir = path.join(__dirname, 'app', 'public');
 app.viewsDir = global.ViewsDir = path.join(__dirname, 'app', 'views');
+
+imagesPath = 'http://img.p-z-nt.ru/img/';
+
 global.path = require('path');
 
 const smsc = require('node-smsc')({

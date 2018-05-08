@@ -1,33 +1,34 @@
 const request = require('request')
 
 module.exports = {
-	url: 'http://185.20.179.12:80/api/',
+	url: `http://oper.letaindex.ru:3001/api`,
+	apiKey: '01234567890123456789012345678901',
 
-	search(queryParams = {}) {
+	search(queryParams = {}, ctrl) {
 
-        const form = {
-            '__function__': 'search',
-            data: JSON.stringify(queryParams)
-        };
+		queryParams.__function__ = ctrl;
+		queryParams.key = this.apiKey;
 
-        return new Promise((resolve, reject) => {
-            request.post({url: this.url, form}, (err, response, body) => {
-                if(err) {
-                    return reject(err);
-                }
+		return new Promise((resolve, reject) => {
+			request({ method: 'POST', url: this.url, form: queryParams }, (err, response, body) => {
+				if (err) {
+					return reject(err);
+				}
 
+				try {
+					body = JSON.parse(body);
 
-                try {
-                    body = JSON.parse(body);
+					if (body.status != 'ok') {
+						return reject({ message: 'Произошла ошибка. ' + body.error });
+					}
+				}
+				catch (e) {
+					console.log('ERROR');
+					return reject({ message: 'Произошла ошибка. ' + e.message, e });
+				}
 
-                    if(body.status == 'false') {
-                        return reject({message: 'Произошла ошибка. ' + body.data});
-                    }
-                }
-                catch(e) {}
-
-                return resolve(body);
-            })
-        })
+				return resolve(body.data);
+			})
+		})
 	},
 };

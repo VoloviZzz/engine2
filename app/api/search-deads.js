@@ -18,19 +18,22 @@ exports.search = (req, res, next) => {
 
 		data = Object.assign(defaultData, data);
 
-		let querySearch, graves = {};
+		let querySearch, graves = {}, count = 0;
 
 		try {
-			querySearch = await SearchDeadsApi.search(data);
+			querySearch = await SearchDeadsApi.search(data, 'searchDead');
 		}
 		catch (e) {
+			console.log(e);
 			return resolve({ data: 'Сервер поиска захоронений временно не доступен', e });
 		}
 
-		if (!!querySearch.data === true) {
-			graves = querySearch.data;
+		if ('graves' in querySearch) {
+			graves = querySearch.graves;
+			count = querySearch.count;
 		}
-		return req.app.ejs.renderFile(path.join(__dirname, '../components/search-deads/search-grave.ejs'), { graves }, function (error, content) {
+
+		return req.app.ejs.renderFile(path.join(__dirname, '../components/search-deads/search-grave.ejs'), { graves, count, part: data.part }, function (error, content) {
 			if (error) {
 				return resolve({ data: error.message, error })
 			}
