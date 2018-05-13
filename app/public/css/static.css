@@ -64,6 +64,11 @@ body {
     justify-content: space-between;
 }
 
+
+.text-indent > p {
+    text-indent: 15px;
+}
+
 @media (min-width: 992px) {
     body {
         height: 100%;
@@ -803,6 +808,9 @@ textarea.input-text {
 }
 
 @media (max-width: 991px) {
+    main {
+        margin-top: 59px;
+    }
     .site-band {
         width: 100%;
     }
@@ -826,6 +834,7 @@ textarea.input-text {
 
     .document-header {
         padding: 5px 0;
+        position: fixed;
     }
 
     .header-menu-center li {

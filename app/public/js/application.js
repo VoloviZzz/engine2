@@ -5,6 +5,23 @@ $(document).ready(function () {
 	const App = {};
 	window.App = App;
 
+//================ Показ/скрытие верхнего меню, при ширине экрана мобильной версии (<992px) ===============//
+	var g_top = 0;
+	
+if ($(window).width() < 992) {
+  $(window).scroll(function() {
+    var top = $(this).scrollTop();
+    
+    if ( top > g_top ) {
+      $('.document-header').fadeOut(400);
+    } else {
+      $('.document-header').fadeIn(400);
+    }
+    
+    g_top = top;    
+  });
+};
+
 //================ Кнопка вызова бокового меню ===============//
 if($('.section-left').length > 0) {
 	if ($(window).width() < 992) {
