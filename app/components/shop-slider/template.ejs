@@ -55,25 +55,13 @@
 					<div class="container-item__container">
 						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
 						<% if(user.adminMode === true) { %>
-							<div style="position: absolute;right: 10px;font-weight: bold;top: 5px;cursor: pointer;">
+							<div style="position: absolute; font-weight: bold;top: 5px;cursor: pointer; width: 100%">
 								<span class="slide-show-settings js-goodsCategories-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
+								<div>
+									<span>Приоритет показа</span>
+									<input type="number" class="js-goodsCategories-upd" data-target="priority" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.priority -%>">
+								</div>
 							</div>
-							<% if(index > 0) { %>
-								<button class="btn js-goodsCategories-moveSlide" 
-									data-fragment-id="<%= locals.fragment.id -%>" 
-									data-current-position="<%= index -%>" 
-									data-id="<%= s.id -%>" 
-									data-vector="-1"
-									style="position: absolute; top: 50%; left: 0px">&larr;</button>
-							<% } %>
-							<% if(index < slides.length -1) { %>
-								<button class="btn js-goodsCategories-moveSlide" 
-									data-fragment-id="<%= locals.fragment.id -%>"
-									data-current-position="<%= index -%>" 
-									data-id="<%= s.id -%>" 
-									data-vector="1"
-									style="position: absolute; top: 50%; right: 0px">&rarr;</button>
-							<% } %>
 						<% } %>
 						<div class="carousel-link__container">
 							<% if(user.adminMode) { %>

@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = (app) => {
 	return (data = {}) => {
 		return new Promise(async (resolve, reject) => {
-			const [, goodsCategories] = await app.Model.goodsCategories.get({level: 0});
+			const [, goodsCategories] = await app.Model.goodsCategories.get({level: 0, orderBy: 'priority DESC'});
 
 			const slides = goodsCategories || [];
 
