@@ -262,6 +262,9 @@ $(document).ready(() => {
 		$('.search-info').hide();
 
 		$.post("/api/search-deads/search", postData).done(res => {
+			
+			console.log(res);
+			
 			if (res.status == 'ok') {
 
 				if (part == 0) $('#search-list').html('');
