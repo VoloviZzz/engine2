@@ -1,7 +1,8 @@
 const request = require('request')
 
 module.exports = {
-	url: `http://oper.letaindex.ru:3001/api`,
+	//url: `http://oper.letaindex.ru:3001/api`,
+	url: `http://system/m1api`,
 	apiKey: '01234567890123456789012345678901',
 
 	search(queryParams = {}, ctrl) {
