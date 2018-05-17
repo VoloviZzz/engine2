@@ -10,3 +10,5 @@ app/public/uploads/*
 !app/public/uploads/logo.*
 app/public/photos/*
 app/dist
+
+app/public/favicon.ico
