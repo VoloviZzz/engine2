@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="/css/news-list.css">
+<% if(user.adminMode) { %>
+	<div>
+		<p>Тип публикаций:</p>
+		<select class="js-change-fragment-target" data-fragment-id="<%= fragment.id -%>" name="target-post">
+			<option value="">Не выбрано</option>
+			<% for (let target of postTargets ) { %>
+				<option <%= currentTarget == target.title ? 'selected' : '' -%> value="<%= target.title -%>"><%= target.title -%></option>
+			<% } %>
+		</select>
+	</div>
+	<div>
+		<span>Добавить URL для публикаций: <small>(например: /posts)</small></span>
+		<input type="text" class="js-fragment-url-input" value="<%= fragment.settings.url || '' -%>"  data-fragment-id="<%= fragment.id -%>" placeholder="URl...">
+		<button class="btn js-fragment-set-url">Добавить</button>
+	</div>
+<% } %>
+<div class="news">
+	<% if(user.adminMode) { %>
+		<div class="admin-control-container news-admin-control-container">
+			<button class="btn news-add js-posts-add" data-target="<%= currentTarget -%>">Добавить</button>
+		</div>
+	<% } %>
+	<% posts.map(n => { %>
+		<% if((n.public == '0') && user.adminMode == false) return false; %>
+		<article class="news__item">
+            <% if(user.adminMode) { %>
+                <div class="admin-control-container">
+                    <button data-id="<%= n.id -%>" class="btn news-delete js-post-delete">Удалить</button>
+                    <% if(n.public) { %>
+						<button data-id="<%= n.id -%>" data-value="0" class="btn news-publicate js-post-togglePublication">Снять с публикации</button>
+					<% } else { %>
+						<button data-id="<%= n.id -%>" data-value="1" class="btn news-publicate js-post-togglePublication">Публиковать</button>
+					<% } %>
+					<label class="btn news-change-photo">
+						<input type="file" class="js-post-upload-mainphoto" data-id="<%= n.id -%>" id="news-upload-mainphoto" style="display: none">
+                    	<span>Изменить фото</span>
+					</label>
+                </div>
+            <% } %>
+            <div class="news__img-wrapp">
+                <a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="news__img-link">
+                    <img class="news__img" src="<%= n.main_photo -%>" alt="Картинка поста">
+                </a>
+            </div>
+            <div class="news__title-wrap">
+                <h2 class="news__title">
+					<% if(user.adminMode) { %>
+						<input class="news-title-edit js-post-update input-text" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
+					<% } else { %>
+						<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="news__title-link">
+							<span><%= n.title %></span>
+						</a>
+					<% } %>
+                </h2>
+            </div>
+            <div class="news__content-wrapp">
+                <div class="news__content">
+					<p><%- Helpers.trimStr(n.text, 75) -%></p>
+					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="news__content-link">Читать далее...</a>
+                </div>
+            </div>
+			<div class="news-meta-wrapp">
+				<div class="news__content text-right">
+					<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+				</div>
+			</div>
+        </article>
+	<% }) %>
+</div>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/posts-list.js" defer></script>
+<% } %>
