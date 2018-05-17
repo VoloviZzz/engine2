@@ -3,6 +3,7 @@ const db = require('../libs/db');
 exports.get = async (arg = {}) => {
 
 	arg.route_id = !!arg.route_id === true ? `AND f.route_id = ${arg.route_id}` : '';
+	arg.id = 'id' in arg ? `AND f.id = ${arg.id}` : '';
 
 	const fragments = await db.execQuery(`
             SELECT f.*,
@@ -17,6 +18,7 @@ exports.get = async (arg = {}) => {
                 LEFT JOIN components c ON f.component_id = c.id
             WHERE f.id > 0 
                 ${arg.route_id}
+				${arg.id}
             ORDER BY f.priority DESC, f.id ASc`
 	)
 
@@ -63,7 +65,7 @@ exports.add = async (args = {}) => {
 }
 
 exports.upd = async (args = {}) => {
-	const res = await db.execQuery(`UPDATE fragments SET ${args.target} = ${args.value} WHERE id = ${args.id}`);
+	const res = await db.execQuery(`UPDATE fragments SET ${args.target} = '${args.value}' WHERE id = ${args.id}`);
 	return Promise.resolve(res);
 }
 
