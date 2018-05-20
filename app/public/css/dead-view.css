@@ -1,0 +1,96 @@
+.person-top {
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+
+.person-memory, .person-media {
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.person-section {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+.person-biography, .person-necrology, .person-photo, .person-video {
+    padding: 10px;
+    border: 1px solid #c3c3c3;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 575px) {
+    .person-biography, .person-necrology, .person-photo, .person-video {
+        width: 100%;
+        min-height: auto;
+    }
+}
+
+.add-video > div, .add-photo > div {
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px #c3c3c3 dashed;
+    cursor: pointer;
+}
+
+.biography-text {
+    border-bottom: 1px #c3c3c3 solid;
+}
+
+.biography-text:not(:last-child) {
+    margin-bottom: 21px;
+}
+
+.biography-author {
+    text-align: right;
+    font-weight: bold;
+}
+
+.form-add-memory {
+    padding: 10px;
+    border: 1px #000 solid;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.form-title {
+    margin-bottom: 10px;
+}
+
+.form-body textarea {
+    margin-bottom: 10px;
+}
+
+.form-send-btn {
+    width: 100%;
+    margin: auto;
+}
+
+embed {
+    width: 100%;
+}
+
+object {
+    width: 100%;
+}
+
+.memory-book__title {
+    background: rgb(144, 144, 144);
+    padding: 7px;
+    color: #fff;
+    margin: 0px 0px 20px !important;
+}
