@@ -16,10 +16,10 @@
 		<input data-id="<%= document.id %>" type="text" class="input-text js-documents-title-update" value="<%= document.title %>">
 	<% } %>
 	<% if(user.adminMode) { %>
-		<textarea class="js-documentsText-update js-ckeditor-edit"><%- Helpers.replaceLineBreaks(document.text) %></textarea>
+		<textarea class="js-documentsText-update js-ckeditor-edit"><%- document.text %></textarea>
 	<% } else { %>
 		<div data-id="<%= document.id %>" class="document-text text-margin-bottom-p text-indent">
-			<%- Helpers.replaceLineBreaks(document.text) %>
+			<%- document.text %>
 		</div>
 	<% } %>
 </div>
