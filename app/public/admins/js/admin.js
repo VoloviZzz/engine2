@@ -16,6 +16,7 @@ $(document).ready(function () {
 		var fragmentId = $elem.data('fragment-id');
 
 		editor.setTheme("ace/theme/monokai");
+		editor.setAutoScrollEditorIntoView(true); 
 		editor.session.setMode("ace/mode/html");
 
 		editor.session.on('change', function (delta) {

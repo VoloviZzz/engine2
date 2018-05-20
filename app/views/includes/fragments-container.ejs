@@ -1,11 +1,4 @@
 <% var onceFragmentOnPage = false %>
-<% if(user.adminMode) { %>
-    <style>
-        .fragment-item {
-            min-height: 150px; 
-        }
-    </style>
-<% } %>
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
     <% onceFragmentOnPage = !!fragment.once %>
     <% if(fragment.block_id !== block_id) return false; %>
