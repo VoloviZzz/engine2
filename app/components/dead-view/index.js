@@ -56,9 +56,19 @@ module.exports = (app) => {
 			console.log(error.toString());
 		}
 
+		let photos = [];
+
+		try {
+			photos = await api.photos.getPhotos({ form: { dead_id: defaultData.id } });
+		} catch (error) {
+			console.log(1, error);
+		}
+
+
 		body = JSON.parse(body);
 		body.data.bio = bio;
 		body.data.necs = necs;
+		body.data.photos = photos.data;
 
 		if (body.status == false) {
 
@@ -78,6 +88,7 @@ module.exports = (app) => {
 
 		dataViews.data = body.data;
 		dataViews.user = session.user;
+		dataViews.memoryBookPhotoPath = api.memoryBookPhotoPath;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

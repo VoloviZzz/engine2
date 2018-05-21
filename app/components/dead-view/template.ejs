@@ -312,10 +312,14 @@
 		<h3>Фотографии</h3>
 	</div>
 	<div class="text-indent_p text-margin-bottom-p">
-			<% if(data.photos) { %>
-			<% data.photos.map(p => { %>
-				
-			<% }) %>
+		<% if(data.photos) { %>
+			<div class="baguetteBoxOne">
+				<% data.photos.map(p => { %>
+					<a href="<%= memoryBookPhotoPath -%><%= p.url -%>">
+						<img class="memory-photos--item" src="<%= memoryBookPhotoPath -%><%= p.url -%>" draggable="false">
+					</a>
+				<% }) %>
+			</div>
 		<% } %>
 		<p>Если у Вас имеются какие-либо фотографии, связанные с умершим, Вы можете разместить их на этой страничке, чтобы их смогли увидеть все её посетители. Размещение фотографий абсолютно бесплатно и доступно всем зарегистрированным пользователям.</p>
 	</div>

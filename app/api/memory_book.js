@@ -1,5 +1,58 @@
 const request = require('request');
 const api = require('../memory-book-api');
+const formidable = require('formidable');
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
+
+exports.loadPhoto = (req, res, next) => {
+
+	let fileFullPath;
+	const dead_id = req.query.dead_id;
+
+	return new Promise((resolve, reject) => {
+
+		const getQuery = url.parse(req.url, true).query;
+		const form = new formidable.IncomingForm();
+
+		form.uploadDir = req.app.locals.tempUploadDir;
+		form.keepExtensions = true;
+
+		const message = 'Файл загружен на сервер';
+
+		form.parse(req, function (err, fields, files) {
+			const fileParsePath = path.parse(files.upload.path);
+			fileFullPath = path.join(fileParsePath.dir, fileParsePath.base);
+
+			return resolve(fileFullPath);
+		});
+	}).then((fileFullPath) => {
+		var formData = {
+			__function__: 'uploadPhoto',
+			key: apiKey,
+			photo: fs.createReadStream(fileFullPath),
+			dead_id: dead_id
+		};
+
+		return api.photos.addPhoto({ formData });
+	}).then((body) => {
+		if (body.status !== 'ok') return Promise.reject({ body, message: 'Что-то пошло не так' })
+
+		return Promise.resolve();
+	}).then(() => {
+		return new Promise((resolve, reject) => {
+			fs.unlink(fileFullPath, (error) => {
+				if (error) reject(error);
+
+				return resolve();
+			});
+		})
+	}).then(() => {
+		return { status: 'ok' }
+	}).catch(error => {
+		return { error, message: error.message };
+	})
+}
 
 exports['add_necrologue'] = (req, res, next) => {
 	return getDeadInfo(req.body.id).then(body => {
@@ -15,7 +68,7 @@ exports['add_necrologue'] = (req, res, next) => {
 
 		let graveInfo = parseDeadData(data);
 
-		return insertMemory(graveInfo);
+		return api.memory.add({ form: graveInfo });
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
@@ -39,7 +92,7 @@ exports['add_biography'] = (req, res, next) => {
 
 		let graveInfo = parseDeadData(data);
 
-		return insertMemory(graveInfo);
+		return api.memory.add({ form: graveInfo });
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
@@ -49,44 +102,22 @@ exports['add_biography'] = (req, res, next) => {
 	})
 };
 
-exports['change-state-item'] = (req, res, next) => {
-	req.body.reason = req.body.reason || false;
-	changeStateItem(req.body).then(result => {
-		if (result.status == 'ok') {
-			return res.json({ status: 'ok', data: result });
-		}
-
-		return res.json({ status: 'bad', message: result.message });
-	}).catch(error => {
-		console.log(error);
-		return res.json({ status: 'bad', message: error.message });
-	})
-}
-
-exports['delete-item'] = (req, res, next) => {
-	return deleteMemoryItem({ target: req.body.target, id: req.body.id }).then(result => {
-		return { status: 'ok', data: result }
-	}).catch(error => {
-		console.log(error.message);
-		return { status: 'bad', message: error.message, error }
-	})
-}
-
-exports['alphavite-search'] = (req, res, next) => {
+exports['search'] = (req, res, next) => {
 	new Promise((resolve, reject) => {
-		request.get(encodeURI(`${api.memoryBookUrl}deads.letter?value=${req.body.value}&part=${req.body.part}`), (error, response, body) => {
+		request.get(encodeURI(`${api.memoryBookUrl}method/deads.search?q=${req.body.fullname}&part=${req.body.part}`), (error, response, body) => {
 			if (error) {
 				return reject(error);
 			}
 
 			body = JSON.parse(body);
+
 			data.deads = body.body;
-			data.countDeads = body.countDeads;
+			data.countDeads = body.countDeads.count;
 			data.part = req.body.part;
 			return resolve(data)
 		})
 	}).then((data) => {
-		return View.render('components/memory-book', 'items-list.ejs', data);
+		return EJS.renderTpl('./views/components/memory_book/items-list.ejs', data);
 	}).then(content => {
 		data.content = content;
 		return res.json(data);
@@ -122,48 +153,50 @@ exports['loadMore'] = (req, res, next) => {
 	})
 }
 
-exports['search'] = (req, res, next) => {
-	new Promise((resolve, reject) => {
-		request.get(encodeURI(`${api.memoryBookUrl}method/deads.search?q=${req.body.fullname}&part=${req.body.part}`), (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
+exports['change-state-item'] = (req, res, next) => {
+	req.body.reason = req.body.reason || false;
+	return api.memory.upd({ form: req.body }).then(result => {
+		if (result.status == 'ok') {
+			return res.json({ status: 'ok', data: result });
+		}
 
-			body = JSON.parse(body);
-
-			data.deads = body.body;
-			data.countDeads = body.countDeads.count;
-			data.part = req.body.part;
-			return resolve(data)
-		})
-	}).then((data) => {
-		return EJS.renderTpl('./views/components/memory_book/items-list.ejs', data);
-	}).then(content => {
-		data.content = content;
-		return res.json(data);
+		return res.json({ status: 'bad', message: result.message });
 	}).catch(error => {
 		console.log(error);
 		return res.json({ status: 'bad', message: error.message });
 	})
 }
 
-function deleteMemoryItem(args = {}) {
-	return new Promise((resolve, reject) => {
-		request({
-			method: 'POST',
-			url: api.memoryBookUrl + 'memory.del',
-			form: {
-				id: args.id,
-				target: args.target
-			}
-		}, (error, response, body) => {
+exports['delete-item'] = (req, res, next) => {
+	return api.memory.del({ form: { target: req.body.target, id: req.body.id } }).then(result => {
+		return { status: 'ok', data: result }
+	}).catch(error => {
+		console.log(error.message);
+		return { status: 'bad', message: error.message, error }
+	})
+}
+
+exports['alphavite-search'] = (req, res, next) => {
+	new Promise((resolve, reject) => {
+		request.get(encodeURI(`${api.memoryBookUrl}deads.letter?value=${req.body.value}&part=${req.body.part}`), (error, response, body) => {
 			if (error) {
 				return reject(error);
 			}
 
 			body = JSON.parse(body);
-			return resolve(body);
+			data.deads = body.body;
+			data.countDeads = body.countDeads;
+			data.part = req.body.part;
+			return resolve(data)
 		})
+	}).then((data) => {
+		return View.render('components/memory-book', 'items-list.ejs', data);
+	}).then(content => {
+		data.content = content;
+		return res.json(data);
+	}).catch(error => {
+		console.log(error);
+		return res.json({ status: 'bad', message: error.message });
 	})
 }
 
@@ -185,8 +218,8 @@ const parseDeadData = (data) => {
 		die_month: data.die_month,
 		die_year: data.die_year,
 		dead_id: data.id,
-		dead_code: '66-3435',
-		common_id: '66-3435-' + data.id,
+		dead_code: '74-3435',
+		common_id: '74-3435-' + data.id,
 		value: data.value,
 		target: data.target,
 		author: data.clientName,
@@ -250,22 +283,6 @@ function changeStateItem(data) {
 
 			body = JSON.parse(body);
 			return resolve(body)
-		})
-	})
-}
-
-function insertMemory(data) {
-	return new Promise((resolve, reject) => {
-		request({
-			method: 'POST',
-			url: api.memoryBookUrl + 'memory.add',
-			form: data
-		}, (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
-
-			return resolve(body);
 		})
 	})
 }

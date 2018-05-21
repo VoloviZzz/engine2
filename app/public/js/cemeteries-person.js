@@ -88,8 +88,11 @@ $(document).ready(() => {
 			return alert('Некролог не может быть коротким');
 		}
 
+		$(this).prop('disabled', true);
+
 		$.post('/api/memory_book/add_necrologue', postData).done(result => {
 			if (result.status !== 'ok') {
+				$(this).prop('disabled', false);
 				console.error(result);
 				return alert(result.message);
 			}
@@ -117,17 +120,20 @@ $(document).ready(() => {
 			return alert('Биография не может быть короткой');
 		}
 
+		$(this).prop('disabled', true);
+
 		$.post('/api/memory_book/add_biography', postData).done(result => {
-			if (result.status == 'ok') {
-				return location.reload();
+			if (result.status !== 'ok') {
+				$(this).prop('disabled', false);
+				console.error(result);
+				return alert(result.message);
 			}
 
-			console.error(result);
+			return location.reload();
+		}).catch(error => {
+			console.error(error);
+			console.error(error.message);
 		})
-			.catch(error => {
-				console.error(error);
-				console.error(error.message);
-			})
 	})
 
 	$('.js-select-photos').on('click', function (e) {
@@ -140,24 +146,23 @@ $(document).ready(() => {
 
 	$('#uploadable-files').on('change', function (e) {
 		var fd = new FormData();
+		var dead_id = $(this).data('id');
 
 		fd.append('upload', this.files[0]);
 
 		$.ajax({
-			url: '/api/images/upload?filename=' + this.files[0].name,
+			url: '/api/memory_book/loadPhoto?dead_id=' + dead_id,
 			data: fd,
 			processData: false,
 			contentType: false,
 			type: 'POST',
 			success: function success(result) {
-				$.post('/api/globalSiteConfig/setValue', { target: 'siteLogo', value: result.data.fileUrl }).done(function (result) {
-					if (result.status !== 'ok') {
-						console.log(result);
-						alert(result.message);
-					} else {
-						location.reload();
-					}
-				});
+				if(result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message);
+				}
+
+				location.reload();
 			}
 		});
 		return false;

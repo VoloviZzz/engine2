@@ -94,3 +94,7 @@ object {
     color: #fff;
     margin: 0px 0px 20px !important;
 }
+
+img.memory-photos--item {
+	width: 300px;
+}

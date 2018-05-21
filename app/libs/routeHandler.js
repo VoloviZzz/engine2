@@ -140,7 +140,6 @@ module.exports = (app) => {
 
 		const routeController = apiControllers[ctrl];
 
-
 		if (routeController[action]) {
 			const controllerAction = routeController[action];
 

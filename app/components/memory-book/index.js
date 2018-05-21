@@ -17,9 +17,9 @@ module.exports = (app) => {
 
 		try {
 			[data.deads, data.biographies, data.necrologues] = await Promise.all([
-				api.get(api.memoryBookUrl, { ctrl: 'deads' }),
-				api.get(api.memoryBookUrl, { ctrl: 'biographies' }),
-				api.get(api.memoryBookUrl, { ctrl: 'necrologues' })
+				api.get('deads'),
+				api.get('biographies'),
+				api.get('necrologues')
 			])
 		} catch (e) {
 			console.log('Ошибка api "memory_book":');
