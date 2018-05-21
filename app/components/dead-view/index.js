@@ -1,5 +1,6 @@
 const path = require('path');
 const request = require('request');
+const api = require('../../memory-book-api');
 
 module.exports = (app) => {
 
@@ -107,6 +108,24 @@ function getDeadInfo(id) {
 				return reject({ status: 'bad' });
 			}
 
+			return resolve(body);
+		})
+	})
+}
+
+function getMemory(data = [], options = {}) {
+	return new Promise((resolve, reject) => {
+		request({
+			method: 'POST', url: api.memoryBookUrl + 'memory.get', form: {
+				values: JSON.stringify(data),
+				options: JSON.stringify(options)
+			}
+		}, (error, response, body) => {
+			if (error) {
+				return reject(error);
+			}
+
+			body = JSON.parse(body);
 			return resolve(body);
 		})
 	})

@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/vendors/baguettebox.js/dist/baguetteBox.min.css">
 <link rel="stylesheet" href="/vendors/flexSlider/flexslider.css">
 <link rel="stylesheet" href="/css/cemeteries-place.css">
+<link rel="stylesheet" href="/css/dead-view.css">
 <div id="info" class="menu-sections menu-sections__default">
     <div class="personaly-wrapper">
         <div style="width: 100%; text-align: center;">
@@ -177,6 +178,160 @@
             </section>
         </div>
     </div>
+</div>
+<div id="memory" class="menu-sections">
+    <% if(!!user.id === false) { %>
+        <p style="text-align: center; margin: 10px; font-size: 120%;">
+            <b>Для того, чтобы добавлять записи в книгу памяти, Вам необходимо авторизоваться на сайте</b>
+        </p>
+    <% } %>
+    <div class="person-section-content person-memory">
+        <div class="person-biography">
+            <div class="text-center block-name memory-book__title">
+                <h3>Биографии</h3>
+            </div>
+            <div class="text-left text-indent_p text-margin-bottom-p">
+                <% if(data.bio) { %>
+                    <% data.bio.map(b => { %>
+                        <% if(b.state !== 3 && b.creator !== user.id && user.adminMode === false) return false; %>
+                        <div class="biography-text">
+                            <div class="biography-author">
+                                <p>Автор: <%= `${b.author || "Неизвестно"}` %></p>
+                            </div>
+                            <% if(user.adminMode) { %>
+                                <div style="width: 100%; text-align: right">
+                                    <br>
+                                    <% if(b.state === 3) { %>
+                                        <button data-id="<%=b.id%>" data-target="biographies" data-state="2" class="btn js-item-toggle-state">Снять с публикации</button>    
+                                    <% }
+                                    else if(b.state == 0 || b.state == 2) { %>
+                                        <button data-id="<%=b.id%>" data-target="biographies" data-state="3" class="btn js-item-toggle-state">Опубликовать</button>
+                                        <button data-id="<%=b.id%>" data-target="biographies" data-state="1" class="btn js-item-toggle-state">Отклонить</button>
+                                    <% } %>
+                                    <br>
+                                    <br>
+                                </div>
+                            <% } %>
+                            <%- Helpers.replaceLineBreaks(b.text) %>
+                            <% if(b.creator == user.id) { %>
+                                <div class="text-right">
+                                    <button data-id="<%=b.id%>" data-target="biographies" class="btn js-delete-btn">Удалить биографию</button>
+                                    <br>
+                                    <br>
+                                </div>
+                            <% }%>
+                            <% if(b.state == "1" ) { %>
+                                <p><b>Биография отклонена. Причина: <%=b.reason%></b></p>
+                            <% } %>
+                        </div>
+                    <% }) %>
+                <% } %>
+                <p>Биография - (жизнеописание) — описание жизни человека, сделанное другими людьми или им самим (автобиография). Биография воссоздаёт историю человека в связи с общественной действительностью, культурой и бытом его времени.</p>
+                <p>Написать и разместить биографию на страничке умершего может любой зарегистрированный пользователь сайта. Размещение биографий абсолютно бесплатно, размещенные материалы после проверки модератором сайта становятся доступными для просмотра всем пользователям, посещающим страничку умершего.</p>
+            </div>
+            <div class="form-add-memory js-form-add-biography" style="display: none">
+                <div class="form-title text-center">
+                    <h1 id="form-title__text">Добавить биографию</h1>
+                </div>
+                <div class="form-body">
+                    <textarea class="js-biography-text" style="min-width: 100%; max-width: 100%; min-height: 250px" cols="30" rows="10"></textarea>
+                    <div>
+                        <button data-id="<%= g.id %>" class="btn js-send-biography form-send-btn">Отправить</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button 
+                    class="btn action-btn <%= !!user.id ? "js-add-biographie" : "btn-disabled" %>"
+                >Добавить биографию</button>
+            </div>
+        </div>
+        <div class="person-necrology">
+            <div class="text-center block-name memory-book__title">
+                <h3>Некрологи</h3>
+            </div>
+            <div class="text-indent_p text-margin-bottom-p">
+                 <% if(data.necs) { %>
+                    <% data.necs.map(n => { %>
+                        <div class="biography-text">
+                            <div class="biography-author">
+                                <p>Автор: <%= `${n.author || "Неизвестно"}` %></p>
+                            </div>
+                            <% if(user.adminMode) { %>
+                                <div style="width: 100%; text-align: right">
+                                    <br>
+                                    
+                                    <% if(n.state === 3) { %>
+                                        <button data-id="<%=n.id%>" data-target="necrologues" data-state="2" class="btn js-item-toggle-state">Снять с публикации</button>    
+                                    <% }
+                                    else if(n.state == 0 || n.state == 2) { %>
+                                        <button data-id="<%=n.id%>" data-target="necrologues" data-state="3" class="btn js-item-toggle-state">Опубликовать</button>
+                                        <button data-id="<%=n.id%>" data-target="necrologues" data-state="1" class="btn js-item-toggle-state">Отклонить</button>
+                                    <% } %>
+                                    <br>
+                                    <br>
+                                </div>
+                            <% } %>
+                            <%- Helpers.replaceLineBreaks(n.text) %>
+                            <% if(n.creator == user.id) { %>
+                                <div class="text-right">
+                                    <button data-id="<%=n.id%>" data-target="necrologues" class="btn js-delete-btn">Удалить некролог</button>
+                                    <br>
+                                    <br>
+                                </div>
+                            <% }%>
+                            <% if(n.state == "1" ) { %>
+                                <p><b>Некролог отклонён. Причина: <%=n.reason%></b></p>
+                            <% } %>
+                        </div>
+                    <% }) %>
+                <% } %>
+                <p>Некролог - небольшой мемориальный материал, как правило содержащий в себе информацию об умершем и соболезнования родным и близким усопшего. Кроме того некролог может содержать описание жизнедеятельности покойного, его заслуги перед обществом, причины смерти. Вы можете разместить некролог на этой странице, нажав кнопку "Разместить некролог".</p>
+            </div>
+	        <div class="form-add-memory js-form-add-necrologue">
+	        	<div class="form-title text-center">
+	        		<h1 id="form-title__text">Добавить некролог</h1>
+	        	</div>
+	        	<div class="form-body">
+	        		<textarea class="js-necrologue-text" style="min-width: 100%; max-width: 100%; min-height: 250px" cols="30" rows="10"></textarea>
+	        		<div>
+	        			<button data-id="<%= g.id %>" class="btn js-send-necrologue form-send-btn">Отправить</button>
+	        		</div>
+	        	</div>
+	        </div>
+            <div>
+                <button 
+                    class="btn action-btn <%= !!user.id ? "js-add-necrologue" : "btn-disabled" %>"
+                >Добавить некролог</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="person-photo">
+	<div class="text-center block-name memory-book__title">
+		<h3>Фотографии</h3>
+	</div>
+	<div class="text-indent_p text-margin-bottom-p">
+			<% if(data.photos) { %>
+			<% data.photos.map(p => { %>
+				
+			<% }) %>
+		<% } %>
+		<p>Если у Вас имеются какие-либо фотографии, связанные с умершим, Вы можете разместить их на этой страничке, чтобы их смогли увидеть все её посетители. Размещение фотографий абсолютно бесплатно и доступно всем зарегистрированным пользователям.</p>
+	</div>
+	<div class="form-add-memory">
+		<div class="form-title text-center">
+			<h1 id="form-title__text">Добавить фотографии</h1>
+		</div>
+		<div class="form-body">
+			<% if(!!user.id === true) { %>
+				<input type="file" id="uploadable-files" class="js-upload-file" data-id="<%=g.id%>" name="person-photos" multiple>
+			<% } %>
+		</div>
+	</div>
+	<div>
+		<button class="btn action-btn <%= !!user.id ? "js-select-photos" : "btn-disabled" %>">Добавить фотографии</button>
+	</div>
 </div>
 <div id="coord" class="menu-sections">
     <section>

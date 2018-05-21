@@ -1,7 +1,7 @@
 const request = require('request');
 
 const api = {
-	memoryBookUrl: 'http://89.108.70.31:3003/api/',
+	memoryBookUrl: 'http://localhost:3003/api/',
 
 	get(url, options = {}) {
 		return new Promise((resolve, reject) => {
