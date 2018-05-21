@@ -157,9 +157,9 @@
                 <div>
                     <% if(!!user.id == true) { %>
                         <% if(visitGrave) { %>
-                            <btn class="btn action-btn del-visited">Убрать из посещаемых</btn>
+                            <btn id="js-del-visited" data-id="<%= g.id -%>" class="btn action-btn del-visited">Убрать из посещаемых</btn>
                         <% } else { %>
-                            <btn class="btn action-btn add-visited">Добавить в посещаемые</btn>
+                            <btn id="js-add-visited" data-id="<%= g.id -%>" class="btn action-btn add-visited">Добавить в посещаемые</btn>
                         <% } %>
                     <% } else { %>
                         <btn class="btn action-btn btn-disabled" disabled>Добавить в посещаемые</btn>

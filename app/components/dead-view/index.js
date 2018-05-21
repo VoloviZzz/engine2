@@ -30,7 +30,7 @@ module.exports = (app) => {
 		}
 
 		try {
-			visitedGraves = await Model.visitedGraves.get({ client_id: req.session.userId, grave_id: res.locals.person });
+			[, visitedGraves] = await Model.visitedGraves.get({ client_id: session.user.id, grave_id: defaultData.id });
 		}
 		catch (e) {
 			console.log('Ошибка получение посещаемых захоронений');
@@ -42,7 +42,6 @@ module.exports = (app) => {
 		if (visitedGraves.length > 0) {
 			dataViews.visitGrave = true;
 		}
-
 
 		let necs = [];
 		let bio = [];

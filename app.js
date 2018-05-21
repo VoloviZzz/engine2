@@ -92,6 +92,8 @@ app.viewsDir = global.ViewsDir = path.join(__dirname, 'app', 'views');
 imagesPath = 'http://img.p-z-nt.ru/img/';
 apiUrl = `http://oper.letaindex.ru:3001/api`;
 apiKey = '01234567890123456789012345678901';
+imageNotFound = '/img/image-not-found.jpg'
+View = require('./app/View.js');
 
 global.path = require('path');
 
