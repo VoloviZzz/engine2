@@ -1,7 +1,7 @@
 module.exports = async app => {
     const db = require('./app/libs/db');
 
-    return await db.execQuery('SELECT * FROM components').then(([error, rows]) => {
+    return await db.execQuery('SELECT * FROM `components` ORDER BY `components`.`title` ASC').then(([error, rows]) => {
         if (error) throw new Error(error);
 
         app.componentsList = rows;
