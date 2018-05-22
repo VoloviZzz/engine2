@@ -178,7 +178,6 @@ $(document).ready(() => {
 
 	$('#search-clear-str').on('click', () => {
 		$('#search-fio').val('');
-		history.pushState(null, null, '/search');
 		$('#search-list').html('');
 		$('.search-error').hide();
 		$('.search-info').show();

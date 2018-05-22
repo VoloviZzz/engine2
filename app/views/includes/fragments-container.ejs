@@ -15,12 +15,12 @@
                             <% }) %>
                         </select>
                     </div>
-                    <button class="js-fragment-delete btn-blue" data-fragment-id="<%= id -%>">Удалить фрагмент со страницы</button>
 					<% if('published' in fragment.settings === false || fragment.settings.published == true) { %>
 						<button class="btn-blue js-fragment-togglePublished" data-value="0" data-fragment-id="<%= id -%>">Снять с публикации</button>
 					<% } else { %>
                     	<button class="btn-blue js-fragment-togglePublished" data-value="1" data-fragment-id="<%= id -%>">Опубликовать</button>
 					<% } %>
+                    <button class="js-fragment-delete btn-blue" data-fragment-id="<%= id -%>">Удалить фрагмент со страницы</button>
                 </div>
             </div>
         <% } %>
