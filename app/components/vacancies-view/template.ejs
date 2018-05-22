@@ -16,10 +16,10 @@
 		<input data-id="<%= vacancy.id %>" type="text" class="input-text js-vacancies-title-update" value="<%= vacancy.title %>">
 	<% } %>
 	<% if(user.adminMode) { %>
-		<textarea class="js-vacanciesText-update js-ckeditor-edit"><%- Helpers.replaceLineBreaks(vacancy.text) %></textarea>
+		<textarea class="js-vacanciesText-update js-ckeditor-edit"><%- vacancy.text %></textarea>
 	<% } else { %>
 		<div data-id="<%= vacancy.id %>" class="vacancy-text text-margin-bottom-p text-indent">
-			<%- Helpers.replaceLineBreaks(vacancy.text) %>
+			<%- vacancy.text %>
 		</div>
 	<% } %>
 </div>

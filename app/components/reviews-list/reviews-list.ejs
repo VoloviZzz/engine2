@@ -1,7 +1,7 @@
 <div class="reviews-list-wrapp">
 	<ul class="reviews-list">
 		<% reviews.map(r => { %>
-			<% if(r.public == 0 && r.client != userId) return false; %>
+			<% if(r.published == 0 && r.client_id != user.id) return false; %>
 			<li class="reviews-item" data-id="<%= r.id %>">
 				<% if(session.user.adminMode) { %>
 					<div class="text-right">

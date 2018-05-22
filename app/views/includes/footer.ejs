@@ -25,7 +25,7 @@
 							<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">
 						</div>
 					<% } %>
-					<i class="fa fa-question <%= item.icon -%>"></i>
+					<i class="fa <%= item.icon ? item.icon : 'fa-question' -%>"></i>
 				</a>	
 			<% }) %>
         </div>
@@ -34,6 +34,7 @@
 <script type="text/javascript" src="/vendors/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/vendors/ace/ace.js"></script>
+<script type="text/javascript" src="/vendors/ace/ext-textarea.js"></script>
 <script type="text/javascript" src="/js/application.js"></script>
 <% if(!!user.adminMode === true) { %>
     <script src="/admins/js/admin.js"></script>

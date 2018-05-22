@@ -8,9 +8,6 @@ module.exports = (app) => {
 		// logic...
 
 		const { fragment } = locals;
-
-		fragment.settings = !!fragment.settings ? JSON.parse(fragment.settings) : {};
-		
 		const currentTarget = fragment.settings.target;
 
 		let templatePath;
