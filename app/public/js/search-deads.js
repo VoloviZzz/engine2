@@ -162,20 +162,6 @@ $(document).ready(() => {
 		return findGrave(part);
 	});
 
-	$('#send-error-report').on('click', function (e) {
-		let reportText = $('#error-report-text').val().trim();
-		let postData = {
-			ctrl: 'add_error_report',
-			reportText
-		}
-
-		$.post('', postData).done(result => {
-			if (result.status == 'success') {
-				return location.reload();
-			}
-		})
-	})
-
 	$('#search-clear-str').on('click', () => {
 		$('#search-fio').val('');
 		$('#search-list').html('');
