@@ -16,6 +16,7 @@ $(document).ready(function () {
 		var fragmentId = $elem.data('fragment-id');
 
 		editor.setTheme("ace/theme/monokai");
+		editor.setAutoScrollEditorIntoView(true);
 		editor.session.setMode("ace/mode/html");
 
 		editor.session.on('change', function (delta) {
@@ -376,4 +377,25 @@ $(document).ready(function () {
 		});
 		return false;
 	});
+
+	$('.js-fragment-togglePublished').on('click', function (e) {
+		var $this = $(this);
+		var value = $this.data('value');
+		var fragmentId = $this.data('fragment-id');
+
+		var postData = {};
+
+		postData.target = 'published';
+		postData.value = value;
+		postData.fragment_id = fragmentId;
+
+		$.post('/api/fragments/updSettings', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
+		});
+	})
 });

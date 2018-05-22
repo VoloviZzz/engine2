@@ -1,0 +1,58 @@
+<div class="memory-book__item search-result__item">
+	<div class="memory-book__photo-container">
+		<img 
+			class="memory-book__photo <%= g.photo_orientation == 6 ? 'img90' : '' %>" 
+			src="<%= imagesPath + g.main_photo %>" 
+		/>
+	</div>
+	<div class="place__pairs">
+		<div class="place__pair place__title">
+			<div>
+				<h1 class="fs-regular dead-name noinit"><%= `${g.surname || ''} ${g.firstname || ''} ${g.patronymic || ''}` %></h1>
+			</div>
+			<div>
+				<span class="fs-regular"><%= `${g.born_day || ''}.${g.born_month || ''}.${g.born_year || '..'} - ${g.die_day || ''}.${g.die_month || ''}.${g.die_year || ''}` %></span>
+			</div>
+		</div>
+		<div class="place__info">
+			<div class="place__pair place-general">
+				<div>
+					<span class="place__info-name">Кладбище:</span>
+					<span><a href="/cemeteries/<%=g.cemetery%>"><%=g.cemetery_name || ''%></a></span>
+				</div>
+				<div>
+					<span class="place__info-name">Квартал:</span>
+					<span>
+						<% if (g.area) { %>
+							<%= g.area_name || '' %>
+						<% }
+						else { %>
+							без квартала
+						<% } %>
+					</span>
+				</div>
+				<% if (g.place) { %>
+					<div>
+						<span class="place__info-name">Участок:</span>
+						<span><a href="/place/<%=g.place%>">66-3435-<%=g.place%></a></span>
+					</div>
+				<% }
+				else { %>
+					<div>
+						<b>Одиночное захоронение</b>
+					</div>
+				<% } %>
+			</div>								
+			<div class="place__buttons">
+				<div>
+					<a href="/person/<%= g.dead_id %>" class="btn">Открыть</a>
+				</div>
+				<% if (g.place) { %>
+					<div>
+						<a href="/place/<%= g.place %>" class="btn">Страница участка</a>
+					</div>
+				<% } %>	
+			</div>
+		</div>
+	</div>
+</div>

@@ -40,6 +40,13 @@
 			</div>
 		<% }) %>
 	</div>
+	<div class="pagination">
+		<a class="pagination__to-begin pagination__action-link" href="/achievements">в начало</a>
+		<% for(let i = pagination.left; i < pagination.right; i++) { %>
+				<a class="pagination-item <%=pagination.curPage == i ? `pagination-item__active` : ``%>" href="/achievements?page=<%=i%>"><%=i%></a>
+		<% } %>
+		<a class="pagination__to-end pagination__action-link" href="/achievements?page=<%=pagination.countPages%>">в конец</a>
+	</div>
 </section>
 	<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js"></script>
 	<script src="/js/achievements-list.js" defer></script>

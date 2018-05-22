@@ -2,49 +2,85 @@
 
 $(document).ready(function () {
 
+
+	function pressedEnter(e) {
+
+		e = e || event;
+
+		return (e.keyCode == 13);
+	}
+
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	window.getParameterByName = getParameterByName;
+
+	if(getParameterByName('postError') == '1') {
+		alert('При запросе произошла ошибка. Попробуйте позже')
+	}
+
+	// begin: обработчики для слайдера поиска захоронений
+	$("#js-search-dead-str").on('keydown', function (e) {
+		if (pressedEnter(e)) {
+			location.href = "/search?fullname=" + this.value.trim();
+		}
+	});
+
+	$('#js-search-dead-link').on('click', function (e) {
+		$(this).attr('href', '/search?fullname=' + $('#js-search-dead-str').val().trim());
+	})
+	// end: обработчики для слайдера поиска захоронений
+
 	const App = {};
 	window.App = App;
 
-//================ Показ/скрытие верхнего меню, при ширине экрана мобильной версии (<992px) ===============//
+	//================ Показ/скрытие верхнего меню, при ширине экрана мобильной версии (<992px) ===============//
 	var g_top = 0;
-	
-if ($(window).width() < 992) {
-  $(window).scroll(function() {
-    var top = $(this).scrollTop();
-    
-    if ( top > g_top ) {
-      $('.document-header').fadeOut(400);
-    } else {
-      $('.document-header').fadeIn(400);
-    }
-    
-    g_top = top;    
-  });
-};
 
-//================ Кнопка вызова бокового меню ===============//
-if($('.section-left').length > 0) {
 	if ($(window).width() < 992) {
-		$('.aside-toggle').show();
-	}
-};
+		$(window).scroll(function () {
+			var top = $(this).scrollTop();
+
+			if (top > g_top) {
+				$('.document-header').fadeOut(400);
+			} else {
+				$('.document-header').fadeIn(400);
+			}
+
+			g_top = top;
+		});
+	};
+
+	//================ Кнопка вызова бокового меню ===============//
+	if ($('.section-left').length > 0) {
+		if ($(window).width() < 992) {
+			$('.aside-toggle').show();
+		}
+	};
 
 
-$('.header-nav .toggle-menu.btn').on('click', function (e) {
-    $('.menu-container').toggleClass('menu-container__active');
+	$('.header-nav .toggle-menu.btn').on('click', function (e) {
+		$('.menu-container').toggleClass('menu-container__active');
 
-    if ($('.section-left').hasClass('section-left__active')) {
-        $('.section-left').removeClass('section-left__active');
-    }
-});
+		if ($('.section-left').hasClass('section-left__active')) {
+			$('.section-left').removeClass('section-left__active');
+		}
+	});
 
-$('.header-nav .aside-toggle.btn').on('click', function (e) {
-    $('.section-left').toggleClass('section-left__active');
+	$('.header-nav .aside-toggle.btn').on('click', function (e) {
+		$('.section-left').toggleClass('section-left__active');
 
-    if ($('.menu-container').hasClass('menu-container__active')) {
-        $('.menu-container').removeClass('menu-container__active');
-    }
-});
+		if ($('.menu-container').hasClass('menu-container__active')) {
+			$('.menu-container').removeClass('menu-container__active');
+		}
+	});
 
 
 	// ------------------ Вкладки --------------------------------
@@ -255,7 +291,10 @@ Fragments.prototype.setData = function (args) {
 		data = args.data;
 
 	$.post('/api/fragments/setData', { fragment_id: fragment_id, data: JSON.stringify({ body: data }) }).done(function (result) {
-		console.log(result);
+		if (result.status !== 'ok') {
+			console.log(result);
+			return alert(result.message);
+		}
 	});
 };
 
