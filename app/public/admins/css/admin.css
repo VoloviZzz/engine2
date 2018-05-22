@@ -5,6 +5,10 @@
     margin-top: 10px;
 }
 
+.fragment-item {
+	min-height: 150px; 
+}
+
 .news__item .admin-control-container {
     display: flex;
 }
