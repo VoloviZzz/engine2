@@ -5,12 +5,13 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const [, reviews] = await Model.reviews.get({public: '1'});
+		const [, reviews] = await Model.reviews.get();
 		const [, reviewsNotPublished] = await Model.reviews.get({public: '0'});
 
 		dataViews.reviews = reviews;
 		dataViews.reviewsNotPublished = reviewsNotPublished;
 		dataViews.session = session;
+		dataViews.user = session.user;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

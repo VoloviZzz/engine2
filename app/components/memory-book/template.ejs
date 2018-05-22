@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="/css/memory_book.css">
+<link rel="stylesheet" href="/css/search-deads.css">
+<div id="general" class="menu-sections menu-sections__default">
+	<div id="general-deads-container">
+		<%- include('./items-list', {deads: data.deads, countDeads: data.countDeads, part: 0}) %>	
+	</div>
+	<div class="text-center">
+		<button class="btn" id="load-more-button" style="display: none; margin-top: 15px" data-part="1">Показать ещё</button>
+	</div>
+</div>
+<script src="/js/memory_book.js" defer></script>
