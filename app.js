@@ -82,6 +82,7 @@ app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 app.locals.uploadDir = path.join(__dirname, 'app', 'public', 'uploads');
+app.locals.tempUploadDir = path.join(__dirname, 'app', 'public', 'uploads', 'temp');
 app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
 
 global.DocumentRoot = __dirname;
@@ -90,6 +91,10 @@ app.publicDir = global.PublicDir = path.join(__dirname, 'app', 'public');
 app.viewsDir = global.ViewsDir = path.join(__dirname, 'app', 'views');
 
 imagesPath = 'http://img.p-z-nt.ru/img/';
+apiUrl = `http://oper.letaindex.ru:3001/api`;
+apiKey = '01234567890123456789012345678901';
+imageNotFound = '/img/image-not-found.jpg'
+View = require('./app/View.js');
 
 global.path = require('path');
 
