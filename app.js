@@ -89,7 +89,8 @@ global.AppRoot = path.join(__dirname, 'app');
 app.publicDir = global.PublicDir = path.join(__dirname, 'app', 'public');
 app.viewsDir = global.ViewsDir = path.join(__dirname, 'app', 'views');
 
-imagesPath = 'http://img.p-z-nt.ru/img/';
+// imagesPath = 'http://img.p-z-nt.ru/img/';
+imagesPath = 'http://system.mpkpru.ru/';
 
 global.path = require('path');
 
