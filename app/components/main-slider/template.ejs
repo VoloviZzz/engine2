@@ -10,7 +10,7 @@
 						<div class="slider-info">
 							<div class="slider-info__wrapper">
 								<% if(user.adminMode) { %>
-									<input type="text" class="js-slide-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+									<input style="margin-bottom: 20px" type="text" class="js-slide-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
 								<% } else { %> 
 									<h1><%= s.title %></h1>
 								<% } %>
@@ -20,7 +20,7 @@
 									</div>
 								<% } else { %> 
 									<div class="text-center">
-										<%- Helpers.replaceLineBreaks(s.description) %>
+										<%- s.description %>
 									</div>
 								<% } %>
 								<% if(user.adminMode) { %>
