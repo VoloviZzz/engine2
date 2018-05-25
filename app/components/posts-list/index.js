@@ -19,7 +19,7 @@ module.exports = (app) => {
 		} else {
 			templatePath = path.join(__dirname, 'template.ejs');
 
-			[, posts] = await app.db.execQuery(`SELECT * FROM posts WHERE target = '${currentTarget}'`);
+			[, posts] = await app.db.execQuery(`SELECT * FROM posts WHERE target = '${currentTarget}' ORDER BY id DESC`);
 
 			dataViews.posts = posts;
 		}
