@@ -1,3 +1,5 @@
+package-lock.json
+
 *.log
 
 node_modules/
@@ -8,3 +10,5 @@ app/public/uploads/*
 !app/public/uploads/logo.*
 app/public/photos/*
 app/dist
+
+app/public/favicon.ico

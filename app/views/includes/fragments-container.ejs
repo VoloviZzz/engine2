@@ -1,14 +1,8 @@
 <% var onceFragmentOnPage = false %>
-<% if(user.adminMode) { %>
-    <style>
-        .fragment-item {
-            min-height: 150px; 
-        }
-    </style>
-<% } %>
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
     <% onceFragmentOnPage = !!fragment.once %>
     <% if(fragment.block_id !== block_id) return false; %>
+	<% if('published' in fragment.settings && fragment.settings.published != true && user.adminMode != true) return false; %>
     <div class="fragment-item">
         <% if(user.adminMode) { %>
             <div class="fragment-setting-window">
@@ -21,6 +15,11 @@
                             <% }) %>
                         </select>
                     </div>
+					<% if('published' in fragment.settings === false || fragment.settings.published == true) { %>
+						<button class="btn-blue js-fragment-togglePublished" data-value="0" data-fragment-id="<%= id -%>">Снять с публикации</button>
+					<% } else { %>
+                    	<button class="btn-blue js-fragment-togglePublished" data-value="1" data-fragment-id="<%= id -%>">Опубликовать</button>
+					<% } %>
                     <button class="js-fragment-delete btn-blue" data-fragment-id="<%= id -%>">Удалить фрагмент со страницы</button>
                 </div>
             </div>

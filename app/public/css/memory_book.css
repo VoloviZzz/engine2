@@ -1,0 +1,146 @@
+.memory-book__item {
+    border: 1px #c3c3c3 solid;
+    padding: 12px;
+    min-height: 100px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.memory-book__photo {
+    width: 100%;
+    border: 1px #c3c3c3 solid;
+    max-height: 200px;
+    display: block;
+}
+
+.memory-book__item:not(:first-child) {
+    margin-top: 15px;
+}
+
+.section-content {
+    display: block;
+}
+
+.memory-book__title {
+    margin-bottom: 21px;
+    text-align: center;
+}
+
+.memory-book__info {
+    flex: 1;
+}
+
+.place__info {
+    text-align: center;
+}
+
+.place-general {
+    width: 65% !important;
+}
+
+.place-general a {
+    text-decoration: underline;
+}
+
+.memory-book__body {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.memory-book__body a {
+    color: #f36c2a;
+    text-decoration: underline;
+}
+
+.memory-book__photos {
+    background-size: cover;
+    background-position: center;
+    width: 25%;
+    margin-bottom: 1.5%;
+}
+
+.memory-book__photos-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+h3.memory-book__container-title {
+    width: 100%;
+    text-align: center;
+    background: #eaeaea;
+    border: 1px #c3c3c3 solid;
+    padding: 4px;
+    margin-bottom: 21px;
+}
+
+.memory-book__photos:not(:last-child) {
+    margin-right: 1.5%;
+}
+
+.memory-book__photos:not(:last-child) {
+    margin-right: 1.5%;
+}
+
+.memory-book__biographies-container {
+    margin-top: 21px;
+}
+
+.biography-item {
+    border: 1px #c3c3c3 solid;
+    padding: 15px;
+}
+
+.biography-item:not(:first-child) {
+    margin-top: 15px;
+}
+
+.biography-time,
+.biography-author {
+    font-weight: 400;
+}
+
+.biography-meta {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    background: #eaeaea;
+    padding: 7px 15px;
+    margin: -15px -15px 15px -15px;
+}
+
+.biography-actions {
+    text-align: center;
+}
+
+.meta-title {
+    justify-content: center;
+    text-align: center;
+}
+
+.biography-actions a {
+    text-decoration: underline;
+}
+
+.alphavite-words__container {
+    text-align: center;
+}
+
+.alphavite-word {
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+@media (min-width: 990px) {
+    .place__info {
+        text-align: left;
+    }
+
+    .memory-book__photo-container {
+        margin-right: 20px;
+    }
+
+    .memory-book__photo {
+        width: 250px;
+    }
+}

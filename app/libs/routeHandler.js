@@ -5,6 +5,8 @@ const { createVisitor } = require('./visitors');
 const { createVisit } = require('./visits');
 const { createView } = require('./views');
 
+const urlLib = require('url');
+
 module.exports = (app) => {
 
 	const Router = app.express.Router();
@@ -15,8 +17,10 @@ module.exports = (app) => {
 		req.locals = {};
 
 		const routesObj = app.locals.routesList;
-		const reqUrl = req.url;
+		const reqUrl = urlLib.parse(req.url).pathname;
 		let routeSplit, route;
+
+		res.locals.reqQuery = req.query;
 
 		route = routesObj[reqUrl];
 
@@ -136,11 +140,15 @@ module.exports = (app) => {
 
 		const routeController = apiControllers[ctrl];
 
-
 		if (routeController[action]) {
 			const controllerAction = routeController[action];
 
 			const controllerResult = await controllerAction(req, res, next);
+
+			if (req.xhr === false) {
+				var backUrl = urlLib.parse(req.header('Referer')).pathname;
+				return res.redirect(backUrl);
+			}
 
 			if (!!controllerResult === true && 'sendData' in controllerResult) {
 				return res.send(controllerResult.sendData)
