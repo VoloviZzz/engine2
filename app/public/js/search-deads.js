@@ -162,8 +162,23 @@ $(document).ready(() => {
 		return findGrave(part);
 	});
 
+	$('#send-error-report').on('click', function (e) {
+		let reportText = $('#error-report-text').val().trim();
+		let postData = {
+			ctrl: 'add_error_report',
+			reportText
+		}
+
+		$.post('', postData).done(result => {
+			if (result.status == 'success') {
+				return location.reload();
+			}
+		})
+	})
+
 	$('#search-clear-str').on('click', () => {
 		$('#search-fio').val('');
+		history.pushState(null, null, '/search');
 		$('#search-list').html('');
 		$('.search-error').hide();
 		$('.search-info').show();
@@ -197,23 +212,17 @@ $(document).ready(() => {
 		$('.advanced_search').toggleClass('advanced_search__showed');
 	})
 
-	var urlFullName = getParameterByName('fullname');
-
-	if (urlFullName) {
-		findGrave(0, urlFullName);
-	}
-
-	function findGrave(part, fullname = false) {
+	function findGrave(part) {
 
 		part = part || 0;
 
-		var str = $('#search-fio').val().trim();
-		var search_mode = State.searchMode;
+		let str = $('#search-fio').val().trim();
+		let search_mode = State.searchMode;
 
-		var fullname = fullname || $('#search-fio').val().trim();
+		let fullname = $('#search-fio').val().trim();
 		fullname = fullname.replace(/\s+/g, " ");
 
-		var postData = {
+		let postData = {
 			fullname: fullname || '',
 			ctrl: 'search_grave',
 			part,
@@ -253,6 +262,9 @@ $(document).ready(() => {
 		$('.search-info').hide();
 
 		$.post("/api/search-deads/search", postData).done(res => {
+			
+			console.log(res);
+			
 			if (res.status == 'ok') {
 
 				if (part == 0) $('#search-list').html('');
