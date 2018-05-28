@@ -122,6 +122,14 @@ header.document-header, .document-footer {
 
 .document-header {
     position: relative;
+    transition: transform .5s;
+}
+
+
+.document-header--hidden {
+	-webkit-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	transform: translateY(-100%);
 }
 
 .document-footer {
