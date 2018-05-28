@@ -118,6 +118,7 @@ header.document-header, .document-footer {
     font-weight: 400;
     background-color: #262626;
     background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	z-index: 100;
 }
 
 .document-header {
