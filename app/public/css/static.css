@@ -835,6 +835,7 @@ textarea.input-text {
     .document-header {
         padding: 5px 0;
         position: fixed;
+        z-index: 999999;
     }
 
     .header-menu-center li {
