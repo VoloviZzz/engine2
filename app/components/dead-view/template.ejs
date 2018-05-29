@@ -13,6 +13,28 @@
 <link rel="stylesheet" href="/vendors/flexSlider/flexslider.css">
 <link rel="stylesheet" href="/css/cemeteries-place.css">
 <link rel="stylesheet" href="/css/dead-view.css">
+<style>
+	.MyWindow {
+		background: #fff;
+		position: absolute;
+		width: calc(100% - 20px);
+		overflow: auto;
+		height: calc(100% - 20px);
+	}
+
+	.flowers li {
+		width: 33%;
+		min-height: 2em;
+		outline: 1px dashed silver;
+		display: inline-block;
+		vertical-align: top;
+		text-align: center;
+		height: 253px;
+		background-size: contain !important;
+		background-position: center center !important;
+		background-repeat: no-repeat !important;
+	}
+</style>
 <div id="info" class="menu-sections menu-sections__default">
     <div class="personaly-wrapper">
         <div style="width: 100%; text-align: center;">
@@ -173,7 +195,7 @@
                     <h3>Дополнительные услуги</h3>
                 </div>
                 <div>
-                    <button class="btn action-btn">Заказать возложение цветов</button>
+                    <button onclick="ordAssign()" class="btn action-btn">Заказать возложение цветов</button>
                 </div>
             </section>
         </div>

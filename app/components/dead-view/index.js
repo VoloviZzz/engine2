@@ -48,9 +48,9 @@ module.exports = (app) => {
 		let bio = [];
 
 		try {
-			memory = await getMemory(['necrologues', 'biographies'], { dead_id: data.id });
-			necs = memory[0];
-			bio = memory[1];
+			// memory = await getMemory(['necrologues', 'biographies'], { dead_id: data.id });
+			// necs = memory[0];
+			// bio = memory[1];
 		} catch (error) {
 			console.log('Ошибка выполнения API MEMORY_BOOK: ');
 			console.log(error.toString());
@@ -59,11 +59,10 @@ module.exports = (app) => {
 		let photos = [];
 
 		try {
-			photos = await api.photos.getPhotos({ form: { dead_id: defaultData.id } });
+			// photos = await api.photos.getPhotos({ form: { dead_id: defaultData.id } });
 		} catch (error) {
-			console.log(1, error);
+			console.log(error);
 		}
-
 
 		body = JSON.parse(body);
 		body.data.bio = bio;
@@ -86,6 +85,7 @@ module.exports = (app) => {
 			return next(err);
 		}
 
+		dataViews.flowers = [];
 		dataViews.data = body.data;
 		dataViews.user = session.user;
 		dataViews.memoryBookPhotoPath = api.memoryBookPhotoPath;

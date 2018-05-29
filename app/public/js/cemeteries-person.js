@@ -1,8 +1,27 @@
-
 $(document).ready(() => {
 	$('.flexslider').flexslider({
 		animation: 'slide'
 	})
+
+	window.ordAssign = function ordAssign() {
+		$.post('/api/ord_assign', {}).done(function (result) {
+			$('.MyWindow').remove();
+			$('<div/>')
+				.addClass('MyWindow')
+				.html(result.data)
+				.appendTo('.document-content');
+		})
+	}
+
+	window.flowerMods = function flowerMods(good) {
+		$.post('/api/flower_mods', { good: good }).done(function (result) {
+			$('.MyWindow').remove();
+			$('<div/>')
+				.addClass('MyWindow')
+				.html(result.data)
+				.appendTo('.document-content');
+		})
+	}
 
 	$('#js-add-visited').on('click', function (e) {
 
@@ -157,7 +176,7 @@ $(document).ready(() => {
 			contentType: false,
 			type: 'POST',
 			success: function success(result) {
-				if(result.status !== 'ok') {
+				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
 				}
