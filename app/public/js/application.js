@@ -42,7 +42,7 @@ $(document).ready(function () {
 	window.App = App;
 
 	//================ Показ/скрытие верхнего меню, при ширине экрана мобильной версии (<992px) ===============//
-	var g_top = 0;
+	/*var g_top = 0;
 
 	if ($(window).width() < 992) {
 		$(window).scroll(function () {
@@ -56,6 +56,47 @@ $(document).ready(function () {
 
 			g_top = top;
 		});
+	};*/
+
+	var mainHeader = $('.document-header'),
+		belowNavHeroContent = $('.sub-nav-hero');
+	
+	//установим переменные
+	var scrolling = false,
+		previousTop = 0,
+		currentTop = 0,
+		scrollDelta = 10,
+		scrollOffset = 150;
+
+	$(window).on('scroll', function(){
+		if( !scrolling ) {
+			scrolling = true;
+			(!window.requestAnimationFrame)
+				? setTimeout(autoHideHeader, 250)
+				: requestAnimationFrame(autoHideHeader);
+		}
+	});
+
+	function autoHideHeader() {
+		var currentTop = $(window).scrollTop();
+
+		( belowNavHeroContent.length > 0 ) 
+			? checkStickyNavigation(currentTop) // secondary navigation below intro
+			: checkSimpleNavigation(currentTop);
+
+	   	previousTop = currentTop;
+		scrolling = false;
+	};
+
+	function checkSimpleNavigation(currentTop) {
+		//there's no secondary nav or secondary nav is below primary nav
+	    if (previousTop - currentTop > scrollDelta) {
+	    	//if scrolling up...
+	    	mainHeader.removeClass('document-header--hidden');
+	    } else if( currentTop - previousTop > scrollDelta && currentTop > scrollOffset) {
+	    	//if scrolling down...
+	    	mainHeader.addClass('document-header--hidden');
+	    }
 	};
 
 	//================ Кнопка вызова бокового меню ===============//
@@ -81,6 +122,8 @@ $(document).ready(function () {
 			$('.menu-container').removeClass('menu-container__active');
 		}
 	});
+
+
 
 
 	// ------------------ Вкладки --------------------------------
