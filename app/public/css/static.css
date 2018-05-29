@@ -123,6 +123,14 @@ header.document-header, .document-footer {
 
 .document-header {
     position: relative;
+    transition: transform .5s;
+}
+
+
+.document-header--hidden {
+	-webkit-transform: translateY(-100%);
+	-ms-transform: translateY(-100%);
+	transform: translateY(-100%);
 }
 
 .document-footer {
@@ -793,6 +801,7 @@ textarea.input-text {
     .document-header {
         padding: 5px 0;
         position: fixed;
+        z-index: 999999;
     }
 
     .header-menu-center li {
