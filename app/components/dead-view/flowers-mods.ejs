@@ -6,7 +6,7 @@
 			<a href="javascript:void(0);"><%= flowers['name'] -%></a>
 		</div>
 		<b style="position:absolute;top:.5em;right:.5em;border:1px solid silver;padding:.25em;background:white;border-radius:.25em;"><%= flowers['r_price'] -%> руб.</b>
-		<b style="position:absolute;bottom:.5em;left:.5em;border:1px solid silver;padding:.25em;background:white;border-radius:.25em;">В наличии <%= flowers['count'] -%> шт.</b>
+		<b style="position:absolute;bottom:.5em;left:.5em;border:1px solid silver;padding:.25em;background:white;border-radius:.25em;">В наличии <%= flowers.count - count_reserv -%> шт.</b>
 	</li>
 </ul>
 <div class="pl_header">Выберите исполнение</div>
@@ -16,14 +16,14 @@
 </div>
 <ul class="flowers">
 
-	<% for (var id in flowers['mods']) { %>
+	<% for (var id in flowers.mods) { %>
 		<% var m = flowers['mods'][id]; %>
 
 		<li style="background:url(<%= flowersUrl + m['photo'] -%>); margin: 1em 0 2em 0; position: relative;">
 			<div style="position:absolute;width:100%;left:0;bottom:-2.5em;text-align:center;">
-				<a href="javascript:void(0);">код исполнения: #<%= m['id'] -%><br />в наличии -  шт.</a>
+				<a href="javascript:void(0);">код исполнения: #<%= m.id -%><br />в наличии - <%= m.free_count -%>  шт.</a>
 			</div>
-			<b style="position:absolute;top:.5em;right:.5em;border:1px solid silver;padding:.25em;background:white;border-radius:.25em;cursor:pointer;" onclick="flowerConfirm(<%= m['id'] -%>);">Выбрать</b>
+			<b style="position:absolute;top:.5em;right:.5em;border:1px solid silver;padding:.25em;background:white;border-radius:.25em;cursor:pointer;" onclick="flowerConfirm(<%= m.id -%>, <%= m.free_count -%>);">Выбрать</b>
 		</li>
 	<% } %>
 	

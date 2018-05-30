@@ -201,6 +201,61 @@
         </div>
     </div>
 </div>
+<div id="orders-list">
+	<% if(entrusting.length > 0) { %>
+		<div class="pl_header">Ваши заказы / возложение цветов /</div>
+		<table id="orders" class="tbl" style="font-weight:normal;font-size:1.25em;">
+			<tr>
+				<th>Номер</th>
+				<th>Дата создания</th>
+				<th>Возлагаемые цветы</th>
+				<th>Количество</th>
+				<th>Сумма заказа</th>
+				<th>Статус оплаты</th>
+				<th>Статус выполнения</th>
+				<th>Действия</th>
+			</tr>
+			<% for(var e of entrusting) { %>
+				<tr id="ord<%= e['id'] -%>">
+					<td>#<%= e['id'] -%></td>
+					<td><%= Helpers.formatDate(e['time'], 'dd MMMM yyyy') -%></td>
+					<td><%= goods[e['mods']]['name'] -%> / #<%= e['mods'] -%></td>
+					<td><%= e['count'] -%> шт.</td>
+					<td><%= e['amount'] -%> руб.</td>
+					<td>
+						<% switch(e.istat) {
+							case 'new': %>
+								<%= 'Не оплачен' -%>
+								<% del = `<a href="javascript:void(0);" onclick="delOrder('${e['id']}');">Удалить</a>` -%>
+								<% pay = `<a href="javascript:void(0);" onclick="invoicePay('${e['invoice']}');">Оплатить</a>` %>
+							<% break; %>
+							<% case 'expect': %>
+								<%= 'Ожидает оплаты' -%>
+							<% break; %>
+							<% case 'paid': %>
+								<%= 'Оплачен' -%>
+							<% break; %>
+						<% } %>
+					</td>
+					<td>
+						<% switch(e.status) {
+							case 0: %>
+								<%= e['istat'] == 'paid' ? 'Подготовка' : 'Ожидает оплаты'; -%>
+							<% break; %>
+							<% case 1: %>
+								<%= 'В работе' -%>
+							<% break; %>
+							<% case 2: %>
+								<%= 'Выполнен' -%>
+							<% break; %>
+						<% } %>
+					</td>
+					<td class="btns"><%- del -%> <%- pay -%></td>
+				</tr>
+			<% } %>
+		</table>
+	<% } %>
+</div>
 <div id="memory" class="menu-sections">
     <% if(!!user.id === false) { %>
         <p style="text-align: center; margin: 10px; font-size: 120%;">
@@ -510,6 +565,9 @@
             }, 0);
         }
     };
+</script>
+<script>
+	var dead_id = <%= g.id -%>;
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwz7Whv_9Vs1rF3lPqyLsRlxarfSiFs8g"></script>
 <script src="/js/maplabel.js"></script>

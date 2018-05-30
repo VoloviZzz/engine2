@@ -3,6 +3,32 @@ $(document).ready(() => {
 		animation: 'slide'
 	})
 
+	window.delOrder = function delOrder(id) {
+
+		if (confirm('Вы действительно хотите удалить заказ?') === false) return false;
+
+		$.post('/api/del_order', { order: id }).done(function (data) {
+			if (data.status !== 'ok') {
+				console.log(data);
+				return alert(data.message || 'Что-то пошло не так');
+			}
+
+			location.reload();
+		})
+	}
+
+	window.invoicePay = function invoicePay(invoice) {
+
+		$.post('/api/preparePayment', { invoice: invoice }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message || 'Что-то пошло не так');
+			}
+
+			return document.location.href = 'https://auth.robokassa.ru/Merchant/Index.aspx?' + result.data.params;
+		})
+	}
+
 	window.ordAssign = function ordAssign() {
 		$.post('/api/ord_assign', {}).done(function (result) {
 			$('.MyWindow').remove();
@@ -15,6 +41,47 @@ $(document).ready(() => {
 
 	window.flowerMods = function flowerMods(good) {
 		$.post('/api/flower_mods', { good: good }).done(function (result) {
+			$('.MyWindow').remove();
+			$('<div/>')
+				.addClass('MyWindow')
+				.html(result.data)
+				.appendTo('.document-content');
+		})
+	}
+
+	window.changeCount = function changeCount(elem) {
+
+		var price = $('#sum').data('price'),
+			count = elem.value,
+			freeCount = $('#sum').data('count'),
+			sum = count > 0 ? ((price * count) + 200) : 0;
+
+		if (count <= freeCount) {
+			$('#sum').text(sum + 'рублей');
+		}
+		else {
+			alert('Отсутствует достаточное количество!');
+			return false;
+		}
+	}
+
+	window.createFlowerAssign = function createFlowerAssign(elem) {
+		var mod = elem.dataset.id,
+			pers = elem.dataset.pers,
+			count = $('#count').val();
+
+		$.post('/api/create_flower_assign', { mod: mod, pers: pers, count: count }).done(function (data) {
+			if (data.status !== 'ok') {
+				console.log(data);
+				return alert('Что-то пошло не так');
+			}
+
+			return location.reload();
+		})
+	}
+
+	window.flowerConfirm = function flowerConfirm(mod, count) {
+		$.post('/api/flowers_confirm', { person: window.dead_id, mod: mod, count: count }).done(function (result) {
 			$('.MyWindow').remove();
 			$('<div/>')
 				.addClass('MyWindow')
