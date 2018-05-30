@@ -63,7 +63,12 @@
 					</ul>
                     <ul class="header-menu header-menu-right">
                         <li>
-							<a class="shopping-cart-link" href="/cart"><i class="fa fa-shopping-cart fa-lg"></i><span class="badge shopping-cart-badge" id="js-shoppingCart-goodsCount"><%= session.shoppingCart.totalCountGoods -%></span></a>
+							<a class="shopping-cart-link" href="/cart">
+								<i class="fa fa-shopping-cart fa-lg"></i>
+								<% if(session.shoppingCart.totalCountGoods > 0) { %>
+									<span class="badge shopping-cart-badge" id="js-shoppingCart-goodsCount"><%= session.shoppingCart.totalCountGoods -%></span>
+								<% }%>
+							</a>
 						</li>
 						<% if(!user.id) { %>
 							<li>

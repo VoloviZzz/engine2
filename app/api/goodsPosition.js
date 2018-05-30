@@ -18,7 +18,6 @@ exports.delete = (req, res, next) => {
 
 exports.upd = function (req, res, next) {
 	const Model = req.app.Model;
-	req.body = JSON.parse(req.body.data);
 
 	if (!!req.body.id === false) return { message: 'Отсутствует параметр id' };
 
