@@ -1,6 +1,7 @@
 const path = require('path');
 const request = require('request');
 const api = require('../../memory-book-api');
+const retailApi = require('../../retail-api');
 
 module.exports = (app) => {
 
@@ -19,6 +20,29 @@ module.exports = (app) => {
 		let visitedGraves = [];
 
 		let body = false;
+
+		var entrusting = [];
+
+		if (!!session.user.id === true) {
+			var [error, entrusting] = await Model.entrusting.get_entrusting({ 'client': session.user.id, 'pers': defaultData.id });
+
+			var mods = [];
+			var goods_mods = '';
+
+			for (var e of entrusting) {
+				mods.push(e.mods);
+			}
+
+			if (mods.length > 0) {
+				goods_mods = mods.join(',');
+
+				var goods = await retailApi.query(`get_goods`, { ids: goods_mods });
+
+				dataViews.goods = goods;
+			}
+		}
+
+		dataViews.entrusting = entrusting;
 
 		data = Object.assign(defaultData, data);
 
@@ -61,9 +85,8 @@ module.exports = (app) => {
 		try {
 			photos = await api.photos.getPhotos({ form: { dead_id: defaultData.id } });
 		} catch (error) {
-			console.log(1, error);
+			console.log(error);
 		}
-
 
 		body = JSON.parse(body);
 		body.data.bio = bio;
@@ -86,6 +109,7 @@ module.exports = (app) => {
 			return next(err);
 		}
 
+		dataViews.flowers = [];
 		dataViews.data = body.data;
 		dataViews.user = session.user;
 		dataViews.memoryBookPhotoPath = api.memoryBookPhotoPath;

@@ -10,9 +10,9 @@ module.exports = {
 		queryParams.key = this.apiKey;
 
 		return new Promise((resolve, reject) => {
-			request({ method: 'POST', url: this.url, form: queryParams }, (err, response, body) => {
-				if (err) {
-					return reject(err);
+			request.post(this.url, {form: queryParams}, (error, response, body) => {
+				if (error) {
+					return reject(error);
 				}
 
 				try {
