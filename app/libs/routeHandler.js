@@ -145,16 +145,14 @@ module.exports = (app) => {
 
 			const controllerResult = await controllerAction(req, res, next);
 
-			if (req.xhr === false) {
-				var backUrl = urlLib.parse(req.header('Referer')).pathname;
-				return res.redirect(backUrl);
-			}
-
 			if (!!controllerResult === true && 'sendData' in controllerResult) {
 				return res.send(controllerResult.sendData)
 			}
-			else {
+			else if (req.xhr === true) {
 				res.json(controllerResult)
+			} else {
+				var backUrl = urlLib.parse(req.header('Referer')).pathname;
+				return res.redirect(backUrl);
 			}
 		}
 		else {
