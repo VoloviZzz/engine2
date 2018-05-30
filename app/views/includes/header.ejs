@@ -65,9 +65,10 @@
                         <li>
 							<a class="shopping-cart-link" href="/cart">
 								<i class="fa fa-shopping-cart fa-lg"></i>
-								<% if(session.shoppingCart.totalCountGoods > 0) { %>
-									<span class="badge shopping-cart-badge" id="js-shoppingCart-goodsCount"><%= session.shoppingCart.totalCountGoods -%></span>
-								<% }%>
+								<span 
+									class="badge shopping-cart-badge" 
+									id="js-shoppingCart-goodsCount" 
+									style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
 							</a>
 						</li>
 						<% if(!user.id) { %>
