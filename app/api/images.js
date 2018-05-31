@@ -19,7 +19,7 @@ exports.uploadCKeditor = function (req, res, next) {
 			let fileParsePath = path.parse(files.upload.path);
 			let fileUrl = `/uploads/${fileParsePath.name}${fileParsePath.ext}`;
 
-			return resolve({ status: 'ok', message: 'test', sendData: `<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(${funcNum}, '${fileUrl}', '${message}');</script>` });
+			return resolve({ status: 'ok', sendData: `<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(${funcNum}, '${fileUrl}', '${message}');</script>` });
 		});
 	})
 }

@@ -28,6 +28,12 @@ $(document).ready(function () {
 				return alert(result.message);
 			}
 
+			var $countBadge = $('#js-shoppingCart-goodsCount');
+
+			if(result.data.cart.totalCountGoods > 0) {
+				$countBadge.show();
+			}
+
 			$('#js-shoppingCart-goodsCount').text(result.data.cart.totalCountGoods);
 			addToCartBtn.setAttribute("disabled", "disabled");
 			addToCartBtn.classList.add("added");
