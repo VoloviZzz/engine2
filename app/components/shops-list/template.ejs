@@ -1,34 +1,40 @@
 <link rel="stylesheet" href="/css/shops-list.css">
 <section>
-	<% if(user.adminMode) { %>
+	<div class="map-yandex">
+		<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A4744011d5fe5b89cb747635576a0b9e591a824f2540798302f69ee16b2d92a7b&amp;source=constructor" width="100%" height="300" frameborder="0"></iframe>
+	</div>
+		<% if(user.adminMode) { %>
 		<div class="text-right">
 			<button class="btn js-add-shopItem">Добавить магазин</button>
 		</div>
 	<% } %>
-	<% shops.forEach((shop) => { %>
-		<div class="shops-item">
-			<% if(user.adminMode) { %>
-				<div class="text-right">
-					<button data-id="<%= shop.id -%>" class="btn js-delete-shopItem">Удалить из списка</button>
+	<div class="shops-items">
+		<% shops.forEach((shop) => { %>
+			<div class="shops-item">
+				<% if(user.adminMode) { %>
+					<div class="text-right">
+						<button data-id="<%= shop.id -%>" class="btn js-delete-shopItem">Удалить из списка</button>
+					</div>
+				<% } %>
+				<a class="page-link" href="/shop-page/<%= shop.id -%>">
+					<h1 class="shops-item__title"><%= shop.title -%></h1>
+				</a>
+				<a class="shops-item__image" href="/shop-page/<%= shop.id -%>">
+					<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.main_photo) -%>" alt="">
+				</a>
+				<div class="shops-item__text text-margin-bottom-p text-indent">
+					<%- Helpers.replaceLineBreaks(Helpers.trimStr(shop.text, 175)) -%>
 				</div>
-			<% } %>
-			<a class="page-link" href="/shop-page/<%= shop.id -%>">
-				<h1 class="shops-item__title"><%= shop.title -%></h1>
-			</a>
-			<a class="shops-item__image" href="/shop-page/<%= shop.id -%>">
-				<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.main_photo) -%>" alt="">
-			</a>
-			<div class="shops-item__text text-margin-bottom-p text-indent">
-				<%- Helpers.replaceLineBreaks(Helpers.trimStr(shop.text, 175)) -%>
+				<div class="shops-item__text text-margin-bottom-p text-indent">
+					<span class="shops-item__adress">Адрес: <%= shop.address -%></span>
+					<span class="shops-item__phone">Телефон: <%= shop.phones -%></span>
+				</div>
+				<div class="shops-item__more">
+					<a class="page-link" href="/shop-page/<%= shop.id -%>">Подробнее...</a>
+				</div>
 			</div>
-			<div class="shops-item__text text-margin-bottom-p text-indent">
-				<span>Адрес: <%= shop.address -%></span>
-			</div>
-			<div class="shops-item__more">
-				<a class="page-link" href="/shop-page/<%= shop.id -%>">Подробнее...</a>
-			</div>
-		</div>
-	<% }) %>
+		<% }) %>
+	</div>
 </section>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/shops-list.js" defer></script>
