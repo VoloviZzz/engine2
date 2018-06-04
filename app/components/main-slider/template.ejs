@@ -10,7 +10,7 @@
 						<div class="slider-info">
 							<div class="slider-info__wrapper">
 								<% if(user.adminMode) { %>
-									<input style="margin-bottom: 20px" type="text" class="js-slide-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+									<input style="margin-bottom: 20px" type="text" class="js-slide-upd input-text" data-event-name="input" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
 								<% } else { %> 
 									<h1><%= s.title %></h1>
 								<% } %>
@@ -31,7 +31,23 @@
 									</div>
 								<% } %>
 								<div class="slider-action">
-									<a href="<%= s.href %>" class="btn">Подробнее</a>
+									<% s.moreBtnText = 'moreBtnText' in s === false ? 'Подробнее' : s.moreBtnText %>
+									<% if( ('moreBtnText' in s && s.moreBtnText != '') || 'moreBtnText' in s === false ) { %>
+										<a href="<%= s.href %>" class="btn"><%= s.moreBtnText  -%></a>
+									<% } %>
+									<% if(user.adminMode) { %>
+										<div>
+											<label>
+												<span>Текст для кнопки:</span>
+												<input type="text" 
+													class="js-slide-upd"
+													data-target="moreBtnText" 
+													value="<%= s.moreBtnText -%>" 
+													data-fragment-id="<%= locals.fragment.id -%>" 
+													data-id="<%= s.id -%>">
+											</label>
+										</div>
+									<% } %>
 								</div>
 							</div>
 						</div>
@@ -82,11 +98,11 @@
 							<% if(user.adminMode) { %>
 							<div>
 								<span>Заголовок:</span>
-								<input type="text" class="js-slide-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
+								<input type="text" class="js-slide-upd"  data-event-name="input" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
 							</div>
 							<div>
 								<span>Адрес:</span>
-								<input type="text" class="js-slide-upd" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
+								<input type="text" class="js-slide-upd"  data-event-name="input" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
 							</div>
 							<% } else { %>
 								<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>

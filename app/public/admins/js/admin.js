@@ -168,18 +168,27 @@ $(document).ready(function () {
 		routesList.updRoute({ id: id, target: target, value: value });
 	});
 
-	$('.js-slide-upd').on('change', function (e, CKvalue) {
-		var slide_id = $(this).data('id');
-		var fragment_id = $(this).data('fragmentId');
-		var target = $(this).data('target');
-		var value = $(this).val().trim();
+	$('.js-slide-upd').each(function (index, elem) {
+		var eventName = $(elem).data('event-name') || 'change';
 
-		if (typeof CKvalue !== 'undefined') {
-			value = CKvalue;
-		}
+		$(elem).on(eventName, function (e, CKvalue) {
+			var slide_id = $(this).data('id');
+			var fragment_id = $(this).data('fragmentId');
+			var target = $(this).data('target');
+			var value = $(this).val().trim();
+			var afterSuccess = $(this).data('after-success');
 
-		return slider.updSlide({ slide_id: slide_id, fragment_id: fragment_id, target: target, value: value });
-	});
+			if (!!slide_id === false) {
+				return alert('Отсутствует slide_id');
+			}
+
+			if (typeof CKvalue !== 'undefined') {
+				value = CKvalue;
+			}
+
+			return slider.updSlide({ slide_id: slide_id, fragment_id: fragment_id, target: target, value: value, afterSuccess: afterSuccess });
+		})
+	})
 
 	$('.js-slide-delete').on('click', function (e) {
 		var slide_id = $(this).data('id');

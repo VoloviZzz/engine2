@@ -53,7 +53,7 @@ exports.updSlide = async function (req, res, next) {
 			if (error) return Promise.reject(error);
 			const slides = JSON.parse(rowsData[0].data).content.slides
 
-			slides.some((slide, index) => slide.id == slide_id ? slides[index][target] = value : false)
+			slides.some((slide, index) => slide.id == slide_id ? slides[index][target] = value : false);
 
 			return Model.fragments.setData({ fragment_id, data: { slides } });
 		})
