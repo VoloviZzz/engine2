@@ -27,12 +27,12 @@ $(document).ready(function () {
 	$('#carousel').flexslider({
 		animation: "slide",
 		controlNav: false,
-		animationLoop: false,
 		slideshow: false,
 		itemWidth: carouselItemWidth,
 		itemMargin: 10,
 		asNavFor: '#slider',
-		mousewheel: true
+		mousewheel: true,
+		keyboard: false
 	});
 
 	$('#slider').flexslider({
