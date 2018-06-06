@@ -124,6 +124,7 @@
 		</ul>
 	</div>
 	<div class="mobile-nav">
+<<<<<<< HEAD
 
 	<ul class="accordeon-menu">
 		<% slides.map((s, index) => { %>
@@ -140,29 +141,14 @@
 									<% if( ('moreBtnText' in s && s.moreBtnText != '') || 'moreBtnText' in s === false ) { %>
 										<a href="<%= s.href %>" class="btn"><%= s.moreBtnText  -%></a>
 									<% } %>
-	        			</div>
-	        		</div>
-	        	</div>
-	        </div>
-	        <div class="accordeon-menu__item-link"><%= s.title_bottom || s.title %></div>
-			</li>	
-		<% }) %>	
-	</ul>
-
-	<!--	
-		<ul>
-			<% slides.map(s => { %>
-				<li>
-					<div class="container-item__container">
-						<div class="carousel-link__container">
-							<a href="<%= s.href %>"><%= s.title_bottom %></a>
+								</div>
+							</div>
 						</div>
 					</div>
-				</li>
-			<% }) %>
+					<div class="accordeon-menu__item-link"><%= s.title_bottom || s.title %></div>
+				</li>	
+			<% }) %>	
 		</ul>
-	-->
-
 	</div>
 </div>
 <script defer src="/js/slider.init.js"></script>
