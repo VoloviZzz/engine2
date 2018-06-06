@@ -124,13 +124,11 @@
 		</ul>
 	</div>
 	<div class="mobile-nav">
-<<<<<<< HEAD
-
 	<ul class="accordeon-menu">
 		<% slides.map((s, index) => { %>
-	    <li class="accordeon-menu__item <%= index == 0 ? 'accordeon-menu__item--active' : '' -%>" style="background-image: url(<%= s.img_bottom || s.img %>)">
+	    <li class="accordeon-menu__item <%= index == 0 ? 'accordeon-menu__item--active' : '' -%>">
 	        <div class="accordeon-menu__item-content">
-	        	<div class="slider-info">
+	        	<div class="slider-info" style="background-image: url(<%= s.img || s.img_bottom %>)">
 	        		<div class="slider-info__wrapper">
 	        			<h1><%= s.title %></h1>
 	        			<div class="text-center">
