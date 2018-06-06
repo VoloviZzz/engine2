@@ -126,8 +126,8 @@
 	<div class="mobile-nav">
 
 	<ul class="accordeon-menu">
-		<% slides.map(s => { %>
-	    <li class="accordeon-menu__item" style="background-image: url(<%= s.img_bottom || s.img %>)">
+		<% slides.map((s, index) => { %>
+	    <li class="accordeon-menu__item <%= index == 0 ? 'accordeon-menu__item--active' : '' -%>" style="background-image: url(<%= s.img_bottom || s.img %>)">
 	        <div class="accordeon-menu__item-content">
 	        	<div class="slider-info">
 	        		<div class="slider-info__wrapper">

@@ -323,20 +323,33 @@ p.top-slide-info, .slider-info p {
 	}
 }
 
+@media (max-width: 991px) {
+	#slider {
+		display: none;
+	}
+
+	.slider-info {
+		position: static;
+		display: block;
+		width: 100%;
+	}
+}
+
 
 /*=====================*/
 .accordeon-menu {
     display: block;
     list-style: none;
     margin: 0;
+    margin-top: 5px;
 }
 
 .accordeon-menu__item {
+	background-size: cover;
 }
 
 .accordeon-menu__item-content {
     display: none;
-    border: 1px solid black;
 }
 
 .accordeon-menu__item-link {
