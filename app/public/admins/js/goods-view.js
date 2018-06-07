@@ -32,11 +32,15 @@ $(document).ready(function () {
 
 	$('#uploadable-files').on('change', function (e) {
 		var $input = $(this);
-		var files = $input.get(0).files[0];
+		var files = $input.get(0).files;
 		var fd = new FormData();
 		var id = $input.data('id');
 
-		fd.append('upload', files);
+		for(var index = 0; index < files.length; index++) {
+			var file = files[index];
+			
+			fd.append('upload-' + index, file);
+		}
 
 		$input.attr('disabled', 'disabled');
 
