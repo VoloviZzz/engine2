@@ -265,11 +265,17 @@ Slider.prototype.updSlide = function (args) {
 		fragment_id = args.fragment_id,
 		target = args.target,
 		value = args.value;
+	
+	var afterSuccess = args.afterSuccess;
 
 	$.post('/api/slider/updSlide', { slide_id: slide_id, fragment_id: fragment_id, target: target, value: value }).done(function (result) {
 		if (result.status != 'ok') {
 			console.log(result);
-			alert(result.message);
+			return alert(result.message);
+		}
+
+		if(afterSuccess == 'reload') {
+			return location.reload();
 		}
 	});
 };
