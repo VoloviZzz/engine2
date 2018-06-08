@@ -6,9 +6,16 @@ node_modules/
 .vs
 
 config/index.js
+
+app/public/photos/*
+!app/public/photos/readme.txt
+
 app/public/uploads/*
 !app/public/uploads/logo.*
-app/public/photos/*
+
+app/public/uploads/temp/*
+!app/public/uploads/temp/readme.txt
+
 app/dist
 
 app/public/favicon.ico
