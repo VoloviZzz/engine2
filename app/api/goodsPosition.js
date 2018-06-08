@@ -77,7 +77,7 @@ exports.setMainPhoto = function (req, res, next) {
 	const goodId = req.params.goodId;
 	const photosPath = path.join(AppRoot, 'public', 'photos');
 
-	return UploadPhotos(req, res, next, { pathToFolder: photosPath })
+	return UploadPhotos(req, { pathToFolder: photosPath })
 		.then((result) => {
 			return Model.photos.add({ path: result.url, name: result.filename });
 		})
@@ -97,12 +97,28 @@ exports.addPhoto = (req, res, next) => {
 	const State = {
 		photoId: null
 	};
-	return UploadPhotos(req, res, next, { pathToFolder: photosPath })
+
+	const errors = [];
+
+	return UploadPhotos(req, { pathToFolder: photosPath })
 		.then((result) => {
-			return Model.photos.add({ target: 'goodsPosition', target_id: goodId, path: result.url, name: result.filename });
-		})
-		.then(([error, photoId]) => {
-			if(error) return Promise.reject(error);
+			const promises = result.map(fileData => {
+				return Model.photos.add({ target: 'goodsPosition', target_id: goodId, ...fileData });
+			});
+
+			return Promise.all(promises);
+		}).then((photos) => {
+
+			let photoId = false;
+
+			photos.forEach(([error, id]) => {
+				if (error) return errors.push(error);
+
+				photoId = photoId === false ? id : photoId;
+			})
+
+			if (errors.length > 0) return Promise.reject(error);
+			
 			State.photoId = photoId;
 			return Model.goodsPositions.get({ id: goodId });
 		}).then(([error, goodsPos]) => {
