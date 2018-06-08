@@ -48,7 +48,7 @@ module.exports = (req, data = {}) => {
 			return new Promise((resolve, reject) => {
 				resizeCrop({ src: originPath, dest: destPath, width: config.width, height: config.height, gravity: 'center', }, (error, filePath) => {
 					if (error) {
-						return reject(err);
+						return reject(error);
 					}
 
 					return resolve(filePath);
