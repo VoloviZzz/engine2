@@ -26,7 +26,7 @@
 											<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
 										</div>
 									<% } %>
-									<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
+									<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/origin/${photo.name}`) %>">
 										<img class="good-info__img" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) %>">
 									</a>
 								</li>
@@ -43,7 +43,7 @@
 			</div>
 			<% if(user.adminMode) { %>
 				<span>Загрузить фото: </span>
-				<input id="uploadable-files" data-id="<%= position.id -%>" type="file">
+				<input multiple id="uploadable-files" data-id="<%= position.id -%>" type="file">
 			<% } %>
 		</div>
 		<div class="good-info__params-wrapp">

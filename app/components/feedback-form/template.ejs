@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/feedback-form.css">
+<section class="feedback">
+	<div class="feedback__wrapper">
+		<h2 class="feedback__title">Обратная связь</h2>
+		<form class="feedback__form" action="" method="post">
+			<input class="feedback__bio" type="text" name="client_name" required placeholder="Как к Вам обращаться">
+			<input class="feedback__city-org" type="text" name="client_from" required placeholder="Откуда Вы (город, организация)">
+			<input class="feedback__telephone" type="tel" name="client_phone" required placeholder="Телефон">
+			<input class="feedback__email" type="email" name="client_email" required placeholder="Email">
+			<textarea class="feedback__message" name="message" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
+			<button class="feedback__btn-submit" type="submit">Отправить</button>
+		</form>
+	</div>
+</section>
+<script src="/js/feedback-form.js" defer></script>
