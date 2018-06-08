@@ -27,6 +27,18 @@ exports.upd = function (req, res, next) {
 	});
 }
 
+exports.changePriceType = function (req, res, next) {
+	req.body = JSON.parse(req.body.data);
+	const Model = req.app.Model;
+
+	if (!!req.body.id === false) return { message: 'Отсутствует параметр id' };
+
+	return Model.goodsPositions.upd(req.body).then(([error, result]) => {
+		if (error) return { message: error.message, error };
+		return { status: 'ok' }
+	});
+}
+
 exports.getParamsValues = async function (req, res, next) {
 	const data = req.body;
 	const Model = req.app.Model;
