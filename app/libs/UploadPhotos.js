@@ -27,6 +27,7 @@ module.exports = (req, data = {}) => {
 		/**
 		 * Генерирует относительный путь до файла для адресной строки
 		 * @param {Object} data объект, передаваемый в экспортируемую функцию
+		 * @return {String} путь до файла в адресной строке
 		 */
 		const generatePhotoUrl = (data) => {
 			const str = md5(Math.random()); // генерация случайной строки для выбора из неё пути
@@ -37,6 +38,12 @@ module.exports = (req, data = {}) => {
 			return url;
 		};
 
+		/**
+		 * Создаёт новое, отредактированное изображение
+		 * @param {String} originPath путь до оригинального изображения
+		 * @param {String} destPath путь до нового изображения
+		 * @param {Object} config объект с настройками для генерации нового изображения
+		 */
 		const generateResizeImage = (originPath, destPath, config) => {
 			return new Promise((resolve, reject) => {
 				resizeCrop({ src: originPath, dest: destPath, width: config.width, height: config.height, gravity: 'center', }, (error, filePath) => {

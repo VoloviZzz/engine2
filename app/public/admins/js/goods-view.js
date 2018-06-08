@@ -36,9 +36,9 @@ $(document).ready(function () {
 		var fd = new FormData();
 		var id = $input.data('id');
 
-		for(var index = 0; index < files.length; index++) {
+		for (var index = 0; index < files.length; index++) {
 			var file = files[index];
-			
+
 			fd.append('upload-' + index, file);
 		}
 
@@ -190,7 +190,7 @@ $(document).ready(function () {
 
 	$('.js-change-goodsPosition-priceType').on('change', function (e) {
 		var selectedTarget = $(this).data('target');
-		
+
 		var value = {
 			'default': ['0', '0'],
 			'contract_price': ['1', '0'],
@@ -205,7 +205,7 @@ $(document).ready(function () {
 
 		postData = JSON.stringify(postData);
 
-		$.post('/api/goodsPosition/upd', { data: postData }).done(function (result) {
+		$.post('/api/goodsPosition/changePriceType', { data: postData }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				if (result.message) {
