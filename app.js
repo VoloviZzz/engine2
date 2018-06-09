@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 const nodemailer = require('nodemailer');
 const favicon = require('serve-favicon');
 const fs = require('fs');
+const compression = require('compression');
 
 const app = express();
 
@@ -13,6 +14,8 @@ const config = require('./config');
 const db = require('./app/libs/db');
 
 const Model = require('./app/models/index');
+
+app.use(compression());
 
 // app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'app', 'public')));
@@ -114,8 +117,6 @@ const transporter = nodemailer.createTransport({
 });
 
 app.transporter = transporter;
-
-const fragments = require('./app/libs/fragments')(app);
 
 db.connect(db.MODE_TEST, async (err) => {
 	if (err) throw new Error(err);

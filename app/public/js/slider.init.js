@@ -1,12 +1,10 @@
-'use strict';
-
 $(document).ready(function () {
 
-	var sliderItemHeight = void 0,
-	    carouselItemHeight = void 0;
-	var carouselItemsCount = void 0,
-	    carouselItemWidth = void 0;
-	var windowWidth = void 0;
+	var sliderItemHeight = 0,
+		carouselItemHeight = 0;
+	var carouselItemsCount = 0,
+		carouselItemWidth = 0;
+	var windowWidth = 0;
 
 	windowWidth = $(window).width();
 
@@ -22,9 +20,9 @@ $(document).ready(function () {
 		e.stopPropagation();
 	});
 
-	$('#carousel li').css({ width: carouselItemWidth });
+	// $('#carousel li').css({ width: carouselItemWidth });
 
-	$('#carousel').flexslider({
+	var a = $('#carousel').flexslider({
 		animation: "slide",
 		controlNav: false,
 		slideshow: false,
@@ -32,7 +30,7 @@ $(document).ready(function () {
 		itemMargin: 10,
 		asNavFor: '#slider',
 		mousewheel: true,
-		keyboard: false
+		keyboard: false,
 	});
 
 	$('#slider').flexslider({
@@ -42,7 +40,7 @@ $(document).ready(function () {
 		touch: false,
 		animationLoop: false,
 		slideshow: false,
-		sync: "#carousel"
+		sync: "#carousel",
 	});
 
 	$('#alert-slider').flexslider({
@@ -95,13 +93,11 @@ $(document).ready(function () {
 		e.preventDefault();
 		return false;
 	});
-});
 
-// Открытие закрытие мобильного слайдера
-document.addEventListener('DOMContentLoaded', function(){
-  $('.accordeon-menu__item-link').click(function(e){
-      e.preventDefault();
-      $('.accordeon-menu__item').removeClass('accordeon-menu__item--active');
-      $(this).parent(".accordeon-menu__item").addClass('accordeon-menu__item--active');
-  });
-})
+	// Открытие закрытие мобильного слайдера
+	$('.accordeon-menu__item-link').click(function (e) {
+		e.preventDefault();
+		$('.accordeon-menu__item').removeClass('accordeon-menu__item--active');
+		$(this).parent(".accordeon-menu__item").addClass('accordeon-menu__item--active');
+	});
+});

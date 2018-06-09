@@ -98,10 +98,6 @@ Search.prototype.showUnnamed = function () {
 
 class AdvancedFiler {
 
-	constructor() {
-
-	}
-
 	clearFields() {
 		$('.js-advanced-item').val("");
 		return true;
@@ -140,6 +136,28 @@ $(document).ready(() => {
 
 	var search = new Search();
 	let advancedFilter = new AdvancedFiler();
+
+	var getUrlParameter = function getUrlParameter(sParam) {
+		var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			sURLVariables = sPageURL.split('&'),
+			sParameterName,
+			i;
+
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : sParameterName[1];
+			}
+		}
+	};
+
+	var fullnameUrlQuery = getUrlParameter('fullname');
+
+	if(!!fullnameUrlQuery === true) {
+		$('#search-fio').val(fullnameUrlQuery);
+		findGrave();
+	}
 
 	$('.js-advanced-item').on('change', () => {
 		return findGrave();
@@ -216,7 +234,6 @@ $(document).ready(() => {
 
 		part = part || 0;
 
-		let str = $('#search-fio').val().trim();
 		let search_mode = State.searchMode;
 
 		let fullname = $('#search-fio').val().trim();
@@ -262,9 +279,6 @@ $(document).ready(() => {
 		$('.search-info').hide();
 
 		$.post("/api/search-deads/search", postData).done(res => {
-			
-			console.log(res);
-			
 			if (res.status == 'ok') {
 
 				if (part == 0) $('#search-list').html('');
