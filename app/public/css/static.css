@@ -66,6 +66,10 @@ body {
     justify-content: space-between;
 }
 
+.section-left-body {
+	overflow: hidden;
+}
+
 
 .text-indent > p {
     text-indent: 15px;
@@ -729,6 +733,7 @@ table {
 .menu-container.menu-container__active {
     display: flex;
     transform: translate3d(0, 0, 0);
+    overflow-y: auto;
 }
 
 .toggle-menu:before {
@@ -848,6 +853,7 @@ textarea.input-text {
 
     .section-left__active {
         display: block;
+        overflow-y: auto;
     }
 
     .section-left {
@@ -859,6 +865,14 @@ textarea.input-text {
         height: calc(100% - 60px);
         bottom: 0px;
         margin-top: 60px;
+    }
+
+    .footer-social {
+    	font-size: 27px;
+    }
+
+    .social-btn {
+    	height: 29px;
     }
 }
 
@@ -978,5 +992,3 @@ blockquote {
     padding-right: 8px;
     border-left-width: 5px;
 }
-
-
