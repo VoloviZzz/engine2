@@ -599,9 +599,13 @@ table {
     border-color: #ef6c35;
 }
 
+* {
+	/* outline: 1px dashed red; */
+}
+
 .place-item {
     width: 100%;
-    display: inline-flex;
+    /* display: inline-flex; */
     border: 1px #c3c3c3 solid;
     border-radius: 2px;
     padding: 10px;
@@ -614,14 +618,18 @@ table {
 }
 
 .place-img-wrapp {
-    max-width: 100px;
+    width: 20%;
     margin: 0 auto;
+	display: inline-block;
+	vertical-align: top;
+	max-width: 260px;
 }
 
 .place-img-wrapp img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 96%;
     display: block;
+	margin: .5em auto;
+	max-height: 200px;
 }
 
 .place__buttons {
@@ -634,9 +642,12 @@ table {
 }
 
 .place__pairs {
-    flex: 1;
+    /*flex: 1;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row wrap;*/
+	display: inline-block;
+	vertical-align: top;
+	width: 80%;
 }
 
 .place__title {
@@ -644,15 +655,34 @@ table {
     text-align: center;
     margin-bottom: 20px;
     flex: 1;
+	display: inline-block;
+	width: 40%;
+}
+
+.place__title h1 {
+	font-size: 28px;
+	margin: .5em;
+}
+.place__title h2 {
+	font-size: 18px;
+	margin-bottom: 1.5em;
+}
+
+.place__title h3 {
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .place__info {
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
-    text-align: center;
+    text-align: left;
     flex-flow: row wrap;
     align-items: stretch;
-    flex: 1;
+    /* flex: 1; */
+	display: inline-block;
+	vertical-align: top;
+	width: 60%;
 }
 
 .place__info-name {
@@ -673,7 +703,9 @@ table {
 }
 
 .place__buttons.search-result_buttons {
-    width: 100%;
+    width: 40%;
+	display: inline-block;
+	text-align: center;
 }
 
 .place-graves {
@@ -681,14 +713,25 @@ table {
     border-bottom: 1px #c3c3c3 solid;
     padding: 10px 0px;
 }
+.place-arow__body > div.place-graves:last-child {
+	border-bottom: none;
+}
+
+.place-general a {
+	text-decoration: underline !important;
+}
 
 .place-general {
-    width: 25% !important;
+	display: inline-block;
+	vertical-align: top;
+    width: 60% !important;
+	text-align: center;
 }
 
 .place__arow {
-    width: 55% !important;
-    padding: 5px 20px !important;
+    width: 100%;
+	margin-top: 10px;
+    padding: 10px 0 !important;
 }
 
 .hidden-graves {
@@ -838,7 +881,7 @@ textarea.input-text {
     }
 
     .place__info > div {
-        width: 100% !important;
+        /* width: 100% !important; */
     }
 
     /*.aside-toggle {
@@ -896,9 +939,48 @@ textarea.input-text {
     }
 }
 
+@media (max-width: 1199px) {
+	.place__title h1 { font-size: 18px; }
+}
+
+@media (max-width: 991px) {
+	.personaly-img-wrapp img {
+		width: 260px !important;
+		height: auto !important;
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+@media (min-width: 426px) and (max-width: 600px) {
+	.place-img-wrapp {width: 260px; display: block; margin: 0 auto;}
+	.place__pairs { width: 100%; }
+	.place__title { width: 100%; }
+	.place__info { width: 100%; }
+	.place-general {width: 70% !important;}
+	.place__buttons { width: 30% !important; }
+}
+@media (max-width: 425px) {
+	.place-img-wrapp {width: 260px; display: block; margin: 0 auto;}
+	.place__pairs { width: 100%; }
+	.place__title { width: 100%; }
+	.place__info { width: 100%; }
+	.place-general {width: 100% !important;}
+	.place__buttons { width: 100% !important; }
+}
+
+@media (min-width: 601px) and (max-width: 767px) {
+	.place-img-wrapp {width: 40%;}
+	.place__pairs { width: 60%; }
+	.place__title { width: 100%; }
+	.place__info { width: 100%; }
+	.place-general {width: 60% !important;}
+	.place__buttons { width: 40%; }
+}
+
 @media (min-width: 768px) and (max-width: 991px) {
     .place-item {
-        width: 48%;
+        /* width: 48%; */
         margin: auto;
         margin-bottom: 6px;
     }
@@ -906,7 +988,7 @@ textarea.input-text {
     .place__info > div {
         width: 100% !important;
     }
-
+	
     /*.header-menu-center li {
         margin: 0px 20px;
     }*/
@@ -916,9 +998,10 @@ textarea.input-text {
     .place__buttons.search-result_buttons {
         width: 100%;
     }
+	
 
     .place-item {
-        width: 48%;
+        width: 100%;
         margin-bottom: 6px;
     }
 
@@ -933,7 +1016,7 @@ textarea.input-text {
 
 @media (min-width: 1200px) {
     .place__buttons.search-result_buttons {
-        width: 20%;
+        width: 40%;
     }
 
     .place-item {

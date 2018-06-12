@@ -16,17 +16,18 @@
 				else { %>
 					<img src="<%= imageNotFound %>" />
 				<% } %>
-			</div>
-			<div class="place__pairs search__pairs-wrapp">
+			</div><%
+			%><div class="place__pairs search__pairs-wrapp">
 				<div class="place__pair place__title search__pair search__title">
 					<div>
-						<h1 class="fs-regular dead-name noinit"><%=g.surname%> <%=g.firstname%> <%=g.patronymic%></h1>
+						<div class="fs-regular dead-name noinit">
+							<h1><%=g.surname%></h1>
+							<h2><%=g.firstname%> <%=g.patronymic%></h2>
+						</div>
 					</div>
-					<div>
-						<span class="fs-regular"><%=g.born_day%>.<%=g.born_month%>.<%=g.born_year%> - <%=g.die_day%>.<%=g.die_month%>.<%=g.die_year%></span>
-					</div>
-				</div>
-				<div class="place__info">
+					<h3><%=g.born_day%>.<%=g.born_month%>.<%=g.born_year%> - <%=g.die_day%>.<%=g.die_month%>.<%=g.die_year%></h3>
+				</div><%
+				%><div class="place__info">
 					<div class="place__pair place-general search__pair">
 						<div>
 							<span class="place__info-name">Кладбище:</span>
@@ -55,31 +56,10 @@
 								<b>Одиночное захоронение</b>
 							</div>
 						<% } %>
-					</div>
+						
+					</div><%
 					
-					<% if (g.place && typeof g.near !== "undefined") { %>
-						<div class="place__pair search__pair place__arow">
-							<div>
-								<span class="place__info-name">Захоронены рядом</span>
-							</div>
-							<div class="place-arow__body">
-								<% for (id in g.near) {
-									var n = g.near[id]; %>
-								
-									<div class="place-graves">
-										<div>
-											<a href="/person/<%= n.id %>" target="_blank">
-												<p><%=n.surname%> <%=n.firstname%> <%=n.patronymic%></p>
-											</a>
-										</div>
-									</div>
-								
-								<% } %>
-								<div class="hidden-graves"></div>
-							</div>
-						</div>
-					<% } %>
-					<div class="place__buttons search-result_buttons">
+					%><div class="place__buttons search-result_buttons">
 						<div>
 							<a href="/person/<%= g.id %>" class="btn">Открыть</a>
 						</div>
