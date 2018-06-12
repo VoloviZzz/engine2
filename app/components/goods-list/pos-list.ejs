@@ -16,9 +16,14 @@
 					</a>
 				</div>
 				<div class="goods-item__price">
-					<span>
-						<%= Helpers.formatPrice(p.price) + 'р.' -%>
-					</span>
+					<% if(p.float_price) { %>
+						<span style="text-transform: none;">От</span>
+						<span><%= Helpers.formatPrice(p.price) %> руб.</span>
+					<% } else if(p.contract_price) { %>
+						<span style="text-transform: none;">Договорная</span>
+					<% } else { %>
+						<span><%= Helpers.formatPrice(p.price) %> руб.</span>
+					<% } %>
 					<a href="/product/<%= p.id -%>" class="btn">Купить</a>
 				</div>
 			</div>

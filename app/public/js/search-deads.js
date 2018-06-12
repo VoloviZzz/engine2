@@ -98,10 +98,6 @@ Search.prototype.showUnnamed = function () {
 
 class AdvancedFiler {
 
-	constructor() {
-
-	}
-
 	clearFields() {
 		$('.js-advanced-item').val("");
 		return true;
@@ -141,6 +137,28 @@ $(document).ready(() => {
 	var search = new Search();
 	let advancedFilter = new AdvancedFiler();
 
+	var getUrlParameter = function getUrlParameter(sParam) {
+		var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+			sURLVariables = sPageURL.split('&'),
+			sParameterName,
+			i;
+
+		for (i = 0; i < sURLVariables.length; i++) {
+			sParameterName = sURLVariables[i].split('=');
+
+			if (sParameterName[0] === sParam) {
+				return sParameterName[1] === undefined ? true : sParameterName[1];
+			}
+		}
+	};
+
+	var fullnameUrlQuery = getUrlParameter('fullname');
+
+	if(!!fullnameUrlQuery === true) {
+		$('#search-fio').val(fullnameUrlQuery);
+		findGrave();
+	}
+
 	$('.js-advanced-item').on('change', () => {
 		return findGrave();
 	})
@@ -162,8 +180,23 @@ $(document).ready(() => {
 		return findGrave(part);
 	});
 
+	$('#send-error-report').on('click', function (e) {
+		let reportText = $('#error-report-text').val().trim();
+		let postData = {
+			ctrl: 'add_error_report',
+			reportText
+		}
+
+		$.post('', postData).done(result => {
+			if (result.status == 'success') {
+				return location.reload();
+			}
+		})
+	})
+
 	$('#search-clear-str').on('click', () => {
 		$('#search-fio').val('');
+		history.pushState(null, null, '/search');
 		$('#search-list').html('');
 		$('.search-error').hide();
 		$('.search-info').show();
@@ -197,23 +230,16 @@ $(document).ready(() => {
 		$('.advanced_search').toggleClass('advanced_search__showed');
 	})
 
-	var urlFullName = getParameterByName('fullname');
-
-	if (urlFullName) {
-		findGrave(0, urlFullName);
-	}
-
-	function findGrave(part, fullname = false) {
+	function findGrave(part) {
 
 		part = part || 0;
 
-		var str = $('#search-fio').val().trim();
-		var search_mode = State.searchMode;
+		let search_mode = State.searchMode;
 
-		var fullname = fullname || $('#search-fio').val().trim();
+		let fullname = $('#search-fio').val().trim();
 		fullname = fullname.replace(/\s+/g, " ");
 
-		var postData = {
+		let postData = {
 			fullname: fullname || '',
 			ctrl: 'search_grave',
 			part,

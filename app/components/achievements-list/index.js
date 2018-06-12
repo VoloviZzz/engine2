@@ -10,7 +10,7 @@ module.exports = (app) => {
 		var [error, achievements] = await Model.achievements.get();
 		if (error) throw new Error(error);
 
-		const countOnPage = 3;
+		const countOnPage = 10;
 		const curPage = locals.reqQuery.page || 1;
 		const pagOffset = (curPage - 1) * countOnPage;
 

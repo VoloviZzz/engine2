@@ -58,8 +58,8 @@ table {
 }
 
 .personaly-table tr {
-	border: 1px solid;
-	margin: 5px 0px;
+	border: 1px solid #c3c3c3;
+	margin: 5px 3px;
 	width: 100%;
 }
 
