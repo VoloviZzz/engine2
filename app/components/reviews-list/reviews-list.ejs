@@ -1,11 +1,16 @@
+<br />
+<br />
+
 <div class="reviews-list-wrapp">
 	<ul class="reviews-list">
 		<% reviews.map(r => { %>
 			<% if(r.published == 0 && r.client_id != user.id) return false; %>
+			<% if(!r.by_client_retail_id && !r.clientName) return false; %>
+			<% if(r.client_id == 6477) return false; %>
 			<li class="reviews-item" data-id="<%= r.id %>">
 				<% if(session.user.adminMode) { %>
 					<div class="text-right">
-						<% if(r.published == '0') { %>
+						<% if(r.published == "0") { %>
 								<button class="btn js-reviews-togglePublished" data-id="<%= r.id -%>">Опубликовать</button>
 						<% } %>
 						<button class="btn js-reviews-delete" data-id="<%= r.id -%>">Удалить</button>
@@ -15,12 +20,26 @@
 					<div class="reviews-wrap-items">
 						<div class="reviews-title">
 							<div>
-								<span class="reviews-name"><%= r.clientName || 'Неизвестно' -%></span>
-								<% if(r.published == 0 && r.client_id == session.user.id) { %>
+								<span class="reviews-name"><span class="fa fa-user"></span> <%
+								
+									if (r.by_client_retail_id) {
+										%><%= r.by_client_name %><%
+										%><span style="color:red;" title="Данный отзыв был добавлен на сайт ритуальным агентом по просьбе клиента">
+											<span class="fa fa-handshake-o"></span>
+											<span class="fa fa-question-circle"></span>
+										</span><%
+									}
+									else {
+										%><%= r.clientName -%><%
+									}
+									
+								%></span><%
+
+								if(r.published == 0 && r.client_id == session.user.id) { %>
 									<span>(Отзыв находится на модерации)</span>
 								<% } %>
 							</div>
-							<span class="reviews-time"><%=Helpers.formatDate(r.created, 'dd MMMM yyyy, hh:mm')%></span>
+							<span class="reviews-time"><%=Helpers.formatDate(r.created, "dd MMMM yyyy, hh:mm")%></span>
 						</div>
 						<div class="reviews-text">
 							<%- Helpers.replaceLineBreaks(r.text) -%>

@@ -46,7 +46,7 @@
             </div>
 			<div class="news-meta-wrapp">
 				<div class="news__content text-right">
-					<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+					<span>Опубликовано: <%=new Date(n.created).format("dd.mm.yyyy HH:MM")//= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
 				</div>
 			</div>
         </article>
