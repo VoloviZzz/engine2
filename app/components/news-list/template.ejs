@@ -5,52 +5,10 @@
 			<button class="btn news-add js-news-add">Добавить</button>
 		</div>
 	<% } %>
-	<% news.map(n => { %>
-		<% if((n.public == '0') && user.adminMode == false) return false; %>
-		<article class="news__item">
-            <% if(user.adminMode) { %>
-                <div class="admin-control-container">
-                    <button data-id="<%= n.id -%>" class="btn news-delete js-news-delete">Удалить</button>
-                    <% if(n.public) { %>
-						<button data-id="<%= n.id -%>" data-value="0" class="btn news-publicate js-news-togglePublication">Снять с публикации</button>
-					<% } else { %>
-						<button data-id="<%= n.id -%>" data-value="1" class="btn news-publicate js-news-togglePublication">Публиковать</button>
-					<% } %>
-					<label class="btn news-change-photo">
-						<input type="file" class="js-news-upload-mainphoto" data-id="<%= n.id -%>" id="news-upload-mainphoto" style="display: none">
-                    	<span>Изменить фото</span>
-					</label>
-                </div>
-            <% } %>
-            <div class="news__img-wrapp">
-                <a href="/news-id/<%= n.id -%>" class="news__img-link">
-                    <img class="news__img" src="<%= n.main_photo -%>" alt="Картинка поста">
-                </a>
-            </div>
-            <div class="news__title-wrap">
-                <h2 class="news__title">
-					<% if(user.adminMode) { %>
-						<input class="news-title-edit js-news-update input-text" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
-					<% } else { %>
-						<a href="/news-id/<%= n.id -%>" class="news__title-link">
-							<span><%= n.title %></span>
-						</a>
-					<% } %>
-                </h2>
-            </div>
-            <div class="news__content-wrapp">
-                <div class="news__content">
-					<p><%- Helpers.trimStr(n.text, 75) -%></p>
-					<a href="/news-id/<%= n.id -%>" class="news__content-link">Читать далее...</a>
-                </div>
-            </div>
-			<div class="news-meta-wrapp">
-				<div class="news__content text-right">
-					<span>Опубликовано: <%=new Date(n.created).format("dd.mm.yyyy HH:MM")//= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
-				</div>
-			</div>
-        </article>
-	<% }) %>
+	<% if(user.adminMode) { %>
+		<%- include('./news-list.ejs', { news: newsNotPublic }) -%>	
+	<% } %>
+	<%- include('./news-list.ejs', { news: news }) -%>
 </div>
 <div class="pagination">
 	<a class="pagination__to-begin pagination__action-link" href="/news">в начало</a>

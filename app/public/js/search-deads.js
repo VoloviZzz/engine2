@@ -47,7 +47,7 @@ Search.prototype.showUnindent = function () {
 	this.unindentLoader.show();
 	$.post(
 		'',
-		{ ctrl: 'getUnindent', cemetery, part: this.unindentPart },
+		{ ctrl: 'getUnindent', cemetery: cemetery, part: this.unindentPart },
 		function (data) {
 			data = JSON.parse(data);
 			if (data.status == 'ok') {
@@ -80,7 +80,7 @@ Search.prototype.showUnnamed = function () {
 	this.unnamedLoader.show();
 	$.post(
 		'',
-		{ ctrl: 'getUnnamed', cemetery, part: this.unnamedPart },
+		{ ctrl: 'getUnnamed', cemetery: cemetery, part: this.unnamedPart },
 		function (data) {
 			console.log(data);
 			data = JSON.parse(data);
@@ -96,32 +96,33 @@ Search.prototype.showUnnamed = function () {
 	);
 }
 
-class AdvancedFiler {
+function AdvancedFiler() {
 
-	clearFields() {
-		$('.js-advanced-item').val("");
-		return true;
-	}
+}
 
-	getData() {
-		return {
-			surname: $('#search-f').val().trim() || '',
-			firstname: $('#search-i').val().trim() || '',
-			patronymic: $('#search-o').val().trim() || '',
-			placeNumber: $('#search-p').val().trim() || '',
-			graveNumber: $('#search-g').val().trim() || '',
-			dieDay: $('#search-day-death').val().trim() || '',
-			bornDay: $('#search-day-birthday').val().trim() || '',
-			bornMonth: $('#search-month-birthday').val().trim() || '',
-			bornYear: $('#search-year-birthday').val().trim() || '',
-			dieMonth: $('#search-month-death').val().trim() || '',
-			dieYear: $('#search-year-death').val().trim() || '',
-			cemetery: $('#search-cemetery').val() || '',
-		}
+AdvancedFiler.prototype.clearFields = function () {
+	$('.js-advanced-item').val("");
+	return true;
+}
+
+AdvancedFiler.prototype.getData = function () {
+	return {
+		surname: $('#search-f').val().trim() || '',
+		firstname: $('#search-i').val().trim() || '',
+		patronymic: $('#search-o').val().trim() || '',
+		placeNumber: $('#search-p').val().trim() || '',
+		graveNumber: $('#search-g').val().trim() || '',
+		dieDay: $('#search-day-death').val().trim() || '',
+		bornDay: $('#search-day-birthday').val().trim() || '',
+		bornMonth: $('#search-month-birthday').val().trim() || '',
+		bornYear: $('#search-year-birthday').val().trim() || '',
+		dieMonth: $('#search-month-death').val().trim() || '',
+		dieYear: $('#search-year-death').val().trim() || '',
+		cemetery: $('#search-cemetery').val() || '',
 	}
 }
 
-$(document).ready(() => {
+$(document).ready(function () {
 
 	function pressedEnter(e) {
 
@@ -154,12 +155,12 @@ $(document).ready(() => {
 
 	var fullnameUrlQuery = getUrlParameter('fullname');
 
-	if(!!fullnameUrlQuery === true) {
+	if (!!fullnameUrlQuery === true) {
 		$('#search-fio').val(fullnameUrlQuery);
 		findGrave();
 	}
 
-	$('.js-advanced-item').on('change', () => {
+	$('.js-advanced-item').on('change', function () {
 		return findGrave();
 	})
 
@@ -184,17 +185,17 @@ $(document).ready(() => {
 		let reportText = $('#error-report-text').val().trim();
 		let postData = {
 			ctrl: 'add_error_report',
-			reportText
+			reportText: reportText
 		}
 
-		$.post('', postData).done(result => {
+		$.post('', postData).done(function (result) {
 			if (result.status == 'success') {
 				return location.reload();
 			}
 		})
 	})
 
-	$('#search-clear-str').on('click', () => {
+	$('#search-clear-str').on('click', function () {
 		$('#search-fio').val('');
 		history.pushState(null, null, '/search');
 		$('#search-list').html('');
@@ -242,8 +243,8 @@ $(document).ready(() => {
 		let postData = {
 			fullname: fullname || '',
 			ctrl: 'search_grave',
-			part,
-			search_mode,
+			part: part,
+			search_mode: search_mode,
 		};
 
 		const advancedData = advancedFilter.getData();
@@ -257,7 +258,7 @@ $(document).ready(() => {
 
 			delete postData.fullname;
 
-			let validData = Object.keys(advancedData).some(d => {
+			let validData = Object.keys(advancedData).some(function (d) {
 				dValue = advancedData[d];
 
 				if (dValue !== '') {
@@ -273,12 +274,12 @@ $(document).ready(() => {
 			}
 		}
 
-		if (part == 0) $('#search-list').html(`<img id="search-loader" src="/img/load.gif" style="margin: 20px auto; display: block;">`);
+		if (part == 0) $('#search-list').html('<img id="search-loader" src="/img/load.gif" style="margin: 20px auto; display: block;">');
 
 		$('.search-error').hide();
 		$('.search-info').hide();
 
-		$.post("/api/search-deads/search", postData).done(res => {
+		$.post("/api/search-deads/search", postData).done(function (res) {
 			if (res.status == 'ok') {
 
 				if (part == 0) $('#search-list').html('');
@@ -288,10 +289,10 @@ $(document).ready(() => {
 				if (postData.search_mode != 'advanced') {
 					let nameParts = postData.fullname.split(' ');
 
-					$('.dead-name.noinit').each((i, item) => {
+					$('.dead-name.noinit').each(function (i, item) {
 						item = $(item);
 						var name = item.text();
-						nameParts.forEach(part => {
+						nameParts.forEach(function (part) {
 							var re = new RegExp(part, "ig")
 							name = name.replace(re, '<span style="background:yellow;">' + part + '</span>');
 						});
@@ -316,7 +317,7 @@ $(document).ready(() => {
 			}
 		});
 	}
-	
+
 	$('#search-fio').focus();
-	
+
 })

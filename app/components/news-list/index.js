@@ -12,9 +12,10 @@ module.exports = (app) => {
 				locals: {},
 			};
 
-			const [, news] = await Model.news.get({ orderBy: 'created DESC' });
+			const [, news] = await Model.news.get({ public: '1', orderBy: 'created DESC' });
+			const [, newsNotPublic] = await Model.news.get({ public: '0', orderBy: 'created DESC' });
 
-			const countOnPage = 10;
+			const countOnPage = 2;
 			const curPage = locals.reqQuery.page || 1;
 			const pagOffset = (curPage - 1) * countOnPage;
 
@@ -51,6 +52,7 @@ module.exports = (app) => {
 
 			dataViews.news = resArray;
 			dataViews.pagination = pagination;
+			dataViews.newsNotPublic = newsNotPublic;
 
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
