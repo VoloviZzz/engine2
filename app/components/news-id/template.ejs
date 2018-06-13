@@ -36,7 +36,7 @@
 				<%-news.text-%>
 				<a href="<%= news.source_link -%>" style="text-decoration: underline"><b>Ссылка на источник</b></a>
 				<div class="text-right">
-					<span>Опубликовано <%= Helpers.formatDate(news.published, 'dd MMMM yyyy в hh:mm') -%></span>
+					<span>Опубликовано <%= new Date(news.created).format("dd.mm.yyyy HH:MM") -%></span>
 				</div>
 			<% } %>
 		</div>

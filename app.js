@@ -8,6 +8,8 @@ const favicon = require('serve-favicon');
 const fs = require('fs');
 const compression = require('compression');
 
+require('x-date');
+
 const app = express();
 
 const config = require('./config');

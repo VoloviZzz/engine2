@@ -316,4 +316,7 @@ $(document).ready(() => {
 			}
 		});
 	}
+	
+	$('#search-fio').focus();
+	
 })

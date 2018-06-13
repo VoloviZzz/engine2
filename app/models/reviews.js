@@ -24,7 +24,7 @@ exports.get = (arg = {}) => {
 	id = !!id === true ? `AND r.id = '${id}'` : ``;
 	client_id = !!client_id === true ? `AND r.client_id = '${client_id}'` : ``;
 	public = typeof public !== "undefined" ? `AND r.published = '${public}'` : ``;
-	targetType = !!targetType === true ? `AND r.target_type = '${targetType}'` : ``;
+	targetType = typeof targetType !== 'undefined' ? `AND r.target_type = '${targetType}'` : ``;
 	targetId = !!targetId === true ? `AND r.target_id = '${targetId}'` : ``;
 	limit = !!limit === true ? `LIMIT ${limit}` : ``;
 
