@@ -88,6 +88,33 @@
 			<% } %>
 		</ul>
 	</div>
+
+	<div class="mobile-nav">
+	<ul class="accordeon-menu">
+		<% slides.map((s, index) => { %>
+	    <li class="accordeon-menu__item <%= index == 0 ? 'accordeon-menu__item--active' : '' -%>">
+	        <div class="accordeon-menu__item-content">
+	        	<div class="slider-info" style="background-image: url(<%= s.img || s.img_bottom %>)">
+	        		<div class="slider-info__wrapper">
+	        			<h1><%= s.title %></h1>
+	        			<div class="text-center">
+	        				<%- s.description %>
+	        			</div>
+	        			<div class="slider-action">
+	        				<% s.moreBtnText = 'moreBtnText' in s === false ? 'Подробнее' : s.moreBtnText %>
+									<% if( ('moreBtnText' in s && s.moreBtnText != '') || 'moreBtnText' in s === false ) { %>
+										<a href="<%= s.href %>" class="btn"><%= s.moreBtnText  -%></a>
+									<% } %>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordeon-menu__item-link"><%= s.title_bottom || s.title %></div>
+				</li>	
+			<% }) %>	
+		</ul>
+	</div>
+<!--	
 	<div class="mobile-nav">
 		<ul>
 			<% slides.map(s => { %>
@@ -100,7 +127,7 @@
 				</li>
 			<% }) %>
 		</ul>
-	</div>
+	</div>-->
 </div>
 <script defer src="/js/slider.init.js"></script>
 <script defer type="text/javascript" src="/vendors/flexSlider/jquery.flexslider.js"></script>
