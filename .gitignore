@@ -7,6 +7,9 @@ node_modules/
 
 config/index.js
 
+app/public/old/*
+!app/public/old/readme.txt
+
 app/public/photos/*
 !app/public/photos/readme.txt
 

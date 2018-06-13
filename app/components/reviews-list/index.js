@@ -5,7 +5,7 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const [, reviews] = await Model.reviews.get();
+		const [, reviews] = await Model.reviews.get({ targetType: '', });
 		const [, reviewsNotPublished] = await Model.reviews.get({public: '0'});
 
 		dataViews.reviews = reviews;
