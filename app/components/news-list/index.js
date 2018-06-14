@@ -1,5 +1,6 @@
 const path = require('path');
 const Model = require('../../models');
+const Pagination = require('../../libs/pagination');
 
 module.exports = (app) => {
 	return (data = {}) => {
@@ -15,40 +16,10 @@ module.exports = (app) => {
 			const [, news] = await Model.news.get({ public: '1', orderBy: 'created DESC' });
 			const [, newsNotPublic] = await Model.news.get({ public: '0', orderBy: 'created DESC' });
 
-			const countOnPage = 2;
-			const curPage = locals.reqQuery.page || 1;
-			const pagOffset = (curPage - 1) * countOnPage;
+			var [, [{ countNews }]] = await app.db.execQuery(`SELECT COUNT(id) as countNews FROM news WHERE public = '1'`);
+			const pagination = new Pagination({ countOnPage: 10, currentPage: locals.reqQuery.page, allCountPosts: countNews });
 
-			if (pagOffset < 0) {
-				pagOffset = 0;
-			}
-
-			let countPages = news.length / countOnPage;
-
-			if (Number.isInteger(countPages) === false) {
-				countPages = parseInt(countPages + 1)
-			}
-
-			let resArray = news.slice(pagOffset, pagOffset + countOnPage);
-
-			let pagLeft = curPage - 3;
-			let pagRight = +curPage + 3;
-
-			if (pagLeft < 1) {
-				pagRight += +Math.abs(pagLeft);
-				pagLeft = 1;
-			}
-
-			if (pagRight > countPages) {
-				pagRight = countPages + 1;
-			}
-
-			const pagination = {
-				left: pagLeft,
-				right: pagRight,
-				curPage,
-				countPages
-			}
+			let resArray = news.slice(pagination.options.offset, pagination.options.offset + pagination.options.countOnPage);
 
 			dataViews.news = resArray;
 			dataViews.pagination = pagination;

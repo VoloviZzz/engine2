@@ -10,13 +10,7 @@
 	<% } %>
 	<%- include('./news-list.ejs', { news: news }) -%>
 </div>
-<div class="pagination">
-	<a class="pagination__to-begin pagination__action-link" href="/news">в начало</a>
-	<% for(let i = pagination.left; i < pagination.right; i++) { %>
-			<a class="pagination-item <%=pagination.curPage == i ? `pagination-item__active` : ``%>" href="/news?page=<%=i%>"><%=i%></a>
-	<% } %>
-	<a class="pagination__to-end pagination__action-link" href="/news?page=<%=pagination.countPages%>">в конец</a>
-</div>
+<%- pagination.render() -%>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/news-list.js" defer></script>
 	<script src="/admins/js/news-id.js" defer></script>
