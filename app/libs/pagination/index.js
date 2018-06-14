@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 class Pagination {
-	constructor({ countOnPage = 10, currentPage = 1, allCountPosts = 100, pageUrlQuery = {} }) {
+	constructor({ countOnPage = 10, currentPage = 1, allCountPosts = 100, pageUrlQuery = {}, paramName = 'page' }) {
 
 		let offset = (countOnPage) * (currentPage - 1);
 
@@ -39,7 +39,7 @@ class Pagination {
 
 		for (let i = pagination.left; i < pagination.right; i++) {
 			let obj = { ...pageUrlQuery };
-			obj.page = i;
+			obj[paramName] = i;
 
 			pagination.urls.push({ page: i, url: querystring.stringify(obj) });
 		}
