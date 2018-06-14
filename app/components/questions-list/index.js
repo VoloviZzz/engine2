@@ -7,9 +7,20 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const [, questions] = await Model.questions.get({public: '1'});
-		const [, questionsNotPublished] = await Model.questions.get({public: '0'});
+		const [, cats] = await Model.questions.get({ type: 'category', });
+		const [, questions] = await Model.questions.get({ type: 'question', public: '1' });
+		const [, questionsNotPublished] = await Model.questions.get({ type: 'question', public: '0' });
 
+		cats.forEach((cat, i) => {
+			questions.forEach(q => {
+				if (q.category_id == cat.id) {
+					if (!cats[i].questions) cats[i].questions = [];
+					cats[i].questions.push(q);
+				}
+			});
+		});
+
+		dataViews.cats = cats;
 		dataViews.questions = questions || [];
 		dataViews.questionsNotPublished = questionsNotPublished || [];
 		dataViews.session = session;

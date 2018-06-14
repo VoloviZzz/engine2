@@ -7,10 +7,18 @@
 			<li class="tab tab-all">Неопубликованные</li>
 		</ul>
 	<% } %>
-	<div class="tabs-content-wrap">
-		<div class="tab-content active">
-				<%- include('./question-list', { questions }) -%>		
-		</div>
+	<div class="tabs-content-wrap"><%
+		
+		%><div class="tab-content active"><%
+				
+				cats.map(c => {
+					%><h3><%= c.question %></h3><br /><%
+					%><%- include("./question-list", { questions : c.questions }) -%><%
+					
+				});
+				
+		%></div>
+		
 		<% if(session.user.adminMode) { %>
 			<div class="tab-content not-modered-reviews">
 				<%- include('./question-list', { questions: questionsNotPublished }) -%>
