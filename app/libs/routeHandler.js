@@ -17,8 +17,11 @@ module.exports = (app) => {
 		req.locals = {};
 
 		const routesObj = app.locals.routesList;
-		const reqUrl = urlLib.parse(req.url).pathname;
 		let routeSplit, route;
+
+		req.url = urlLib.parse(req.url).pathname;
+
+		const reqUrl = req.url;
 
 		res.locals.reqQuery = req.query;
 
