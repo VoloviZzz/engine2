@@ -17,7 +17,7 @@ module.exports = (app) => {
 		};
 
 		var [error, [{ reviews_count: countReviews }]] = await Model.reviews.getCount(reviewsCountParams);
-		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, currentPage: locals.reqQuery.reviewsPage, pageUrlQuery: locals.reqQuery, paramName: 'reviewsPage' });
+		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, paramName: 'reviewsPage', currentPage: locals.reqQuery.reviewsPage, pageUrlQuery: locals.reqQuery });
 		// ----------
 
 		const reviewsGet = {

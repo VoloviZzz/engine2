@@ -34,6 +34,7 @@ class Pagination {
 			countPages,
 			countOnPage,
 			offset,
+			paramName,
 			urls: []
 		}
 
