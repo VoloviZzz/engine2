@@ -5,13 +5,13 @@
 		<select class="js-change-fragment-target" data-fragment-id="<%= fragment.id -%>" name="target-post">
 			<option value="">Не выбрано</option>
 			<% for (let target of postTargets ) { %>
-				<option <%= currentTarget == target.title ? 'selected' : '' -%> value="<%= target.title -%>"><%= target.title -%></option>
+				<option <%= currentTarget == target.title ? "selected" : "" -%> value="<%= target.title -%>"><%= target.title -%></option>
 			<% } %>
 		</select>
 	</div>
 	<div>
 		<span>Добавить URL для публикаций: <small>(например: /posts)</small></span>
-		<input type="text" class="js-fragment-url-input" value="<%= fragment.settings.url || '' -%>"  data-fragment-id="<%= fragment.id -%>" placeholder="URl...">
+		<input type="text" class="js-fragment-url-input" value="<%= fragment.settings.url || "" -%>"  data-fragment-id="<%= fragment.id -%>" placeholder="URl...">
 		<button class="btn js-fragment-set-url">Добавить</button>
 	</div>
 <% } %>
@@ -22,7 +22,7 @@
 		</div>
 	<% } %>
 	<% posts.map(n => { %>
-		<% if((n.public == '0') && user.adminMode == false) return false; %>
+		<% if((n.public == "0") && user.adminMode == false) return false; %>
 		<article class="news__item">
             <% if(user.adminMode) { %>
                 <div class="admin-control-container">
@@ -39,9 +39,16 @@
                 </div>
             <% } %>
             <div class="news__img-wrapp">
-                <a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="news__img-link">
-                    <img class="news__img" src="<%= n.main_photo -%>" alt="Картинка поста">
-                </a>
+                
+				<% if (!n.video) { %>
+					<a href="/news-id/<%= n.id -%>" class="news__img-link">
+						<img class="news__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
+					</a>
+				<% }
+				else { %>
+					<%- n.video %>
+				<% } %>
+				
             </div>
             <div class="news__title-wrap">
                 <h2 class="news__title">
@@ -68,6 +75,7 @@
         </article>
 	<% }) %>
 </div>
+<%- pagination.render() -%>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/posts-list.js" defer></script>
 <% } %>
