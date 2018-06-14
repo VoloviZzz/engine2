@@ -1,7 +1,19 @@
 <link rel="stylesheet" href="/css/c_tabs.css">
 <link rel="stylesheet" href="/css/reviews-list.css">
 <div class="tabs-wrapper">
-	<% if(session.user.adminMode) { %>
+	<% if(user.adminMode) { %>
+		<div>
+			<p>Категория отзывов:</p>
+			<select class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" name="target-post">
+				<option value="">Не выбрано</option>
+				<% for (let target of reviewsCats ) { %>
+					<% var targetSelected = target.title == fragment.settings.targetType ? `selected` : '' %>;
+					<option value="<%= target.title -%>" <%= targetSelected -%> ><%= target.title -%></option>
+				<% } %>
+			</select>
+		</div>
+	<% } %>
+	<% if(user.adminMode) { %>
 		<ul class="tabs-titles-wrap">
 			<li class="tab active tab-all">Все</li>
 			<li class="tab tab-all">Неопубликованные</li>
@@ -10,8 +22,9 @@
 	<div class="tabs-content-wrap">
 		<div class="tab-content active">
 			<%- include('./reviews-list') -%>
-			<% if(session.user.id) { %>
-				<div class="reviews-add-wrapper">
+			<%- pagination.render() -%>
+			<% if(user.id) { %>
+				<div class="reviews-add-wrapper" id="js-reviews-add-wrapper" data-target-id="<%= agentId -%>" data-target-type="<%= fragment.settings.targetType -%>">
 					<textarea class="input-text new-reviews-text" id="add-review-text" name="reviews-text"></textarea>
 					<button class="btn new-reviews-button btn-inverse">Добавить</button>
 				</div>
@@ -23,7 +36,7 @@
 				</div>
 			<% } %>
 		</div>
-		<% if(session.user.adminMode) { %>
+		<% if(user.adminMode) { %>
 			<div class="tab-content not-modered-reviews">
 				<%- include('./reviews-list', { reviews: reviewsNotPublished }) -%>
 			</div>
@@ -31,6 +44,6 @@
 	</div>
 </div>
 <script src="/js/reviews-list.js" defer></script>
-<% if(session.user.adminMode) { %>
+<% if(user.adminMode) { %>
 	<script src="/admins/js/reviews-list.js" defer></script>
 <% } %>
