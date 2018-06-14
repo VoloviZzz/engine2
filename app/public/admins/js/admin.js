@@ -407,4 +407,28 @@ $(document).ready(function () {
 			return location.reload();
 		});
 	})
+
+	$('.js-fragment-update-settings').each(function (index, elem) {
+		var eventName = $(elem).data('event');
+
+		$(elem).on(eventName, function (e) {
+			var value = $(this).val();
+			var fragmentId = $(this).data('fragmentId');
+
+			var postData = {};
+
+			postData.target = 'targetType';
+			postData.value = value;
+			postData.fragment_id = fragmentId;
+
+			$.post('/api/fragments/updSettings', postData).done(function (result) {
+				if (result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message);
+				}
+
+				return location.reload();
+			});
+		})
+	})
 });
