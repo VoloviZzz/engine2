@@ -9,5 +9,6 @@ CKEDITOR.editorConfig = function (config) {
 	config.removePlugins = 'spellchecker,about,save,newpage,print,templates,scayt,flash,pagebreak,smiley,preview,find';
 	config.extraPlugins = 'lineheight,autogrow,codesnippet';
 	config.autoGrow_bottomSpace = 50;
+	config.autoGrow_onStartup = true;
 	config.contentsCss = '/css/imports/buttons-and-inputs.css';
 };
