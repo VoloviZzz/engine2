@@ -1,0 +1,1 @@
+ALTER TABLE `fragments` ADD `published` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Флаг публикации фрагмента' AFTER `settings`;

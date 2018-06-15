@@ -3,6 +3,7 @@ const db = require('../libs/db');
 exports.get = async (arg = {}) => {
 
 	arg.route_id = !!arg.route_id === true ? `AND f.route_id = ${arg.route_id}` : '';
+	arg.public = !!arg.public === true ? `AND f.published = '${arg.public}'` : '';
 	arg.id = 'id' in arg ? `AND f.id = ${arg.id}` : '';
 
 	const fragments = await db.execQuery(`
@@ -18,6 +19,7 @@ exports.get = async (arg = {}) => {
                 LEFT JOIN components c ON f.component_id = c.id
             WHERE f.id > 0 
                 ${arg.route_id}
+				${arg.public}
 				${arg.id}
             ORDER BY f.priority DESC, f.id ASc`
 	)
