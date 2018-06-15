@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="/css/cards-list.css">
+
+<div class="cards">
+	<% if(user.adminMode) { %>
+		<div class="admin-control-container cards-admin-control-container">
+			<button class="btn cards-add js-posts-add" data-target="<%= currentTarget -%>">Добавить</button>
+		</div>
+	<% } %>
+	<% posts.map(n => { %>
+		<article class="cards__item">
+            <% if(user.adminMode) { %>
+                <div class="admin-control-container">
+                    <button data-id="<%= n.id -%>" class="btn cards-delete js-post-delete">Удалить</button>
+                    <% if(n.public) { %>
+						<button data-id="<%= n.id -%>" data-value="0" class="btn cards-publicate js-post-togglePublication">Снять с публикации</button>
+					<% } else { %>
+						<button data-id="<%= n.id -%>" data-value="1" class="btn cards-publicate js-post-togglePublication">Публиковать</button>
+					<% } %>
+					<label class="btn cards-change-photo">
+						<input type="file" class="js-post-upload-mainphoto" data-id="<%= n.id -%>" id="post-upload-mainphoto" style="display: none">
+                    	<span>Изменить фото</span>
+					</label>
+                </div>
+            <% } %>
+            <div class="cards__img-wrapp">
+                
+				<% if (!n.video) { %>
+					<a href="/news-id/<%= n.id -%>" class="cards__img-link">
+						<img class="cards__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
+					</a>
+				<% }
+				else { %>
+					<%- n.video %>
+				<% } %>
+				
+            </div>
+            <div class="cards__title-wrap">
+                <h2 class="cards__title">
+					<% if(user.adminMode) { %>
+						<input class="cards-title-edit js-post-update input-text" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
+					<% } else { %>
+						<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__title-link">
+							<span><%= n.title %></span>
+						</a>
+					<% } %>
+                </h2>
+            </div>
+            <div class="cards__content-wrapp">
+                <div class="cards__content">
+					<p><%- Helpers.trimStr(n.text, 75) -%></p>
+					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__content-link">Читать далее...</a>
+                </div>
+            </div>
+			<div class="cards-meta-wrapp">
+				<div class="cards__content text-right">
+					<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+				</div>
+			</div>
+        </article>
+	<% }) %>
+</div>
+<%- pagination.render() -%>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/posts-list.js" defer></script>
+<% } %>

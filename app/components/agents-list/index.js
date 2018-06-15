@@ -1,4 +1,5 @@
 const path = require('path');
+const Pagination = require('../../libs/pagination');
 
 module.exports = (app) => {
 
