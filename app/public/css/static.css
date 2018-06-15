@@ -1080,3 +1080,11 @@ blockquote {
 .fragment-body {
 	overflow: hidden;
 }
+
+.section-center p {
+	width: 98%;
+	margin: 0 auto;
+    line-height: 1.5;
+    font-weight: 400;
+	text-indent: 1em;
+}
