@@ -1,0 +1,1 @@
+UPDATE `fragments` SET `published` = '1'

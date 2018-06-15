@@ -105,7 +105,15 @@ module.exports = (app) => {
 		res.locals.route = route;
 		res.locals.fullUrl = req.url;
 
-		[err, fragments] = await Model.fragments.get({ route_id: route.id });
+		const getFragmentsParams = {
+			route_id: route.id
+		};
+
+		if(req.session.user.adminMode === false) {
+			getFragmentsParams.public = '1';
+		}
+
+		[err, fragments] = await Model.fragments.get(getFragmentsParams);
 		if (err) return next(err);
 
 		const fragmentsMap = fragments.map(async fragment => {
