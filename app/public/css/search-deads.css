@@ -77,6 +77,10 @@ input.search__fio {
     border-color: #7a7a7a;
 }
 
+.search-info {
+	margin-top: 3em;
+}
+
 button.btn.search-buttons__button.search__search-button {
     width: 100%;
     padding: 20px;
