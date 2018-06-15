@@ -22,6 +22,7 @@
 
 #slider {
 	width: 100%;
+	margin-bottom: 8px;
 }
 
 .slider-container {
@@ -52,10 +53,6 @@
 .slider-item, .carousel-item {
 	background-size: cover;
 	background-position: center;
-}
-
-#slider {
-	margin-bottom: 8px;
 }
 
 .slider-info__container {
