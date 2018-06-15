@@ -22,7 +22,6 @@
 		</div>
 	<% } %>
 	<% posts.map(n => { %>
-		<% if((n.public == "0") && user.adminMode == false) return false; %>
 		<article class="news__item">
             <% if(user.adminMode) { %>
                 <div class="admin-control-container">

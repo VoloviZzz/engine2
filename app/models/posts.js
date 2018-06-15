@@ -2,8 +2,22 @@ const db = require("../libs/db");
 
 exports.get = (args = { id: '' }) => {
 	args.id = !!args.id === true ? `AND id = ${args.id}` : ``;
-	args.orderBy  = typeof args.orderBy != 'undefined' ? args.orderBy = `ORDER BY ${args.orderBy}` : '';
-	return db.execQuery(`SELECT * FROM posts WHERE id > 0 ${args.id} ${args.orderBy}`);
+	args.orderBy = typeof args.orderBy != 'undefined' ? `ORDER BY ${args.orderBy}` : '';
+	args.limit = 'limit' in args ? `LIMIT ${args.limit}` : '';
+	args.target = 'target' in args ? `AND target = '${args.target}'` : ``;
+	args.public = 'public' in args ? `AND public = '${args.public}'` : ``;
+
+	const q = `
+		SELECT * 
+		FROM posts 
+		WHERE id > 0 
+			${args.id} 
+			${args.target}
+			${args.public}
+			${args.orderBy}
+		${args.limit}`;
+
+	return db.execQuery(q);
 }
 
 exports.add = (args = {}) => {
@@ -21,6 +35,6 @@ exports.upd = (arg = {}) => {
 	if (typeof arg.target == "undefined") return Promise.resolve([new Error('Нет параметра target')]);
 	if (typeof arg.value == "undefined") return Promise.resolve([new Error('Нет параметра value')]);
 	if (typeof arg.id == "undefined") return Promise.resolve([new Error('Нет параметра id')]);
-	
+
 	return db.execQuery(`UPDATE posts SET ${arg.target} = '${arg.value}' WHERE id = ${arg.id}`);
 }

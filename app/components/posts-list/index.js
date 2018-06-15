@@ -16,16 +16,26 @@ module.exports = (app) => {
 		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
 		// ----------
 
-		let templatePath;
-		let posts = [];
-		let [, postTargets] = await app.db.execQuery(`SELECT * FROM post_targets`);
+		var templatePath;
+		var posts = [];
+		var [, postTargets] = await app.db.execQuery(`SELECT * FROM post_targets`);
 
 		if (!!currentTarget === false) {
 			templatePath = path.join(__dirname, 'settings.ejs')
 		} else {
 			templatePath = path.join(__dirname, 'template.ejs');
 
-			[, posts] = await app.db.execQuery(`SELECT * FROM posts WHERE target = '${currentTarget}' ORDER BY id DESC LIMIT ${pagination.options.offset}, ${pagination.options.countOnPage}`);
+			const postsGetParams = {
+				target: currentTarget,
+				orderBy: 'id DESC',
+				limit: `${pagination.options.offset}, ${pagination.options.countOnPage}`
+			};
+
+			if (session.user.adminMode == false) {
+				postsGetParams.public = '1';
+			}
+
+			var [error, posts] = await Model.posts.get(postsGetParams);
 
 			dataViews.posts = posts;
 		}
