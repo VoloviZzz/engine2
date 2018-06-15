@@ -22,21 +22,9 @@ $(document).ready(function () {
 
 	window.getParameterByName = getParameterByName;
 
-	if(getParameterByName('postError') == '1') {
+	if (getParameterByName('postError') == '1') {
 		alert('При запросе произошла ошибка. Попробуйте позже')
 	}
-
-	// begin: обработчики для слайдера поиска захоронений
-	$("#js-search-dead-str").on('keydown', function (e) {
-		if (pressedEnter(e)) {
-			location.href = "/search?fullname=" + this.value.trim();
-		}
-	});
-
-	$('#js-search-dead-link').on('click', function (e) {
-		$(this).attr('href', '/search?fullname=' + $('#js-search-dead-str').val().trim());
-	})
-	// end: обработчики для слайдера поиска захоронений
 
 	const App = {};
 	window.App = App;
@@ -60,7 +48,7 @@ $(document).ready(function () {
 
 	var mainHeader = $('.document-header'),
 		belowNavHeroContent = $('.sub-nav-hero');
-	
+
 	//установим переменные
 	var scrolling = false,
 		previousTop = 0,
@@ -68,8 +56,8 @@ $(document).ready(function () {
 		scrollDelta = 10,
 		scrollOffset = 150;
 
-	$(window).on('scroll', function(){
-		if( !scrolling ) {
+	$(window).on('scroll', function () {
+		if (!scrolling) {
 			scrolling = true;
 			(!window.requestAnimationFrame)
 				? setTimeout(autoHideHeader, 250)
@@ -80,23 +68,23 @@ $(document).ready(function () {
 	function autoHideHeader() {
 		var currentTop = $(window).scrollTop();
 
-		( belowNavHeroContent.length > 0 ) 
+		(belowNavHeroContent.length > 0)
 			? checkStickyNavigation(currentTop) // secondary navigation below intro
 			: checkSimpleNavigation(currentTop);
 
-	   	previousTop = currentTop;
+		previousTop = currentTop;
 		scrolling = false;
 	};
 
 	function checkSimpleNavigation(currentTop) {
 		//there's no secondary nav or secondary nav is below primary nav
-	    if (previousTop - currentTop > scrollDelta) {
-	    	//if scrolling up...
-	    	mainHeader.removeClass('document-header--hidden');
-	    } else if( currentTop - previousTop > scrollDelta && currentTop > scrollOffset) {
-	    	//if scrolling down...
-	    	mainHeader.addClass('document-header--hidden');
-	    }
+		if (previousTop - currentTop > scrollDelta) {
+			//if scrolling up...
+			mainHeader.removeClass('document-header--hidden');
+		} else if (currentTop - previousTop > scrollDelta && currentTop > scrollOffset) {
+			//if scrolling down...
+			mainHeader.addClass('document-header--hidden');
+		}
 	};
 
 	//================ Кнопка вызова бокового меню ===============//
@@ -110,11 +98,11 @@ $(document).ready(function () {
 	$('.header-nav .toggle-menu.btn').on('click', function (e) {
 		$('.menu-container').toggleClass('menu-container__active');
 
-		if($('.menu-container').hasClass('menu-container__active')) {
-       $(document.body).addClass("section-left-body");
-    } else {
-        $(document.body).removeClass("section-left-body");
-    }
+		if ($('.menu-container').hasClass('menu-container__active')) {
+			$(document.body).addClass("section-left-body");
+		} else {
+			$(document.body).removeClass("section-left-body");
+		}
 
 		if ($('.section-left').hasClass('section-left__active')) {
 			$('.section-left').removeClass('section-left__active');
@@ -124,11 +112,11 @@ $(document).ready(function () {
 	$('.header-nav .aside-toggle.btn').on('click', function (e) {
 		$('.section-left').toggleClass('section-left__active');
 
-		if($('.section-left').hasClass('section-left__active')) {
-       $(document.body).addClass("section-left-body");
-    } else {
-        $(document.body).removeClass("section-left-body");
-    }
+		if ($('.section-left').hasClass('section-left__active')) {
+			$(document.body).addClass("section-left-body");
+		} else {
+			$(document.body).removeClass("section-left-body");
+		}
 
 		if ($('.menu-container').hasClass('menu-container__active')) {
 			$('.menu-container').removeClass('menu-container__active');
@@ -276,7 +264,7 @@ Slider.prototype.updSlide = function (args) {
 		fragment_id = args.fragment_id,
 		target = args.target,
 		value = args.value;
-	
+
 	var afterSuccess = args.afterSuccess;
 
 	$.post('/api/slider/updSlide', { slide_id: slide_id, fragment_id: fragment_id, target: target, value: value }).done(function (result) {
@@ -285,7 +273,7 @@ Slider.prototype.updSlide = function (args) {
 			return alert(result.message);
 		}
 
-		if(afterSuccess == 'reload') {
+		if (afterSuccess == 'reload') {
 			return location.reload();
 		}
 	});
