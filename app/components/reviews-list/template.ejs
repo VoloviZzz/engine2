@@ -4,7 +4,7 @@
 	<% if(user.adminMode) { %>
 		<div>
 			<p>Категория отзывов:</p>
-			<select class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" name="target-post">
+			<select class="js-fragment-update-settings" data-target="targetType" data-event="change" data-fragment-id="<%= fragment.id -%>" name="target-post">
 				<option value="">Не выбрано</option>
 				<% for (let target of reviewsCats ) { %>
 					<% var targetSelected = target.title == fragment.settings.targetType ? `selected` : '' %>;
