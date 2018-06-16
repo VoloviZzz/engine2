@@ -1,12 +1,14 @@
 <link rel="stylesheet" href="/css/cards-list.css">
-
+<link rel="stylesheet" href="/css/agents.css">
+<% if(!!user.adminMode === true) { %>
+	<div>
+		<span>URL для ссылок:</span>
+		<input value="<%= fragment.settings.url -%>" type="text" placeholder="/example" class="js-fragment-update-settings" data-event="change" data-target="url" data-fragment-id="<%= fragment.id -%>">
+	</div>
+	<br>
+<% } %>
 <div class="cards">
-	<% if(user.adminMode) { %>
-		<div class="admin-control-container cards-admin-control-container">
-			<button class="btn cards-add js-posts-add" data-target="<%= currentTarget -%>">Добавить</button>
-		</div>
-	<% } %>
-	<% posts.map(n => { %>
+	<% agents.map(n => { %>
 		<article class="cards__item">
             <% if(user.adminMode) { %>
                 <div class="admin-control-container">
@@ -23,16 +25,9 @@
                 </div>
             <% } %>
             <div class="cards__img-wrapp">
-                
-				<% if (!n.video) { %>
-					<a href="/news-id/<%= n.id -%>" class="cards__img-link">
-						<img class="cards__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
-					</a>
-				<% }
-				else { %>
-					<%- n.video %>
-				<% } %>
-				
+				<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__img-link">
+					<img class="cards__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
+				</a>
             </div>
             <div class="cards__title-wrap">
                 <h2 class="cards__title">
@@ -47,19 +42,12 @@
             </div>
             <div class="cards__content-wrapp">
                 <div class="cards__content">
-					<p><%- Helpers.trimStr(n.text, 75) -%></p>
-					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__content-link">Читать далее...</a>
+					<p><%- Helpers.trimStr(n.text, 999) -%></p>
                 </div>
             </div>
-			<div class="cards-meta-wrapp">
-				<div class="cards__content text-right">
-					<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
-				</div>
-			</div>
         </article>
 	<% }) %>
 </div>
-<%- pagination.render() -%>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/posts-list.js" defer></script>
 <% } %>
