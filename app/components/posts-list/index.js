@@ -13,7 +13,7 @@ module.exports = (app) => {
 
 		// пагинация
 		var [, [{ all_count: countReviews }]] = await app.db.execQuery(`SELECT COUNT(id) as all_count FROM posts WHERE target = '${currentTarget}'`);
-		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
+		const pagination = new Pagination({ countOnPage: 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
 		// ----------
 
 		var templatePath;
