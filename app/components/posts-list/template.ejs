@@ -62,8 +62,8 @@
             </div>
             <div class="cards__content-wrapp">
                 <div class="cards__content">
-					<p><%- Helpers.trimStr(n.text, 75) -%></p>
-					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__content-link">Читать далее...</a>
+					<p><%- Helpers.replaceLineBreaks(Helpers.trimByWords(n.text, 100)) -%></p>
+					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="btn cards__content-link text-center">Читать далее</a>
                 </div>
             </div>
 			<div class="cards-meta-wrapp">
