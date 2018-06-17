@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 	windowWidth = $(window).width();
 
-	carouselItemsCount = 3.5;
+	carouselItemsCount = 5.5;
 
 	if (windowWidth > 1600) {
 		carouselItemsCount = 5.5;
