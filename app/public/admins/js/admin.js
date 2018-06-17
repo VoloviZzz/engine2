@@ -457,12 +457,15 @@ $(document).ready(function () {
 
 			var postData = {};
 
+			if (typeof value !== undefined && value !== null) {
+				postData.value = value;
+			}
+
 			postData.target = target;
-			postData.value = value;
 			postData.fragment_id = fragmentId;
 
 			if (!!postData.target === false) return alert('В запросе отсутствует target');
-			if (!!postData.value === false) return alert('В запросе отсутствует value');
+			if ('value' in postData === false) return alert('В запросе отсутствует value');
 			if (!!postData.fragment_id === false) return alert('В запросе отсутствует fragment_id');
 
 			$.post('/api/fragments/updSettings', postData).done(function (result) {
@@ -475,4 +478,43 @@ $(document).ready(function () {
 			});
 		})
 	})
+
+	$('.js-change-fragment-target').on('change', changeFragmentTarget);
+
+	$('.js-route-toggleActiveMenuItem').on('click', function (e) {
+		var postData = {};
+
+		postData.target = 'active_menu_item';
+		postData.value = $(this).data('menuId');
+		postData.id = $(this).data('routeId');
+
+		$.post('/api/routes/toggleActiveMenuItem', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
+		})
+	});
+
+	function changeFragmentTarget() {
+		var value = $(this).val();
+		var fragmentId = $(this).data('fragmentId');
+
+		var postData = {};
+
+		postData.target = 'target';
+		postData.value = value;
+		postData.fragment_id = fragmentId;
+
+		$.post('/api/fragments/updSettings', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
+		});
+	}
 });

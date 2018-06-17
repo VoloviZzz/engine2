@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$('.js-change-fragment-target').on('change', changeFragmentTarget);
+
 	$('.js-add-post-target').on('click', addPostTarget);
 	$('.js-posts-add').on('click', addPosts);
 	$('.js-post-delete').on('click', postDelete);
@@ -7,6 +7,31 @@ $(document).ready(function () {
 	$('.js-post-upload-mainphoto').on('change', postUploadMainphoto);
 	$('.js-post-update').on('change', postUpdate);
 	$('.js-fragment-set-url').on('click', fragmentSetUrl);
+	$('#js-post-cat-add').on('submit', addPostCat);
+
+	function addPostCat() {
+		var $form = $(this);
+		var forms = new Forms();
+		var formData = forms.getFormData(this)
+		var catName = formData.catName.trim();
+		var targetId = $form.data('targetId');
+
+		var postData = {};
+
+		postData.targetId = targetId;
+		postData.catName = catName;
+
+		$.post('/api/posts/addCat', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			return location.reload();
+		});
+
+		return false;
+	}
 
 	function fragmentSetUrl(e) {
 		var value = $('.js-fragment-url-input').val().trim();
@@ -37,11 +62,13 @@ $(document).ready(function () {
 	function addPosts(e) {
 		var $button = $(this);
 		var target = $button.data('target');
+		var categoryId = $button.data('category');
 		var postData = {};
-		
+
 		$button.attr('disabled', 'disabled');
 
 		postData.target = target;
+		postData.categoryId = categoryId;
 
 		$.post('/api/posts/addItem', postData).done(function (result) {
 
@@ -59,6 +86,9 @@ $(document).ready(function () {
 	function postDelete(e) {
 		var $button = $(this);
 		var id = $button.data('id');
+
+		if(!confirm('Удалить данную публикацию?')) return false;
+
 		$button.attr('disabled', 'disabled');
 
 		$.post('/api/posts/deleteItem', { id: id }).done(function (result) {
@@ -123,6 +153,8 @@ $(document).ready(function () {
 		var target = $this.data('target');
 		var id = $this.data('id');
 
+		var reload = $this.data('reload');
+
 		var value = $this.val().trim();
 
 		if (typeof CKvalue !== 'undefined') {
@@ -134,28 +166,14 @@ $(document).ready(function () {
 				console.log(result);
 				return alert(result.message);
 			}
+
+			if(reload) {
+				location.reload();
+			}
 		})
 	}
 
-	function changeFragmentTarget() {
-		var value = $(this).val();
-		var fragmentId = $(this).data('fragmentId');
 
-		var postData = {};
-
-		postData.target = 'target';
-		postData.value = value;
-		postData.fragment_id = fragmentId;
-
-		$.post('/api/fragments/updSettings', postData).done(function (result) {
-			if (result.status !== 'ok') {
-				console.log(result);
-				return alert(result.message);
-			}
-
-			return location.reload();
-		});
-	}
 
 	function addPostTarget(e) {
 		var value = $('.js-post-target-input').val().trim();

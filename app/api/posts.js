@@ -10,6 +10,16 @@ exports.addPostTarget = async (req, res, next) => {
 	}
 }
 
+exports.addCat = async function (req, res, next) {
+	const { db } = req.app;
+	try {
+		await db.insertQuery(`INSERT INTO post_categories SET target_id = '${req.body.targetId}', title = '${req.body.catName}'`);
+		return { status: 'ok' };
+	} catch (error) {
+		return { status: 'bad', message: error.message };
+	}
+}
+
 exports.addItem = async (req, res, next) => {
 	const Model = req.app.Model;
 	const addData = { creator: req.session.user.id };
@@ -19,6 +29,10 @@ exports.addItem = async (req, res, next) => {
 	}
 
 	addData.target = req.body.target;
+	
+	if(req.body.categoryId !== '') {
+		addData.category = req.body.categoryId;
+	}
 
 	return Model.posts.add(addData).then(([error, rows]) => {
 		if (error) return { message: error.message }

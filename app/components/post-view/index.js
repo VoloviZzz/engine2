@@ -11,8 +11,11 @@ module.exports = (app) => {
 		try {
 			const routeParam = locals.dynamicRouteNumber;
 
-			[, [post]] = await Model.posts.get({ id: routeParam });
+			var [, [post]] = await Model.posts.get({ id: routeParam });
+			var [error, postCategories] = await app.db.execQuery(`SELECT * FROM post_categories WHERE target_id = '${post.target}'`);
+
 			dataViews.post = post;
+			dataViews.postCategories = postCategories;
 			locals.route.title = post.title;
 			dataViews.user = session.user;
 		} catch (e) {

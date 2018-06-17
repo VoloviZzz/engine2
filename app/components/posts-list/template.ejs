@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="/css/cards-list.css">
 <% if(user.adminMode) { %>
 	<div>
-		<p>Тип публикаций:</p>
+		<span>Тип публикаций:</span>
 		<select class="js-change-fragment-target" data-fragment-id="<%= fragment.id -%>" name="target-post">
 			<option value="">Не выбрано</option>
 			<% for (let target of postTargets ) { %>
-				<option <%= currentTarget == target.title ? "selected" : "" -%> value="<%= target.title -%>"><%= target.title -%></option>
+				<option value="<%= target.id -%>" <%= currentTarget == target.id ? "selected" : "" -%>><%= target.title -%></option>
 			<% } %>
 		</select>
 	</div>
@@ -14,11 +14,26 @@
 		<input type="text" class="js-fragment-url-input" value="<%= fragment.settings.url || "" -%>"  data-fragment-id="<%= fragment.id -%>" placeholder="URl...">
 		<button class="btn js-fragment-set-url">Добавить</button>
 	</div>
+	<div>
+		<% var disabledCatOptions = dynamicCategory ? 'disabled' : ''; %>
+		<span>Категория для публикаций:</span>
+		<select class="js-fragment-update-settings" data-event="change" data-target="category" data-fragment-id="<%= fragment.id -%>">
+			<option <%= disabledCatOptions -%> value="">Все категории</option>
+			<% for (let category of postCategories ) { %>
+				<option value="<%= category.id -%>" <%= currentCategory == category.id ? "selected" : "" -%> <%= disabledCatOptions -%>><%= category.title -%></option>
+			<% } %>
+		</select>
+		<form id="js-post-cat-add" data-target-id="<%= currentTarget -%>">
+			<span>Добавить новую категорию:</span>
+			<input name="catName" type="text" class="" value="">
+			<button class="btn">Добавить</button>
+		</form>
+	</div>
 <% } %>
 <div class="cards">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container cards-admin-control-container">
-			<button class="btn cards-add js-posts-add" data-target="<%= currentTarget -%>">Добавить</button>
+			<button class="btn cards-add js-posts-add" data-category="<%= currentCategory -%>" data-target="<%= currentTarget -%>">Добавить</button>
 		</div>
 	<% } %>
 	<% posts.map(n => { %>
@@ -40,7 +55,7 @@
             <div class="cards__img-wrapp">
                 
 				<% if (!n.video) { %>
-					<a href="/news-id/<%= n.id -%>" class="cards__img-link">
+					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__img-link">
 						<img class="cards__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
 					</a>
 				<% }

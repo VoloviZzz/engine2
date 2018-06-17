@@ -2,7 +2,7 @@
 <ul class="section-menu fs-regular">
 	<% for(let id in menuTree) { %>
 		<% var s = menuTree[id]%>
-		<li class="section-menu-item <%= locals.route.url === s.href ? 'active' : '' -%> " data-href="<%= s.href -%>">
+		<li class="section-menu-item <%= locals.route.url === s.href || locals.route.active_menu_item == s.id ? 'active' : '' -%>" data-href="<%= s.href -%>">
 			<% if(user.adminMode) { %>
 				<div style="border: 1px #c3c3c3 solid; padding: 10px">
 					<input class="input-text js-menuItem-edit" data-id="<%= s.id%>" data-target="title" value="<%= s.title%>">
@@ -14,7 +14,12 @@
 				</a>
 			<% } %>
 			<% if(user.adminMode) { %>
-				<button class="btn js-menuItem-delete" data-menu-id="<%=s.id%>">У</button>
+				<button class="btn js-menuItem-delete" data-menu-id="<%= s.id %>">У</button>
+				<% if(locals.route.active_menu_item == s.id) { %>
+					<button class="btn js-route-toggleActiveMenuItem" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать пункт меню активным для текущего маршрута">С</button>
+				<% } else { %>
+					<button class="btn js-route-toggleActiveMenuItem" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= s.id %>" title="Сделать пункт меню активным для текущего маршрута">А</button>
+				<% } %>
 			<% } %>
 			<% if(!!menuTree[id]['childs'] === true) { %>
 				<%- include('./menu-list.ejs', {menuTree: menuTree[id]['childs'], level: level + 1}) %>

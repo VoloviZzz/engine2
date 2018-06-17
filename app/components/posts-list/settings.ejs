@@ -2,7 +2,7 @@
 <select class="js-change-fragment-target" data-fragment-id="<%= fragment.id -%>" name="target-post">
 	<option value="">Не выбрано</option>
 	<% for (let target of postTargets ) { %>
-		<option value="<%= target.title -%>"><%= target.title -%></option>
+		<option value="<%= target.id -%>"><%= target.title -%></option>
 	<% } %>
 </select>
 <span>или создать новый тип публикаций:</span>
