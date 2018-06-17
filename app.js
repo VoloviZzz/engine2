@@ -125,9 +125,7 @@ db.connect(db.MODE_TEST, async (err) => {
 
 	// подключение обработчика маршрутов
 	const routeHandler = require('./app/libs/routeHandler')(app);
-	const {
-		initRoutes
-	} = require('./app/libs/router');
+	const { initRoutes } = require('./app/libs/router');
 
 	// инициализация списка маршрутов; на выходе будет объект: {route.url: route, ...}
 	[err, app.locals.routesList] = await initRoutes();
@@ -137,9 +135,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
 
-	const {
-		constructHeaderRows
-	} = require('./app/libs/header-nav');
+	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
 
 	// общие маршруты приложения
