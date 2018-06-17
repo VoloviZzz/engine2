@@ -35,7 +35,11 @@
 					</a>
 				</div>
 				<div class="achievement-description">
-					<p class="text-indent"><%= a.description %></p>
+					<% if(user.adminMode) { %>
+						<textarea class="input-text js-achievements-update" data-target="text" data-id="<%= a.id -%>"><%= a.text -%></textarea>
+					<% } else { %>
+						<p class="text-indent"><%= a.text %></p>
+					<% } %>
 				</div>
 			</div>
 		<% }) %>
