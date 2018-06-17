@@ -36,18 +36,30 @@
 	max-width: 920px;
 }
 
+.mails p {
+	text-indent: 0;
+}
+
 .mails__items {
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
 }
 
+.mails__title {
+	margin-top: 3em;
+	margin-bottom: 2em;
+	text-align: center;
+	font-size: 20px;
+}
+
 .mail-item {
 	text-align: center;
+	width: 32%;
 }
 
 .mail-item__title {
-	font-size: 10px;
+	font-size: 14px;
 	color: #616263;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -55,9 +67,19 @@
 
 .mail-item__adress-link {
 	display: inline-block;
-	border-bottom: 2px solid #000000;
+	border-bottom: 1px solid #000000;
 	font-size: 18px;
 	font-weight: 700;
+	text-indent: 0;
+	margin-top: .5em;
+	color: grey;
+}
+.mail-item__adress-link .fa {
+	color: #000;
+}
+.mail-item__adress-link span {
+	font-size: 1.25em;
+	color: #000;
 }
 /*==================================================*/
 .telephones {
@@ -143,6 +165,7 @@
 .gps-coordinates__items {
 	margin-top: 20px;
 	text-align: center;
+	font-size: 1.25em;
 }
 
 .gps-coordinates__items {
@@ -175,6 +198,11 @@
 
 .bank-info__requisites {
 	margin: 25px auto 0;
+}
+
+.requisites__item {
+	font-size: 1.25em;
+	text-align: center;
 }
 
 /*=========================================================*/
