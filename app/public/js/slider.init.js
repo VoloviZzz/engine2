@@ -8,6 +8,7 @@ $(document).ready(function () {
 		arrows: false,
 		fade: true,
 		initialSlide: currentSlide * 1,
+		draggable: false,
 		asNavFor: '.slider-nav'
 	});
 
