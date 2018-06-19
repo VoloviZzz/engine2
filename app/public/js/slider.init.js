@@ -1,11 +1,13 @@
 $(document).ready(function () {
 
+	var currentSlide = sessionStorage.lastSlide || 0;
+
 	$('.slider-for').slick({
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		arrows: false,
 		fade: false,
-		initialSlide: sessionStorage.currentSlide || 0,
+		initialSlide: currentSlide * 1,
 		asNavFor: '.slider-nav'
 	});
 
@@ -16,7 +18,7 @@ $(document).ready(function () {
 		dots: false,
 		asNavFor: '.slider-for',
 		focusOnSelect: true,
-		initialSlide: sessionStorage.currentSlide || 0,
+		initialSlide: currentSlide * 1,
 		responsive: [
 			{
 				breakpoint: 1150,
@@ -43,7 +45,7 @@ $(document).ready(function () {
 			$(this).slick("slickPrev");
 		}
 	}).on('afterChange', function (event, slick, currentSlide) {
-		sessionStorage.currentSlide = currentSlide;
+		sessionStorage.setItem('lastSlide', currentSlide);
 	})
 
 	setSlidersSize();
