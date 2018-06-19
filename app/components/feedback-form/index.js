@@ -7,8 +7,22 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
+		const user_id = session.user.id;
+		var client = {};
+
+
+		if (user_id !== false) {
+			var [error, client] = await Model.clients.get({ id: user_id });
+			
+			if(client.length > 0) {
+				client = client[0];
+			} 
+		}
+		
+		dataViews.client = client;
+
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

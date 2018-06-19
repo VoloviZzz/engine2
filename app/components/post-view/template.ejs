@@ -1,7 +1,14 @@
 <div class="news content">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">
-			<button data-id="<%= post.id -%>" class="btn news-delete js-post-delete">Удалить</button>
+			<span>Категория:</span>
+			<select class="js-post-update" data-reload="true" data-target="cat" data-id="<%= post.id -%>">
+				<option value="0">Не выбрано</option>
+				<% postCategories.forEach((category) => { -%>
+					<% let selected = post.cat == category.id ? 'selected' : '' -%>
+					<option value="<%= category.id -%>" <%= selected -%>><%= category.title -%></option>
+				<% }) -%>
+			</select>
 			<% if(post.public) { %>
 				<button data-id="<%= post.id -%>" data-value="0" class="btn news-publicate js-post-togglePublication">Снять с публикации</button>
 			<% } else { %>
@@ -11,6 +18,7 @@
 				<input type="file" class="js-post-upload-mainphoto" data-id="<%= post.id -%>" id="news-upload-mainphoto" style="display: none">
 				<span>Изменить фото</span>
 			</label>
+			<button data-id="<%= post.id -%>" class="btn news-delete js-post-delete">Удалить</button>
 		</div>
 	<% } %>
 	<% if(user.adminMode) { %>

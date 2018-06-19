@@ -6,6 +6,7 @@ exports.get = (args = { id: '' }) => {
 	args.limit = 'limit' in args ? `LIMIT ${args.limit}` : '';
 	args.target = 'target' in args ? `AND target = '${args.target}'` : ``;
 	args.public = 'public' in args ? `AND public = '${args.public}'` : ``;
+	args.category = 'category' in args && args.category !== '' ? `AND cat = '${args.category}'` : ``;
 
 	const q = `
 		SELECT * 
@@ -14,6 +15,7 @@ exports.get = (args = { id: '' }) => {
 			${args.id} 
 			${args.target}
 			${args.public}
+			${args.category}
 			${args.orderBy}
 		${args.limit}`;
 
@@ -23,7 +25,8 @@ exports.get = (args = { id: '' }) => {
 exports.add = (args = {}) => {
 	args.creator = args.creator ? `, creator = ${args.creator}` : '';
 	args.target = args.target ? `, target = '${args.target}'` : '';
-	return db.insertQuery(`INSERT INTO posts SET created = NOW() ${args.creator} ${args.target}`);
+	args.category = args.category ? `, cat = '${args.category}'` : '';
+	return db.insertQuery(`INSERT INTO posts SET created = NOW() ${args.creator} ${args.category} ${args.target}`);
 }
 
 exports.del = (arg = {}) => {

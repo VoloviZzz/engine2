@@ -10,20 +10,26 @@ module.exports = (app) => {
 
 		const { fragment } = locals;
 		const currentTarget = fragment.settings.target;
-
-		// пагинация
-		var [, [{ all_count: countReviews }]] = await app.db.execQuery(`SELECT COUNT(id) as all_count FROM posts WHERE target = '${currentTarget}'`);
-		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
-		// ----------
+		const currentCategory = locals.dynamicRouteNumber ? locals.dynamicRouteNumber : ('category' in fragment.settings ? fragment.settings.category : false);
+		const dynamicCategory = locals.dynamicRouteNumber ? true : false;
 
 		var templatePath;
 		var posts = [];
-		var [, postTargets] = await app.db.execQuery(`SELECT * FROM post_targets`);
+		var [error, postTargets] = await app.db.execQuery(`SELECT * FROM post_targets`);
 
 		if (!!currentTarget === false) {
 			templatePath = path.join(__dirname, 'settings.ejs')
 		} else {
 			templatePath = path.join(__dirname, 'template.ejs');
+
+			var [error, postCategories] = await app.db.execQuery(`SELECT * FROM post_categories WHERE target_id = '${currentTarget}'`);
+
+			// пагинация
+			var publicPosts = session.user.adminMode !== true ? `AND public = '1'` : '';
+			var categoryPosts = currentCategory ? `AND cat = ${currentCategory}` : '';
+			var [, [{ all_count: countReviews }]] = await app.db.execQuery(`SELECT COUNT(id) as all_count FROM posts WHERE target = '${currentTarget}' ${publicPosts} ${categoryPosts}`);
+			const pagination = new Pagination({ countOnPage: 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
+			// ----------
 
 			const postsGetParams = {
 				target: currentTarget,
@@ -35,16 +41,23 @@ module.exports = (app) => {
 				postsGetParams.public = '1';
 			}
 
+			if (currentCategory !== false) {
+				postsGetParams.category = currentCategory;
+			}
+
 			var [error, posts] = await Model.posts.get(postsGetParams);
 
 			dataViews.posts = posts;
+			dataViews.pagination = pagination;
+			dataViews.postCategories = postCategories;
+			dataViews.currentCategory = currentCategory;
+			dataViews.dynamicCategory = dynamicCategory;
 		}
 
 		dataViews.user = session.user;
 		dataViews.postTargets = postTargets;
 		dataViews.currentTarget = currentTarget;
 		dataViews.fragment = locals.fragment;
-		dataViews.pagination = pagination;
 
 		return new Promise((resolve, reject) => {
 			app.render(templatePath, dataViews, (err, str) => {

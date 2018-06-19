@@ -31,8 +31,6 @@ module.exports = {
 			resultTreeObj[treeItem.id] = treeItem;
 		})
 
-		return getTree(resultTreeObj);
-
 		function getTree(dataset) {
 			let tree = {};
 
@@ -51,6 +49,8 @@ module.exports = {
 
 			return tree;
 		}
+
+		return getTree(resultTreeObj);
 	},
 
 	replaceImageIfNotExist(photoPath, replaceStr = '/img/image-not-found.jpg') {
@@ -111,11 +111,11 @@ module.exports = {
 	formatDate(date, format) {
 		var resultDateTime = format;
 
-		var regUnix= /^[0-9]+$/;
+		var regUnix = /^[0-9]+$/;
 
 		var dateIsUnix = regUnix.test(date);
 
-		if(dateIsUnix) {
+		if (dateIsUnix) {
 			date = Number(date);
 		}
 
@@ -185,6 +185,23 @@ module.exports = {
 
 	},
 
+	trimTags(str = '') {
+		return str.replace(/<\/?[^>]+>/g, '');
+	},
+
+	trimByWords(str, length) {
+		var str = str || '';
+
+		str = this.trimTags(str);
+
+		if (str.length > length) {
+			var substring = str.substring(0, length);
+			return substring.substring(0, Math.max(substring.lastIndexOf(' '), substring.lastIndexOf(',') - 1)) + ' ...';
+		} else {
+			return str;
+		}
+	},
+
 	/* рендеринг ejs-шаблона */
 	renderEjsFile: (path, data) => {
 
@@ -202,5 +219,4 @@ module.exports = {
 		});
 
 	}
-
 }

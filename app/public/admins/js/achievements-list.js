@@ -35,6 +35,10 @@ $(document).ready(function (e) {
 		postData.value = $this.val().trim();
 		postData.id = $this.data('id');
 
+		if(!!postData.target === false) return alert('Отсутствует target')
+		if(!!postData.value === false && postData.value !== '') return alert('Отсутствует value');
+		if(!!postData.id === false) return alert('Отсутствует id')
+
 		$.post('/api/achievements/update', postData).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);

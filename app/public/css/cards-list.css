@@ -43,6 +43,11 @@
 	vertical-align: middle;
 }
 
+.cards__img-wrapp object {
+	width: 100%;
+	height: 100%;
+}
+
 .cards__title-wrap {
 	padding-top: 24px;
 	padding-right: 20px;
@@ -81,8 +86,8 @@
 }
 
 .cards__content-link {
-	color: #5F6272;
 	font-weight: 400;
+	width: 100%;
 }
 
 .pagination {
