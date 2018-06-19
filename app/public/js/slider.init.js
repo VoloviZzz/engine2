@@ -6,7 +6,7 @@ $(document).ready(function () {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		arrows: false,
-		fade: false,
+		fade: true,
 		initialSlide: currentSlide * 1,
 		asNavFor: '.slider-nav'
 	});
