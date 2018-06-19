@@ -5,6 +5,8 @@ $(document).ready(function () {
 		slidesToScroll: 1,
 		arrows: false,
 		fade: false,
+		initialSlide: sessionStorage.currentSlide || 0,
+		asNavFor: '.slider-nav'
 	});
 
 	$('.slider-nav').slick({
@@ -12,7 +14,9 @@ $(document).ready(function () {
 		slidesToScroll: 1,
 		arrows: true,
 		dots: false,
+		asNavFor: '.slider-for',
 		focusOnSelect: true,
+		initialSlide: sessionStorage.currentSlide || 0,
 		responsive: [
 			{
 				breakpoint: 1150,
@@ -38,11 +42,8 @@ $(document).ready(function () {
 		} else if (event.deltaX < 0 || event.deltaY > 0) {
 			$(this).slick("slickPrev");
 		}
-	})
-
-	$('.slider-nav .slick-slide').on('click', function() {
-		var nextSlide = $(this).data('slickIndex');
-		$('.slider-for').slick('slickGoTo', nextSlide);
+	}).on('afterChange', function (event, slick, currentSlide) {
+		sessionStorage.currentSlide = currentSlide;
 	})
 
 	setSlidersSize();
@@ -55,7 +56,6 @@ $(document).ready(function () {
 
 	function setSlidersSize() {
 		sliderItemHeight = ($(window).height() - $('.document-header').outerHeight(true) - $('.document-footer').outerHeight(true)) * 0.6;
-		//$('.slider-container').css({ height: sliderItemHeight });
 		carouselItemHeight = ($(window).height() - $('.document-header').outerHeight(true) - $('.document-footer').outerHeight(true)) * 0.4;
 
 		$('.slider-for').css({ height: sliderItemHeight });
