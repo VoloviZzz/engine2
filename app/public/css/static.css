@@ -287,7 +287,7 @@ nav a.active-link {
 
 @media (min-width: 992px) {
     .sections .section-title h3 {
-        font-size: 25px;
+        font-size: 22px;
     }
 
     aside.section-left {
@@ -295,6 +295,12 @@ nav a.active-link {
         border: none;
         background: none;
         overflow: overlay;
+    }
+}
+
+@media (min-width: 1700px) {
+    .sections .section-title h3 {
+        font-size: 25px;
     }
 }
 
@@ -329,8 +335,8 @@ nav a.active-link {
 }
 
 .section-title {
-    padding-top: 15px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     border-bottom: 1px #c3c3c3 solid;
     margin-bottom: 6px;
 }
