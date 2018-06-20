@@ -112,12 +112,6 @@
     display: none;
 }
 
-.slider-container {     
-    display: flex;
-    flex-flow: column;
-    overflow: hidden;
-}
-
 .slider-for {
     position: relative;
     flex: 5;
@@ -152,10 +146,6 @@
 
 .slick-initialized {
     visibility: visible;
-}
-
-.my-item {
-    /*background: red;*/
 }
 
 .slider-for .my-item {
