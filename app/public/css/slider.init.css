@@ -167,6 +167,12 @@
     position: absolute;
 }
 
+.slider-info__wrapper .input-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 350px;
+}
+
 @media (min-width: 425px) {
     .main-slide-video{
         min-height: 250px;
@@ -219,12 +225,6 @@
     .slider-info__wrapper {
         margin: auto;
         width: 100%;
-    }
-
-    .slider-info__wrapper .input-wrapper {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 350px;
     }
 
     .mobile-nav {
