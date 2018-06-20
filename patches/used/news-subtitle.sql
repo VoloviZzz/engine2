@@ -1,1 +1,0 @@
-ALTER TABLE `news` ADD `subtitle` VARCHAR(255) NULL DEFAULT NULL AFTER `title`;
