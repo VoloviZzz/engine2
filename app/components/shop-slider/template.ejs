@@ -1,102 +1,134 @@
-<link rel="stylesheet" href="/vendors/flexSlider/flexslider.css">
-<link rel="stylesheet" href="/css/slider.init.css">
+<link rel="stylesheet" href="/vendors/slick/slick.css">
+<link rel="stylesheet" href="/vendors/slick/slick-theme.css">
+
 <div class="slider-container">
-	<div id="slider" class="flexslider">
-		<ul class="slides">
-			<% slides.map((s, index) => { %>
-				<li>
-					<div class="slider-info__container">
-						<div class="slider-item" style="background-image: url(<%= s.img %>)"></div>
-						<div class="slider-info">
-							<div class="slider-info__wrapper">
-								<% if(user.adminMode) { %>
-									<input type="text" class="js-goodsCategories-upd input-text" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
-								<% } else { %> 
-									<h1><%= s.title %></h1>
-								<% } %>
-								<% if(user.adminMode) { %>
-									<div>
-										<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" name="cat-desc-update-<%= s.id -%>" class="js-ckeditor-edit js-goodsCategories-upd" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
-									</div>
-								<% } else { %> 
-									<div class="text-center">
-										<%- s.description %>
-									</div>
-								<% } %>
-								<% if(user.adminMode) { %>
-									<div>
-										<label>Добавить фото
-										<input class="js-goodsCategories-addPhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-id="<%= s.id -%>" type="file" style="display: none;">
-										</label>
-									</div>
-								<% } %>
-								<div class="slider-action">
-									<a href="/shop-categories/<%= s.id %>" class="btn">Подробнее</a>
-								</div>
+	<div class="my-slider slider-for">
+		<% slides.map((s, index) => { %>
+		<div class="my-item">
+			
+			<div class="slider-info__container" style="background-image: url(<%= s.img %>)">
+				<div class="slider-info">
+					<div class="slider-info__wrapper">
+						<% if(user.adminMode) { %>
+							<input style="margin-bottom: 20px" type="text" class="js-slide-upd input-text" data-event-name="input" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+						<% } else { %> 
+							<h2><%= s.title %></h2>
+						<% } %>
+						<% if(user.adminMode) { %>
+							<div>
+								<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd js-ckeditor-edit" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
 							</div>
-						</div>
-					</div>
-				</li>
-			<% }) %>
-			<% if(user.adminMode === true) { %>
-				<!-- пустой слайд для правильной навигации -->
-				<li>
-					<div class="slider-info__container">
-						<div class="slider-item"></div>
-					</div>
-				</li>
-			<% } %>
-		</ul>
-	</div>
-	<div id="carousel" class="flexslider">
-		<ul class="slides">
-			<% slides.map((s, index) => { %>
-				<li data-id="<%= s.id -%>">
-					<div class="container-item__container">
-						<div class="carousel-item" style="background-image: url(<%= s.img_bottom || s.img %>)"></div>
-						<% if(user.adminMode === true) { %>
-							<div style="position: absolute; font-weight: bold;top: 5px;cursor: pointer; width: 100%">
-								<span class="slide-show-settings js-goodsCategories-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
-								<div>
-									<span>Приоритет показа</span>
-									<input type="number" class="js-goodsCategories-upd" data-target="priority" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.priority -%>">
-								</div>
+						<% } else { %> 
+							<div class="text-center">
+								<%- s.description %>
 							</div>
 						<% } %>
-						<div class="carousel-link__container">
-							<% if(user.adminMode) { %>
+						<% if(user.adminMode) { %>
 							<div>
-								<span>Заголовок:</span>
-								<input type="text" class="js-goodsCategories-upd" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom -%>">
+								<label>Добавить фото
+								<input class="js-slide-addSlidePhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
+								</label>
 							</div>
-							<% } else { %>
-								<a href="/shop-categories/<%= s.id %>"><%= s.title_bottom || s.title %></a>
+						<% } %>
+						<div class="slider-action">
+							<% s.moreBtnText = 'moreBtnText' in s === false ? 'Подробнее' : s.moreBtnText %>
+							<% if( ('moreBtnText' in s && s.moreBtnText != '') || 'moreBtnText' in s === false ) { %>
+								<a href="<%= s.href %>" class="btn"><%= s.moreBtnText  -%></a>
+							<% } %>
+							<% if(user.adminMode) { %>
+								<div>
+									<label>
+										<span>Текст для кнопки:</span>
+										<input type="text" 
+											class="js-slide-upd"
+											data-target="moreBtnText" 
+											value="<%= s.moreBtnText -%>" 
+											data-fragment-id="<%= locals.fragment.id -%>" 
+											data-id="<%= s.id -%>">
+									</label>
+								</div>
 							<% } %>
 						</div>
 					</div>
-				</li>
-			<% }) %>
-			<% if(user.adminMode === true) { %>
-				<li>
-					<div class="container-item__container js-goodsCategories-add" data-page="<%= locals.page%>" data-fragment-id="<%= locals.fragment.id%>">
+				</div>
+			</div>
+
+		</div>
+		<% }) %>
+		<% if(user.adminMode === true) { %>
+			<div class="my-item">
+				<div class="slider-info__container">
+					<div class="slider-item"></div>
+				</div>
+			</div>
+		<% } %>
+	</div>
+	<div class="my-slider slider-nav">
+		<% slides.map((s, index) => { %>
+		<div class="my-item">
+			<div class="container-item__container" style="background-image: url(<%= s.img_bottom || s.img %>)">
+				<% if(user.adminMode === true) { %>
+					<div style="position: absolute;right: 10px;font-weight: bold;top: 5px;cursor: pointer;">
+						<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
+						<label>
+						Добавить фото
+						<input type="file" class="js-slide-addSlidePhoto" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
+						</label>
+					</div>
+					<% if(index > 0) { %>
+						<button class="btn js-slide-moveSlide" 
+							data-fragment-id="<%= locals.fragment.id -%>" 
+							data-current-position="<%= index -%>" 
+							data-id="<%= s.id -%>" 
+							data-vector="-1"
+							style="position: absolute; top: 50%; left: 0px">&larr;</button>
+					<% } %>
+					<% if(index < slides.length -1) { %>
+						<button class="btn js-slide-moveSlide" 
+							data-fragment-id="<%= locals.fragment.id -%>"
+							data-current-position="<%= index -%>" 
+							data-id="<%= s.id -%>" 
+							data-vector="1"
+							style="position: absolute; top: 50%; right: 0px">&rarr;</button>
+					<% } %>
+				<% } %>
+				<div class="carousel-link__container">
+					<% if(user.adminMode) { %>
+					<div style="font-size: 15px; max-width: 50%; padding: 0 3px">
+						<span>Заголовок:</span>
+						<input type="text" class="js-slide-upd"  data-event-name="input" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
+					</div>
+					<div style="font-size: 15px; max-width: 50%; padding: 0 3px">
+						<span>Адрес:</span>
+						<input type="text" class="js-slide-upd"  data-event-name="input" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
+					</div>
+					<% } else { %>
+						<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+		<% if(user.adminMode === true) { %>
+				<div class="my-item">
+					<div class="container-item__container js-slide-add" data-page="<%= locals.page%>" data-fragment-id="<%= locals.fragment.id%>">
 						<div class="carousel-item"></div>
 						<div class="carousel-link__container">
 							<a href="#">Добавить</a>
 						</div>
 					</div>
-				</li>
+				</div>
 			<% } %>
-		</ul>
 	</div>
 
 	<div class="mobile-nav">
-	<ul class="accordeon-menu">
-		<% slides.map((s, index) => { %>
-	    <li class="accordeon-menu__item <%= index == 0 ? 'accordeon-menu__item--active' : '' -%>">
-	        <div class="accordeon-menu__item-content">
-	        	<div class="slider-info" style="background-image: url(<%= s.img || s.img_bottom %>)">
+		<ul class="accordeon-menu">
+			<% slides.map((s, index) => { %>
+	    	<li class="accordeon-menu__item <%= index == 0 ? 'accordeon-menu__item--active' : '' -%>">
+	        <div class="accordeon-menu__item-content" style="background-image: url(<%= s.img || s.img_bottom %>)">
+	        	<div class="slider-info">
 	        		<div class="slider-info__wrapper">
-	        			<h1><%= s.title %></h1>
+	        			<h2><%= s.title %></h2>
 	        			<div class="text-center">
 	        				<%- s.description %>
 	        			</div>
@@ -114,20 +146,11 @@
 			<% }) %>	
 		</ul>
 	</div>
-<!--	
-	<div class="mobile-nav">
-		<ul>
-			<% slides.map(s => { %>
-				<li>
-					<div class="container-item__container">
-						<div class="carousel-link__container">
-							<a href="/shop-categories/<%= s.id %>"><%= s.title %></a>
-						</div>
-					</div>
-				</li>
-			<% }) %>
-		</ul>
-	</div>-->
 </div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.12/jquery.mousewheel.js"></script>
+<script defer type="text/javascript" src="/vendors/slick/slick.min.js"></script>
+<script defer type="text/javascript" src="/js/slider.init.js"></script>
+
 <script defer src="/js/slider.init.js"></script>
 <script defer type="text/javascript" src="/vendors/flexSlider/jquery.flexslider.js"></script>
