@@ -51,17 +51,20 @@ ul {
 .basket-nav {
     display: table;
     width: 100%;
-    border-radius: 5px;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
 }
 
 .basket-nav__el:first-child {
-    border-radius: 5px 0 0 5px;
+    -webkit-border-radius: 5px 0 0 5px;
+            border-radius: 5px 0 0 5px;
     border-left: 1px solid #c3c3c3;
     padding-left: 10px;
 }
 
 .basket-nav__el:last-child {
-    border-radius: 0 5px 5px 0;
+    -webkit-border-radius: 0 5px 5px 0;
+            border-radius: 0 5px 5px 0;
     border-right: 1px solid #c3c3c3;
 }
 
@@ -90,7 +93,8 @@ ul {
 }
 
 .basket-nav__el.current:after {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     position: absolute;
     top: 9px;
     right: -11px;
@@ -99,10 +103,15 @@ ul {
     border-top: 1px solid #c3c3c3;
     border-left: 1px solid #c3c3c3;
     border-right: none;
-    transform: rotate(-1682deg) skewX(-37deg);
+    -webkit-transform: rotate(-1682deg) skewX(-37deg);
+        -ms-transform: rotate(-1682deg) skewX(-37deg);
+            transform: rotate(-1682deg) skewX(-37deg);
     width: 21px;
     height: 17px;
-    border-radius: 2px 3px 0 3px;
+    -webkit-border-radius: 2px 3px 0 3px;
+            border-radius: 2px 3px 0 3px;
+    -webkit-transition: background .2s;
+    -o-transition: background .2s;
     transition: background .2s;
     background-color: #fff;
     z-index: 2;
@@ -233,7 +242,8 @@ ul {
 .input--simple {
     border: none;
     border-bottom: 1px solid #838181;
-    border-radius: 0;
+    -webkit-border-radius: 0;
+            border-radius: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     background-color: transparent;
@@ -278,7 +288,8 @@ ul {
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 1px;
-    border-radius: 4px;
+    -webkit-border-radius: 4px;
+            border-radius: 4px;
     border: none;
     position: absolute;
     right: 20%;
@@ -353,31 +364,53 @@ ul {
 }
 
 .basket-tabs {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
 }
 
 .basket-tabs .delivery-label {
     font-family: "Noto Sans",Arial,sans-serif;
     width: 1px;
-    flex-grow: 1;
-    order: -1;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-box-ordinal-group: 0;
+    -webkit-order: -1;
+        -ms-flex-order: -1;
+            order: -1;
     color: #9c8f7d;
     background: url(../img/shadow__basket-content.png) no-repeat 50% 100%;
     cursor: pointer;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
     text-transform: uppercase;
     text-align: center;
     padding: 10px;
     overflow: hidden;
-    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
 }
 
 .history-wrapper {
     display: none;
-    flex-flow: row wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
     width: 100%;
-    flex-grow: 2;
+    -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
+        -ms-flex-positive: 2;
+            flex-grow: 2;
     margin: 0;
     padding: 0px 0 0;
     background-color: white;
@@ -406,13 +439,17 @@ ul {
 .basket-tabs input:checked+label {
     border: 1px solid #e6e6e6;
     border-bottom: 5px solid #fff;
-    border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+            border-radius: 3px 3px 0 0;
     color: #1a1a1a;
     position: relative;
     background: #fff;
 }
 
 .basket-tabs input:checked+label+.history-wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
     border-top: none;
 }
@@ -422,6 +459,9 @@ ul {
 }
 
 .order-items-wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
     border-top: 1px dashed #000000;
     min-height: 70px;
@@ -443,12 +483,15 @@ ul {
     border: 1px solid #b4aa9c;
     border-left: none;
     position: relative;
-    border-radius: 0 5px 5px 0;
+    -webkit-border-radius: 0 5px 5px 0;
+            border-radius: 0 5px 5px 0;
     font-family: "Noto Sans",Arial,sans-serif;
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: .09em;
     padding: 8px 29px 8px 29px;
+    -webkit-transition: background .2s;
+    -o-transition: background .2s;
     transition: background .2s;
     background-color: transparent;
     color: #b4aa9c;
@@ -462,10 +505,15 @@ ul {
     content: '';
     border-top: 1px solid #b4aa9c;
     border-left: 1px solid #b4aa9c;
-    transform: rotate(-410deg) skewX(-15deg);
+    -webkit-transform: rotate(-410deg) skewX(-15deg);
+        -ms-transform: rotate(-410deg) skewX(-15deg);
+            transform: rotate(-410deg) skewX(-15deg);
     width: 23px;
     height: 23px;
-    border-radius: 2px 3px 0 3px;
+    -webkit-border-radius: 2px 3px 0 3px;
+            border-radius: 2px 3px 0 3px;
+    -webkit-transition: background .2s;
+    -o-transition: background .2s;
     transition: background .2s;
     background-color: transparent;
 }
@@ -487,7 +535,8 @@ ul {
     display: inline-block;
     padding-left: 10px;
     vertical-align: top;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .delivery-contacts {
@@ -570,7 +619,8 @@ span.delivery-price-value {
     height: 50px;
     z-index: 1;
     background: url(../img/shadow__basket-content.png) no-repeat 50% 100%;
-    background-size: 100% auto;
+    -webkit-background-size: 100% auto;
+            background-size: 100% auto;
 }
 
 .delivery-flat__current {
@@ -594,7 +644,8 @@ span.delivery-price-value {
     background-color: #b4aa9c;
     font-family: "Noto Sans",Arial,sans-serif;
     color: #FFF;
-    border-radius: 3px;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
 }
 
 span.delivery-price-none {
@@ -621,7 +672,8 @@ span.delivery-price-none {
 
 .basket-list-wrap {
     display: block;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     text-align: center;
     font-family: "Noto Sans",Arial,sans-serif;
 }
@@ -847,7 +899,8 @@ span.delivery-price-none {
 .grid__item {
     display: inline-block;
     vertical-align: top;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .input-payment {
@@ -867,6 +920,8 @@ span.delivery-price-none {
     background-color: #fafafa;
     text-align: center;
     cursor: pointer;
+    -webkit-transition: background-color .2s,border-color .2s;
+    -o-transition: background-color .2s,border-color .2s;
     transition: background-color .2s,border-color .2s;
 }
 

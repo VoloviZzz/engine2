@@ -2,8 +2,15 @@
     border: 1px #c3c3c3 solid;
     padding: 12px;
     min-height: 100px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: row wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
 }
 
 .memory-book__photo {
@@ -27,7 +34,10 @@
 }
 
 .memory-book__info {
-    flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
 }
 
 .place__info {
@@ -43,8 +53,15 @@
 }
 
 .memory-book__body {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: row wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
 }
 
 .memory-book__body a {
@@ -53,15 +70,23 @@
 }
 
 .memory-book__photos {
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     background-position: center;
     width: 25%;
     margin-bottom: 1.5%;
 }
 
 .memory-book__photos-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: row wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
 }
 
 h3.memory-book__container-title {
@@ -100,9 +125,19 @@ h3.memory-book__container-title {
 }
 
 .biography-meta {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     background: #eaeaea;
     padding: 7px 15px;
     margin: -15px -15px 15px -15px;
@@ -113,7 +148,10 @@ h3.memory-book__container-title {
 }
 
 .meta-title {
-    justify-content: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     text-align: center;
 }
 

@@ -2,6 +2,7 @@ const path = require('path');
 const request = require('request');
 const api = require('../../memory-book-api');
 const retailApi = require('../../retail-api');
+const searchApi = require('../../search-deads-api');
 
 module.exports = (app) => {
 
@@ -128,10 +129,10 @@ function getDeadInfo(id) {
 	return new Promise((resolve, reject) => {
 		request({
 			method: 'POST',
-			url: apiUrl,
+			url: searchApi.apiUrl,
 			form: {
 				__function__: 'getDead',
-				key: apiKey,
+				key: searchApi.apiKey,
 				id: id,
 			}
 		}, (error, response, body) => {

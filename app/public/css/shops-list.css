@@ -43,8 +43,13 @@
 
 @media (min-width: 768px) {
     .shops-items {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex;
-        flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
     }
 
     .shops-item:not(:nth-child(3n)) {
@@ -52,6 +57,7 @@
     }
 
     .shops-item {
+        width: -webkit-calc((100% / 3) - 5px);
         width: calc((100% / 3) - 5px);
         margin-bottom: 5px;
     }
