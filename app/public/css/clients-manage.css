@@ -1,7 +1,16 @@
 #period-settigs {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 .period-settings__item {
@@ -27,7 +36,10 @@
 .clients-search__input {
     width: 100%;
     padding: 15px;
-    border-radius: 5px;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-transition: .3s all;
+    -o-transition: .3s all;
     transition: .3s all;
 }
 

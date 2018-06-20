@@ -1,0 +1,86 @@
+ .shop-info-wrapper {
+    margin-top: 15px;
+ }
+
+.shops-page__shops-top, .shops-page__shops-bottom {
+    display: flex;
+    flex: 1;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.shops-page__shops-top-left, .shops-page__shops-bottom-left {
+    flex: 3;
+    min-width: 300px;
+}
+
+.shops-page__shops-top-right, .shops-page__shops-bottom-right {
+    flex: none;
+    width: 100%;
+    margin: 15px 0;
+}
+
+.shops-page__shops-bottom > div {
+    margin: 10px;
+}
+
+.shop-img img {
+    /* object-fit: cover; */
+    max-height: 250px;
+}
+
+.shop-img {
+    width: 100%;
+    text-align: center;
+}
+
+.shop-contacts {
+    width: 100%;
+    flex: none;
+}
+
+.shop-map {
+    height: 260px;
+    width: 100%;
+}
+
+.contacts-info__item {
+    margin: 10px auto;
+}
+
+.contacts-info-list {
+    display: flex;
+    flex-direction: column;
+    font-size: 135%;
+    justify-content: space-between;
+}
+
+.shop-contacts table {
+    max-width: 325px;
+    margin: 0 auto;
+}
+
+.shop-contacts td:nth-child(2n+1) {
+    text-align: left;
+    font-weight: 400;
+}
+
+
+
+
+@media (min-width: 992px) {
+    .shop-info-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 25px;
+    }
+
+    .shop-info-wrapper h3 {
+        width: 100%;
+    }
+
+    .shop-contacts,
+    .shop-map {
+        width: 49%;
+    }
+}
