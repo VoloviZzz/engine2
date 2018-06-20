@@ -4,6 +4,8 @@ const formidable = require('formidable');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
+const searchDeads = require('../search-deads-api');
+const View = require('../View')
 
 exports.loadPhoto = (req, res, next) => {
 
@@ -29,7 +31,7 @@ exports.loadPhoto = (req, res, next) => {
 	}).then((fileFullPath) => {
 		var formData = {
 			__function__: 'uploadPhoto',
-			key: apiKey,
+			key: '',
 			photo: fs.createReadStream(fileFullPath),
 			dead_id: dead_id
 		};
@@ -50,6 +52,7 @@ exports.loadPhoto = (req, res, next) => {
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
+		console.log(error);
 		return { error, message: error.message };
 	})
 }
@@ -202,11 +205,10 @@ exports['alphavite-search'] = (req, res, next) => {
 
 const parseDeadData = (data) => {
 	return {
-		cemetery: data.cemetery,
+		cemetery: data.cemetery_id,
 		area: data.area,
 		areaName: data.area_name,
 		place: data.place,
-		cemetery: data.cemetery,
 		cemeteryName: data.cemetery_name,
 		surname: data.surname,
 		firstname: data.firstname,
@@ -233,10 +235,10 @@ function getDeadInfo(id) {
 	return new Promise((resolve, reject) => {
 		request({
 			method: 'POST',
-			url: apiUrl,
+			url: searchDeads.apiUrl,
 			form: {
 				__function__: 'getDead',
-				key: apiKey,
+				key: searchDeads.apiKey,
 				id: id,
 			}
 		}, (error, response, body) => {
@@ -249,40 +251,6 @@ function getDeadInfo(id) {
 			}
 
 			return resolve(body);
-		})
-	})
-}
-
-function getMemory(data = [], options = {}) {
-	return new Promise((resolve, reject) => {
-		request({
-			method: 'POST',
-			url: api.memoryBookUrl + 'memory.get',
-			form: {
-				values: JSON.stringify(data),
-				options: JSON.stringify(options)
-			}
-		}, (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
-
-			body = JSON.parse(body);
-			return resolve(body);
-		})
-	})
-}
-
-function changeStateItem(data) {
-	return new Promise((resolve, reject) => {
-		const url = encodeURI(`${api.memoryBookUrl}${data.table}.upd`);
-		request.post(url, { form: data }, (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
-
-			body = JSON.parse(body);
-			return resolve(body)
 		})
 	})
 }

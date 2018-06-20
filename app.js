@@ -87,6 +87,7 @@ app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'app', 'libs');
 app.componentsPath = path.join(__dirname, 'app', 'components');
 app.locals.uploadDir = path.join(__dirname, 'app', 'public', 'uploads');
+app.locals.tempUploadDir = path.join(__dirname, 'app', 'public', 'uploads', 'temp');
 app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
 
 global.DocumentRoot = __dirname;
