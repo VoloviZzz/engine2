@@ -33,7 +33,9 @@ exports.loadPhoto = (req, res, next) => {
 			__function__: 'uploadPhoto',
 			key: '',
 			photo: fs.createReadStream(fileFullPath),
-			dead_id: dead_id
+			dead_id: dead_id,
+			dead_code: '74-3435',
+			author_id: req.session.user.id
 		};
 
 		return api.photos.addPhoto({ formData });
@@ -71,7 +73,7 @@ exports['add_necrologue'] = (req, res, next) => {
 
 		let graveInfo = parseDeadData(data);
 
-		return api.memory.add({ form: graveInfo });
+		return api.memory.add(graveInfo);
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
@@ -95,7 +97,7 @@ exports['add_biography'] = (req, res, next) => {
 
 		let graveInfo = parseDeadData(data);
 
-		return api.memory.add({ form: graveInfo });
+		return api.memory.add(graveInfo);
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
@@ -158,7 +160,7 @@ exports['loadMore'] = (req, res, next) => {
 
 exports['change-state-item'] = (req, res, next) => {
 	req.body.reason = req.body.reason || false;
-	return api.memory.upd({ form: req.body }).then(result => {
+	return api.memory.upd(req.body.target, req.body).then(result => {
 		if (result.status == 'ok') {
 			return res.json({ status: 'ok', data: result });
 		}
@@ -171,7 +173,7 @@ exports['change-state-item'] = (req, res, next) => {
 }
 
 exports['delete-item'] = (req, res, next) => {
-	return api.memory.del({ form: { target: req.body.target, id: req.body.id } }).then(result => {
+	return api.memory.del({ target: req.body.target, id: req.body.id }).then(result => {
 		return { status: 'ok', data: result }
 	}).catch(error => {
 		console.log(error.message);

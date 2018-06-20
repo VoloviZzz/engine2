@@ -71,9 +71,10 @@ module.exports = (app) => {
 
 		let necs = [];
 		let bio = [];
+		let photos = [];
 
 		try {
-			memory = await getMemory(['necrologues', 'biographies'], { dead_id: data.id });
+			memory = await getMemory(['necrologues', 'biographies'], { dead_id: data.id, state: '3', author_id: session.user.id, common_id: '74-3435-' + data.id });
 			necs = memory[0];
 			bio = memory[1];
 		} catch (error) {
@@ -81,34 +82,33 @@ module.exports = (app) => {
 			console.log(error.toString());
 		}
 
-		let photos = [];
-
 		try {
-			photos = await api.photos.getPhotos({ form: { dead_id: defaultData.id } });
+			photos = await api.photos.getPhotos({ dead_id: defaultData.id, author_id: session.user.id, state: '3' });
 		} catch (error) {
 			console.log(error);
+		}
+
+		const resPhoto = [];
+
+		for (let photo of photos.data) {
+			var [error, client] = await Model.clients.get({ id: photo.author_id });
+
+			if (error) {
+				console.log(error);
+				continue;
+			}
+
+			client = client[0] || {};
+
+			photo.client = client;
+
+			resPhoto.push(photo);
 		}
 
 		body = JSON.parse(body);
 		body.data.bio = bio;
 		body.data.necs = necs;
-		body.data.photos = photos.data;
-
-		if (body.status == false) {
-
-			let err = new Error("Страница захоронения не найдена");
-			err.status = 404;
-
-			return next(err);
-		}
-
-		if (body.status == 'bad') {
-
-			let err = new Error("Ошибка сервера");
-			err.status = 500;
-
-			return next(err);
-		}
+		body.data.photos = resPhoto;
 
 		dataViews.flowers = [];
 		dataViews.data = body.data;
@@ -150,13 +150,13 @@ function getDeadInfo(id) {
 }
 
 function getMemory(data = [], options = {}) {
+
 	return new Promise((resolve, reject) => {
-		request({
-			method: 'POST', url: api.memoryBookUrl + 'memory.get', form: {
-				values: JSON.stringify(data),
-				options: JSON.stringify(options)
-			}
-		}, (error, response, body) => {
+
+		const values = JSON.stringify(data);
+		options = JSON.stringify(options);
+
+		request.post(api.memoryBookUrl + 'memory.get', { form: { values, options } }, (error, response, body) => {
 			if (error) {
 				return reject(error);
 			}
