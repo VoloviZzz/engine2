@@ -45,5 +45,6 @@
 .more-order-details {
 	padding: 15px 61px;
 	border: 1px solid #cccccc;
-	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	        border-radius: 4px;
 }
