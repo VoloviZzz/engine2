@@ -78,10 +78,18 @@ $(document).ready(function () {
 		return false;
 	});
 
-	// Открытие закрытие мобильного слайдера
 	$('.accordeon-menu__item-link').click(function (e) {
+		e.preventDefault();
+		$('.accordeon-menu__item-content').slideUp(100);
+		$(this).siblings(".accordeon-menu__item-content").slideDown(1500);
+	});
+
+	// Открытие закрытие мобильного слайдера
+	/*$('.accordeon-menu__item-link').click(function (e) {
 		e.preventDefault();
 		$('.accordeon-menu__item').removeClass('accordeon-menu__item--active');
 		$(this).parent(".accordeon-menu__item").addClass('accordeon-menu__item--active');
-	});
+	});*/
+
+
 });

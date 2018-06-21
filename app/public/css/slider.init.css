@@ -282,6 +282,7 @@
 
 .accordeon-menu__item-content {
     display: none;
+    position: relative;
     background-position: center;
     -webkit-background-size: cover;
             background-size: cover;
@@ -316,8 +317,9 @@
     cursor: pointer;
 }
 
-.accordeon-menu__item--active .accordeon-menu__item-content {
+.accordeon-menu__item--active {
     display: block;
+    max-height: 100%;
 }
 
 .accordeon-menu__item--active .accordeon-menu__item-link {

@@ -1,5 +1,7 @@
 .feedback {
+	margin-top: 20px;
 	padding-top: 53px;
+	background-color: #f0eaea;
 }
 
 .feedback__wrapper {
@@ -13,17 +15,17 @@
 	    -ms-flex-direction: column;
 	        flex-direction: column;
 	width: 100%;
-	max-width: 600px;
+	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .feedback__title {
-	font-family: 'BebasNeue', sans-serif;
+	margin: 0 auto;
+	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	letter-spacing: 0.96px;
 	line-height: 55px;
-	text-transform: uppercase;
 	color: #333333;
 }
 
@@ -66,7 +68,8 @@
 
 .feedback__telephone, .feedback__email {
 	width: 50%;
-	max-width: 264px;
+	/*max-width: 264px;*/
+  max-width: 214px;
 }
 
 .feedback__form .feedback__message {
@@ -138,13 +141,14 @@
 
 .feedback__btn-submit {
 	width: 100%;
-	max-width: 262px;
+	max-width: 222px;
+	margin-left: auto;
 	padding-top: 13px;
 	padding-bottom: 13px;
 	border: none;
-	background-color: #3c83bf;
-	font-family: 'BebasNeue', sans-serif;
-	font-size: 24px;
+	/*background-color: #3c83bf;*/
+	font-family: 'Roboto', sans-serif;
+	font-size: 18px;
 	font-weight: 400;
 	color: #ffffff;
 	line-height: 24px;
