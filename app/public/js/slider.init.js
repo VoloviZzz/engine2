@@ -1,6 +1,24 @@
 $(document).ready(function () {
 
-	var currentSlide = sessionStorage.lastSlide || 0;
+	var currentSlide = sessionStorage.getItem(location.pathname + '-' + 'lastSlide') || 0;
+
+	// если слайдеру установить инициализирующий слайд больше, чем есть всего слайдов,
+	// то у него будет установлено смещение transform3d за пределы слайдов,
+	// и слайды не будут отображаться
+	// два нижних события предотвращают это.
+	$('.slider-nav').on('init', function (event, slick) {
+		if (slick.slideCount <= slick.options.slidesToShow) {
+			$(this).addClass('dont-transform');
+		}
+	})
+
+	$('.slider-nav').on('breakpoint', function (event, slick) {
+		if (slick.slideCount <= slick.options.slidesToShow) {
+			$(this).addClass('dont-transform');
+		} else {
+			$(this).removeClass('dont-transform');
+		}
+	})
 
 	$('.slider-for').slick({
 		slidesToShow: 1,
@@ -25,16 +43,12 @@ $(document).ready(function () {
 				breakpoint: 1150,
 				settings: {
 					slidesToShow: 3,
-					infinite: true,
-					dots: false,
 				}
 			},
 			{
 				breakpoint: 1300,
 				settings: {
 					slidesToShow: 4,
-					infinite: true,
-					dots: false,
 				}
 			}
 		]
@@ -46,7 +60,7 @@ $(document).ready(function () {
 			$(this).slick("slickPrev");
 		}
 	}).on('afterChange', function (event, slick, currentSlide) {
-		sessionStorage.setItem('lastSlide', currentSlide);
+		sessionStorage.setItem(location.pathname + '-' + 'lastSlide', currentSlide);
 	})
 
 	setSlidersSize();
@@ -81,6 +95,7 @@ $(document).ready(function () {
 	$('.accordeon-menu__item-link').click(function (e) {
 		e.preventDefault();
 		$('.accordeon-menu__item-content').slideUp(100);
+		
 		$(this).siblings(".accordeon-menu__item-content").slideDown(1500);
 	});
 
