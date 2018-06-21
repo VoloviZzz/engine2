@@ -132,3 +132,8 @@ object {
 img.memory-photos--item {
 	width: 300px;
 }
+
+.dead-view-memory-photos {
+	display: inline-block;
+	vertical-align: top;
+}

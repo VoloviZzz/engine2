@@ -23,7 +23,9 @@ module.exports = (app) => {
 			templatePath = path.join(__dirname, 'template.ejs');
 
 			var [error, postCategories] = await app.db.execQuery(`SELECT * FROM post_categories WHERE target_id = '${currentTarget}'`);
-			console.log('get post_categories error:', error);
+			if(error) {
+				console.log('get post_categories error:', error);
+			}
 
 			// пагинация
 			var publicPosts = session.user.adminMode !== true ? `AND public = '1'` : '';

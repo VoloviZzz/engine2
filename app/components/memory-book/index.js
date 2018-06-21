@@ -17,17 +17,17 @@ module.exports = (app) => {
 
 		try {
 			[data.deads, data.biographies, data.necrologues] = await Promise.all([
-				api.get('deads'),
-				api.get('biographies'),
-				api.get('necrologues')
+				api.get('deads2', { state: '3' }),
+				api.get('biographies', { state: '3' }),
+				api.get('necrologues', { state: '3' })
 			])
 		} catch (e) {
 			console.log('Ошибка api "memory_book":');
 			console.log(e);
 		}
 
-		data.countDeads = data.deads[1] || 0;
-		data.deads = data.deads[0] || [];
+		data.countDeads = data.deads.countDeads || 0;
+		data.deads = data.deads.deads || [];
 		dataViews.data = data;
 		dataViews.user = session.user;
 
