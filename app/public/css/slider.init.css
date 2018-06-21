@@ -14,7 +14,7 @@
     padding: 0 30px;
 }
 
-.my-slider.slider-nav.slick-initialized.slick-slider.dont-transform .slick-track {
+.slider-nav.dont-transform .slick-track {
 	transform: translate3d(0px, 0px, 0px) !important;
 }
 
@@ -52,6 +52,12 @@
 .slider-nav .my-item:hover, .slider-nav .slick-current {
     -webkit-box-shadow: 0px 3px 15px 3px #0a0909;
             box-shadow: 0px 3px 15px 3px #0a0909;
+}
+
+.slider-nav .slick-track {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
 }
 
 .slick-prev {
