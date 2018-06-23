@@ -43,20 +43,10 @@
         </div>
         <div class="cards__content-wrapp">
             <div class="cards__content">
-			<p><%- Helpers.trimStr(n.text, 75) -%></p>
-			<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__content-link">Читать далее...</a>
+			<p><%- Helpers.trimStr(n.text, 999) -%></p>
             </div>
-<<<<<<< HEAD
         </div>
     </article>
-=======
-            <div class="cards__content-wrapp">
-                <div class="cards__content">
-					<p><%- Helpers.trimStr(n.text, 999) -%></p>
-                </div>
-            </div>
-        </article>
->>>>>>> ccc4304e9dd7f9b01c06a6e5083513cd33190306
 	<% }) %>
 </div>
 <% if(user.adminMode) { %>
