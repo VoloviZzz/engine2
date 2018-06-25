@@ -29,8 +29,8 @@ exports.addItem = async (req, res, next) => {
 	}
 
 	addData.target = req.body.target;
-	
-	if(req.body.categoryId !== '') {
+
+	if (req.body.categoryId !== '' && req.body.categoryId != 'false') {
 		addData.category = req.body.categoryId;
 	}
 
