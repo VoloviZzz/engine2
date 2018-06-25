@@ -2,7 +2,7 @@ const path = require('path');
 const request = require('request');
 const api = require('../../memory-book-api');
 const retailApi = require('../../retail-api');
-const searchApi = require('../../search-deads-api');
+const searchApiLib = require('../../libs/search-deads');
 
 module.exports = (app) => {
 
@@ -48,7 +48,7 @@ module.exports = (app) => {
 		data = Object.assign(defaultData, data);
 
 		try {
-			body = await getDeadInfo(data.id);
+			body = await searchApiLib.getDeadInfo(data.id);
 		}
 		catch (e) {
 			console.log(e);
@@ -71,7 +71,7 @@ module.exports = (app) => {
 
 		let necs = [];
 		let bio = [];
-		let photos = [];
+		let photos = { data: [] };
 
 		try {
 			memory = await getMemory(['necrologues', 'biographies'], { dead_id: data.id, state: '3', author_id: session.user.id, common_id: '74-3435-' + data.id });
@@ -83,7 +83,7 @@ module.exports = (app) => {
 		}
 
 		try {
-			photos = await api.photos.getPhotos({ dead_id: defaultData.id, author_id: session.user.id, state: '3' });
+			photos = await api.photos.getPhotos({ dead_id: '74-3435-' + data.id, author_id: session.user.id, state: '3' });
 		} catch (error) {
 			console.log(error);
 		}
@@ -123,30 +123,6 @@ module.exports = (app) => {
 			});
 		})
 	}
-}
-
-function getDeadInfo(id) {
-	return new Promise((resolve, reject) => {
-		request({
-			method: 'POST',
-			url: searchApi.apiUrl,
-			form: {
-				__function__: 'getDead',
-				key: searchApi.apiKey,
-				id: id,
-			}
-		}, (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
-
-			if (body.status == false || body.status == 'bad') {
-				return reject({ status: 'bad' });
-			}
-
-			return resolve(body);
-		})
-	})
 }
 
 function getMemory(data = [], options = {}) {
