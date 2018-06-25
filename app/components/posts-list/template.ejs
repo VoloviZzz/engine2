@@ -44,6 +44,9 @@
 			<button class="btn cards-add js-posts-add" data-category="<%= currentCategory -%>" data-target="<%= currentTarget -%>">Добавить</button>
 		</div>
 	<% } %>
+	<% if(posts.length < 1) { %>
+		<h2>Публикации отсутствуют</h2>
+	<% } %>
 	<% posts.map(n => { %>
 		<article class="cards__item">
             <% if(user.adminMode) { %>
