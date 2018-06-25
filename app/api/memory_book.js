@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
-const searchDeads = require('../search-deads-api');
+const searchDeadsLib = require('../libs/search-deads');
 const View = require('../View')
 
 exports.loadPhoto = (req, res, next) => {
@@ -60,7 +60,7 @@ exports.loadPhoto = (req, res, next) => {
 }
 
 exports['add_necrologue'] = (req, res, next) => {
-	return getDeadInfo(req.body.id).then(body => {
+	return searchDeadsLib.getDeadInfo(req.body.id).then(body => {
 		body = JSON.parse(body);
 
 		return Promise.resolve(body.data.grave);
@@ -84,7 +84,7 @@ exports['add_necrologue'] = (req, res, next) => {
 };
 
 exports['add_biography'] = (req, res, next) => {
-	return getDeadInfo(req.body.id).then(body => {
+	return searchDeadsLib.getDeadInfo(req.body.id).then(body => {
 		body = JSON.parse(body);
 
 		return Promise.resolve(body.data.grave);
@@ -125,31 +125,22 @@ exports['search'] = (req, res, next) => {
 		return EJS.renderTpl('./views/components/memory_book/items-list.ejs', data);
 	}).then(content => {
 		data.content = content;
-		return res.json(data);
+		return data;
 	}).catch(error => {
 		console.log(error);
-		return res.json({ status: 'bad', message: error.message });
+		return { status: 'bad', message: error.message };
 	})
 }
 
-exports['loadMore'] = (req, res, next) => {
+exports['loadMore'] = async (req, res, next) => {
 	var data = {};
-	return new Promise((resolve, reject) => {
-		request.get(encodeURI(`${api.memoryBookUrl}deads?part=${req.body.part}`), (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
 
-			body = JSON.parse(body);
+	var { deads, countDeads } = await api.get(`deads2?part=${req.body.part}`);
+	data.deads = deads;
+	data.countDeads = countDeads;
+	data.part = req.body.part;
 
-			data.deads = body[0];
-			data.countDeads = body[1];
-			data.part = req.body.part;
-			return resolve(data)
-		})
-	}).then((data) => {
-		return View.render('components/memory-book', 'items-list.ejs', data);
-	}).then(content => {
+	return View.render('components/memory-book', 'items-list.ejs', data).then(content => {
 		data.content = content;
 		return { status: 'ok', data };
 	}).catch(error => {
@@ -160,19 +151,23 @@ exports['loadMore'] = (req, res, next) => {
 
 exports['change-state-item'] = (req, res, next) => {
 	req.body.reason = req.body.reason || false;
-	return api.memory.upd(req.body.target, req.body).then(result => {
+
+	return api.memory.upd(req.body.table, req.body).then(result => {
 		if (result.status == 'ok') {
-			return res.json({ status: 'ok', data: result });
+			return { status: 'ok', data: result };
 		}
 
-		return res.json({ status: 'bad', message: result.message });
+		return { status: 'bad', message: result.message };
 	}).catch(error => {
 		console.log(error);
-		return res.json({ status: 'bad', message: error.message });
+		return { status: 'bad', message: error.message };
 	})
 }
 
 exports['delete-item'] = (req, res, next) => {
+
+	if ((req.body.creator != req.session.user.id) && !!req.session.user.adminMode === false) return { status: 'bad', message: 'Нет прав для удаления' };
+
 	return api.memory.del({ target: req.body.target, id: req.body.id }).then(result => {
 		return { status: 'ok', data: result }
 	}).catch(error => {
@@ -198,10 +193,10 @@ exports['alphavite-search'] = (req, res, next) => {
 		return View.render('components/memory-book', 'items-list.ejs', data);
 	}).then(content => {
 		data.content = content;
-		return res.json(data);
+		return data;
 	}).catch(error => {
 		console.log(error);
-		return res.json({ status: 'bad', message: error.message });
+		return { status: 'bad', message: error.message };
 	})
 }
 
@@ -231,28 +226,4 @@ const parseDeadData = (data) => {
 		mainPhoto: data.mainphoto.photo_preview || '',
 		photoOrientation: data.mainphoto.orientation
 	};
-}
-
-function getDeadInfo(id) {
-	return new Promise((resolve, reject) => {
-		request({
-			method: 'POST',
-			url: searchDeads.apiUrl,
-			form: {
-				__function__: 'getDead',
-				key: searchDeads.apiKey,
-				id: id,
-			}
-		}, (error, response, body) => {
-			if (error) {
-				return reject(error);
-			}
-
-			if (body.status == false || body.status == 'bad') {
-				return reject({ status: 'bad' });
-			}
-
-			return resolve(body);
-		})
-	})
 }
