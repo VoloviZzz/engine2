@@ -38,6 +38,7 @@ $(document).ready(function () {
 		asNavFor: '.slider-for',
 		focusOnSelect: true,
 		initialSlide: currentSlide * 1,
+		centerMode: true,
 		responsive: [
 			{
 				breakpoint: 1150,
@@ -93,21 +94,21 @@ $(document).ready(function () {
 	});
 
 
-	$('.accordeon-menu__item-link').click(function (e) { 
-		e.preventDefault(); 
+	$('.accordeon-menu__item-link').click(function (e) {
+		e.preventDefault();
 
-		var $this = $(this); 
+		var $this = $(this);
 		var active_class = 'accordeon-menu__item--active';
 		var active_selector = '.accordeon-menu__item--active';
-		var $itemContent = $this.siblings('.accordeon-menu__item-content'); 
-		var contentHasActive = $itemContent.hasClass(active_class); 
-		var slideSpeed = 1500; 
-		if (contentHasActive) return false; 
+		var $itemContent = $this.siblings('.accordeon-menu__item-content');
+		var contentHasActive = $itemContent.hasClass(active_class);
+		var slideSpeed = 1500;
+		if (contentHasActive) return false;
 
 		$('.accordeon-menu__item-content').slideUp(slideSpeed); //Закрывает ненужный слайд
 		$('.accordeon-menu__item-content').removeClass(active_class);
 		$itemContent.addClass(active_class); //присваевает активный класс соседнему с нажатым блоком элементу
-		$itemContent.slideDown(1500, function() {
+		$itemContent.slideDown(1500, function () {
 			var test = this.offsetTop;
 			$(window).scrollTop(test);
 		});
