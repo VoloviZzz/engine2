@@ -16,7 +16,7 @@ const api = {
 		},
 
 		getPhotos(data = {}) {
-			return api.post('photos.get', data);
+			return api.get('photos', data);
 		},
 	},
 
@@ -43,7 +43,7 @@ const api = {
 			if (!!data === false) return Promise.reject(`mb.api.upd.add: ${errors.falseData}`);
 			if (!!data.target === false) return Promise.reject(`mb.api.memory.upd: data.target is false`);
 
-			return api.post(target, data);
+			return api.post(target + '.upd', data);
 		}
 	},
 
