@@ -1,5 +1,4 @@
 const path = require('path');
-const request = require('request');
 const api = require('../../memory-book-api');
 
 const Pagination = require('../../libs/pagination');

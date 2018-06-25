@@ -350,6 +350,9 @@
                                     <br>
                                 </div>
                             <% } %>
+							<% if(n.state == 0 || n.state == 2) { %>
+								<p><b>Находится на модерации</b></p>
+							<% } %>
                             <%- Helpers.replaceLineBreaks(n.text) %>
                             <% if(n.creator == user.id) { %>
                                 <div class="text-right">
