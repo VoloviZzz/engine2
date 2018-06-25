@@ -31,10 +31,10 @@
 	</div>
 	<div>
 		<span>Отображение даты публикации:</span>
-		<% if(fragment.settings.showPublished == '1') { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublished" data-event="click" value="0">Скрыть</button>
+		<% if(fragment.settings.showPublishedTime == '1') { %>
+			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="0">Скрыть</button>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublished" data-event="click" value="1">показать</button>
+			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="1">показать</button>
 		<% } %>
 	</div>
 <% } %>
@@ -91,7 +91,7 @@
             </div>
 			<div class="cards-meta-wrapp">
 				<div class="cards__content text-right">
-					<% if(fragment.settings.showPublished == '1') { %>
+					<% if(fragment.settings.showPublishedTime == '1') { %>
 						<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
 					<% } %>
 				</div>
