@@ -1,3 +1,8 @@
+<% if(user.adminMode) { %>
+	<span>Адрес списка публикаций</span>
+	<input class="js-fragment-update-settings" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
+<% } %>
+<a href="<%= fragment.settings.listUrl ? fragment.settings.listUrl : '#' -%>" class="btn">Назад к списку публикаций</a>
 <div class="news content">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">

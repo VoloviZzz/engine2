@@ -457,6 +457,8 @@ $(document).ready(function () {
 
 			var postData = {};
 
+			var reload = $(this).data('reload');
+
 			if (typeof value !== undefined && value !== null) {
 				postData.value = value;
 			}
@@ -473,6 +475,9 @@ $(document).ready(function () {
 					console.log(result);
 					return alert(result.message);
 				}
+
+
+				if (typeof reload !== undefined && reload === false) return false;
 
 				return location.reload();
 			});
