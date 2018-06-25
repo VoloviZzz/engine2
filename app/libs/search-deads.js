@@ -1,8 +1,9 @@
 const request = require('request')
 
 module.exports = {
-	url: `http://oper.letaindex.ru:3001/api`,
+	url: `https://system.mpkpru.ru/m1api/`,
 	apiKey: '01234567890123456789012345678901',
+	apiLocCode: '74-МГ',
 
 	search(queryParams = {}, ctrl) {
 
@@ -10,7 +11,7 @@ module.exports = {
 		queryParams.key = this.apiKey;
 
 		return new Promise((resolve, reject) => {
-			request.post(this.url, {form: queryParams}, (error, response, body) => {
+			request.post(this.url, { form: queryParams }, (error, response, body) => {
 				if (error) {
 					return reject(error);
 				}
@@ -31,4 +32,26 @@ module.exports = {
 			})
 		})
 	},
+
+	getDeadInfo(id) {
+		return new Promise((resolve, reject) => {
+			const requestParams = {
+				__function__: 'getDead',
+				key: this.apiKey,
+				id: id,
+			};
+
+			request.post(this.url, { form: requestParams }, (error, response, body) => {
+				if (error) {
+					return reject(error);
+				}
+
+				if (body.status == false || body.status == 'bad') {
+					return reject({ status: 'bad' });
+				}
+
+				return resolve(body);
+			})
+		})
+	}
 };
