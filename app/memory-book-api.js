@@ -7,8 +7,8 @@ const errors = {
 }
 
 const api = {
-	memoryBookPhotoPath: 'http://localhost:3003',
-	memoryBookUrl: 'http://localhost:3003/api/',
+	memoryBookPhotoPath: 'http://localhost:3007',
+	memoryBookUrl: 'http://localhost:3007/api/',
 
 	photos: {
 		addPhoto(data = false) {
