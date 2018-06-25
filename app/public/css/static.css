@@ -774,20 +774,20 @@ table {
     flex-flow: row wrap;*/
 	display: inline-block;
 	vertical-align: top;
-	/* width: 80%; */
-	flex: 1;
+	width: 80%;
+	/*flex: 1;*/
 }
 
 .place__title {
-	/* width: 100%; */
-	text-align: center;
-	margin-bottom: 20px;
+	/* width: 100%;
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	-ms-flex: 1;
-	flex: 1;
+	flex: 1; */
+	text-align: center;
+	margin-bottom: 20px;
 	display: inline-block;
-	width: 100%;
+	width: 40%;
 }
 
 .place__title h1 {
@@ -806,7 +806,7 @@ table {
 }
 
 .place__info {
-	display: flex;
+	/*display: flex;*/
 	-webkit-box-pack: justify;
 	-webkit-justify-content: space-between;
 	-ms-flex-pack: justify;
@@ -822,9 +822,9 @@ table {
 	-ms-flex-align: stretch;
 	align-items: stretch;
 	/* flex: 1; */
-	/* display: inline-block; */
+	display: inline-block;
 	vertical-align: top;
-	width: 100%;
+	width: 60%;
 }
 
 .place__info-name {
