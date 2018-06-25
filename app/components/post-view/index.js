@@ -18,6 +18,7 @@ module.exports = (app) => {
 			dataViews.postCategories = postCategories;
 			locals.route.title = post.title;
 			dataViews.user = session.user;
+			dataViews.fragment = locals.fragment;
 		} catch (e) {
 			return Promise.resolve([, 'Что-то пошло не так']);
 		}
