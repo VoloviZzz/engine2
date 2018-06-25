@@ -142,8 +142,11 @@ $(document).ready(() => {
 		var postData = {
 			ctrl: 'delete-memory-item',
 			id: $this.data('id'),
-			target: $this.data('target')
+			target: $this.data('target'),
+			creator: $this.data('creator')
 		}
+
+		if(!confirm('Хотите удалить запись из книги памяти?')) return false;
 
 		$.post("/api/memory_book/delete-item", postData)
 			.done(result => {
