@@ -74,7 +74,7 @@
 						</li>
 						<% if(!user.id) { %>
 							<li>
-								<a href="/login">Вход</a>
+								<a href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
 							</li>
 						<% } else { %>
 							<% if (user.admin) { %>
