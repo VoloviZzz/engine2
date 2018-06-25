@@ -1,3 +1,11 @@
+.carousel-link__container a {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .slider-for {
     position: relative;
     -webkit-box-flex: 5;
