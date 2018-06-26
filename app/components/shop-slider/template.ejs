@@ -34,7 +34,7 @@
 						<div class="slider-action">
 							<% s.moreBtnText = 'moreBtnText' in s === false ? 'Подробнее' : s.moreBtnText %>
 							<% if( ('moreBtnText' in s && s.moreBtnText != '') || 'moreBtnText' in s === false ) { %>
-								<a href="<%= s.href %>" class="btn"><%= s.moreBtnText  -%></a>
+								<a href="/shop-categories/<%= s.id %>" class="btn"><%= s.moreBtnText  -%></a>
 							<% } %>
 							<% if(user.adminMode) { %>
 								<div>
@@ -104,7 +104,7 @@
 						<input type="text" class="js-slide-upd"  data-event-name="input" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
 					</div>
 					<% } else { %>
-						<a href="<%= s.href %>"><%= s.title_bottom || s.title %></a>
+						<a href="/shop-categories/<%= s.id %>"><%= s.title_bottom || s.title %></a>
 					<% } %>
 				</div>
 			</div>
