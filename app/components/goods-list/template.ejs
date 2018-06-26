@@ -1,6 +1,11 @@
 <link rel="stylesheet" href="/css/goods-list.css">
 <div class="text-right">
 	<% if(user.adminMode) { %>
+		<% if(currentCat.public == '1') { %>
+			<button class="btn js-goodsCategories-togglePublic" data-id="<%= currentCat.id -%>" value="0">Скрыть категорию</button>
+		<% } else { %>
+			<button class="btn js-goodsCategories-togglePublic" data-id="<%= currentCat.id -%>" value="1">Показать категорию</button>
+		<% } %>
 		<% if(tpl == 'cats-list') { %>
 			<button class="btn js-goodsCategories-add" data-parent-id="<%= currentCat.id -%>" data-level="<%= currentCat.level + 1 -%>">Добавить категорию</button>
 		<% } else if(data.length == 0) { %>
