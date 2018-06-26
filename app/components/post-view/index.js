@@ -11,7 +11,12 @@ module.exports = (app) => {
 		try {
 			const routeParam = locals.dynamicRouteNumber;
 
-			var [, [post]] = await Model.posts.get({ id: routeParam });
+			var [error, [post]] = await Model.posts.get({ id: routeParam });
+
+			if (!!post === false) {
+				return Promise.resolve([, 'Публикая не найдена']);
+			}
+
 			var [error, postCategories] = await app.db.execQuery(`SELECT * FROM post_categories WHERE target_id = '${post.target}'`);
 
 			dataViews.post = post;
