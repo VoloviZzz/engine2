@@ -11,13 +11,13 @@
 				<div class="slider-info">
 					<div class="slider-info__wrapper">
 						<% if(user.adminMode) { %>
-							<input style="margin-bottom: 20px" type="text" class="js-slide-upd input-text" data-event-name="input" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
+							<input style="margin-bottom: 20px" type="text" class="js-goodsCategories-upd input-text" data-event-name="input" data-target="title" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title -%>">
 						<% } else { %> 
 							<h2><%= s.title %></h2>
 						<% } %>
 						<% if(user.adminMode) { %>
 							<div>
-								<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-slide-upd js-ckeditor-edit" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
+								<textarea style="min-width: 100%; max-width: 100%; min-height: 150px" class="js-goodsCategories-upd js-ckeditor-edit" data-target="description" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>"><%- s.description -%></textarea>
 							</div>
 						<% } else { %> 
 							<div class="text-center">
@@ -27,7 +27,7 @@
 						<% if(user.adminMode) { %>
 							<div>
 								<label>Добавить фото
-								<input class="js-slide-addSlidePhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
+								<input class="js-goodsCategories-addPhoto" data-target="img" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" type="file" style="display: none;">
 								</label>
 							</div>
 						<% } %>
@@ -35,19 +35,6 @@
 							<% s.moreBtnText = 'moreBtnText' in s === false ? 'Подробнее' : s.moreBtnText %>
 							<% if( ('moreBtnText' in s && s.moreBtnText != '') || 'moreBtnText' in s === false ) { %>
 								<a href="/shop-categories/<%= s.id %>" class="btn"><%= s.moreBtnText  -%></a>
-							<% } %>
-							<% if(user.adminMode) { %>
-								<div>
-									<label>
-										<span>Текст для кнопки:</span>
-										<input type="text" 
-											class="js-slide-upd"
-											data-target="moreBtnText" 
-											value="<%= s.moreBtnText -%>" 
-											data-fragment-id="<%= locals.fragment.id -%>" 
-											data-id="<%= s.id -%>">
-									</label>
-								</div>
 							<% } %>
 						</div>
 					</div>
@@ -69,39 +56,23 @@
 		<div class="my-item">
 			<div class="container-item__container" style="background-image: url(<%= s.img_bottom || s.img %>)">
 				<% if(user.adminMode === true) { %>
-					<div style="position: absolute;right: 10px;font-weight: bold;top: 5px;cursor: pointer;">
-						<span class="slide-show-settings js-slide-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
-						<label>
-						Добавить фото
-						<input type="file" class="js-slide-addSlidePhoto" data-target="img_bottom" data-fragment-id="<%= locals.fragment.id -%>" data-slide-id="<%= s.id -%>" style="display: none">
-						</label>
+					<div style="position: absolute; font-weight: bold;top: 5px;cursor: pointer; width: 100%">
+						<span class="slide-show-settings js-goodsCategories-delete" data-id="<%=s.id %>" data-fragment-id="<%= locals.fragment.id -%>">Удалить</span>
+						<div>
+							<span>Приоритет показа</span>
+							<input type="number" class="js-goodsCategories-upd" data-target="priority" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.priority -%>">
+						</div>
 					</div>
-					<% if(index > 0) { %>
-						<button class="btn js-slide-moveSlide" 
-							data-fragment-id="<%= locals.fragment.id -%>" 
-							data-current-position="<%= index -%>" 
-							data-id="<%= s.id -%>" 
-							data-vector="-1"
-							style="position: absolute; top: 50%; left: 0px">&larr;</button>
-					<% } %>
-					<% if(index < slides.length -1) { %>
-						<button class="btn js-slide-moveSlide" 
-							data-fragment-id="<%= locals.fragment.id -%>"
-							data-current-position="<%= index -%>" 
-							data-id="<%= s.id -%>" 
-							data-vector="1"
-							style="position: absolute; top: 50%; right: 0px">&rarr;</button>
-					<% } %>
 				<% } %>
 				<div class="carousel-link__container">
 					<% if(user.adminMode) { %>
 					<div style="font-size: 15px; max-width: 50%; padding: 0 3px">
 						<span>Заголовок:</span>
-						<input type="text" class="js-slide-upd"  data-event-name="input" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
+						<input type="text" class="js-goodsCategories-upd"  data-event-name="input" data-target="title_bottom" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.title_bottom || s.title -%>">
 					</div>
 					<div style="font-size: 15px; max-width: 50%; padding: 0 3px">
 						<span>Адрес:</span>
-						<input type="text" class="js-slide-upd"  data-event-name="input" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
+						<input type="text" class="js-goodsCategories-upd"  data-event-name="input" data-target="href" data-id="<%= s.id -%>" data-fragment-id="<%= locals.fragment.id -%>" value="<%= s.href -%>">
 					</div>
 					<% } else { %>
 						<a href="/shop-categories/<%= s.id %>"><%= s.title_bottom || s.title %></a>
@@ -111,15 +82,15 @@
 		</div>
 		<% }) %>
 		<% if(user.adminMode === true) { %>
-				<div class="my-item">
-					<div class="container-item__container js-slide-add" data-page="<%= locals.page%>" data-fragment-id="<%= locals.fragment.id%>">
-						<div class="carousel-item"></div>
-						<div class="carousel-link__container">
-							<a href="#">Добавить</a>
-						</div>
+			<div class="my-item">
+				<div class="container-item__container js-slide-add" data-page="<%= locals.page%>" data-fragment-id="<%= locals.fragment.id%>">
+					<div class="carousel-item"></div>
+					<div class="carousel-link__container">
+						<a href="#">Добавить</a>
 					</div>
 				</div>
-			<% } %>
+			</div>
+		<% } %>
 	</div>
 
 	<div class="mobile-nav">
