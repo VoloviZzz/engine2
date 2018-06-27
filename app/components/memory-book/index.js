@@ -23,14 +23,11 @@ module.exports = (app) => {
 		const part = (currentPage - 1) > 0 ? currentPage - 1 : 0;
 
 		const getMemoryParams = {
-			count: 25,
+			count: 10,
 			memoryTarget: target,
+			state: '3',
 			part
 		};
-
-		if (!!session.user.adminMode === false) {
-			getMemoryParams.state = '3';
-		}
 
 		try {
 			data.deads = await api.get('deads2', getMemoryParams);

@@ -13,9 +13,9 @@ module.exports = (app) => {
 		const part = (currentPage - 1) > 0 ? currentPage - 1 : 0;
 
 		const getMemoryParams = {
-			count: 25,
+			count: 10,
+			stateIn: [0, 2],
 			part,
-			stateIn: [0, 2]
 		};
 
 		const { deads, countDeads } = await memoryBook.get('deads2', getMemoryParams);
