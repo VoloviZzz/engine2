@@ -110,7 +110,7 @@ module.exports = (app) => {
 			route_id: route.id
 		};
 
-		if(req.session.user.adminMode === false) {
+		if (req.session.user.adminMode === false) {
 			getFragmentsParams.public = '1';
 		}
 
@@ -160,9 +160,12 @@ module.exports = (app) => {
 			if (!!controllerResult === true && 'sendData' in controllerResult) {
 				return res.send(controllerResult.sendData)
 			}
-			else if (req.xhr === true) {
+			else {
 				res.json(controllerResult)
-			} 
+			}
+			// else if (req.xhr === true) {
+			// 	res.json(controllerResult)
+			// } 
 			// else {
 			// 	var backUrl = urlLib.parse(req.header('Referer')).pathname;
 			// 	return res.redirect(backUrl);
