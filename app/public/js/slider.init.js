@@ -108,18 +108,9 @@ $(document).ready(function () {
 		$('.accordeon-menu__item-content').slideUp(slideSpeed); //Закрывает ненужный слайд
 		$('.accordeon-menu__item-content').removeClass(active_class);
 		$itemContent.addClass(active_class); //присваевает активный класс соседнему с нажатым блоком элементу
-		$itemContent.slideDown(1500, function () {
+		$itemContent.slideDown(500, function () {
 			var test = this.offsetTop;
-			$(window).scrollTop(test);
+			$('html, body').animate({scrollTop: test}, 500);
 		});
 	});
-
-	// Открытие закрытие мобильного слайдера
-	/*$('.accordeon-menu__item-link').click(function (e) {
-		e.preventDefault();
-		$('.accordeon-menu__item').removeClass('accordeon-menu__item--active');
-		$(this).parent(".accordeon-menu__item").addClass('accordeon-menu__item--active');
-	});*/
-
-
 });
