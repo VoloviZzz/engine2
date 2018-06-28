@@ -162,10 +162,11 @@ module.exports = (app) => {
 			}
 			else if (req.xhr === true) {
 				res.json(controllerResult)
-			} else {
-				var backUrl = urlLib.parse(req.header('Referer')).pathname;
-				return res.redirect(backUrl);
-			}
+			} 
+			// else {
+			// 	var backUrl = urlLib.parse(req.header('Referer')).pathname;
+			// 	return res.redirect(backUrl);
+			// }
 		}
 		else {
 			res.json({ status: 'bad', message: 'Действие не найдено' })
