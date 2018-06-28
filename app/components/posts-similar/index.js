@@ -13,11 +13,25 @@ module.exports = (app) => {
 
 			var [error, [post]] = await Model.posts.get({ id: routeParam });
 
-			if (!!post === false) {
+
+			if(!!post === false) {
 				return Promise.resolve([, 'Публикая не найдена']);
 			}
 
 			var [error, postCategories] = await app.db.execQuery(`SELECT * FROM post_categories WHERE target_id = '${post.target}'`);
+
+			const similarPostsParams = {
+				limit: '5',
+				orderBy: 'id desc'
+			};
+
+			if (post.cat != '0') {
+				similarPostsParams.category = post.cat;
+			}
+
+			similarPostsParams.target = post.target;
+
+			var [error, similarPosts] = await Model.posts.get(similarPostsParams);
 
 			dataViews.post = post;
 			dataViews.postCategories = postCategories;
@@ -25,6 +39,7 @@ module.exports = (app) => {
 			dataViews.user = session.user;
 			dataViews.fragment = locals.fragment;
 		} catch (e) {
+			console.log(e);
 			return Promise.resolve([, 'Что-то пошло не так']);
 		}
 

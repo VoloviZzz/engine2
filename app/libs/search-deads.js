@@ -53,5 +53,52 @@ module.exports = {
 				return resolve(body);
 			})
 		})
+	},
+
+	getPlace(id) {
+		return new Promise((resolve, reject) => {
+
+			const requestData = {
+				method: 'POST', url: this.url, form: {
+					__function__: 'getPlace',
+					key: this.apiKey,
+					id: id,
+				}
+			};
+
+			request.post(requestData.url, { form: requestData.form }, (error, response, body) => {
+
+				if (error) {
+					console.log(error);
+					return reject(error)
+				}
+
+				try {
+					body = JSON.parse(body);
+
+					if (body.status == false) {
+
+						let err = new Error("Страница участка не найдена");
+						err.status = 404;
+
+						return reject(err);
+					}
+
+					if (body.status == 'bad') {
+						let err = new Error("Ошибка сервера");
+						err.status = 500;
+
+						return reject(err);
+					}
+
+					return resolve(body.data);
+				}
+				catch (e) {
+					console.log('ОШИБКА: ');
+					console.error(e);
+					reject(e);
+				}
+			})
+		})
 	}
-};
+}

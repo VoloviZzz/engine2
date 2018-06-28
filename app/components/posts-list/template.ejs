@@ -29,12 +29,23 @@
 			<button class="btn">Добавить</button>
 		</form>
 	</div>
+	<div>
+		<span>Отображение даты публикации:</span>
+		<% if(fragment.settings.showPublishedTime == '1') { %>
+			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="0">Скрыть</button>
+		<% } else { %>
+			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="1">показать</button>
+		<% } %>
+	</div>
 <% } %>
 <div class="cards">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container cards-admin-control-container">
 			<button class="btn cards-add js-posts-add" data-category="<%= currentCategory -%>" data-target="<%= currentTarget -%>">Добавить</button>
 		</div>
+	<% } %>
+	<% if(posts.length < 1) { %>
+		<h2>Публикации отсутствуют</h2>
 	<% } %>
 	<% posts.map(n => { %>
 		<article class="cards__item">
@@ -83,7 +94,9 @@
             </div>
 			<div class="cards-meta-wrapp">
 				<div class="cards__content text-right">
-					<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+					<% if(fragment.settings.showPublishedTime == '1') { %>
+						<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+					<% } %>
 				</div>
 			</div>
         </article>

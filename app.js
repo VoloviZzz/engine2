@@ -48,7 +48,7 @@ const setDefaultSessionData = (req, res, next) => {
 
 const clearSessionData = (req, res, next) => {
 	req.session.user = null;
-	res.redirect('/');
+	res.redirect(req.header('Referer'));
 }
 
 function toggleAdminMode(req, res, next) {

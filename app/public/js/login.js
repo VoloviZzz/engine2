@@ -127,7 +127,9 @@ $(document).ready(function () {
 		});
 
 		$.post("/api/login", data).done(function (result) {
-			if (result.status == 'ok') return location.href = "/";
+			
+			var refererUrl = getParameterByName('referer') ? getParameterByName('referer') : '/';
+			if (result.status == 'ok') return location.href = refererUrl;
 
 			if (result.status == 'not confirmed') {
 				var sendConfirmAgain = confirm(result.message);

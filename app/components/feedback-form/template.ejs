@@ -1,9 +1,13 @@
 <link rel="stylesheet" href="/css/feedback-form.css">
 <section class="feedback">
 	<div class="feedback__wrapper">
-		<h2 class="feedback__title">Обратная связь</h2>
+		<% if(user.adminMode) { %>
+			<input type="text" class="js-fragment-update-settings input-text" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="<%= formTitle -%>">
+		<% } else { %> 
+			<h2 class="feedback__title"><%= formTitle -%></h2>
+		<% } %>
 		<form class="feedback__form" action="" method="post">
-			<input class="feedback__bio" type="text" name="client_name" value="<%= client.surname -%> <%= client.firstname -%> <%= client.patronymic -%>" required placeholder="Как к Вам обращаться">
+			<input class="feedback__bio" type="text" name="client_name" value="<%= client.fio -%>" required placeholder="Как к Вам обращаться">
 			<input class="feedback__city-org" type="text" name="client_from" required placeholder="Откуда Вы (город, организация)">
 			<input class="feedback__telephone" type="tel" value="<%= client.phone -%>" name="client_phone" required placeholder="Телефон">
 			<input class="feedback__email" type="email" value="<%= client.mail -%>" name="client_email" required placeholder="Email">

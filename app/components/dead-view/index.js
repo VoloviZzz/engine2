@@ -73,8 +73,24 @@ module.exports = (app) => {
 		let bio = [];
 		let photos = { data: [] };
 
+		const getMemoryParams = {
+			dead_id: data.id,
+			author_id: session.user.id,
+			common_id: '74-3435-' + data.id
+		};
+
+		const getPhotosParams = {
+			dead_id: '74-3435-' + data.id,
+			author_id: session.user.id
+		};
+
+		if (session.user.adminMode === false) {
+			getMemoryParams.state = '3';
+			getPhotosParams.state = '3';
+		}
+
 		try {
-			memory = await getMemory(['necrologues', 'biographies'], { dead_id: data.id, state: '3', author_id: session.user.id, common_id: '74-3435-' + data.id });
+			memory = await getMemory(['necrologues', 'biographies'], getMemoryParams);
 			necs = memory[0];
 			bio = memory[1];
 		} catch (error) {
@@ -83,7 +99,7 @@ module.exports = (app) => {
 		}
 
 		try {
-			photos = await api.photos.getPhotos({ dead_id: '74-3435-' + data.id, author_id: session.user.id, state: '3' });
+			photos = await api.photos.getPhotos(getPhotosParams);
 		} catch (error) {
 			console.log(error);
 		}

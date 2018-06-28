@@ -26,8 +26,10 @@ exports.add = function (data = {}) {
 exports.get = function (data = {}) {
 	data.parent_id = typeof data.parent_id !== "undefined" ? `AND parent_id = ${data.parent_id}` : ``;
 	data.id = typeof data.id !== "undefined" ? `AND id = ${data.id}` : ``;
+	data.public = 'public' in data ? `AND public = '${data.public}'` : '';
 	data.level = typeof data.level !== "undefined" ? `AND level = ${data.level}` : ``;
 	data.orderBy = 'orderBy' in data ? `ORDER BY ${data.orderBy}` : '';
+
 	return db.execQuery(`
 		SELECT * FROM goods_cats
 		WHERE
@@ -35,6 +37,7 @@ exports.get = function (data = {}) {
 			${data.parent_id}
 			${data.id}
 			${data.level}
+			${data.public}
 		${data.orderBy}
 	`);
 }

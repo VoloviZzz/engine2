@@ -63,6 +63,7 @@ exports.updSlide = async function (req, res, next) {
 			return { status: 'ok' }
 		})
 		.catch(error => {
+			console.log(object);
 			return { status: 'bad', message: error.message }
 		});
 }

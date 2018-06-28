@@ -35,6 +35,7 @@ $(document).ready(function () {
 		slidesToScroll: 1,
 		arrows: true,
 		dots: false,
+		swipe: false,
 		asNavFor: '.slider-for',
 		focusOnSelect: true,
 		initialSlide: currentSlide * 1,

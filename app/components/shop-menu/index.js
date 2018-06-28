@@ -3,7 +3,16 @@ const path = require('path');
 module.exports = (app) => {
 	return (data = {}) => {
 		return new Promise(async (resolve, reject) => {
-			const [, goodsCategories] = await app.Model.goodsCategories.get();
+
+			const { locals, session } = data;
+
+			const categoriesParams = {};
+
+			if (session.user.adminMode == false) {
+				categoriesParams.public = '1';
+			}
+
+			const [, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
 
 			const resultCatsObj = {};
 
@@ -37,7 +46,6 @@ module.exports = (app) => {
 function getTree(dataset) {
 	let tree = {};
 
-
 	for (let key in dataset) {
 		let node = dataset[key];
 
@@ -45,9 +53,11 @@ function getTree(dataset) {
 			tree[key] = node;
 		}
 		else {
-			if (!!dataset[node['parent_id']]['childs'] === false) dataset[node['parent_id']]['childs'] = {};
+			if (dataset[node['parent_id']]) {
+				if (!!dataset[node['parent_id']]['childs'] === false) dataset[node['parent_id']]['childs'] = {};
 
-			dataset[node['parent_id']]['childs'][key] = node;
+				dataset[node['parent_id']]['childs'][key] = node;
+			}
 		}
 	}
 

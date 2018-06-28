@@ -1,5 +1,8 @@
 <div class="goods-list">
 	<div class="goods-list__items-wrapper">
+		<% if(data.length < 1) { %>
+			<h2>Товары отсутствуют</h2>
+		<% } %>
 		<% data.forEach((p, i) => { %>
 			<div class="goods-list__item">
 				<% if(user.adminMode) { %>

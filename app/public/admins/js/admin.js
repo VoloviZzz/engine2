@@ -61,6 +61,21 @@ $(document).ready(function () {
 		return shop.updCategories({ id: id, target: target, value: value });
 	});
 
+	$('.js-goodsCategories-togglePublic').on('click', function (e, ckValue) {
+		var id = $(this).data('id');
+		var target = 'public';
+		var value = $(this).val();
+
+		$.post('/api/shop/updCategories', { id: id, target: target, value: value }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+	});
+
 	$('.js-goodsCategories-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
@@ -457,6 +472,8 @@ $(document).ready(function () {
 
 			var postData = {};
 
+			var reload = $(this).data('reload');
+
 			if (typeof value !== undefined && value !== null) {
 				postData.value = value;
 			}
@@ -473,6 +490,9 @@ $(document).ready(function () {
 					console.log(result);
 					return alert(result.message);
 				}
+
+
+				if (typeof reload !== undefined && reload === false) return false;
 
 				return location.reload();
 			});

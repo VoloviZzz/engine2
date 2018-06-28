@@ -104,6 +104,7 @@ module.exports = (app) => {
 		res.locals.routeId = route.id;
 		res.locals.route = route;
 		res.locals.fullUrl = req.url;
+		res.locals.route.reqUrl = req.url;
 
 		const getFragmentsParams = {
 			route_id: route.id
