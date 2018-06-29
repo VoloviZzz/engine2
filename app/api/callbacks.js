@@ -37,8 +37,10 @@ exports.delete = (req, res, next) => {
 	})
 }
 
-exports.add = (req, res, next) => {
+exports.add = async (req, res, next) => {
 	const Model = req.app.Model;
+	const app = req.app;
+	let agent;
 
 	if (typeof req.body.clientNumber === 'undefined' || req.body.clientNumber == "") return { message: 'Номер телефона отсутствует' }
 
@@ -46,8 +48,19 @@ exports.add = (req, res, next) => {
 
 	if (phoneRegExp.test(req.body.clientNumber) === false) return { message: 'Номер телефона в неправильном формате. Попробуйте снова' };
 
-	return Model.callbacks.add(req.body).then(([error]) => {
-		if (error) return { error, message: error.message };
-		return { status: 'ok' };
-	})
+	var [error] = await Model.callbacks.add(req.body);
+	if (error) return { error, message: error.message };
+
+
+	if (req.body.targetId) {
+
+		[error, [agent]] = await Model.agents.get({ id: req.body.targetId });
+
+		await app.smsc.send({
+			phones: agent.phones,
+			mes: 'Заказан обратный звонок: ' + req.body.clientNumber,
+		});
+	}
+
+	return { status: 'ok' };
 }
