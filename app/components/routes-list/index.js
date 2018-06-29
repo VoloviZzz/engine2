@@ -7,9 +7,10 @@ module.exports = (app) => {
 
 		const [queryError, templatesList] = await db.execQuery("SELECT * FROM templates");
 		if (queryError) throw new Error(queryError);
-		
-		const routesList = Object.keys(app.locals.routesList).map(key => {
-			const route = app.locals.routesList[key];
+
+		var [error, routes] = await app.Model.routes.get();
+	
+		const routesList = routes.map(route => {
 			
 			if (route.access == "3" && !!data.locals.user.root === true) {
 				return route;
