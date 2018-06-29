@@ -3,6 +3,9 @@
 		<h1>Оставьте свой номер и мы перезвоним вам</h1>
 		<p>Ваш номер телефона</p>
 		<input type="text" class="input-text" name="phone">
+		<% if(targetId) { %>
+			<input type="hidden" name="targetId" value="<%= targetId -%>">
+		<% } %>
 		<button class="btn">Заказать обратный звонок</button>
 	</form>
 </section>

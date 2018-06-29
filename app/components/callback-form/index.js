@@ -8,6 +8,7 @@ module.exports = (app) => {
 		// logic...
 
 		dataViews.user = session.user;
+		dataViews.targetId = locals.dynamicRouteNumber;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
