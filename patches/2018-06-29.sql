@@ -9,6 +9,8 @@ CREATE TABLE `agents` (
   `public` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `agents` ADD `contact_phone` VARCHAR(30) NULL DEFAULT NULL COMMENT 'Номер телефона для отправки смс' AFTER `phones`;
+
 ALTER TABLE `agents`
   ADD PRIMARY KEY (`id`);
 
