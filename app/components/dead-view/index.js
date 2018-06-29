@@ -126,6 +126,16 @@ module.exports = (app) => {
 		body.data.necs = necs;
 		body.data.photos = resPhoto;
 
+
+		if (body.data.grave.rat_unknown == 1) {
+			locals.route.title = 'Неопознанное захоронение';
+		}
+		else if (body.data.grave.rat_noname == 1) {
+			locals.route.title = 'Безымянное захоронение';
+		} else {
+			locals.route.title = body.data.grave.dead_name;
+		}
+
 		dataViews.flowers = [];
 		dataViews.data = body.data;
 		dataViews.user = session.user;
