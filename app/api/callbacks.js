@@ -56,10 +56,12 @@ exports.add = async (req, res, next) => {
 
 		[error, [agent]] = await Model.agents.get({ id: req.body.targetId });
 
-		await app.smsc.send({
-			phones: agent.phones,
-			mes: 'Заказан обратный звонок: ' + req.body.clientNumber,
-		});
+		if (agent.contact_phone) {
+			await app.smsc.send({
+				phones: agent.contact_phone,
+				mes: 'Заказан обратный звонок: ' + req.body.clientNumber,
+			});
+		}
 	}
 
 	return { status: 'ok' };
