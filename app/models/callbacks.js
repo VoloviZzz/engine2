@@ -13,8 +13,11 @@ exports.get = (args = {}) => {
 }
 
 exports.add = (args = {}) => {
-	if(typeof args.clientNumber == 'undefined') return Promise.resolve([new Error('callbacks add: Отсутствует номер телефона')])
-	return db.insertQuery(`INSERT INTO callbacks SET client_number = '${args.clientNumber}'`);
+	if(typeof args.clientNumber == 'undefined') return Promise.resolve([new Error('callbacks add: Отсутствует номер телефона')]);
+	
+	const recipient_id = 'targetId' in args ? `, recipient_id = '${args.targetId}'` : '';
+
+	return db.insertQuery(`INSERT INTO callbacks SET client_number = '${args.clientNumber}' ${recipient_id}`);
 }
 
 exports.del = (args = {}) => {

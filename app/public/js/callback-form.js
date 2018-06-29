@@ -11,6 +11,7 @@ $(document).ready(function(e) {
 		var postData = {};
 
 		postData.clientNumber = clientNumber;
+		postData.targetId = forms.getFormData(this).targetId;
 		
 		$.post('/api/callbacks/add', postData).done(function(result) {
 			if(result.status !== 'ok') {
