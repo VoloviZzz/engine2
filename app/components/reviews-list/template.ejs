@@ -24,7 +24,7 @@
 			<%- include('./reviews-list') -%>
 			<%- pagination.render() -%>
 			<% if(user.id) { %>
-				<div class="reviews-add-wrapper" id="js-reviews-add-wrapper" data-target-id="<%= agentId -%>" data-target-type="<%= fragment.settings.targetType -%>">
+				<div class="reviews-add-wrapper" id="js-reviews-add-wrapper" data-target-id="<%= targetId -%>" data-target-type="<%= fragment.settings.targetType -%>">
 					<textarea class="input-text new-reviews-text" id="add-review-text" name="reviews-text"></textarea>
 					<button class="btn new-reviews-button btn-inverse">Добавить</button>
 				</div>

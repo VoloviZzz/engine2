@@ -7,12 +7,13 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const { fragment, dynamicRouteNumber: agentId } = locals;
+		const { fragment, dynamicRouteNumber: targetId } = locals;
 
 		// пагинация
 		const reviewsCountParams = {
 			targetType: fragment.settings.targetType,
-			targetId: agentId,
+			targetId: targetId,
+			public: '1',
 			or: { client_id: session.user.id }
 		};
 
@@ -23,7 +24,7 @@ module.exports = (app) => {
 		const reviewsGet = {
 			public: '1',
 			targetType: fragment.settings.targetType,
-			targetId: agentId,
+			targetId: targetId,
 			or: {
 				client_id: session.user.id
 			},
@@ -40,7 +41,7 @@ module.exports = (app) => {
 		dataViews.user = session.user;
 		dataViews.reviewsCats = reviewsCats;
 		dataViews.fragment = fragment;
-		dataViews.agentId = agentId;
+		dataViews.targetId = targetId;
 		dataViews.pagination = pagination;
 
 		return new Promise((resolve, reject) => {
