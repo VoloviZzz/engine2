@@ -12,7 +12,8 @@ $(document).ready(function (e) {
 	$('.add-question-button').on('click', function () {
 		var data = {
 			ctrl: "add question",
-			question: $('.add-question-text').val().trim()
+			question: $('.add-question-text').val().trim(),
+			target: $('#js-question-target').val()
 		};
 
 		$.post("/api/questions/addQuestion", data).done(function (result) {

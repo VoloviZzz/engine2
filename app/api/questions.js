@@ -1,3 +1,22 @@
+const db = require('../libs/db');
+
+exports.createTarget = (req, res, next) => {
+	const Model = req.app.Model;
+
+	if (!!req.body.title === false && req.body.title !== '') {
+		return { message: 'Отсутствует title' };
+	}
+
+	return db.insertQuery(`INSERT INTO questions_targets SET title = '${req.body.title}'`).then(([error, targetId]) => {
+		if (error) {
+			console.log(error);
+			return { message: error.message, error };
+		}
+
+		return { status: 'ok', targetId };
+	})
+}
+
 exports.delQuestion = (req, res, next) => {
 	const Model = req.app.Model;
 
@@ -5,14 +24,14 @@ exports.delQuestion = (req, res, next) => {
 		return { status: 'ok' }
 	}).catch(e => {
 		console.error(e);
-		return res.json({ status: 'bad', message: e.message })
+		return { status: 'bad', message: e.message }
 	})
 }
 
 exports.addQuestion = (req, res, next) => {
 	const Model = req.app.Model;
 
-	return Model.questions.add({ question: req.body.question }).then(result => {
+	return Model.questions.add({ question: req.body.question, target: req.body.target }).then(result => {
 		return { status: 'ok' }
 	}).catch(error => {
 		return res.send(error.toString());
@@ -23,7 +42,7 @@ exports.addQuestion = (req, res, next) => {
 exports.changeCategory = (req, res, next) => {
 	const Model = req.app.Model;
 	if (typeof req.body.id == 'undefined') {
-		return res.json({ status: 'bad', message: 'change_category: Не указан id' })
+		return { status: 'bad', message: 'change_category: Не указан id' }
 	}
 
 	return Model.questions.upd({ target: 'category_id', value: req.body.value, id: req.body.id }).then(result => {
@@ -50,14 +69,14 @@ exports.editAnswer = (req, res, next) => {
 exports.togglePublication = async (req, res, next) => {
 	const Model = req.app.Model;
 	if (typeof req.body.id == 'undefined') {
-		return res.json({ status: 'bad', message: 'toggle_publication: Не указан id' })
+		return { status: 'bad', message: 'toggle_publication: Не указан id' }
 	}
 
 	const [, questions] = await Model.questions.get({ id: req.body.id });
 	const question = questions[0];
 
 	if (!!question.answer === false) {
-		return res.json({ status: 'bad', message: 'Нельзя опубликовать вопрос без текста ответа' })
+		return { status: 'bad', message: 'Нельзя опубликовать вопрос без текста ответа' }
 	}
 
 	return Model.questions.upd({ target: 'public', value: req.body.value, id: req.body.id }).then(result => {

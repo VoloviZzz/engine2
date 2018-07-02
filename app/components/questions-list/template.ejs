@@ -2,23 +2,40 @@
 <link rel="stylesheet" href="/css/questions-list.css">
 <div class="tabs-wrapper">
 	<% if(session.user.adminMode) { %>
+		
+		<div>
+			<div>
+				<span>Выбор категории отзывов:</span>
+				<select class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="target">
+					<option value="">Не выбрано</option>
+					<% targets.forEach((target) => { -%>
+						<option <%= target.id == fragment.settings.target ? 'selected' : '' -%> value="<%= target.id -%>"><%= target.title -%></option>
+					<% }) -%>
+				</select>
+			</div>
+			<div>
+				<form id="js-add-question-target" data-fragment-id="<%= fragment.id -%>">
+					<span>или добавить новую категорию:</span>
+					<input type="text" name="title">
+					<button class="btn">Добавить</button>
+				</form>
+			</div>
+		</div>
+
 		<ul class="tabs-titles-wrap">
 			<li class="tab active tab-all">Все</li>
 			<li class="tab tab-all">Неопубликованные</li>
 		</ul>
 	<% } %>
-	<div class="tabs-content-wrap"><%
+	<div class="tabs-content-wrap">
 		
-		%><div class="tab-content active"><%
-				
-				cats.map(c => {
-					%><h3><%= c.question %></h3><br /><%
-					%><%- include("./question-list", { questions : c.questions }) -%><%
-					
-				});
-				
-		%></div>
-		
+		<div class="tab-content active">
+			<% cats.map(c => { %>
+				<h3><%= c.question %></h3>
+				<br/>
+				<%- include("./question-list", { questions : c.questions }) -%>	
+			<% }); %>
+		</div>
 		<% if(session.user.adminMode) { %>
 			<div class="tab-content not-modered-reviews">
 				<%- include('./question-list', { questions: questionsNotPublished }) -%>
@@ -29,6 +46,7 @@
 
 <div class="add-text-form">
     <input type="text" class="add-text add-question-text" id="questionText" placeholder="Вопрос">
+	<input type="hidden" id="js-question-target" value="<%= fragment.settings.target -%>">
     <button class="btn add-button add-question-button">Добавить</button>
 </div>
 <script src="/js/questions-list.js" defer></script>

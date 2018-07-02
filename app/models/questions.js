@@ -9,6 +9,7 @@ exports.get = (arg = {}) => {
 	let orderBy = arg.orderBy ? `ORDER BY ${arg.orderBy}` : ``;
 	let limit = arg.limit ? `LIMIT ${arg.limit}` : ``;
 	let id = arg.id ? `AND id = '${arg.id}'` : ``;
+	let target = 'target' in arg ? `AND target = '${arg.target}'` : '';
 
 	let q = `
 			SELECT q.*
@@ -19,10 +20,19 @@ exports.get = (arg = {}) => {
 				${category_id}
 				${author}
 				${public}
+				${target}
 				${id}
 			${orderBy}
 			${limit}
 		`;
+
+	return db.execQuery(q);
+}
+
+exports.getTargets = (arg = {}) => {
+	const q = `
+		SELECT * FROM questions_targets;
+	`;
 
 	return db.execQuery(q);
 }
@@ -34,6 +44,7 @@ exports.add = (arg = {}) => {
 	let category_id = arg.category_id ? `, category_id = ${arg.category_id}` : ``;
 	let author = arg.author ? `, author = ${arg.author}` : ``;
 	let answer = arg.answer ? `, answer = '${arg.answer}'` : ``;
+	let target = arg.target ? `, target = '${arg.target}'` : ``;
 
 	let q = `
 		INSERT INTO questions
@@ -43,6 +54,7 @@ exports.add = (arg = {}) => {
 			${category_id}
 			${author}
 			${answer}
+			${target}
 	`;
 
 	return db.insertQuery(q);

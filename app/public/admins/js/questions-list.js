@@ -37,4 +37,44 @@ $(document).ready(function () {
 			return location.reload();
 		})
 	})
+
+	$('#js-add-question-target').on('submit', function (e) {
+
+		var forms = new Forms();
+		var $form = $(this);
+		var formData = forms.getFormData($form);
+
+		var postData = {};
+
+		postData.title = formData.title;
+
+		$.post('/api/questions/createTarget', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			var postData = {};
+
+			postData.target = 'target';
+			postData.value = result.targetId;
+			postData.fragment_id = $form.data('fragment-id');
+
+			if(!!postData.fragment_id === false) {
+				alert('Что-то пошло не так. Обновите страницу и проверьте список категорий');
+				return false;
+			}
+
+			$.post('/api/fragments/updSettings', postData).done(function (result) {
+				if (result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message);
+				}
+
+				location.reload();
+			})
+		});
+
+		return false;
+	});
 })
