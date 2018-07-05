@@ -57,6 +57,19 @@
 		</div>
 	</div>
 </div>
+<section class="similar-posts">
+	<% if(user.adminMode) { %>
+		<input type="text" class="js-post-update input-text" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
+	<% } %>
+	<ul>
+		<% similarPosts.forEach((post) => { -%>
+			<li>
+				<img src="<%= post.main_photo -%>" alt="">
+				<a href="<%= post.id -%>"><%= post.title -%></a>
+			</li>
+		<% }) -%>
+	</ul>
+</section>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/posts-list.js" defer></script>
 <% } %>
