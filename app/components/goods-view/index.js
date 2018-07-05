@@ -28,14 +28,14 @@ module.exports = (app) => {
 				object_id = aliases[0].target_id;
 			}
 
-			const [goodsPropsBindValues, goodsProps, goodsCats] = await Promise.all([
+			var [[error, goodsPropsBindValues], [error, goodsProps], [error, goodsCats]] = await Promise.all([
 				Model.goodsPropsBindValues.get({ good_id: object_id }),
 				Model.goodsProps.get(),
 				Model.goodsCategories.get()
 			]);
 
-			dataViews.goodsPropsBindValues = goodsPropsBindValues[1];
-			dataViews.goodsProps = goodsProps[1];
+			dataViews.goodsPropsBindValues = goodsPropsBindValues;
+			dataViews.goodsProps = goodsProps;
 
 			const [posError, [pos]] = await app.Model.goodsPositions.get({ id: object_id });
 			if (posError) return resolve([, posError.message]);
@@ -43,8 +43,8 @@ module.exports = (app) => {
 
 			dataViews.position = pos;
 
-			const catsTree = await app.locals.Helpers.buildTree(goodsCats[1]);
-			let rootLevelCats = goodsCats[1].filter(c => c.level == '0');
+			const catsTree = await app.locals.Helpers.buildTree(goodsCats);
+			let rootLevelCats = goodsCats.filter(c => c.level == '0');
 
 			let positionCollection = [];
 
@@ -62,7 +62,7 @@ module.exports = (app) => {
 					})
 				}
 
-				if(cat.id === dataViews.position.cat_id) {
+				if (cat.id === dataViews.position.cat_id) {
 					return true;
 				} else {
 					positionCollection = [];

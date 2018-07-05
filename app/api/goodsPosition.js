@@ -71,6 +71,8 @@ exports.addPropsvalues = async function (req, res, next) {
 		});
 	}
 
+	// await Model.goodsPropsBindValues.add({});
+
 	return { status: 'ok' }
 }
 
