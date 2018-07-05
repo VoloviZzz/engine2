@@ -29,8 +29,15 @@ module.exports = (app) => {
 
 		}
 
+		[error, photos] = await Model.photos.get({target: 'shop', target_id: shop.id});
+
+		if(error) {
+			return Promise.resolve([, "что-то пошло не так"]);
+		}
+
 
 		dataViews.shop = shop;
+		dataViews.photos = photos;
 		dataViews.user = session.user;
 
 		return new Promise((resolve, reject) => {

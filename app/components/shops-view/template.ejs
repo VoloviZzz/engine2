@@ -1,14 +1,17 @@
 <link rel="stylesheet" href="/css/shops-view.css">
 <input type="hidden" id="js-shop-id" value="<%= shop.id -%>">
 <div class="shops-page__shops-top-left shop-img">
-	<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.main_photo) -%>" alt="">
+	<% photos.forEach((photo) => { -%>
+		<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) -%>" alt="Фото магазина">
+	<% }) -%>
 </div>
 <% if(user.adminMode) { %>
 	<div>
 		<label>
 			<span>Добавить фото</span>
-			<input class="js-shopPhoto-add" type="file">
+			<input class="js-shopPhoto-add" multiple type="file">
 		</label>
+		<span style="display: none" id="js-photos-load-message">Идёт загрузка фото. Подождите</span>
 	</div>
 <% } %>
 <% if(user.adminMode) { %>

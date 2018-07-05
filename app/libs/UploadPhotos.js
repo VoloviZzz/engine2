@@ -21,6 +21,7 @@ module.exports = (req, data = {}) => {
 		form.keepExtensions = true;
 		form.uploadDir = path.join(process.cwd(), 'app', 'public', 'uploads', 'temp');
 		form.maxFileSize = photosConfig.maxOriginSize;
+		form.multiples = true;
 
 		const result = [];
 
@@ -60,6 +61,11 @@ module.exports = (req, data = {}) => {
 
 			files = Object.values(files);
 
+			if (error) {
+				console.log('----------->', error);
+				return false;
+			}
+
 			for (const file of files) {
 
 				const url = generatePhotoUrl(data);
@@ -92,12 +98,21 @@ module.exports = (req, data = {}) => {
 				const prodFile = path.join(prodDir, name);
 				const previewFile = path.join(previewDir, name);
 
-				await rename(filePath, newFilePath);
+				try {
+					await rename(filePath, newFilePath);
 
-				await generateResizeImage(newFilePath, prodFile, photosConfig.prodSize);
-				await generateResizeImage(newFilePath, previewFile, photosConfig.previewSize);
+					await generateResizeImage(newFilePath, prodFile, photosConfig.prodSize);
+					await generateResizeImage(newFilePath, previewFile, photosConfig.previewSize);
 
-				result.push({ name, type, path: url });
+					result.push({ name, type, path: url });
+				} catch (error) {
+					console.log('------------------------------------------------------');
+					console.log('Не удалось загрузить изображение');
+					console.log('filePath: ', filePath);
+					console.log('newFilePath: ', newFilePath);
+					console.log(error);
+					console.log('------------------------------------------------------');
+				}
 			}
 
 			resolve(result);
@@ -111,7 +126,11 @@ module.exports = (req, data = {}) => {
 			}
 		}
 
-		form.on('error', reject);
+		form.on('error', (error) => {
+			console.log(error);
+			reject(error);
+		});
+
 		form.parse(req, formParse);
 	}).then((result) => {
 		return result;

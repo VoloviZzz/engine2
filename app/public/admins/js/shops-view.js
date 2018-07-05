@@ -88,20 +88,36 @@ $(document).ready(function () {
 
 		var fd = new FormData();
 
-		fd.append('upload', this.files[0]);
+		for (var i = 0; i < this.files.length; i++) {
+			var file = this.files[i];
+			fd.append('upload-' + i, file);
+		}
+
+		var uploadParams = $.param({
+			target_id: id,
+			target: 'shop'
+		});
+
+		$('#js-photos-load-message').show();
+		$(this).attr('disabled', 'disabled');
 
 		$.ajax({
-			url: '/api/images/upload',
+			url: '/api/images/multipleUpload?' + uploadParams,
 			data: fd,
 			processData: false,
 			contentType: false,
 			type: 'POST',
 			success: function success(result) {
+
 				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
 				}
-				var value = result.data.fileUrl;
+
+				// [0] - берётся первая загруженная фотография,
+				// [1] - берётся id вставленного фото
+				var value = result.resultAddPhoto[0][1];
+
 				return $.post('/api/shopsList/update', { id: id, target: 'main_photo', value: value }).done(function (result) {
 					if (result.status !== 'ok') {
 						console.log(result);

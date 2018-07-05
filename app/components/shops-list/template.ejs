@@ -61,7 +61,7 @@
 					<h1 class="shops-item__title"><%= shop.title -%></h1>
 				</a>
 				<a class="shops-item__image" href="/shop-page/<%= shop.id -%>">
-					<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.main_photo) -%>" alt="">
+					<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.prod_path) -%>" alt="">
 				</a>
 				<div class="shops-item__text text-margin-bottom-p text-indent">
 					<%- Helpers.replaceLineBreaks(Helpers.trimStr(shop.text, 175)) -%>

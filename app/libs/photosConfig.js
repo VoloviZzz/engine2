@@ -7,7 +7,7 @@ const photosConfig = {
 		width: 800,
 		height: 600,
 	},
-	maxOriginSize: 5 * 1024 * 1024,
+	maxOriginSize: 200 * 1024 * 1024,
 	supportedMimeTypes: [
 		'image/jpg',
 		'image/jpeg',
