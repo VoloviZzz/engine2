@@ -2,7 +2,15 @@
 <input type="hidden" id="js-shop-id" value="<%= shop.id -%>">
 <div class="shops-page__shops-top-left shop-img">
 	<% photos.forEach((photo) => { -%>
-		<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) -%>" alt="Фото магазина">
+		<div class="photo" style="display: inline-block">
+			<% if(user.adminMode) { %>
+				<div class="admin-control-container">
+					<button class="btn js-photo-delete" data-id="<%= photo.id -%>">Удалить</button>
+					<button class="btn js-shopPhoto-setMainPhoto" data-id="<%= shop.id -%>" data-photo-id="<%= photo.id -%>">Сделать главным фото</button>
+				</div>
+			<% } %>
+			<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(`${photo.path}/prod/${photo.name}`) -%>" alt="Фото магазина">
+		</div>
 	<% }) -%>
 </div>
 <% if(user.adminMode) { %>

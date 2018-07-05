@@ -83,6 +83,35 @@ $(document).ready(function () {
 		});
 	});
 
+	$('.js-shopPhoto-setMainPhoto').on('click', function (e) {
+		var photoId = $(this).data('photo-id');
+		var id = $(this).data('id');
+
+		$.post('/api/shopsList/update', { value: photoId, id: id, target: 'main_photo' }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+	})
+
+	$('.js-photo-delete').on('click', function (e) {
+		if (confirm('Удалить фото со страницы?') === false) return false;
+
+		var photoId = $(this).data('id');
+
+		$.post('/api/photos/delete', { id: photoId }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+	})
+
 	$('.js-shopPhoto-add').on('change', function (e) {
 		var id = shopId;
 
