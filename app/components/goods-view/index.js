@@ -69,6 +69,17 @@ module.exports = (app) => {
 				}
 			})
 
+			const countSimilarPosts = 5;
+			var [error, similarPositions] = await app.db.execQuery(`
+				SELECT gp.*,
+					CONCAT(p.path, '/prod/', p.name) as prod_path,
+					CONCAT(p.path, '/origin/', p.name) as origin_path,
+					CONCAT(p.path, '/preview/', p.name) as preview_path
+				FROM goods_pos gp
+					LEFT JOIN photos p ON p.id = gp.main_photo
+				WHERE gp.cat_id = '${pos.cat_id}' AND gp.id <> '${pos.id}' ORDER BY RAND() LIMIT ${countSimilarPosts}`);
+
+			dataViews.similarPositions = similarPositions;
 			dataViews.rootLevelCats = rootLevelCats;
 			dataViews.position.collection = positionCollection;
 			data.locals.route.title = pos.title;

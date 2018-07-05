@@ -175,6 +175,16 @@
 		</div>
 	</div>
 </div>
+<section class="similar-positions">
+	<ul>
+		<% similarPositions.forEach((pos) => { -%>
+			<li>
+				<img src="<%= pos.preview_path -%>" alt="">
+				<a href="<%= pos.id -%>"><%= pos.title -%></a>
+			</li>
+		<% }) -%>
+	</ul>
+</section>
 <script src="/vendors/baguettebox.js/dist/baguetteBox.min.js" defer></script>
 <script src="/vendors/flexSlider/jquery.flexslider-min.js" defer></script>
 <script src="/js/goods-view.js" defer></script>
