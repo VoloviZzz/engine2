@@ -89,6 +89,9 @@ module.exports = (app) => {
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
 
+			dataViews.partName = pos.service == 0 ? 'goods.ejs' : 'service.ejs';
+
+
 			const templatePath = path.join(__dirname, 'template.ejs');
 			const template = app.render(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
