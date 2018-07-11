@@ -157,14 +157,10 @@ module.exports = (app) => {
 
 			const controllerResult = await controllerAction(req, res, next);
 
-			console.log('controllerResult', controllerResult);
-
 			if (!!controllerResult === true && 'sendData' in controllerResult) {
-				console.log('here 1');
 				return res.send(controllerResult.sendData)
 			}
 			else {
-				console.log('here 2');
 				res.json(controllerResult)
 			}
 			// else if (req.xhr === true) {

@@ -248,7 +248,6 @@ $(document).ready(() => {
 			contentType: false,
 			type: 'POST',
 			success: function success(result) {
-				console.log(result);
 				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
