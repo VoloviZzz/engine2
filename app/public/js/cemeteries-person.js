@@ -233,11 +233,13 @@ $(document).ready(() => {
 		$('.js-form-add-biography').toggle();
 	})
 
-	$('#uploadable-files').on('change', function (e) {
+	$('#js-uploadable-files').on('change', function (e) {
 		var fd = new FormData();
 		var dead_id = $(this).data('id');
 
-		fd.append('upload', this.files[0]);
+		for (var i = 0; i < this.files.length; i++) {
+			fd.append('upload-' + i, this.files[i]);
+		}
 
 		$.ajax({
 			url: '/api/memory_book/loadPhoto?dead_id=' + dead_id,
@@ -246,6 +248,7 @@ $(document).ready(() => {
 			contentType: false,
 			type: 'POST',
 			success: function success(result) {
+				console.log(result);
 				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
@@ -262,7 +265,7 @@ $(document).ready(() => {
 		var $textarea = $(this);
 
 		var postData = {};
-		
+
 		postData.id = $textarea.data('id');
 		postData.target = $textarea.data('target');
 		postData.table = $textarea.data('table');
@@ -287,6 +290,6 @@ $(document).ready(() => {
 		$text.toggle();
 		$editForm.toggle();
 
-		if($item.hasClass('js-active-edit') === false) return location.reload();
+		if ($item.hasClass('js-active-edit') === false) return location.reload();
 	})
 })
