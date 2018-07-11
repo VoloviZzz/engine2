@@ -267,7 +267,7 @@
             <div class="text-left text-indent_p text-margin-bottom-p">
                 <% if(data.bio) { %>
                     <% data.bio.map(b => { %>
-                        <div class="biography-text">
+                        <div class="js-memoryItem biography-text">
                             <div class="biography-author">
                                 <p>Автор: <%= `${b.author || "Неизвестно"}` %></p>
                             </div>
@@ -288,9 +288,13 @@
 							<% if(b.state == 0 || b.state == 2) { %>
 								<p><b>Находится на модерации</b></p>
 							<% } %>
-                            <%- Helpers.replaceLineBreaks(b.text) %>
+                            <div class="js-memoryItem-text">
+								<%- Helpers.replaceLineBreaks(b.text) %>
+							</div>
+							<textarea style="display: none" data-id="<%= b.id -%>" data-target="text" data-table="biographies" class="js-memoryItem-update input-text"><%- b.text -%></textarea>
                             <% if(b.creator == user.id) { %>
                                 <div class="text-right">
+									<button class="btn js-show-edit-form">Редактировать</button>
                                     <button data-id="<%=b.id%>" data-target="biographies" data-creator="<%= b.creator -%>" class="btn js-delete-btn">Удалить биографию</button>
                                     <br>
                                     <br>
@@ -317,9 +321,11 @@
                 </div>
             </div>
             <div>
-                <button 
-                    class="btn action-btn <%= !!user.id ? "js-add-biographie" : "btn-disabled" %>"
-                >Добавить биографию</button>
+				<% if(!!user.id === false) { %>
+                	<button class="btn action-btn btn-disabled">Добавить биографию</button>
+				<% } else { %>
+                	<button class="btn action-btn js-add-biographie">Добавить биографию</button>
+				<% } %>
             </div>
         </div>
         <div class="person-necrology">
@@ -329,7 +335,7 @@
             <div class="text-indent_p text-margin-bottom-p">
                  <% if(data.necs) { %>
                     <% data.necs.map(n => { %>
-                        <div class="biography-text">
+                        <div class="js-memoryItem biography-text">
                             <div class="biography-author">
                                 <p>Автор: <%= `${n.author || "Неизвестно"}` %></p>
                             </div>
@@ -350,9 +356,13 @@
 							<% if(n.state == 0 || n.state == 2) { %>
 								<p><b>Находится на модерации</b></p>
 							<% } %>
-                            <%- Helpers.replaceLineBreaks(n.text) %>
+                            <div class="js-memoryItem-text">
+								<%- Helpers.replaceLineBreaks(n.text) %>
+							</div>
+							<textarea style="display: none" data-id="<%= n.id -%>" data-target="text" data-table="necrologues" class="js-memoryItem-update input-text"><%- n.text -%></textarea>
                             <% if(n.creator == user.id) { %>
                                 <div class="text-right">
+									<button class="btn js-show-edit-form">Редактировать</button>
                                     <button data-id="<%=n.id%>" data-target="necrologues" data-creator="<%= n.creator -%>" class="btn js-delete-btn">Удалить некролог</button>
                                     <br>
                                     <br>
@@ -378,9 +388,7 @@
 	        	</div>
 	        </div>
             <div>
-                <button 
-                    class="btn action-btn <%= !!user.id ? "js-add-necrologue" : "btn-disabled" %>"
-                >Добавить некролог</button>
+                <button class="btn action-btn <%= !!user.id ? "js-add-necrologue" : "btn-disabled" %>">Добавить некролог</button>
             </div>
         </div>
     </div>
@@ -393,7 +401,7 @@
 		<% if(data.photos) { %>
 			<div class="baguetteBoxOne">
 				<% data.photos.map(p => { %>
-					<div class="dead-view-memory-photos">
+					<div class="js-memoryItem dead-view-memory-photos">
 						<% if(user.adminMode) { %>
 							<div class="admin-control-container">
 								 <% if(user.adminMode) { %>
@@ -421,11 +429,13 @@
 									<b>Фото отклонено. Причина: <%= p.reason -%></b>
 								</p>
 							<% } %>
-							<p class="photo-comment"><%= p.comment -%></p>
-							<small>Разместил: <%= p.client.name || '' -%> <%- p.author_id == user.id ? '<b>(Это вы)</b>' : '' -%>, <%= Helpers.formatDate(p.created, 'dd MMMM yyyy') -%></small>
 						</a>
+						<p class="js-memoryItem-text photo-comment"><%= p.comment -%></p>
+						<input value="<%= p.comment -%>" type="text" style="display: none" data-id="<%= p.id -%>" data-target="comment" data-table="photos" class="js-memoryItem-update input-text">
+						<small>Разместил: <%= p.client.name || '' -%> <%- p.author_id == user.id ? '<b>(Это вы)</b>' : '' -%>, <%= Helpers.formatDate(p.created, 'dd MMMM yyyy') -%></small>
 						<% if(p.author_id == user.id) { %>
 							<div>
+								<button class="btn js-show-edit-form">Редактировать</button>
 								<button data-id="<%= p.id %>" data-target="photos" data-creator="<%= p.author_id -%>" class="btn js-delete-btn">Удалить фото</button>
 							</div>
 						<% }%>

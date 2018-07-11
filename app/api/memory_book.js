@@ -149,6 +149,27 @@ exports['loadMore'] = async (req, res, next) => {
 	})
 }
 
+exports['update'] = (req, res, next) => {
+	return api.memory.upd(req.body.table, req.body).then((result) => {
+		if (result.status == 'ok') {
+			return { status: 'ok', data: result };
+		}
+
+		return Promise.reject({ status: 'bad', message: result.message });
+	}).then(() => {
+		return api.memory.upd(req.body.table, { target: 'state', value: '2', id: req.body.id, table: req.body.table });
+	}).then((result) => {
+		if (result.status == 'ok') {
+			return { status: 'ok', data: result };
+		}
+
+		return Promise.reject({ status: 'bad', message: result.message });
+	}).catch(error => {
+		console.log(error);
+		return { status: 'bad', message: error.message };
+	})
+};
+
 exports['change-state-item'] = (req, res, next) => {
 	req.body.reason = req.body.reason || false;
 

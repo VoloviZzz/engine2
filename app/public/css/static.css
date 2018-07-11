@@ -1,6 +1,4 @@
-@import 'imports/buttons-and-inputs.css';
-@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow'); 
-::-webkit-scrollbar {
+@import 'imports/buttons-and-inputs.css'; @import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow'); ::-webkit-scrollbar {
 	width: 6px;
 	height: 4px;
 }
@@ -985,6 +983,7 @@ textarea.input-text {
 	min-height: 150px;
 	min-width: 100%;
 	max-width: 100%;
+	font-size: inherit;
 }
 
 .aside-toggle {
@@ -1066,9 +1065,9 @@ textarea.input-text {
 		margin-left: 0;
 	}
 
-	.place__info > div {
+	/* .place__info > div { */
 		/* width: 100% !important; */
-	}
+	/* } */
 
 	/*.aside-toggle {
         display: block;

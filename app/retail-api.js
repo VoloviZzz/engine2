@@ -1,8 +1,8 @@
 const request = require('request');
 
 module.exports = {
-	apiUrl: 'http://retail.mpkpru.ru/api/',
-	rootUrl: 'http://retail.mpkpru.ru',
+	apiUrl: 'https://retail.mpkpru.ru/api/',
+	rootUrl: 'https://retail.mpkpru.ru',
 
 	getFlowers(data) {
 		return this.query('get_flowers', data);
