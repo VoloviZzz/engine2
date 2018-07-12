@@ -48,6 +48,7 @@ module.exports = (app) => {
 		dataViews.user = session.user;
 		dataViews.achievements = resArray;
 		dataViews.pagination = pagination;
+		dataViews.fragment = locals.fragment;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

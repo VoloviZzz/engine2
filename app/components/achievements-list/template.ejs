@@ -2,6 +2,16 @@
 <link rel="stylesheet" href="/css/achievements-list.css">
 <section>
 	<% if(user.adminMode) { %>
+		<div>
+			<form id="js-set-ach-url" data-fragment-id="<%= fragment.id -%>" data-target="urlPage">
+				<span>URL для пагинации: </span>
+				<input value="<%= fragment.settings.urlPage -%>" type="text" name="urlPage">
+				<button class="btn">Добавить</button>
+			</form>
+		</div>
+		<br>
+	<% } %>
+	<% if(user.adminMode) { %>
 		<div class="admin-control-container">
 			<button class="btn js-achievements-add">Добавить</button>
 		</div>
@@ -45,11 +55,11 @@
 		<% }) %>
 	</div>
 	<div class="pagination">
-		<a class="pagination__to-begin pagination__action-link" href="/achievements">в начало</a>
+		<a class="pagination__to-begin pagination__action-link" href="<%= fragment.settings.urlPage -%>">в начало</a>
 		<% for(let i = pagination.left; i < pagination.right; i++) { %>
-				<a class="pagination-item <%=pagination.curPage == i ? `pagination-item__active` : ``%>" href="/achievements?page=<%=i%>"><%=i%></a>
+				<a class="pagination-item <%=pagination.curPage == i ? `pagination-item__active` : ``%>" href="<%= fragment.settings.urlPage -%>?page=<%=i%>"><%=i%></a>
 		<% } %>
-		<a class="pagination__to-end pagination__action-link" href="/achievements?page=<%=pagination.countPages%>">в конец</a>
+		<a class="pagination__to-end pagination__action-link" href="<%= fragment.settings.urlPage -%>?page=<%=pagination.countPages%>">в конец</a>
 	</div>
 </section>
 	<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js"></script>
