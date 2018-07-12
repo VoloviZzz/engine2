@@ -1,7 +1,7 @@
 $(document).ready(function (e) {
 	$('.js-item-toggle-state').on('click', function () {
 
-		var $this = $(this);
+		var $btn = $this = $(this);
 
 		var postData = {};
 
