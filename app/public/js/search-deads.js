@@ -156,7 +156,7 @@ $(document).ready(function () {
 	var fullnameUrlQuery = getUrlParameter('fullname');
 
 	if (!!fullnameUrlQuery === true) {
-		$('#search-fio').val(fullnameUrlQuery);
+		$('#search-fio').val(fullnameUrlQuery.replace(/\+/g, ' '));
 		findGrave();
 	}
 
