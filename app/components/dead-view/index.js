@@ -136,10 +136,22 @@ module.exports = (app) => {
 			locals.route.title = body.data.grave.dead_name;
 		}
 
+		var g = body.data.grave;
+
+		g.number = String(g.id);
+		while (g.number.length < 6) g.number = "0" + g.number;
+
+		if (g.place) {
+			g.placeNumber = String(g.place);
+			
+			while (g.placeNumber.length < 6) g.placeNumber = "0" + g.placeNumber;
+		}
+
 		dataViews.flowers = [];
 		dataViews.data = body.data;
 		dataViews.user = session.user;
 		dataViews.memoryBookPhotoPath = api.memoryBookPhotoPath;
+		dataViews.g = g;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
