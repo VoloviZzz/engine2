@@ -34,6 +34,10 @@ module.exports = (app) => {
 		} catch (e) {
 			console.log('Ошибка api "memory_book":');
 			console.log(e);
+
+			if (e.code == "ECONNREFUSED") {
+				return Promise.resolve([e, '<b>Сервер "Книги памяти" временно недоступен.</b>']);
+			}
 		}
 
 		const pagination = new Pagination({ allCountPosts: data.deads.countDeads, countOnPage: getMemoryParams.count, currentPage: currentPage });
