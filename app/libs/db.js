@@ -27,7 +27,7 @@ exports.get = function () {
 exports.execQuery = function (queryStr, data = {}) {
 	return new Promise((resolve, reject) => {
 		exports.get().query(queryStr, data, (err, rows) => {
-			if (err) return resolve([err, null, null]);
+			if (err) return resolve([err, null, queryStr]);
 			return resolve([err, rows, queryStr]);
 		})
 	})

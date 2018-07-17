@@ -666,7 +666,7 @@ table {
 }
 
 .text-left {
-	text-align: left;
+	text-align: left !important;
 }
 
 .mCSB_scrollTools {
@@ -1066,9 +1066,8 @@ textarea.input-text {
 	}
 
 	/* .place__info > div { */
-		/* width: 100% !important; */
+	/* width: 100% !important; */
 	/* } */
-
 	/*.aside-toggle {
         display: block;
         height: auto;

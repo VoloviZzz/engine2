@@ -1,19 +1,86 @@
 <link rel="stylesheet" href="/css/feedback-form.css">
 <section class="feedback">
+	<% if(user.adminMode) { %>
+		<section class="admin-control-container text-left">
+			<h1>Категория</h1>
+			<span>Категория обратной связи:</span>
+			<select id="js-feedback-setCategory" data-fragment-id="<%= fragment.id -%>">
+				<option value="">Не выбрано</option>
+				<% categories.forEach((c) => { -%>
+					<option <%= fragment.settings.category == c ? 'selected' : '' -%> value="<%= c -%>"><%= c -%></option>
+				<% }) -%>
+			</select>
+			<form id="js-feedback-addCategory" data-fragment-id="<%= fragment.id -%>" style="display: inline-block">
+				<span>или установить свою:</span>
+				<input type="text" name="categoryName">
+			</form>
+		</section>
+		<section class="admin-control-container text-left">
+			<h1>Параметры</h1>
+			<div>
+				<span>Только для зарегистрированных:</span>
+				<label>
+					<span>нет</span>
+					<input <%= fragment.settings.onlyRegistred == '0' ? 'checked' : '' -%> class="js-feedback-setOnlyRegistred" data-fragment-id="<%= fragment.id -%>" type="radio" name="onlyRegistred" value="0">
+				</label>
+				<label>
+					<span>да</span>
+					<input <%= fragment.settings.onlyRegistred == '1' ? 'checked' : '' -%> class="js-feedback-setOnlyRegistred" data-fragment-id="<%= fragment.id -%>" type="radio" name="onlyRegistred" value="1">
+				</label>
+			</div>
+			<br>
+			<div>
+				<span>Показывать поле "откуда вы":</span>
+				<label>
+					<span>нет</span>
+					<input <%= fragment.settings.showClientFrom == '0' ? 'checked' : '' -%> data-fragment-id="<%= fragment.id -%>" class="js-feedback-setShowClientFrom" type="radio" name="showClientFrom" value="0">
+				</label>
+				<label>
+					<span>да</span>
+					<input <%= fragment.settings.showClientFrom == '1' ? 'checked' : '' -%> data-fragment-id="<%= fragment.id -%>" class="js-feedback-setShowClientFrom" type="radio" name="showClientFrom" value="1">
+				</label>
+			</div>
+		</section>
+	<% } %>
 	<div class="feedback__wrapper">
-		<% if(user.adminMode) { %>
-			<input type="text" class="js-fragment-update-settings input-text" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="<%= formTitle -%>">
-		<% } else { %> 
-			<h2 class="feedback__title"><%= formTitle -%></h2>
+		<% if((fragment.settings.onlyRegistred == '1' && !!user.id !== false) || fragment.settings.onlyRegistred == '0') { %>
+			<% var inputDisabled = fragment.settings.onlyRegistred == '1' ? 'disabled' : '' %>
+			<% if(user.adminMode) { %>
+				<input type="text" class="js-fragment-update-settings input-text" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="<%= formTitle -%>">
+			<% } else { %> 
+				<h2 class="feedback__title"><%= formTitle -%></h2>
+			<% } %>
+			<form class="feedback__form" action="" method="post">
+				<input <%= inputDisabled -%> class="feedback__bio" type="text" name="client_name" value="<%= client.fio -%>" required placeholder="Как к Вам обращаться">
+				<% if(fragment.settings.showClientFrom == '1') { %>
+					<input class="feedback__city-org" type="text" name="client_from" required placeholder="Откуда Вы (город, организация)">
+				<% } %>
+				<input <%= inputDisabled -%> class="feedback__telephone" type="tel" value="<%= client.phone -%>" name="client_phone" required placeholder="Телефон">
+				<input <%= inputDisabled -%> class="feedback__email" type="email" value="<%= client.mail -%>" name="client_email" required placeholder="Email">
+				<textarea class="feedback__message" name="message" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
+				<% if(user.id) { %>
+					<input type="hidden" name="client_id" value="<%= user.id -%>">
+				<% } %>
+				<input type="hidden" name="category" value="<%= fragment.settings.category -%>">
+				<button class="btn feedback__btn-submit" type="submit">Отправить</button>
+			</form>
+			<% if(user.id) { %>
+				<section>
+					<h1>Ваши сообщения:</h1>
+					<% if(messages.length < 1) { %>
+						<p>Вы не оставили ни одного сообщения</p>
+					<% } %>
+					<% messages.forEach((m) => { -%>
+						<p><%= m.message -%></p>
+					<% }) -%>
+				</section>
+			<% } %>
+		<% } else { %>
+			<p>Необходимо зарегистрироваться для отправки сообщения</p>
 		<% } %>
-		<form class="feedback__form" action="" method="post">
-			<input class="feedback__bio" type="text" name="client_name" value="<%= client.fio -%>" required placeholder="Как к Вам обращаться">
-			<input class="feedback__city-org" type="text" name="client_from" required placeholder="Откуда Вы (город, организация)">
-			<input class="feedback__telephone" type="tel" value="<%= client.phone -%>" name="client_phone" required placeholder="Телефон">
-			<input class="feedback__email" type="email" value="<%= client.mail -%>" name="client_email" required placeholder="Email">
-			<textarea class="feedback__message" name="message" cols="30" rows="10" placeholder="Ваше сообщение"></textarea>
-			<button class="btn feedback__btn-submit" type="submit">Отправить</button>
-		</form>
 	</div>
 </section>
 <script src="/js/feedback-form.js" defer></script>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/feedback-form.js" defer></script>
+<% } %>
