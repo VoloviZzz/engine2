@@ -38,7 +38,6 @@ $(document).ready(function () {
 				}
 
 				clients.map(function (c) {
-					console.log(c);
 					resultHtml += `
 						<div class="client-card">
 							<div class="client-card__title">

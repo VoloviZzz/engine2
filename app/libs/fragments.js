@@ -5,8 +5,12 @@ module.exports = (app) => {
 	const fragmentsHandler = async (fragment, data) => {
 		let errors, fragmentData = {}, content = '';
 
-		fragment.settings = fragment.settings ? JSON.parse(fragment.settings) : {};
-		
+		try {
+			fragment.settings = fragment.settings ? JSON.parse(fragment.settings) : {};
+		} catch (error) {
+			fragment.settings = {};
+		}
+
 		data.locals.fragment = fragment;
 
 		[errors, rows] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });

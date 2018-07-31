@@ -8,6 +8,11 @@ module.exports = (app) => {
 		// logic...
 
 		const orderHash = locals.dynamicRouteAlias;
+
+		if(!!orderHash === false) {
+			return Promise.resolve([, 'Страница не найдена']);
+		}
+
 		const [, [order]] = await Model.orders.get({ hash: orderHash });
 		const [, orderGoods] = await Model.ordersGoods.get({ order_id: order.id });
 

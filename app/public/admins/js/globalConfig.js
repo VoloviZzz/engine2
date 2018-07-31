@@ -66,8 +66,6 @@ $(document).ready(function () {
 
 		fd.append('upload', this.files[0]);
 
-		return console.log(this.files[0]);
-
 		$.ajax({
 			url: '/api/images/upload?filename=favicon.ico',
 			data: fd,
