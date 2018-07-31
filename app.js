@@ -139,6 +139,8 @@ db.connect(db.MODE_TEST, async (err) => {
 	const { constructHeaderRows } = require('./app/libs/header-nav');
 	app.use(constructHeaderRows);
 
+	app.use(`/api/unloading`, require('./app/unloading'));
+
 	// общие маршруты приложения
 	app.post('/toggle-admin', toggleAdminMode);
 	app.get('/logout', clearSessionData);
