@@ -11,13 +11,26 @@ exports.add = function (data = {}) {
 
 	if (!!data.cat_id === false) return Promise.resolve([new Error(`Отсутствует номер категории`), null]);
 
+	const description = data.description ? `, description = '${data.description}'` : '';
+	const count = data.count ? `, count = '${data.count}'` : '';
+	const price = data.price ? `, price = '${data.price}'` : '';
+	const pos_id = data.pos_id ? `, pos_id = '${data.pos_id}'` : '';
+	const mod_id = data.mod_id ? `, mod_id = '${data.mod_id}'` : '';
+	const crm_id = data.crm_id ? `, crm_id = '${data.crm_id}'` : '';
+
 	return db.insertQuery(`
 		INSERT INTO 
 			goods_pos 
 		SET 
 			title = '${data.title}',
-			cat_id = '${data.cat_id}',
-			created = NOW()
+			cat_id = '${data.cat_id}'
+			${description}
+			${count}
+			${price}
+			${pos_id}
+			${mod_id}
+			${crm_id}
+			, created = NOW()
 		`);
 }
 
@@ -41,13 +54,13 @@ exports.get = function (data = {}) {
 }
 
 exports.upd = function (data = {}) {
-	if (!!data.value === false) return Promise.resolve([new Error('Нет value')])
+	if (!!data.value === false && data.value !== 0 && data.value !== '') return Promise.resolve([new Error('Нет value')])
 
 	const targetIsArray = Array.isArray(data.target);
 	let setData = '';
 
-	if(targetIsArray) {
-		if(Array.isArray(data.value)) {
+	if (targetIsArray) {
+		if (Array.isArray(data.value)) {
 			setData = data.target.map((target, index) => `${target} = ${data.value[index]}`).join(',');
 		}
 		else {
