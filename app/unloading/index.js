@@ -12,6 +12,14 @@ const path = require('path');
 
 const sendPost = require('./functions/send_post');
 
+const saveImageByUrl = function saveImageByUrl(url, file) {
+	return new Promise((resolve, reject) => {
+		const stream = request(url).pipe(file);
+
+		stream.on('finish', () => resolve(true));
+	})
+}
+
 app.set('views', path.join(__dirname, 'views'));
 
 // request.post(`http://es/shop_api/`, { form: { func: 'ping', path: 'ping' } }, (error, response, body) => {	
@@ -27,6 +35,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use((req, res, next) => {
 	console.log(new Date().toLocaleTimeString(), `Пришёл запрос на адрес: ${req.url}`);
 	next();
+});
+
+app.get(`/`, (req, res, next) => {
+	console.log(res);
+	res.render(`info`);
 });
 
 app.post('/addConnection', async function addConnection(req, res, next) {
@@ -57,6 +70,40 @@ app.post('/addConnection', async function addConnection(req, res, next) {
 	}
 });
 
+app.post(`/updatePositions`, (req, res, next) => {
+
+	var form = new formidable.IncomingForm();
+
+	form.parse(req, async function (err, fields, files) {
+		try {
+			const { id, target, value } = JSON.parse(fields.data);
+			const targetsWhiteList = ['price', 'count'];
+
+			const targetIsValid = targetsWhiteList.includes(target);
+
+			if (targetIsValid === false) {
+				return res.json({ status: 'bad', message: 'Недопустимый параметр target' });
+			}
+
+			if (!!value === false && value !== 0 && value !== '') {
+				return res.json({ status: 'bad', message: 'Недопустимый параметр value' });
+			}
+
+			var [error] = await Model.goodsPositions.upd({ id, target, value });
+
+			if (error) {
+				return res.json({ status: 'bad', message: `Ошибка во время выполнения запроса: ${error.message}`, error });
+			}
+
+			return res.json({ status: 'ok' });
+		} catch (error) {
+			res.json({ status: 'bad' });
+		}
+	});
+
+	form.on('error', (error) => console.log(`Ошибка при получение данных с программы. ${error.message}`));
+});
+
 /**
  * Получает от программы ответ на запрос сопряжения
  */
@@ -82,10 +129,6 @@ app.post('/connectionResponse', async function connectionResponse(req, res, next
 	form.on('error', (error) => console.log(`Ошибка при получение данных с программы. ${error.message}`));
 });
 
-app.get(`/`, (req, res, next) => {
-	res.render(`info`);
-});
-
 app.post(`/ping`, (req, res, next) => {
 	res.json({ status: 'ok' });
 });
@@ -98,13 +141,6 @@ app.post(`/getCategories`, (req, res, next) => {
 	})
 });
 
-function saveImageByUrl(url, file) {
-	return new Promise((resolve, reject) => {
-		const stream = request(url).pipe(file);
-
-		stream.on('finish', () => resolve(true));
-	})
-}
 
 app.post(`/addPositions`, function addPositions(req, res, next) {
 
