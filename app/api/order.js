@@ -1,6 +1,6 @@
 const ShoppingCart = require('../classes/ShoppingCart');
 const md5 = require('md5');
-
+const sendSoldItems = require('../unloading/functions/send_sold_items');
 // добавление данных оформления заказа в сессию
 exports.setOrderData = (req, res, next) => {
 	const { Model } = req.app;
@@ -73,17 +73,54 @@ exports.setDeliveryData = (req, res, next) => {
 	return { status: 'ok' }
 }
 
-exports.addOrder = (req, res, next) => {
+exports.addOrder = async (req, res, next) => {
 	const Model = req.app.Model;
 	const shoppingCart = new ShoppingCart(req);
 	const clientCart = shoppingCart.getCart();
 	let order_id = false;
+
+	const promisesArray = [];
 
 	if (req.session.user && typeof req.session.user.id !== 'undefined') {
 		req.body.client_id = req.session.user.id;
 	}
 
 	if (Object.keys(clientCart.goods).length < 1) return { message: 'Не выбрано ни одного товара.' }
+
+	for (const { id } of Object.values(clientCart.goods)) {
+		const getItemQuery = Model.goodsPositions.get({ id });
+		promisesArray.push(getItemQuery);
+	}
+
+	var getPositionsResults = await Promise.all(promisesArray);
+	const goodsArray = [];
+
+	for (let [error, [position]] of getPositionsResults) {
+		const { count, id } = position;
+		const countInOrder = clientCart.goods[id].countInShopCart;
+
+		if (count - countInOrder < 0) {
+			return { message: `Невозможно подтвердить заказ. Товаров в корзине больше, чем есть в наличии` };
+		}
+	};
+
+	getPositionsResults.forEach(([error, [position]]) => {
+		const { id, pos_id, mod_id, price, crm_id } = position;
+		const countInOrder = clientCart.goods[id].countInShopCart;
+
+		if (!!crm_id !== false) {
+			goodsArray.push({ id, pos_id, mod_id, price, count: countInOrder })
+		}
+	});
+
+	const { surname, firstname, patronymic, phone } = req.body;
+	const name = `${surname} ${firstname} ${patronymic}`;
+
+	// данные для экспорта товаров в программу
+	const exportSendData = {
+		poses: goodsArray,
+		client_info: { surname, firstname, patronymic, phone, name }
+	};
 
 	const orderHash = md5(Date.now() + JSON.stringify(req.body));
 
@@ -102,8 +139,28 @@ exports.addOrder = (req, res, next) => {
 		}
 
 		// return req.app.smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })
+	}).then(async () => {
+
+		const updatePositionsPromises = [];
+
+		for (const positionInCart of Object.values(clientCart.goods)) {
+			const { id, countInShopCart: count } = positionInCart;
+
+			const [error, [position]] = await Model.goodsPositions.get({ id });
+			const { count: positionCount } = position;
+
+			const newPositionCount = positionCount - count;
+
+			const updatePositionQuery = Model.goodsPositions.upd({ target: 'count', value: newPositionCount, id });
+			updatePositionsPromises.push(updatePositionQuery);
+		}
+
+		return Promise.all(updatePositionsPromises);
 	}).then(() => {
+		// функция для отправки продажи с сайта в программу
+		await sendSoldItems(exportSendData);
 		shoppingCart.clearCart();
+		return false;
 		return { status: 'ok', orderHash }
 	}).catch(error => {
 		console.log(error);

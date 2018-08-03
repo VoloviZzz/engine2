@@ -1,10 +1,15 @@
 $(document).ready(function (e) {
 	$('.feedback__form').on('submit', function (e) {
-		
-		var formData = $(this).serializeArray().reduce(function (prev, cur) {
-			prev[cur.name] = cur.value;
-			return prev;
-		}, {});
+
+		var formData = {};
+
+		for (var i = 0; i < this.elements.length; i++) {
+			var element = this.elements[i];
+
+			if (element.name) {
+				formData[element.name] = element.value;
+			}
+		}
 
 		for (var key in formData) {
 			if (!!formData[key] === false) {

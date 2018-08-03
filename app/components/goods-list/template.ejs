@@ -23,4 +23,17 @@
 		<%- currentCat.description || '' -%>
 	<% } %>
 </div>
-<%- include(`./${tpl}.ejs`) -%>
+<section>
+	<div class="text-right">
+		<form id="js-shop-search-form">
+			<input type="text" name="searchQuery">
+			<button class="btn">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</form>
+	</div>
+</section>
+<section id="js-load-content">
+	<%- include(`./${tpl}.ejs`) -%>
+</section>
+<script src="/js/goods-list.js" defer></script>

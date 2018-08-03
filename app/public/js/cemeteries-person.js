@@ -146,7 +146,7 @@ $(document).ready(() => {
 			creator: $this.data('creator')
 		}
 
-		if(!confirm('Хотите удалить запись из книги памяти?')) return false;
+		if (!confirm('Хотите удалить запись из книги памяти?')) return false;
 
 		$.post("/api/memory_book/delete-item", postData)
 			.done(result => {
@@ -233,11 +233,13 @@ $(document).ready(() => {
 		$('.js-form-add-biography').toggle();
 	})
 
-	$('#uploadable-files').on('change', function (e) {
+	$('#js-uploadable-files').on('change', function (e) {
 		var fd = new FormData();
 		var dead_id = $(this).data('id');
 
-		fd.append('upload', this.files[0]);
+		for (var i = 0; i < this.files.length; i++) {
+			fd.append('upload-' + i, this.files[i]);
+		}
 
 		$.ajax({
 			url: '/api/memory_book/loadPhoto?dead_id=' + dead_id,
@@ -255,5 +257,38 @@ $(document).ready(() => {
 			}
 		});
 		return false;
+	});
+
+	$('.js-memoryItem-update').on('change', function (e) {
+
+		var $textarea = $(this);
+
+		var postData = {};
+
+		postData.id = $textarea.data('id');
+		postData.target = $textarea.data('target');
+		postData.table = $textarea.data('table');
+		postData.value = $textarea.val().trim();
+
+		$.post('/api/memory_book/update', postData).done(function (result) {
+			console.log(result);
+		})
+	})
+
+	$('.js-memoryItem').on('click', '.js-show-edit-form', function (e) {
+		var $item = $(e.delegateTarget);
+
+		var $text = $item.find('.js-memoryItem-text');
+		var $editForm = $item.find('.js-memoryItem-update');
+		var $editButton = $item.find('.js-show-edit-form');
+
+		$item.toggleClass('js-active-edit');
+
+		$editButton.text('Сохранить');
+
+		$text.toggle();
+		$editForm.toggle();
+
+		if ($item.hasClass('js-active-edit') === false) return location.reload();
 	})
 })

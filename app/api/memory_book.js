@@ -5,11 +5,14 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const searchDeadsLib = require('../libs/search-deads');
-const View = require('../View')
+const View = require('../View');
+const { promisify } = require('util');
+
+const unlink = promisify(fs.unlink);
 
 exports.loadPhoto = (req, res, next) => {
 
-	let fileFullPath;
+	const pathsArray = [];
 	const dead_id = req.query.dead_id;
 
 	return new Promise((resolve, reject) => {
@@ -23,16 +26,26 @@ exports.loadPhoto = (req, res, next) => {
 		const message = 'Файл загружен на сервер';
 
 		form.parse(req, function (err, fields, files) {
-			const fileParsePath = path.parse(files.upload.path);
-			fileFullPath = path.join(fileParsePath.dir, fileParsePath.base);
 
-			return resolve(fileFullPath);
+			files = Object.values(files);
+
+			files.forEach(file => {
+				const fileParsePath = path.parse(file.path);
+				pathsArray.push(path.join(fileParsePath.dir, fileParsePath.base));
+			})
+
+			return resolve(pathsArray);
 		});
-	}).then((fileFullPath) => {
+	}).then((pathsArray) => {
+
+		const photos = pathsArray.map((path) => {
+			return fs.createReadStream(path);
+		});
+
 		var formData = {
 			__function__: 'uploadPhoto',
 			key: '',
-			photo: fs.createReadStream(fileFullPath),
+			photo: photos,
 			dead_id: dead_id,
 			dead_code: '74-3435',
 			author_id: req.session.user.id
@@ -45,17 +58,19 @@ exports.loadPhoto = (req, res, next) => {
 		return Promise.resolve();
 	}).then(() => {
 		return new Promise((resolve, reject) => {
-			fs.unlink(fileFullPath, (error) => {
-				if (error) reject(error);
+			const unlinksArray = [];
 
-				return resolve();
-			});
+			pathsArray.forEach(path => {
+				unlinksArray.push(unlink(path));
+			})
+
+			return resolve(Promise.all(unlinksArray));
 		})
 	}).then(() => {
-		return { status: 'ok' }
+		return Promise.resolve({ status: 'ok' });
 	}).catch(error => {
 		console.log(error);
-		return { error, message: error.message };
+		return { status: 'bad', error, message: error.message };
 	})
 }
 
@@ -148,6 +163,27 @@ exports['loadMore'] = async (req, res, next) => {
 		return { status: 'bad', message: error.message };
 	})
 }
+
+exports['update'] = (req, res, next) => {
+	return api.memory.upd(req.body.table, req.body).then((result) => {
+		if (result.status == 'ok') {
+			return { status: 'ok', data: result };
+		}
+
+		return Promise.reject({ status: 'bad', message: result.message });
+	}).then(() => {
+		return api.memory.upd(req.body.table, { target: 'state', value: '2', id: req.body.id, table: req.body.table });
+	}).then((result) => {
+		if (result.status == 'ok') {
+			return { status: 'ok', data: result };
+		}
+
+		return Promise.reject({ status: 'bad', message: result.message });
+	}).catch(error => {
+		console.log(error);
+		return { status: 'bad', message: error.message };
+	})
+};
 
 exports['change-state-item'] = (req, res, next) => {
 	req.body.reason = req.body.reason || false;

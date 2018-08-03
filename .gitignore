@@ -4,6 +4,7 @@ package-lock.json
 
 node_modules/
 .vs
+.vscode
 
 config/index.js
 
