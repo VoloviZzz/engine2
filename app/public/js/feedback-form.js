@@ -12,7 +12,7 @@ $(document).ready(function (e) {
 		}
 
 		for (var key in formData) {
-			if (!!formData[key] === false) {
+			if (formData[key] !== '' && !!formData[key] === false) {
 				alert('Отсутствует поле: ' + key);
 				return false;
 			}
