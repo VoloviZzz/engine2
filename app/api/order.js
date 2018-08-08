@@ -156,11 +156,10 @@ exports.addOrder = async (req, res, next) => {
 		}
 
 		return Promise.all(updatePositionsPromises);
-	}).then(() => {
+	}).then(async () => {
 		// функция для отправки продажи с сайта в программу
 		await sendSoldItems(exportSendData);
 		shoppingCart.clearCart();
-		return false;
 		return { status: 'ok', orderHash }
 	}).catch(error => {
 		console.log(error);
