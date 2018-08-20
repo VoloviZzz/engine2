@@ -37,7 +37,7 @@ $(document).ready(function (e) {
 
 		postData.target = 'category';
 		postData.fragment_id = $(this).data('fragmentId');
-		postData.value = this.value || this.elements.categoryName.value.trim();
+		postData.value = this.value || this.value === '' ? this.value : this.elements.categoryName.value.trim();
 
 		if (!!postData.target === false) return alert('В запросе отсутствует target');
 		if ('value' in postData === false) return alert('В запросе отсутствует value');
