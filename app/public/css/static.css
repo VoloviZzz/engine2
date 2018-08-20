@@ -421,6 +421,10 @@ nav a.active-link {
 	margin-bottom: 6px;
 }
 
+.section-title h3 {
+	font-family: 'PT Sans', 'Segoe ui';
+}
+
 .section-menu__sublist .active {
 	font-weight: bold;
 }

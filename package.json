@@ -1,7 +1,7 @@
 {
-	"name": "test-routes",
-	"version": "1.0.0",
-	"description": "",
+	"name": "Engine",
+	"version": "1.1.0",
+	"description": "LetaIndex Engine",
 	"main": "app.js",
 	"scripts": {
 		"start": "nodemon app.js",
@@ -14,7 +14,7 @@
 		"verbose": true
 	},
 	"keywords": [],
-	"author": "",
+	"author": "LetaIndex LLC",
 	"license": "ISC",
 	"dependencies": {
 		"compression": "^1.7.3",
