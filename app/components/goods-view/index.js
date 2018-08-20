@@ -1,5 +1,31 @@
 const path = require('path');
 
+/**
+ * @param cat array
+ * @param id int
+ * @return array
+ * Получаем массив для хлебных крошек
+ */
+function breadcrumb(cat, id) {
+
+	//Создаем пустой массив
+	const brc = {};
+
+	for (const node of Object.values(cat)) {
+		//Проверяем что мы не нашли родителя и не массив пуст
+		if (id != 0 && !!cat[id] !== false) {
+			//Ищем родителя
+			brc[cat[id]['id']] = cat[id]['title'];
+			id = cat[id]['parent_id'];
+		}
+		//Останавливаем цикл
+		else break;
+	}
+
+	//Возвращаем перевернутый массив с сохранением ключей
+	return brc;
+}
+
 module.exports = (app) => {
 	const Model = app.Model;
 	return (data = {}) => {
@@ -43,32 +69,17 @@ module.exports = (app) => {
 
 			dataViews.position = pos;
 
-			const catsTree = await app.locals.Helpers.buildTree(goodsCats);
-			let rootLevelCats = goodsCats.filter(c => c.level == '0');
+			var goodsCatsObject = goodsCats.reduce((prev, current) => {
+				const { id } = current;
+				prev[id] = current;
+				return prev;
+			}, {});
 
-			let positionCollection = [];
+			const breadcrumbNavigation = breadcrumb(goodsCatsObject, pos.cat_id);
 
-			Object.keys(catsTree).some((cat_id, index) => {
-				let cat = catsTree[cat_id];
-				positionCollection = [];
-				positionCollection.push(cat);
-				while (!!cat.childs === true) {
+			dataViews.breadcrumbNavigation = breadcrumbNavigation;
 
-					Object.keys(cat.childs).forEach((cat_id, index) => {
-						if (!!cat.childs === false) return false; // заглушка. непонятно почему категория (cat) была undefined
-						if (!!cat.childs[cat_id] === false) return false; // заглушка. непонятно почему категория (cat) была undefined
-						cat = cat.childs[cat_id];
-						positionCollection.push(cat);
-					})
-				}
-
-				if (cat.id === dataViews.position.cat_id) {
-					return true;
-				} else {
-					positionCollection = [];
-				}
-			})
-
+			// получение похожих позиций;
 			const countSimilarPosts = 5;
 			var [error, similarPositions] = await app.db.execQuery(`
 				SELECT gp.*,
@@ -80,8 +91,6 @@ module.exports = (app) => {
 				WHERE gp.cat_id = '${pos.cat_id}' AND gp.id <> '${pos.id}' ORDER BY RAND() LIMIT ${countSimilarPosts}`);
 
 			dataViews.similarPositions = similarPositions;
-			dataViews.rootLevelCats = rootLevelCats;
-			dataViews.position.collection = positionCollection;
 			data.locals.route.title = pos.title;
 
 			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
@@ -90,7 +99,6 @@ module.exports = (app) => {
 			Object.assign(dataViews.locals, data.locals);
 
 			dataViews.partName = pos.service == 0 ? 'goods.ejs' : 'service.ejs';
-
 
 			const templatePath = path.join(__dirname, 'template.ejs');
 			const template = app.render(templatePath, dataViews, (err, str) => {

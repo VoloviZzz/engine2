@@ -3,9 +3,9 @@
 		<input class="js-good-edit good-info__title input-text text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
 	<% } %>
 	<div class="custom-details__collection" style="width: 100%">
-		<% position.collection.forEach(({title, id}) => { %>
-			<a href="/shop-categories/<%= id -%>">/ <%= title %></a>
-		<% }) %>
+		<% for(const id of Object.keys(breadcrumbNavigation)) { %>
+			<a href="/shop-categories/<%= id -%>">/ <%= breadcrumbNavigation[id] %></a>
+		<% } %>
 	</div>
 	<div class="good-info__img-wrapp">
 		<div class="baguetteBox" style="width: 90%">
