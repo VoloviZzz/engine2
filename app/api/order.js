@@ -105,11 +105,11 @@ exports.addOrder = async (req, res, next) => {
 	};
 
 	getPositionsResults.forEach(([error, [position]]) => {
-		const { id, pos_id, mod_id, price, crm_id } = position;
+		const { id, pos_id, mod_id, price, connect_id, service } = position;
 		const countInOrder = clientCart.goods[id].countInShopCart;
 
-		if (!!crm_id !== false) {
-			goodsArray.push({ id, pos_id, mod_id, price, count: countInOrder })
+		if (!!connect_id !== false) {
+			goodsArray.push({ id, pos_id, mod_id, price, count: countInOrder, service, connect_id })
 		}
 	});
 
