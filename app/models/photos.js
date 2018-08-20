@@ -21,14 +21,25 @@ exports.add = function (data = { path: '', name: '' }) {
 	target = !!target === true ? `, target = '${target}'` : '';
 	target_id = !!target_id === true ? `, target_id = '${target_id}'` : '';
 
-	return db.insertQuery(`INSERT INTO photos SET path = '${data.path}', name = '${data.name}' ${target} ${target_id}`);
+	const connect_id = !!data.connect_id === true ? `, connect_id = '${data.connect_id}'` : '';
+	const crm_photo_id = !!data.crm_photo_id === true ? `, crm_photo_id = '${data.crm_photo_id}'` : '';
+
+	return db.insertQuery(`INSERT INTO photos SET path = '${data.path}', name = '${data.name}' ${target} ${target_id} ${connect_id} ${crm_photo_id}`);
 }
 
 exports.delete = function (data = {}) {
 
-	let { id } = data;
+	let { id, target_id, target } = data;
+	let whereData = '';
 
-	if (!!id === false) return Promise.resolve([new Error('Отсутствует id'), null]);
+	if (id) {
+		whereData = `id = '${id}'`;
+	}
+	if (target && target_id) {
+		whereData = `target_id = '${target_id}' AND target = '${target}'`;
+	}
 
-	return db.execQuery(`DELETE FROM photos WHERE id = ${id}`);
+	if (!!whereData === false || whereData === '') return Promise.resolve([new Error('Отсутствует whereData'), null]);
+
+	return db.execQuery(`DELETE FROM photos WHERE ${whereData}`);
 }

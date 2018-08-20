@@ -16,7 +16,8 @@ exports.add = function (data = {}) {
 	const price = data.price ? `, price = '${data.price}'` : '';
 	const pos_id = data.pos_id ? `, pos_id = '${data.pos_id}'` : '';
 	const mod_id = data.mod_id ? `, mod_id = '${data.mod_id}'` : '';
-	const crm_id = data.crm_id ? `, crm_id = '${data.crm_id}'` : '';
+	const connect_id = data.connect_id ? `, connect_id = '${data.connect_id}'` : '';
+	const service = data.service || data.service === 0 ? `, service = '${data.service}'` : '';
 
 	return db.insertQuery(`
 		INSERT INTO 
@@ -29,7 +30,8 @@ exports.add = function (data = {}) {
 			${price}
 			${pos_id}
 			${mod_id}
-			${crm_id}
+			${connect_id}
+			${service}
 			, created = NOW()
 		`);
 }
@@ -38,6 +40,11 @@ exports.get = function (data = {}) {
 	data.cat_id = typeof data.cat_id !== "undefined" ? `AND gp.cat_id = ${data.cat_id}` : ``;
 	data.id = typeof data.id !== "undefined" ? `AND gp.id = ${data.id}` : ``;
 	data.ids = typeof data.ids !== "undefined" ? `AND gp.id IN (${data.ids})` : ``;
+
+	const recycled = !!data.recycled !== false ? `AND gp.recycled = ${data.recycled}` : ``;
+	const connect_id = !!data.connect_id !== false ? `AND gp.connect_id = ${data.connect_id}` : ``;
+	const pos_id = !!data.pos_id !== false ? `AND gp.pos_id = ${data.pos_id}` : ``;
+	const mod_id = !!data.mod_id !== false ? `AND gp.mod_id = ${data.mod_id}` : ``;
 
 	return db.execQuery(`
 		SELECT gp.*,
@@ -50,6 +57,10 @@ exports.get = function (data = {}) {
 			${data.cat_id}
 			${data.id}
 			${data.ids}
+			${recycled}
+			${connect_id}
+			${pos_id}
+			${mod_id}
 	`);
 }
 
@@ -60,8 +71,8 @@ exports.upd = function (data = {}) {
 	let setData = '';
 
 	if (targetIsArray) {
-		if (Array.isArray(data.value)) {
-			setData = data.target.map((target, index) => `${target} = ${data.value[index]}`).join(',');
+		if (Array.isArray(data.value) && data.value.length == data.target.length) {
+			setData = data.target.map((target, index) => `${target} = '${data.value[index]}'`).join(',');
 		}
 		else {
 			return Promise.reject([, new Error('Values is not array')]);
@@ -75,6 +86,44 @@ exports.upd = function (data = {}) {
 		UPDATE goods_pos
 		SET ${setData}
 		WHERE id = ${data.id}
+	`);
+}
+
+// используется в модуле выгрузки товаров. Отличие в том, что требуемыми ключами являются именные ключи,
+// а не target и value
+exports.updateByParams = function (args = {}) {
+
+	const price = args.price || args.price === 0 ? `price = '${args.price}'` : ``;
+	const count = args.count || args.count === 0 ? `count = '${args.count}'` : ``;
+	const title = args.title || args.title === '' ? `title = '${args.title}'` : ``;
+	const description = args.description || args.description === '' ? `description = '${args.description}'` : ``;
+	const cat_data = args.cat_data || args.cat_data === '' ? `cat_id = '${args.cat_data}'` : ``;
+	const recycled = args.recycled ? `recycled = '${args.recycled}'` : ``;
+
+	const setData = [price, count, description, cat_data, title, recycled].filter(data => data !== '').join(',');
+
+	let whereData = ``;
+
+	if (args.id) {
+		whereData = `id = '${args.id}'`;
+	}
+	else if (args.pos_id && args.mod_id && args.connect_id) {
+		whereData = `pos_id = '${args.pos_id}' AND mod_id = '${args.mod_id}' AND connect_id = '${args.connect_id}'`
+	}
+
+	if (setData === '' || !!setData === false) {
+		return Promise.resolve(['Отсутствуют данные для обновления']);
+	}
+
+	if (whereData === '' || !!whereData === false) {
+		return Promise.resolve(['Отсутствуют данные для условия']);
+	}
+
+	return db.execQuery(`
+		UPDATE goods_pos
+		SET 
+			${setData}
+		WHERE ${whereData}
 	`);
 }
 
