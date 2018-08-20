@@ -44,13 +44,13 @@
 			var form = this;
 			var host = form.elements.host.value.trim();
 			var port = form.elements.port.value.trim();
-			$.post('/api/unloading/addConnection', { host: host, port: port, siteName: 'Сайт кпру' }).done(function (result) {
-				
-				console.log(result);
-
+			
+			$.post('/api/unloading/addConnection', { host: host, port: port }).done(function (result) {
 				if (result.status !== 'ok') {
-					alert(result.message);
+					return alert(result.message);
 				}
+
+				location.reload();
 			});
 
 			return false;
