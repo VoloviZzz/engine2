@@ -5,7 +5,8 @@ module.exports = async function addConnection(req, res, next) {
 	const { db } = req.app.parent;
 
 	try {
-		const { host, port, siteName: title } = req.body;
+		const { host, port } = req.body;
+		const title = 'Новый сайт';
 		const pingResult = await sendPost(`http://${host}:${port}/shop_api/`, { path: `connect-crm`, func: `ping` });
 
 		if (pingResult.status !== 'ok') {
@@ -19,7 +20,7 @@ module.exports = async function addConnection(req, res, next) {
 			console.error(error);
 			return res.json({ message: 'Не удалось добавить соединение в базу', error });
 		}
-		
+
 		const connectConfig = require('../../config');
 		const connectData = { host: connectConfig.host, port: connectConfig.port, title, site_id: connectId };
 
