@@ -1,0 +1,1 @@
+UPDATE `routes` SET url = CONCAT(url, '/:params') WHERE dynamic = 1;

@@ -90,7 +90,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	// инициализация списка маршрутов; на выходе будет объект: {route.url: route, ...}
 	[err, app.locals.routesList] = await initRoutes();
 
-	var [error, routesList] = await db.execQuery(`SELECT r.*, t.name as template_name FROM routes2 r LEFT JOIN templates t ON t.id = r.template_id ORDER BY dynamic`);
+	var [error, routesList] = await db.execQuery(`SELECT r.*, t.name as template_name FROM routes r LEFT JOIN templates t ON t.id = r.template_id ORDER BY dynamic`);
 	var [error, aliasesList] = await db.execQuery(`SELECT a.*, r.url as route_url FROM aliases2 a LEFT JOIN routes2 r ON r.id = a.route_id`);
 
 	routesList = routesList || [];

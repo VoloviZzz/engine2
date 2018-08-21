@@ -1,5 +1,7 @@
+const url = require('url');
+
 const deleteLastSlash = (req, res, next) => {
-	req.url = req.url !== '/' && req.url.trim().substr(-1) === '/' ? req.url.slice(0, -1) : req.url;
+	req.url = req.path !== '/' && req.path.trim().substr(-1) === '/' ? req.path.slice(0, -1) : req.path;
 	next();
 }
 
@@ -15,7 +17,6 @@ const getRoute = (url) => {
 		};
 
 		routesList.some(route => {
-
 			const urlExec = new RegExp(`^${route.url}$`).exec(url);
 
 			if (urlExec !== null) {
@@ -50,7 +51,7 @@ const getRouteByAlias = (url) => {
 }
 
 const replaceParams = (route) => {
-	route.url = route.url.replace(/:params/g, '([a-zA-Z1-9\-]+)');
+	route.url = route.url.replace(/:params/g, '([a-zA-Z0-9\-]+)');
 	return route;
 }
 
@@ -107,24 +108,20 @@ module.exports.Router = (app) => {
 			var [err, fragments] = await Model.fragments.get(getFragmentsParams);
 			if (err) return next(err);
 
-			console.log(fragments);
-
+			res.locals.route = route;
 			res.locals.routeId = route.id;
-			
+			res.locals.dynamicRouteNumber = routeParams[0] || false;
+			res.locals.session = req.session;
+
 			const fragmentsMap = fragments.map(async fragment => {
 				return fragmentsHandler(fragment, { session: Object.assign({}, req.session), locals: Object.assign({}, res.locals) });
 			});
-			
+
 			const fragmentsData = await Promise.all(fragmentsMap);
-			
+
 			res.locals.fragmentsData = fragmentsData;
 
-			const viewsData = {
-				route: { ...route },
-				session: { ...req.session },
-			};
-
-			return res.render(route.template_name, viewsData);
+			return res.render(route.template_name);
 		} catch (error) {
 			next(error);
 		}
