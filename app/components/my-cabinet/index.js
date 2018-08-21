@@ -6,8 +6,11 @@ module.exports = (app) => {
 		// logic...
 
 		const { id } = session.user;
+
+		if (!!id === false) return Promise.resolve([, 'Ошибка доступа компонента']);
+
 		const [, [user]] = await Model.clients.get({ id });
-		
+
 		dataViews.user = user;
 
 		return new Promise((resolve, reject) => {

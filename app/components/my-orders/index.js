@@ -6,6 +6,8 @@ module.exports = (app) => {
 		// logic...
 		const client_id = session.user.id;
 
+		if (!!client_id === false) return Promise.resolve([null, `Ошибка доступа компонента`]);
+
 		const [errorOrders, orders] = await Model.orders.get({ client_id });
 
 		for (let order of orders) {

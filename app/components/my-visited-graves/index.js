@@ -13,6 +13,8 @@ module.exports = (app) => {
 		var visitedGraves = [];
 		var visitedGravesCards = [];
 
+		if (!!userId === false) return Promise.resolve([, 'Ошибка доступа компонента']);
+
 		locals.placesArray = [];
 
 		var [error, visitedGraves] = await Model.visitedGraves.get({ client_id: userId });
