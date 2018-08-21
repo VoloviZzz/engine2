@@ -69,7 +69,7 @@ module.exports = {
 
 	// добавление просмотра
 	add : arg => {
-		
+
 		if(!!arg['visitorId'] === false || !!arg['visitId'] === false) throw new Error(`Отсутствуют аргументы: arg['visitorId']: ${arg['visitorId']}, arg['visitId']: ${arg['visitId']}`);
 
 		const q = `

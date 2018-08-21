@@ -2,10 +2,10 @@
 
 <ul class="section-menu fs-regular">
 	<% for(let id in catsTree) { %>
-		<% var s = catsTree[id]%>
-		<li class="section-menu-item <%= locals.fullUrl == `/shop-categories/${s.id}` ? 'active' : '' -%>">
-			<a href="/shop-categories/<%= s.id %>" style="width: 100%; padding-left: <%= 20 * level%>px">
-				<p><%=s.title%></p>
+		<% var s = catsTree[id] -%>
+		<li class="section-menu-item <%= catId == s.id ? 'active' : '' -%>">
+			<a href="/shop-categories/<%= s.id %>" style="width: 100%; padding-left: <%= 20 * level -%>px">
+				<p><%= s.title -%></p>
 			</a>
 			<% if(!!catsTree[id]['childs'] === true) { %>
 				<%- include('./template.ejs', {catsTree: catsTree[id]['childs'], level: level + 1}) %>

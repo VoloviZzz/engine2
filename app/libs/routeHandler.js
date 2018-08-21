@@ -1,5 +1,3 @@
-const url = require('url');
-
 const deleteLastSlash = (req, res, next) => {
 	req.url = req.path !== '/' && req.path.trim().substr(-1) === '/' ? req.path.slice(0, -1) : req.path;
 	next();
@@ -55,6 +53,11 @@ const replaceParams = (route) => {
 	return route;
 }
 
+const { createVisitor } = require('./visitors');
+const { createVisit } = require('./visits');
+const { createView } = require('./views');
+const { constructHeaderRows } = require('./header-nav');
+
 exports.data = {};
 
 exports.setupRoutesList = ({ routesList, aliasesList }) => {
@@ -77,14 +80,27 @@ exports.setupRoutesList = ({ routesList, aliasesList }) => {
 }
 
 
-module.exports.Router = (app) => {
+module.exports.Router = async (app) => {
 
 	const { Model } = app;
 
 	const Router = app.express.Router();
 	const fragmentsHandler = require('./fragments')(app);
 
+	var [error, routesList] = await app.db.execQuery(`SELECT r.*, t.name as template_name FROM routes r LEFT JOIN templates t ON t.id = r.template_id ORDER BY dynamic`);
+	var [error, aliasesList] = await app.db.execQuery(`SELECT a.*, r.url as route_url FROM routes_aliases a LEFT JOIN routes r ON r.id = a.route_id`);
+
+	routesList = routesList || [];
+	aliasesList = aliasesList || [];
+
+	exports.setupRoutesList({ routesList, aliasesList });
+
 	Router.use(deleteLastSlash);
+	Router.use(constructHeaderRows);
+
+	Router.get('*', createVisitor);
+	Router.get('*', createVisit);
+	Router.get('*', createView);
 
 	Router.get('*', async (req, res, next) => {
 		try {
@@ -96,6 +112,18 @@ module.exports.Router = (app) => {
 			const { route, routeParams } = byUrl.route ? byUrl : byAlias;
 
 			if (!!route === false) return next({ message: 'Страница не найдена', status: '404' });
+
+			if (route.access == "2" && !!req.session.user.id == false) {
+				const err = new Error('Нет доступа к странице');
+				err.status = 503;
+				return next(err);
+			}
+
+			if (route.access == "3" && !!req.session.user.admin === false) {
+				const err = new Error('Нет доступа к странице');
+				err.status = 503;
+				return next(err);
+			}
 
 			const getFragmentsParams = {
 				route_id: route.id
@@ -109,9 +137,10 @@ module.exports.Router = (app) => {
 			if (err) return next(err);
 
 			res.locals.route = route;
-			res.locals.routeId = route.id;
-			res.locals.dynamicRouteNumber = routeParams[0] || false;
 			res.locals.session = req.session;
+			res.locals.reqQuery = req.query;
+			res.locals.dynamicRouteNumber = routeParams[0] || false;
+			res.locals.fullUrl = req.url;
 
 			const fragmentsMap = fragments.map(async fragment => {
 				return fragmentsHandler(fragment, { session: Object.assign({}, req.session), locals: Object.assign({}, res.locals) });
