@@ -3,7 +3,6 @@ const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {
 
-	console.log(req.body);
 	const { dynamic, url } = req.body;
 
 	const hasParams = url.search(/\/:params/i);
