@@ -17,6 +17,7 @@ app.use(compression());
 
 // app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'app', 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'app', 'public', 'uploads')));
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');
 
@@ -84,31 +85,19 @@ db.connect(db.MODE_TEST, async (err) => {
 	if (err) throw new Error(err);
 
 	// подключение обработчика маршрутов
-	const routeHandler = require('./app/libs/routeHandler')(app);
-	const { initRoutes } = require('./app/libs/router');
-
-	// инициализация списка маршрутов; на выходе будет объект: {route.url: route, ...}
-	[err, app.locals.routesList] = await initRoutes();
-
-	if (err) throw "Ошибка создания сервера. " + err.message;
+	const routeHandler = await require('./app/libs/routeHandler').Router(app);
+	const errorHandler = require('./app/functions/error-handler');
 
 	await require('./componentsList')(app);
 	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
 
-	const { constructHeaderRows } = require('./app/libs/header-nav');
-	app.use(constructHeaderRows);
-
+	// маршруты выгрузки товаров
 	app.use(`/api/unloading`, require('./app/unloading'));
 
 	// общие маршруты приложения
 	app.use(require('./appRoutes'));
-
-	// контроллер для обработки входящих запросов
 	app.use(routeHandler);
-
-	// error handler
-	const errorHandler = require('./app/functions/error-handler');
 	app.use(errorHandler);
 
 	const server = app.listen(config.web.port, (err) => {
