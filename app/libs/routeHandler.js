@@ -1,145 +1,133 @@
-const Model = require('../models');
-const Menu = require('./menu');
+const deleteLastSlash = (req, res, next) => {
+	req.url = req.url !== '/' && req.url.trim().substr(-1) === '/' ? req.url.slice(0, -1) : req.url;
+	next();
+}
 
-const { createVisitor } = require('./visitors');
-const { createVisit } = require('./visits');
-const { createView } = require('./views');
+const getRoute = (url) => {
 
-const urlLib = require('url');
+	const routesList = exports.data.routesList;
 
-module.exports = (app) => {
+	return new Promise((resolve, reject) => {
+
+		const result = {
+			route: false,
+			routeParams: false
+		};
+
+		routesList.some(route => {
+
+			const urlExec = new RegExp(`^${route.url}$`).exec(url);
+
+			if (urlExec !== null) {
+				result.route = route;
+				result.routeParams = urlExec.slice(1);
+				return true;
+			}
+		})
+
+		return resolve(result);
+	})
+}
+const getRouteByAlias = (url) => {
+
+	const aliasesObj = exports.data.aliasesObj;
+	const routesObj = exports.data.routesObj;
+
+	return new Promise((resolve, reject) => {
+		const result = {
+			route: false,
+			routeParams: false
+		}
+
+		if (url in aliasesObj) {
+			const alias = aliasesObj[url];
+			result.route = routesObj[alias.route_url];
+			result.routeParams = alias.params.split(',');
+		}
+
+		return resolve(result);
+	})
+}
+
+const replaceParams = (route) => {
+	route.url = route.url.replace(/:params/g, '([a-zA-Z1-9\-]+)');
+	return route;
+}
+
+exports.data = {};
+
+exports.setupRoutesList = ({ routesList, aliasesList }) => {
+
+	const routesObj = routesList.reduce((general, current) => {
+		general[current.url] = current;
+		return general;
+	}, {});
+
+	routesList = routesList.map(replaceParams);
+
+	const aliasesObj = aliasesList.reduce((general, current) => {
+		general[current.alias] = current;
+		return general;
+	}, {});
+
+	exports.data.aliasesObj = aliasesObj;
+	exports.data.routesObj = routesObj;
+	exports.data.routesList = routesList;
+}
+
+
+module.exports.Router = (app) => {
+
+	const { Model } = app;
 
 	const Router = app.express.Router();
 	const fragmentsHandler = require('./fragments')(app);
 
-	Router.get('*', (req, res, next) => {
+	Router.use(deleteLastSlash);
 
-		req.locals = {};
+	Router.get('*', async (req, res, next) => {
+		try {
+			const getRouteQuery = getRoute(req.url);
+			const getRouteByAliasQuery = getRouteByAlias(req.url);
 
-		const routesObj = app.locals.routesList;
-		let routeSplit, route;
+			const [byUrl, byAlias] = await Promise.all([getRouteQuery, getRouteByAliasQuery]);
 
-		req.url = urlLib.parse(req.url).pathname;
+			const { route, routeParams } = byUrl.route ? byUrl : byAlias;
 
-		const reqUrl = req.url;
+			if (!!route === false) return next({ message: 'Страница не найдена', status: '404' });
 
-		res.locals.reqQuery = req.query;
+			const getFragmentsParams = {
+				route_id: route.id
+			};
 
-		route = routesObj[reqUrl];
-
-		if (reqUrl !== '/') {
-
-			routeSplit = reqUrl.split('/').filter((r) => r !== '');
-
-			if (!!routesObj[`/${routeSplit[0]}`] === false) {
-				const err = new Error('Маршрут не найден');
-				err.status = 404;
-
-				return next(err);
+			if (req.session.user.adminMode === false) {
+				getFragmentsParams.public = '1';
 			}
 
-			route = routesObj[`/${routeSplit[0]}`];
+			var [err, fragments] = await Model.fragments.get(getFragmentsParams);
+			if (err) return next(err);
+
+			console.log(fragments);
+
+			res.locals.routeId = route.id;
+			
+			const fragmentsMap = fragments.map(async fragment => {
+				return fragmentsHandler(fragment, { session: Object.assign({}, req.session), locals: Object.assign({}, res.locals) });
+			});
+			
+			const fragmentsData = await Promise.all(fragmentsMap);
+			
+			res.locals.fragmentsData = fragmentsData;
+
+			const viewsData = {
+				route: { ...route },
+				session: { ...req.session },
+			};
+
+			return res.render(route.template_name, viewsData);
+		} catch (error) {
+			next(error);
 		}
-		else {
-			if (!!routesObj[`/`] === false) {
-				const err = new Error('Маршрут не найден');
-				err.status = 404;
-
-				return next(err);
-			}
-		}
-
-		req.locals.route = route;
-
-		return next();
-	}, (req, res, next) => {
-
-		if (req.locals.route.access == "2" && !!req.session.user.id == false) {
-			const err = new Error('Нет доступа к странице');
-			err.status = 503;
-			return next(err);
-		}
-
-		if (req.locals.route.access == "3" && !!req.session.user.admin === false) {
-			const err = new Error('Нет доступа к странице');
-			err.status = 503;
-			return next(err);
-		}
-
-		return next();
-	}, (req, res, next) => {
-		const route = req.locals.route;
-		const urlSplit = req.url.split('/').filter((r) => r !== '');
-		const urlLength = urlSplit.length;
-
-		if (!!route.dynamic === true && urlLength < 2) {
-			const error = new Error('Нет параметра для динамического маршрута');
-			error.status = 502;
-			return next(error);
-		}
-		else if (!!route.dynamic === false && urlLength > 1) {
-			const error = new Error('Неверный маршрут');
-			error.status = 503;
-			return next(error);
-		}
-
-		if (!!route.dynamic === true && urlLength > 1) {
-			const [ctrlName, urlParam] = urlSplit;
-
-			if (isNaN(urlParam) == false) {
-				res.locals.dynamicRouteNumber = urlParam;
-			}
-			else {
-				res.locals.dynamicRouteAlias = urlParam;
-			}
-		}
-
-		return next();
-	}, async (req, res, next) => { // получение фрагментов
-
-		const route = req.locals.route;
-		let err = false;
-
-		res.locals.user = Object.assign({}, req.session.user);
-		res.locals.routeId = route.id;
-		res.locals.route = route;
-		res.locals.fullUrl = req.url;
-		res.locals.route.reqUrl = req.url;
-
-		const getFragmentsParams = {
-			route_id: route.id
-		};
-
-		if (req.session.user.adminMode === false) {
-			getFragmentsParams.public = '1';
-		}
-
-		[err, fragments] = await Model.fragments.get(getFragmentsParams);
-		if (err) return next(err);
-
-		const fragmentsMap = fragments.map(async fragment => {
-			return fragmentsHandler(fragment, { session: Object.assign({}, req.session), locals: Object.assign({}, res.locals) });
-		});
-
-		const fragmentsData = await Promise.all(fragmentsMap);
-
-		res.locals.fragmentsData = fragmentsData;
-
-		next();
-	}, createVisitor, createVisit, createView, function (req, res, next) {
-
-		const viewsData = {
-			user: req.session.user,
-			componentsList: app.componentsList,
-			componentsObj: app.componentsObj,
-			route: {},
-			session: {}
-		};
-
-		Object.assign(viewsData.route, req.locals.route);
-		Object.assign(viewsData.session, req.session);
-
-		return res.render(req.locals.route.template_name, viewsData);
 	})
 
 	let apiControllers = require('require-dir')('../api');

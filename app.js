@@ -84,12 +84,20 @@ db.connect(db.MODE_TEST, async (err) => {
 	if (err) throw new Error(err);
 
 	// подключение обработчика маршрутов
-	const routeHandler = require('./app/libs/routeHandler')(app);
+	const routeHandler = require('./app/libs/routeHandler').Router(app);
 	const { initRoutes } = require('./app/libs/router');
 
 	// инициализация списка маршрутов; на выходе будет объект: {route.url: route, ...}
 	[err, app.locals.routesList] = await initRoutes();
 
+	var [error, routesList] = await db.execQuery(`SELECT r.*, t.name as template_name FROM routes2 r LEFT JOIN templates t ON t.id = r.template_id ORDER BY dynamic`);
+	var [error, aliasesList] = await db.execQuery(`SELECT a.*, r.url as route_url FROM aliases2 a LEFT JOIN routes2 r ON r.id = a.route_id`);
+
+	routesList = routesList || [];
+	aliasesList = aliasesList || [];
+
+	require('./app/libs/routeHandler').setupRoutesList({ routesList, aliasesList });
+	
 	if (err) throw "Ошибка создания сервера. " + err.message;
 
 	await require('./componentsList')(app);
