@@ -8,7 +8,7 @@
                 <button href="#" class="setting-call-btn"></button>
                 <div class="setting-wrapper">
                     <div>
-                        <select class="js-upd-fragment-component select-set" data-route-id="<%=routeId-%>" data-fragment-id="<%= id -%>" name="types">
+                        <select class="js-upd-fragment-component select-set" data-route-id="<%= route.id -%>" data-fragment-id="<%= id -%>" name="types">
                             <% componentsObj[block_id].map(c => { %>
                                 <option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
                             <% }) %>
@@ -34,6 +34,6 @@
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 
     <div style="width: 100%">
-		<button class="btn js-add-fragment" data-id="<%=routeId-%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
+		<button class="btn js-add-fragment" data-id="<%= route.id -%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
 	</div>
 <% } %>

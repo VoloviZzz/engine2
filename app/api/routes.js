@@ -3,15 +3,18 @@ const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {
 
-	if (req.app.locals.routesList[req.body.url]) {
-		return { status: 'bad', message: 'Маршрут с таким URL уже есть в списке' };
+	const { dynamic, url } = req.body;
+
+	const hasParams = url.search(/\/:params/i);
+
+	if (dynamic == 1 && hasParams == '-1') {
+		console.log('Отсутствуют параметры для динамического маршрута');
+		return { status: 'bad', message: 'Отсутствуют параметры для динамического маршрута' };
 	}
 
 	const [err, route] = await Model.routes.add(req.body);
 
 	if (err) return { status: 'bad', message: err.message, error: err };
-
-	req.app.locals.routesList[route.url] = route;
 
 	return { status: 'ok' };
 }

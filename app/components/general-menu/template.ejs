@@ -1,10 +1,10 @@
 <% if(user.adminMode) { %>
 	<section style="margin-bottom: 20px">
 		<h1>Выбрать используемое меню из списка</h1>
-		<select class="js-routesList-setMenu" data-target="menu_id" data-id="<%= locals.routeId %>" style="width: 100%">
+		<select class="js-routesList-setMenu" data-target="menu_id" data-id="<%= locals.route.id -%>" style="width: 100%">
 			<option selected value="null">Не выбрано</option>
 			<% locals.menuGroups.forEach((m) => { %>
-				<option value="<%= m.id -%>" <%= locals.route.menu_id == m.id ? 'selected' : '' %>><%= m.title-%></option>
+				<option value="<%= m.id -%>" <%= locals.route.menu_id == m.id ? 'selected' : '' %>><%= m.title -%></option>
 			<% })%>
 		</select>
 	</section>

@@ -3,8 +3,10 @@ module.exports = function (err, req, res, next) {
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+	err.status = err.status || 500;
+
 	// render the error page
-	res.status(err.status || 500);
+	res.status(err.status);
 
 	res.locals.route = res.locals.route || { title: 'Что-то пошло не так' };
 	res.locals.session = req.session;

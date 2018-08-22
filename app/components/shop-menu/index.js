@@ -6,6 +6,8 @@ module.exports = (app) => {
 
 			const { locals, session } = data;
 
+			const catId = locals.dynamicRouteNumber || '';
+
 			const categoriesParams = {};
 
 			if (session.user.adminMode == false) {
@@ -28,6 +30,7 @@ module.exports = (app) => {
 			};
 
 			dataViews.catsTree = catsTree;
+			dataViews.catId = catId;
 
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
