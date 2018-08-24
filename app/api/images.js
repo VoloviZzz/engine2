@@ -6,7 +6,7 @@ const uploadPhotos = require('../libs/UploadPhotos');
 
 exports.uploadCKeditor = function (req, res, next) {
 
-	const getQuery = url.parse(req.url, true).query;
+	const getQuery = req.query;
 	const form = new formidable.IncomingForm();
 
 	form.uploadDir = req.app.locals.uploadDir;
@@ -27,7 +27,7 @@ exports.uploadCKeditor = function (req, res, next) {
 
 exports.upload = (req, res, next) => {
 
-	const getQuery = url.parse(req.url, true).query;
+	const getQuery = req.query;
 	const form = new formidable.IncomingForm();
 
 	form.uploadDir = req.app.locals.uploadDir;

@@ -27,9 +27,9 @@ exports.index = async (req, res) => {
 
 	let md5Pass = md5(userNewPass);
 
-	sendEmail(mailOptions, req.app.transporter)
+	return sendEmail(mailOptions, req.app.transporter)
 		.then(() => {
-			return { target: 'password', id: user.id, value: md5Pass };
+			return Model.clients.upd({ target: 'password', id: user.id, value: md5Pass });
 		})
 		.then(() => {
 			return { status: 'ok', message: 'Новый пароль сгенирирован и отправлен на почту' }
