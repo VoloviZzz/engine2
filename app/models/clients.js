@@ -28,7 +28,7 @@ exports.create = function ({ email, firstname, surname, patronymic, address, pho
 	return db.insertQuery(`
 		INSERT INTO clients 
 		SET created = NOW(),
-			password = MD5(${password}),
+			password = MD5('${password}'),
 			phone = '${phone}'
 			${email} 
 			${firstname} 

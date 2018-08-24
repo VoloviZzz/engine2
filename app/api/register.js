@@ -13,13 +13,19 @@ exports.register = async function (req, res, next) {
 		if (checkPhone.length > 0) return { status: 'bad', message: 'На данный номер уже есть зарегистрированный пользователь.' }
 
 		let [errMail, checkMail] = await Model.clients.get({ email: data.email })
-		if (errMail) return { status: 'bad', message: errMail.message, error: errMail };
+		if (errMail) {
+			console.error(errMail);
+			return { status: 'bad', message: errMail.message, error: errMail }
+		};
 		if (checkMail.length > 0) return { status: 'bad', message: 'На данный адрес электронной почты уже есть зарегистрированный пользователь' }
 
 		data.name = `${data.surname} ${data.firstname[0]}.`;
 
 		var [errAdd, addClient] = await Model.clients.create(data);
-		if (errAdd) return { status: 'bad', message: errAdd.message, error: errAdd };
+		if (errAdd) {
+			console.error(errAdd);
+			return { status: 'bad', message: errAdd.message, error: errAdd };
+		}
 
 
 		var [error, client] = await Model.clients.get({ id: addClient });
