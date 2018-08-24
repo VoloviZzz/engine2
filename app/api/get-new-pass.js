@@ -1,12 +1,13 @@
 const md5 = require('md5');
 
 const mailOptions = {
-	from: 'bubl174rus@gmail.com',
+	from: 'site@mpkpru74.ru',
 	to: '',
 	subject: 'Восстановление пароля на сайте',
 	href: '#',
 	html: ``
 };
+
 
 exports.index = async (req, res) => {
 	const Model = req.app.Model;
@@ -21,17 +22,16 @@ exports.index = async (req, res) => {
 
 	let userNewPass = req.app.Helpers.getRandomNumber(6);
 	
-	console.log('---------------------');
-	console.log(global);
-	
 	mailOptions.to = data.userEmail;
 	mailOptions.html = `<p>Новый пароль для входа на сайт: ${userNewPass}</p>`;
-	// mailOptions.subject = 'Восстановление пароля на сайте ' + global.domainName;
-	mailOptions.subject = 'Восстановление пароля на сайте';
 
 	let md5Pass = md5(userNewPass);
 
-	return sendEmail(mailOptions, req.app.transporter)
+	return Model.siteConfig.get({target: 'domainName'})
+		.then(([err, [domainName]]) => {
+			mailOptions.subject = 'Восстановление пароля на сайте ' + domainName.value;
+			return sendEmail(mailOptions, req.app.transporter);
+		})
 		.then(() => {
 			return Model.clients.upd({ target: 'password', id: user.id, value: md5Pass });
 		})
