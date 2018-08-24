@@ -23,10 +23,19 @@ exports.register = async function (req, res, next) {
 
 
 		var [error, client] = await Model.clients.get({ id: addClient });
+		if (error) {
+			console.error(error);
+			return { message: 'Что-то пошло не так' };
+		}
 		if (client.length < 1) return { status: 'bad', message: 'Ошибка в получении клиента', error };
 
 		var client = client[0] || false;
 		var [error, uncofirmed] = await Model.confirmedPhones.get({ phone: client.phone, confirmed: '0' });
+
+		if (error) {
+			console.error(error);
+			return { message: 'Что-то пошло не так' };
+		}
 
 		let code = null;
 		let codeId = null;
