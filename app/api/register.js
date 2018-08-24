@@ -2,52 +2,58 @@ const Model = require('../models');
 const md5 = require('md5');
 
 exports.register = async function (req, res, next) {
-	const data = req.body;
+	try {
+		const data = req.body;
 
-	if (data.password.length < 6) return { status: 'bad', message: 'Длина пароля не может быть менее 6 символов' };
-	if (data.password !== data['check-password']) return { status: 'bad', message: 'Пароли не совпадают' };
+		if (data.password.length < 6) return { status: 'bad', message: 'Длина пароля не может быть менее 6 символов' };
+		if (data.password !== data['check-password']) return { status: 'bad', message: 'Пароли не совпадают' };
 
-	let [errPhone, checkPhone] = await Model.clients.get({ phone: data.phone });
-	if (errPhone) return { status: 'bad', message: errPhone.message, error: errPhone };
-	if (checkPhone.length > 0) return { status: 'bad', message: 'На данный номер уже есть зарегистрированный пользователь.' }
+		let [errPhone, checkPhone] = await Model.clients.get({ phone: data.phone });
+		if (errPhone) return { status: 'bad', message: errPhone.message, error: errPhone };
+		if (checkPhone.length > 0) return { status: 'bad', message: 'На данный номер уже есть зарегистрированный пользователь.' }
 
-	let [errMail, checkMail] = await Model.clients.get({ email: data.email })
-	if (errMail) return { status: 'bad', message: errMail.message, error: errMail };
-	if (checkMail.length > 0) return { status: 'bad', message: 'На данный адрес электронной почты уже есть зарегистрированный пользователь' }
+		let [errMail, checkMail] = await Model.clients.get({ email: data.email })
+		if (errMail) return { status: 'bad', message: errMail.message, error: errMail };
+		if (checkMail.length > 0) return { status: 'bad', message: 'На данный адрес электронной почты уже есть зарегистрированный пользователь' }
 
-	data.name = `${data.surname} ${data.firstname[0]}.`;
+		data.name = `${data.surname} ${data.firstname[0]}.`;
 
-	let client = null;
-
-	return Model.clients.create(data).then(async ([errAdd, addClient]) => {
-
+		var [errAdd, addClient] = await Model.clients.create(data);
 		if (errAdd) return { status: 'bad', message: errAdd.message, error: errAdd };
 
-		[err, [client]] = await Model.clients.get({ id: addClient });
 
-		return Model.confirmedPhones.get({ phone: client.phone, confirmed: '0' });
-	}).then(async ([error, [uncofirmed]]) => {
+		var [error, client] = await Model.clients.get({ id: addClient });
+		if (client.length < 1) return { status: 'bad', message: 'Ошибка в получении клиента', error };
+
+		var client = client[0] || false;
+		var [error, uncofirmed] = await Model.confirmedPhones.get({ phone: client.phone, confirmed: '0' });
+
 		let code = null;
 		let codeId = null;
 
-		if (!!uncofirmed === true) {
-			code = uncofirmed.code;
-			codeId = uncofirmed.id;
+		if (uncofirmed.length > 0) {
+			code = uncofirmed[0].code;
+			codeId = uncofirmed[0].id;
 		} else {
 			code = req.app.Helpers.getRandomNumber(6);
 
-			await Model.confirmedPhones.add({ phone: client.phone, code, client_id: client.id }).then(([error, result]) => {
-				if (error) return Promise.reject(error);
-				codeId = result;
-			});
+			var [error, result] = await Model.confirmedPhones.add({ phone: client.phone, code, client_id: client.id })
+			if (error) {
+				console.error(error);
+				return Promise.reject(error);
+			}
+
+			codeId = result;
 		}
 
 		req.session.registerData = { codeId, code, clientId: client.id };
 
-		return req.app.smsc.send({ phones: req.body.phone, mes: code });
-	}).then(() => {
+		await req.app.smsc.send({ phones: req.body.phone, mes: code })
 		return { status: 'ok' };
-	})
+	} catch (error) {
+		console.error(error);
+		return { message: 'Что-то пошло не так', error };
+	}
 }
 
 exports.confirmRegister = (req, res, next) => {
