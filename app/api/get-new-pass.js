@@ -20,10 +20,14 @@ exports.index = async (req, res) => {
 	}
 
 	let userNewPass = req.app.Helpers.getRandomNumber(6);
-
+	
+	console.log('---------------------');
+	console.log(global);
+	
 	mailOptions.to = data.userEmail;
 	mailOptions.html = `<p>Новый пароль для входа на сайт: ${userNewPass}</p>`;
-	mailOptions.subject = 'Восстановление пароля на сайте p-z-nt.ru';
+	// mailOptions.subject = 'Восстановление пароля на сайте ' + global.domainName;
+	mailOptions.subject = 'Восстановление пароля на сайте';
 
 	let md5Pass = md5(userNewPass);
 
