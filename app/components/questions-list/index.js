@@ -21,24 +21,25 @@ module.exports = (app) => {
 		const [, questionsNotPublished] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '0' });
 
 		var [error, questionsTargets] = await Model.questions.getTargets();
-		var resCats = [];
 
-		cats.forEach((cat, i) => {
+		const catsObject = cats.reduce((prev, current) => {
+			current.questions = [];
+			prev[current.id] = current;
+			return prev;
+		}, {});
 
-			cat.questions = [];
-
-			questions.forEach(q => {
-				if (q.category_id == cat.id) {
-					cat.questions.push(q);
-				}
-			});
-
-			if (cat.questions.length > 0) {
-				resCats.push(cat);
+		const questionsNoCategory = questions.filter((question) => {
+			if (catsObject[question.category_id]) {
+				catsObject[question.category_id].questions.push(question);
+				return false;
+			} else {
+				return true;
 			}
 		});
 
-		dataViews.cats = resCats;
+		catsObject['Без категории'] = { question: 'Без категории', questions: questionsNoCategory };
+
+		dataViews.cats = Object.values(catsObject);
 		dataViews.questions = questions || [];
 		dataViews.questionsNotPublished = questionsNotPublished || [];
 		dataViews.session = session;
