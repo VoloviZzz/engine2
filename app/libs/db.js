@@ -1,5 +1,11 @@
 var mysql = require('mysql');
 
+var PRODUCTION_DB = 'test-routes'
+	, TEST_DB = 'test-routes'
+
+exports.MODE_TEST = 'mode_test'
+exports.MODE_PRODUCTION = 'mode_production'
+
 let state = {
 	pool: null,
 	mode: null,

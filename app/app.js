@@ -9,26 +9,27 @@ const compression = require('compression');
 
 const app = express();
 
-const config = require('./config');
-const db = require('./app/libs/db');
-const Model = require('./app/models/index');
+const config = require('../config');
+const db = require('./libs/db');
+const Model = require('./models/index');
 
 app.use(compression());
-
 // app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
-app.use(express.static(path.join(__dirname, 'app', 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'app', 'public', 'uploads')));
-app.set('views', path.join(__dirname, 'app', 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({
 	limit: '2048mb',
 	extended: false
 }));
+
 app.use(cookieSession(config.session));
 
-const ShoppingCart = require('./app/classes/ShoppingCart');
+const ShoppingCart = require('./classes/ShoppingCart');
 
 const setDefaultSessionData = (req, res, next) => {
 	const shoppingCart = new ShoppingCart(req);
@@ -53,7 +54,7 @@ process.on('unhandledRejection', (error, p) => {
 		console.log(error.sql);
 	}
 
-	fs.appendFileSync(path.join(__dirname, 'logs', 'unhandledRejection-log.log'), new Date().toLocaleString() + ': ' + error.stack + '\n\n');
+	fs.appendFileSync(path.join(__dirname, '..', 'logs', 'unhandledRejection-log.log'), new Date().toLocaleString() + ': ' + error.stack + '\n\n');
 });
 
 app.use(setDefaultSessionData);
@@ -64,16 +65,16 @@ app.ejs = ejs;
 app.Model = Model;
 app.express = express;
 app.locals.routesList = {};
-app.locals.libs = path.join(__dirname, 'app', 'libs');
-app.componentsPath = path.join(__dirname, 'app', 'components');
-app.locals.uploadDir = path.join(__dirname, 'app', 'public', 'uploads');
-app.locals.tempUploadDir = path.join(__dirname, 'app', 'public', 'uploads', 'temp');
-app.Helpers = app.locals.Helpers = require('./app/libs/Helpers');
+app.locals.libs = path.join(__dirname, 'libs');
+app.componentsPath = path.join(__dirname, 'components');
+app.locals.uploadDir = path.join(__dirname, 'public', 'uploads');
+app.locals.tempUploadDir = path.join(__dirname, 'public', 'uploads', 'temp');
+app.Helpers = app.locals.Helpers = require('./libs/Helpers');
 
 global.DocumentRoot = __dirname;
-global.AppRoot = path.join(__dirname, 'app');
-app.publicDir = global.PublicDir = path.join(__dirname, 'app', 'public');
-app.viewsDir = global.ViewsDir = path.join(__dirname, 'app', 'views');
+global.AppRoot = path.join(__dirname, );
+app.publicDir = global.PublicDir = path.join(__dirname, 'public');
+app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
 // imagesPath = 'http://img.p-z-nt.ru/img/';
 imagesPath = 'http://system.mpkpru.ru/';
@@ -85,15 +86,15 @@ db.connect(db.MODE_TEST, async (err) => {
 	if (err) throw new Error(err);
 
 	// подключение обработчика маршрутов
-	const routeHandler = await require('./app/libs/routeHandler').Router(app);
-	const errorHandler = require('./app/functions/error-handler');
+	const routeHandler = await require('./libs/routeHandler').Router(app);
+	const errorHandler = require('./functions/error-handler');
 
 	await require('./componentsList')(app);
 	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
 
 	// маршруты выгрузки товаров
-	app.use(`/api/unloading`, require('./app/unloading'));
+	app.use(`/api/unloading`, require('./unloading'));
 
 	// общие маршруты приложения
 	app.use(require('./appRoutes'));

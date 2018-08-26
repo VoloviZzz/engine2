@@ -24,3 +24,4 @@ app/dist
 
 app/public/favicon.ico
 jsconfig.json
+nodemon.json
