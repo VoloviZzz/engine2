@@ -76,8 +76,7 @@ global.AppRoot = path.join(__dirname, );
 app.publicDir = global.PublicDir = path.join(__dirname, 'public');
 app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
-// imagesPath = 'http://img.p-z-nt.ru/img/';
-imagesPath = 'http://system.mpkpru.ru/';
+global.imagesPath = 'http://system.mpkpru.ru/';
 
 app.smsc = require('./services/sendSms/');
 app.transporter = require('./services/sendEmail/');
