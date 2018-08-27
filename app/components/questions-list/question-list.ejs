@@ -5,6 +5,12 @@
 				<% if(q.public == '0') { %>
 					<button data-id="<%= q.id -%>" data-value="1" class="btn js-question-togglePusblished">Опубликовать</button>
 				<% } else { %>
+					<select class="js-change-category" name="categories" data-id="<%= q.id -%>">
+						<option value="0">Без категории</option>
+						<% catsArray.forEach(c => { %>
+							<option <%= q.category_id == c.id ? 'selected' : '' -%> value="<%= c.id -%>"><%= c.title -%></option>
+						<% }) %>
+					</select>
 					<button data-id="<%= q.id -%>" data-value="0" class="btn js-question-togglePusblished">Снять с публикации</button>
 				<% } %>
 				<button data-id="<%= q.id -%>" class="btn js-question-delete">Удалить</button>

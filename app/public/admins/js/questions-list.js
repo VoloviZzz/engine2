@@ -1,4 +1,22 @@
 $(document).ready(function () {
+
+	var selectCategory = $('.js-change-category');
+
+	selectCategory.on('change', function () {
+		
+		var value = $(this).val();
+		var id = $(this).data('id');
+
+		$.post('/api/questions/changeCategory', { value: value, id: id }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		})
+	})
+
 	$('.js-question-updateAnswer').on('input', function () {
 		var value = $(this).val().trim();
 		var id = $(this).data('id');
@@ -60,7 +78,7 @@ $(document).ready(function () {
 			postData.value = result.targetId;
 			postData.fragment_id = $form.data('fragment-id');
 
-			if(!!postData.fragment_id === false) {
+			if (!!postData.fragment_id === false) {
 				alert('Что-то пошло не так. Обновите страницу и проверьте список категорий');
 				return false;
 			}
