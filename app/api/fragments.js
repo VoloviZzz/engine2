@@ -16,8 +16,11 @@ exports.upd = async function (req, res, next) {
 
 	if ('value' in req.body === false || 'target' in req.body === false) return { status: 'bad', message: 'Отсутствуют необходимые параметры' };
 
-	[error, fragmentId] = await Model.fragments.upd({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
-	if (error) return { status: 'bad', message: error.message, error }
+	[error, fragmentId, sql] = await Model.fragments.upd({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
+	if (error) {
+		console.error(error);
+		return { status: 'bad', message: error.message, error }
+	}
 
 	return { status: 'ok' }
 }
@@ -31,7 +34,7 @@ exports.updSettings = async function (req, res, next) {
 		[error, [fragment]] = await Model.fragments.get({ id: req.body.fragment_id });
 		if (error) return { status: 'bad', message: error.message, error }
 
-		if(!!fragment.settings === true) {
+		if (!!fragment.settings === true) {
 			let _settings = JSON.parse(fragment.settings);
 			fragment.settings = _settings;
 		} else {

@@ -14,6 +14,8 @@
                             <% }) %>
                         </select>
                     </div>
+                    <span class="btn-blue">Приоритет:</span>
+                    <input class="btn-blue js-fragment-update" data-event="change" data-target="priority" data-fragment-id="<%= id -%>" type="text" value="<%= fragment.priority -%>">
 					<% if(fragment.published == '1') { %>
 						<button class="btn-blue js-fragment-update" data-event="click" data-value="0" data-target="published" data-fragment-id="<%= id -%>">Снять с публикации</button>
 					<% } else { %>
