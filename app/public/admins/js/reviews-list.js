@@ -1,6 +1,11 @@
 $(document).ready(function (e) {
 	$('.js-reviews-togglePublished').on('click', reviewsTogglePublished);
 	$('.js-reviews-delete').on('click', reviewsDelete);
+	
+	$('#js-add-reviews-category').on('submit', function(e) {
+		
+		return false;
+	});
 
 	function reviewsDelete(e) {
 		var id = $(this).data('id');

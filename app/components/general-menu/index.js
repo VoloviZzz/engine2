@@ -23,7 +23,7 @@ module.exports = (app) => {
 
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
-			
+
 			dataViews.locals.route = route;
 			dataViews.menuTree = menuTree;
 			dataViews.locals.menuGroups = menuGroups;
