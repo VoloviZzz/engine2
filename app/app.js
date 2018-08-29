@@ -39,7 +39,7 @@ const setDefaultSessionData = (req, res, next) => {
 	req.session.user.adminMode = req.session.user.adminMode || false;
 	req.session.user.root = req.session.user.root || false;
 
-	res.locals.user = Object.assign({}, req.session.user);
+	res.locals.user = { ...req.session.user };
 
 	next();
 }
@@ -72,7 +72,7 @@ app.locals.tempUploadDir = path.join(__dirname, 'public', 'uploads', 'temp');
 app.Helpers = app.locals.Helpers = require('./libs/Helpers');
 
 global.DocumentRoot = __dirname;
-global.AppRoot = path.join(__dirname, );
+global.AppRoot = path.join(__dirname);
 app.publicDir = global.PublicDir = path.join(__dirname, 'public');
 app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
