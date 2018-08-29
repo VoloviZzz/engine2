@@ -17,6 +17,7 @@ app.use(compression());
 // app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
