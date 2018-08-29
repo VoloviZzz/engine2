@@ -68,5 +68,19 @@ exports.setData = async function (req, res, next) {
 	const [queryErr, queryRes] = await Model.fragments.setData({ fragment_id: req.body.fragment_id, data });
 	if (queryErr) throw new Error(queryErr);
 
-	return { status: 'ok', body: req.body }
+	return { status: 'ok', body: req.body };
+}
+
+exports.handler = async (req, res, next) => {
+	const fragmentsHandler = require('../libs/fragments')(req.app);
+	var [err, fragments] = await Model.fragments.get({ route_id: req.body.route_id });
+
+	const fragmentsMap = fragments.map(async fragment => {
+		return fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals, route: { id: req.body.route_id } } });
+	});
+
+	const fragmentsData = await Promise.all(fragmentsMap);
+	console.log(fragmentsData);
+
+	return { status: 'ok', body: req.body, fragments, fragmentsData };
 }
