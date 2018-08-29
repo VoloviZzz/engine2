@@ -1,30 +1,30 @@
 <% var onceFragmentOnPage = false %>
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
-    <% onceFragmentOnPage = !!fragment.once %>
-    <% if(fragment.block_id !== block_id) return false; %>
-    <div class="fragment-item">
-        <% if(user.adminMode) { %>
-            <div class="fragment-setting-window">
-                <button href="#" class="setting-call-btn"></button>
-                <div class="setting-wrapper">
-                    <div>
-                        <select class="js-upd-fragment-component select-set" data-route-id="<%= route.id -%>" data-fragment-id="<%= id -%>" name="types">
-                            <% componentsObj[block_id].map(c => { %>
-                                <option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
-                            <% }) %>
-                        </select>
-                    </div>
-                    <span class="btn-blue">Приоритет:</span>
-                    <input class="btn-blue js-fragment-update" data-event="change" data-target="priority" data-fragment-id="<%= id -%>" type="text" value="<%= fragment.priority -%>">
+	<% onceFragmentOnPage = !!fragment.once %>
+	<% if(fragment.block_id !== block_id) return false; %>
+	<div class="fragment-item">
+		<% if(user.adminMode) { %>
+			<div class="fragment-setting-window">
+				<button href="#" class="setting-call-btn"></button>
+				<div class="setting-wrapper">
+					<div>
+						<select class="js-upd-fragment-component select-set" data-route-id="<%= route.id -%>" data-fragment-id="<%= id -%>" name="types">
+							<% componentsObj[block_id].map(c => { %>
+								<option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
+							<% }) %>
+						</select>
+					</div>
+					<span class="btn-blue">Приоритет:</span>
+					<input class="btn-blue js-fragment-update" data-event="change" data-target="priority" data-fragment-id="<%= id -%>" type="text" value="<%= fragment.priority -%>">
 					<% if(fragment.published == '1') { %>
 						<button class="btn-blue js-fragment-update" data-event="click" data-value="0" data-target="published" data-fragment-id="<%= id -%>">Снять с публикации</button>
 					<% } else { %>
-                    	<button class="btn-blue js-fragment-update" data-event="click" data-value="1" data-target="published" data-fragment-id="<%= id -%>">Опубликовать</button>
+						<button class="btn-blue js-fragment-update" data-event="click" data-value="1" data-target="published" data-fragment-id="<%= id -%>">Опубликовать</button>
 					<% } %>
-                    <button class="js-fragment-delete btn-blue" data-fragment-id="<%= id -%>">Удалить фрагмент со страницы</button>
-                </div>
-            </div>
-        <% } %>
+					<button class="js-fragment-delete btn-blue" data-fragment-id="<%= id -%>">Удалить фрагмент со страницы</button>
+				</div>
+			</div>
+		<% } %>
 		<div class="fragment-body 
 			<%= fragment.isStatic &&
 				fragment.component_id == 2 && 
@@ -32,10 +32,10 @@
 				data-fragment-id="<%= id -%>" >
 					<%- content -%>
 		</div>
-    </div>
+	</div>
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 
-    <div style="width: 100%">
+	<div style="width: 100%">
 		<button class="btn js-add-fragment" data-id="<%= route.id -%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
 	</div>
 <% } %>
