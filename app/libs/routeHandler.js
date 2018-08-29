@@ -97,6 +97,11 @@ module.exports.Router = async (app) => {
 
 	Router.use(deleteLastSlash);
 	Router.use(constructHeaderRows);
+	Router.use((req, res, next) => {
+		res.locals.session = req.session;
+		res.locals.reqQuery = req.query;
+		next();
+	});
 
 	Router.get('*', createVisitor);
 	Router.get('*', createVisit);
@@ -137,13 +142,11 @@ module.exports.Router = async (app) => {
 			if (err) return next(err);
 
 			res.locals.route = route;
-			res.locals.session = req.session;
-			res.locals.reqQuery = req.query;
 			res.locals.dynamicRouteNumber = routeParams[0] || false;
 			res.locals.fullUrl = req.url;
 
 			const fragmentsMap = fragments.map(async fragment => {
-				return fragmentsHandler(fragment, { session: Object.assign({}, req.session), locals: Object.assign({}, res.locals) });
+				return fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals } });
 			});
 
 			const fragmentsData = await Promise.all(fragmentsMap);
