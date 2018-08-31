@@ -7,4 +7,17 @@
 
 @import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
 
-@import 'header/main'; // Подключаем header
+// Прикрепление футера к нижней части
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    background-color: #eaeaea; // Цвет body
+    //margin-bottom: 35px; /* Поле снизу по высоте футера */
+}
+
+@import 'scrollbar'; // Подключаем Scroll
+
+@import 'header/header'; // Подключаем header
+@import 'footer'; // Подключаем footer

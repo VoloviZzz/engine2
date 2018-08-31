@@ -1,3 +1,5 @@
+// Переменные SCSS
+
 // Цвета
 
 $white:    #fff;
@@ -5,19 +7,21 @@ $black:    #000;
 
 // Ссылки
 
-$link-color:                '#ffffff'; // Цвет ссылок
+$link-color:                $white; // Цвет ссылок
 $link-decoration:           none; // При наведеннии
-$link-hover-color:          $link-color; //
+$link-hover-color:          #f36c2a; //
 $link-hover-decoration:     underline; //
 
 // Navbar цвета темы
 
-$navbar-letaindex-color:                $white;
-$navbar-letaindex-hover-color:          #d9831f;
+$navbar-letaindex-color:                $white; // Цвета ссылок Navbar
+$navbar-letaindex-hover-color:          #f36c2a; // Цвета ссылок Navbar при наведении
 $navbar-letaindex-active-color:         $white;
 $navbar-letaindex-disabled-color:       $white;
-$navbar-letaindex-toggler-border-color: rgba($black, .1);
+//$navbar-letaindex-toggler-icon-bg:      null;
+$navbar-letaindex-toggler-border-color:  #262626; // Рамка
 
 // Шрифты
 
 $font-family-base: 'Roboto', sans-serif; /// Шрифт по умолчанию
+$font-size-base: 1rem; // Размер шрифта по умолчанию

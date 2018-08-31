@@ -1,30 +1,74 @@
-.nav-item{ // Отступы
-    margin-right: 25px;
+.navbar-brand{
+  line-height: 0px;
+  height: 24px;
+  padding-top: 0;
 }
 
-.bg-letaindex{
+.navbar-nav li a {
+  line-height: 27px;
+  height: 23px;
+  padding-top: 0;
+}
+
+.bg-header-letaindex{ // Фон и размер шрифта
+    font-size: 15px;
+    font-weight: 400;
+    color: $white;
     background-color: #262626;
-	background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(5%, #636262), color-stop(51%, #0f0f0f), color-stop(83%, #080808));
-	background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-	background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	  background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(5%, #636262), color-stop(51%, #0f0f0f), color-stop(83%, #080808));
+	  background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	  background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	  background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 }
 
-.nav-link {
-    color: $navbar-letaindex-color;
+.nav-letaindex{ // Navbar letaindex
+
+  .navbar-brand {
+    color: $navbar-letaindex-active-color;
 
     @include hover-focus {
-      color: $navbar-letaindex-hover-color;
-    }
-
-    &.disabled {
-      color: $navbar-letaindex-disabled-color;
+      color: $navbar-letaindex-active-color;
     }
   }
 
-  .show > .nav-link,
-  .active > .nav-link,
-  .nav-link.show,
-  .nav-link.active {
-    color: $navbar-letaindex-active-color;
+  .navbar-nav {
+    .nav-link { // Ссылки
+        color: $navbar-letaindex-color;
+
+        @include hover-focus {
+          color: $navbar-letaindex-hover-color;
+        }
+
+        &.disabled {
+        color: $navbar-letaindex-disabled-color;
+        }
+      }
+
+      .show > .nav-link,
+      .active > .nav-link,
+      .nav-link.show,
+      .nav-link.active {
+        color: $navbar-letaindex-active-color;
+      }
+    }
+
+  .navbar-toggler {
+    color: $navbar-letaindex-color;
+    border-color: $navbar-letaindex-toggler-border-color;
+  }
+
+  /*.navbar-toggler-icon {
+    background-image: $navbar-letaindex-toggler-icon-bg;
+  }*/
+
+  .navbar-text {
+    color: $navbar-letaindex-color;
+    a {
+      color: $navbar-letaindex-active-color;
+
+      @include hover-focus {
+        color: $navbar-letaindex-active-color;
+      }
+    }
+  }
 }

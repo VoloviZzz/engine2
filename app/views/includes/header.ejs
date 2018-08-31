@@ -19,32 +19,47 @@
 		<% } %>
     </head>
     <body>
-		<header class="header">
-			<nav class="navbar navbar-expand-lg navbar-static-top bg-letaindex">
-				<div class="container-fluid">
-					<a class="navbar-brand">
-						<img width="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
-					</a>
-					<div class="collapse navbar-collapse justify-content-center">
+		<header class="document-header">
+			<nav class="navbar navbar-expand-lg nav-letaindex bg-header-letaindex">
+					<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+						<i class="fa fa-bars fa-lg py-1 text-white"></i>
+					</button>
+					<div class="collapse navbar-collapse justify-content-start">
+						<a class="navbar-brand">
+							<img width="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
+						</a>
+					</div>
+					<div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
 						<ul class="navbar-nav">
-							<li class="nav-item">
-								<a class="nav-link" href="#">Статика</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Одноколоночный</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Двухколоночный</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Трехколоночный</a>
-							</li>
+							<% HeaderRows.forEach((r) => { %>
+								<li>
+									<% if(user.adminMode) { %>
+										<div>
+											<div>
+												<div>
+													<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
+												</div>
+												<div>
+													<input type="text" class="js-headerNav-edit" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
+												</div>
+											</div>
+											<div>
+												<button class="btn js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
+											</div>
+										</div>
+									<% } else { %>
+										<li class="nav-item pr-4 pl-4">
+											<a class="nav-link" href="<%= r.href -%>"><%= r.title -%></a>
+										</li>
+									<% } %>
+								</li>
+							<% }) %>
 						</ul>
 					</div>
-					<div class="collapse navbar-collapse justify-content-end">
+					<div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="shopping-cart-link" href="/cart">
+								<a class="nav-link shopping-cart-link" href="/cart">
 									<i class="fa fa-shopping-cart fa-lg"></i>
 									<span 
 										class="badge shopping-cart-badge" 
@@ -54,24 +69,23 @@
 							</li>
 							<% if(!user.id) { %>
 								<li class="nav-item">
-									<a href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
+									<a class="nav-link" href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
 								</li>
 								<% } else { %>
 									<% if (user.admin) { %>
 										<li class="nav-item">
-											<a href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
+											<a class="nav-link" href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
 										</li>
 									<% } %>
 									<li class="nav-item">
-										<a href="/my"><%= user.clientName %></a>
+										<a class="nav-link" href="/my"><%= user.clientName %></a>
 									</li>
 									<li class="nav-item">
-										<a href="/logout">Выйти</a>
+										<a class="nav-link" href="/logout">Выйти</a>
 									</li>
 							<% }%>
 						</ul>
 					</div>
-				</div>
 			</nav>
 		</header>
 
