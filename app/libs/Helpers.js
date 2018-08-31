@@ -59,7 +59,7 @@ module.exports = {
 		}
 
 		const absolutePhotoPath = path.join(AppRoot, 'public', photoPath);
-
+		let photoStat;
 		try {
 			photoStat = fs.statSync(absolutePhotoPath);
 

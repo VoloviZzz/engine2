@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = (app) => {
 
-	const Model = app.Model;
+	const { Model, db } = app;
 
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
@@ -15,7 +15,7 @@ module.exports = (app) => {
 			target: locals.fragment.settings.target || '0'
 		};
 
-		const [, cats] = await Model.questions.get({ type: 'category' });
+		const [, cats] = await db.execQuery(`SELECT * FROM questions_categories WHERE target_id = '${questionsTarget.target}'`);
 
 		const [, questions] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '1' });
 		const [, questionsNotPublished] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '0' });
@@ -37,9 +37,10 @@ module.exports = (app) => {
 			}
 		});
 
-		catsObject['Без категории'] = { question: 'Без категории', questions: questionsNoCategory };
+		catsObject['Без категории'] = { title: 'Без категории', questions: questionsNoCategory };
 
 		dataViews.cats = Object.values(catsObject);
+		dataViews.catsArray = cats;
 		dataViews.questions = questions || [];
 		dataViews.questionsNotPublished = questionsNotPublished || [];
 		dataViews.session = session;

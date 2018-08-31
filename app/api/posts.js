@@ -1,23 +1,24 @@
 exports.addPostTarget = async (req, res, next) => {
 
 	const { db } = req.app;
-
-	try {
-		await db.insertQuery(`INSERT INTO post_targets SET title = '${req.body.value}'`);
-		return { status: 'ok' };
-	} catch (error) {
+	var [error, id] = await db.insertQuery(`INSERT INTO post_targets SET title = '${req.body.value}'`);
+	
+	if (error) {
 		return { status: 'bad' };
+	
 	}
+	return { status: 'ok' };
 }
 
 exports.addCat = async function (req, res, next) {
 	const { db } = req.app;
-	try {
-		await db.insertQuery(`INSERT INTO post_categories SET target_id = '${req.body.targetId}', title = '${req.body.catName}'`);
-		return { status: 'ok' };
-	} catch (error) {
+	var [error, id] = await db.insertQuery(`INSERT INTO post_categories SET target_id = '${req.body.targetId}', title = '${req.body.catName}'`);
+
+	if (error) {
 		return { status: 'bad', message: error.message };
 	}
+
+	return { status: 'ok' };
 }
 
 exports.addItem = async (req, res, next) => {

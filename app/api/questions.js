@@ -84,4 +84,14 @@ exports.togglePublication = async (req, res, next) => {
 	}).catch(error => {
 		return { status: 'bad', message: 'error' };
 	})
+
+}
+exports.changeCategory = (req, res, next) => {
+	const { Model } = req.app;
+
+	return Model.questions.upd({ target: 'category_id', value: req.body.value, id: req.body.id }).then(result => {
+		return { status: 'ok' };
+	}).catch(error => {
+		return { status: 'bad', message: 'error' };
+	})
 }

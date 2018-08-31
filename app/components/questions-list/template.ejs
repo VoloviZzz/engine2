@@ -5,7 +5,7 @@
 		
 		<div>
 			<div>
-				<span>Выбор категории отзывов:</span>
+				<span>Выбор target отзывов:</span>
 				<select class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="target">
 					<option value="">Не выбрано</option>
 					<% targets.forEach((target) => { -%>
@@ -15,7 +15,7 @@
 			</div>
 			<div>
 				<form id="js-add-question-target" data-fragment-id="<%= fragment.id -%>">
-					<span>или добавить новую категорию:</span>
+					<span>или добавить target:</span>
 					<input type="text" name="title">
 					<button class="btn">Добавить</button>
 				</form>
@@ -31,9 +31,9 @@
 		
 		<div class="tab-content active">
 			<% cats.map(c => { %>
-				<h3><%= c.question %></h3>
+				<h3><%= c.title %> (<%= c.questions.length -%>)</h3>
 				<br/>
-				<%- include("./question-list", { questions : c.questions }) -%>	
+				<%- include("./question-list", { questions : c.questions, catsArray }) -%>	
 			<% }); %>
 		</div>
 		<% if(session.user.adminMode) { %>

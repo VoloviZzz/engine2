@@ -2,7 +2,15 @@ const Model = require('../models/index');
 const path = require('path');
 
 module.exports = (app) => {
-	const fragmentsHandler = async (fragment, data) => {
+	/**
+	 * ### Обработчик фрагмента
+	 * Возвращает 
+	 * @param {Object} fragment объект фрагмента
+	 * @param {Object} data переменная, содержащая locals и session из объекта запроса
+	 * @returns возвращает объект с ключами { id: fragment.id, content, fragment }, 
+	 * где content - данные, которые хранит фрагмент, fragment - объект фрагмента
+	 */
+	const fragmentsHandler = async function (fragment, data) {
 		let errors, fragmentData = {}, content = '';
 
 		try {
@@ -13,10 +21,10 @@ module.exports = (app) => {
 
 		data.locals.fragment = fragment;
 
-		[errors, rows] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });
+		[errors, fragmentsData] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });
 
-		if (rows.length > 0) {
-			fragmentData = JSON.parse(rows[0].data);
+		if (fragmentsData.length > 0) {
+			fragmentData = JSON.parse(fragmentsData[0].data);
 		}
 		else {
 			if (fragment.component_config) {

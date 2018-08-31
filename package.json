@@ -1,17 +1,11 @@
 {
-	"name": "Engine",
+	"name": "engine",
 	"version": "1.1.0",
 	"description": "LetaIndex Engine",
 	"main": "app.js",
 	"scripts": {
-		"start": "nodemon app.js",
-		"dev": "supervisor app.js"
-	},
-	"nodemonConfig": {
-		"ignore": [
-			"app/public/*"
-		],
-		"verbose": true
+		"start": "nodemon ./app/app.js",
+		"dev": "supervisor ./app/app.js"
 	},
 	"keywords": [],
 	"author": "LetaIndex LLC",

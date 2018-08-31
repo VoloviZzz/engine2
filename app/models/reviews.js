@@ -71,7 +71,7 @@ exports.getCount = function (args = {}) {
 }
 
 exports.getTargets = (args = {}) => {
-	return db.execQuery(`SELECT target_type as title FROM reviews GROUP BY target_type`);
+	return db.execQuery(`SELECT target_type as title FROM reviews WHERE target_type IS NOT NULL GROUP BY target_type`);
 }
 
 exports.upd = (arg = {}) => {
