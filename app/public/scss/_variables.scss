@@ -1,0 +1,23 @@
+// Цвета
+
+$white:    #fff;
+$black:    #000;
+
+// Ссылки
+
+$link-color:                '#ffffff'; // Цвет ссылок
+$link-decoration:           none; // При наведеннии
+$link-hover-color:          $link-color; //
+$link-hover-decoration:     underline; //
+
+// Navbar цвета темы
+
+$navbar-letaindex-color:                $white;
+$navbar-letaindex-hover-color:          #d9831f;
+$navbar-letaindex-active-color:         $white;
+$navbar-letaindex-disabled-color:       $white;
+$navbar-letaindex-toggler-border-color: rgba($black, .1);
+
+// Шрифты
+
+$font-family-base: 'Roboto', sans-serif; /// Шрифт по умолчанию

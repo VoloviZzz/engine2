@@ -1,0 +1,10 @@
+/*@import '../vendors/bootstrap/scss/bootstrap-reboot'; // Подключаем Bootstrap 
+@import '../vendors/bootstrap/scss/bootstrap-grid'; // Подключаем Bootstrap сетку
+@import '../vendors/bootstrap/scss/nav'; // Подключаем Nav
+@import '../vendors/bootstrap/scss/navbar'; // Подключаем NavBar*/
+
+@import 'variables'; // Подключаем переменные
+
+@import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
+
+@import 'header/main'; // Подключаем header
