@@ -7,6 +7,11 @@
 
 @import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
 
+*{
+    outline: none;
+    box-sizing: border-box;
+}
+
 // Прикрепление футера к нижней части
 html {
     position: relative;
@@ -20,4 +25,5 @@ body {
 @import 'scrollbar'; // Подключаем Scroll
 
 @import 'header/header'; // Подключаем header
+@import 'main/main';
 @import 'footer'; // Подключаем footer

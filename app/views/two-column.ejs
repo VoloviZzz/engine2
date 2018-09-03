@@ -1,5 +1,5 @@
 <%- include('./includes/header') -%>
-<main class="document-content">
+<!--<main class="document-content">
     <aside class="section-left sections">
         <div class="section-title">
             <h3 class="fs-regular">Меню</h3>
@@ -20,5 +20,30 @@
             <%- include('./includes/fragments-container', { block_id: 2 }) -%>
         </div>
     </section>
+</main>-->
+
+<main class="document-content">
+    <div class="container-fluid column-container">
+        <div class="row">
+            <div class="col-3">
+                <p class="fs-regular column-title">Меню</p>
+            </div>
+            <div class="col-9">
+                <% if(route.show_title) { %>
+                    <p class="fs-regular column-title text-center"><%= route.title -%></p>
+                <% } %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 column-content">
+                <nav>
+                    <%- include('./includes/fragments-container', { block_id: 1 }) -%>
+                </nav>
+            </div>
+            <div class="col-9 column-content">
+                <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+            </div>
+        </div>
+    </div>
 </main>
 <%- include('./includes/footer') -%>
