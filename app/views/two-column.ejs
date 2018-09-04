@@ -25,22 +25,22 @@
 <main class="document-content">
     <div class="container-fluid column-container">
         <div class="row">
-            <div class="col-3">
+            <div class="col-lg-3 col-md-12">
                 <p class="fs-regular column-title">Меню</p>
             </div>
-            <div class="col-9">
+            <div class="col-lg-9 col-md-12 column-bg">
                 <% if(route.show_title) { %>
                     <p class="fs-regular column-title text-center"><%= route.title -%></p>
                 <% } %>
             </div>
         </div>
-        <div class="row">
-            <div class="col-3 column-content">
+        <div class="row h-100">
+            <div class="col-lg-3 col-md-12" style="overflow-y: auto">
                 <nav>
                     <%- include('./includes/fragments-container', { block_id: 1 }) -%>
                 </nav>
             </div>
-            <div class="col-9 column-content">
+            <div class="col-lg-9 col-md-12 column-bg" style="overflow-y: auto">
                 <%- include('./includes/fragments-container', { block_id: 2 }) -%>
             </div>
         </div>

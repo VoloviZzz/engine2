@@ -14,12 +14,12 @@
 <main class="document-content">
     <div class="container-fluid column-container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 column-bg">
                 <p class="fs-regular column-title text-center"><%= route.title -%></p>
             </div>
     </div>
-        <div class="row">
-            <div class="col-12">
+        <div class="row h-100">
+            <div class="col-12 column-bg" style="flex-grow: 2; overflow-y: auto">
                 <%- include('./includes/fragments-container', { block_id: 2 }) -%>
             </div>
         </div>

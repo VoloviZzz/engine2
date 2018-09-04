@@ -1,9 +1,10 @@
 .document-content{
-    padding: 10px;
-    overflow: hidden;
     display: flex;
-    flex: 1;
+    height: 100%;
+    padding: 10px;
+    background-color: #eaeaea;
+    color: #000;
 }
 
-// Колонки
-@import 'section';
+@import 'section'; // Колонки
+@import 'menu'; // Меню

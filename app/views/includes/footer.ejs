@@ -31,8 +31,8 @@
         </div>
     </footer>-->
 	
-	<footer class="document-footer bg-footer-letaindex">
-		<div class="container-fluid">
+	<footer class="document-footer">
+		<div class="container-fluid bg-footer-letaindex">
 			<div class="row">
 				<div class="col-md-5 footer-text leta-logo">
 					<a href="#">
@@ -41,20 +41,20 @@
 				</div>
 				<div class="col-md-5 footer-text copyright">
 					<% if(user.adminMode) { %>
-						<input class="js-set-siteConfig" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
+						<input class="js-set-siteConfig" style="height: 20px" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
 					<% } else { %>
 						<%= siteConfig.get('footerText') -%>
 					<% } %>
 				</div>
 				<div class="col-md-2 footer-social">
 						<% if(user.adminMode) { %>
-							<button class="js-add-social-link">+</button>
+							<button class="btn btn-small js-add-social-link">+</button>
 						<% } %>
 						<% socialLinks.get().forEach((item) => { %>
 							<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">
 								<% if(user.adminMode) { %>
 									<div class="js-social-link-form" style="display: none">
-										<button class="js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
+										<button class="btn js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
 										<input class="js-socialLink-edit" data-target="href" data-id="<%= item.id -%>" type="text" name="href" placeholder="Ссылка" value="<%= item.href -%>" style="width: 70px">
 										<input class="js-socialLink-edit" data-target="title" data-id="<%= item.id -%>" type="text" name="title" placeholder="Заголовок" value="<%= item.title -%>" style="width: 70px">
 										<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">

@@ -11,8 +11,8 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&amp;subset=cyrillic">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700,900&amp;subset=cyrillic">
 		<link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
-		<!--<link rel="stylesheet" href="/css/static.css">-->
 		<link rel="stylesheet" href="/css/main.min.css">
+		<!--<link rel="stylesheet" href="/css/static.css">-->
 		<link rel="shortcut icon" href="<%= siteConfig.get("favicon") -%>">
 		<% if(user.adminMode) { %>
 			<link rel="stylesheet" href="/admins/css/admin.css">
@@ -98,13 +98,13 @@
 		
 		<header class="document-header">
 			<nav class="navbar navbar-expand-lg nav-letaindex bg-header-letaindex">
+					<a class="navbar-brand">
+						<img width="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
+					</a>
 					<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
 						<i class="fa fa-bars fa-lg py-1 text-white"></i>
 					</button>
 					<div class="collapse navbar-collapse justify-content-start">
-						<a class="navbar-brand">
-							<img width="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
-						</a>
 						<% if(user.adminMode) { %>
 							<label class="js-siteLogo-edit-btn" style="cursor: pointer">
 								<span>+</span>
@@ -117,19 +117,16 @@
 							<% HeaderRows.forEach((r) => { %>
 								<li>
 									<% if(user.adminMode) { %>
-										<div>
-											<div>
-												<div>
-													<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
-												</div>
-												<div>
-													<input type="text" class="js-headerNav-edit" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
-												</div>
+										<li class="nav-item pr-4 pl-4 dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
+											</a>
+											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+												<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
+												<div class="dropdown-divider"></div>
+												<button class="btn js-headerNav-delete" data-id="<%= r.id -%>">У</button>
 											</div>
-											<div>
-												<button class="btn js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
-											</div>
-										</div>
+										</li>
 									<% } else { %>
 										<li class="nav-item pr-4 pl-4">
 											<a class="nav-link" href="<%= r.href -%>"><%= r.title -%></a>
@@ -140,7 +137,7 @@
 							<% if (user.id && user.admin) { %>
 								<% if(user.adminMode) { %>
 									<div>
-										<button class="btn js-headerNav-add" style="height: 100%">+</button>
+										<button class="btn js-headerNav-add" style="height: 35px">+</button>
 									</div>
 								<% } %>
 							<% } %>

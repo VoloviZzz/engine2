@@ -1,11 +1,15 @@
 // Футер
 
 .document-footer {
-    position: absolute;
+    /*position: absolute;
     bottom: 0;
     width: 100%;
-    min-height: 35px; // Высота
+    min-height: 35px; // Высота*/
     line-height: 35px; // Центрирование
+    //align-items: flex-end;
+    min-height: 35px;
+    flex: 2;
+    z-index: 100;
 
     .footer-social{
         text-align: right;
@@ -17,6 +21,7 @@
         }
         .footer-social{
             text-align: center;
+            font-size: 27px;
         }
     }
 }
@@ -30,4 +35,32 @@
 	background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 	background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+}
+
+.social-btn {
+	height: 25px;
+}
+
+.social-btn-fb {
+	background: url(../img/social/fb.png) no-repeat center;
+}
+
+.social-btn-tw {
+	background: url(../img/social/tw.png) no-repeat center;
+}
+
+.social-btn-vk {
+	background: url(../img/social/vk.png) no-repeat center;
+}
+
+.social-btn-od {
+	background: url(../img/social/odnk.png) no-repeat center;
+}
+
+.social-btn-ut {
+	background: url(../img/social/youtube.png) no-repeat center;
+}
+
+.social-btn-inst {
+	background: url(../img/social/insta.png) no-repeat center;
 }
