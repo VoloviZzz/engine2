@@ -117,18 +117,18 @@
 							<% HeaderRows.forEach((r) => { %>
 								<li>
 									<% if(user.adminMode) { %>
-										<li class="nav-item pr-4 pl-4 dropdown">
+										<li class="nav-item mr-3 ml-3 mb-2 dropdown">
 											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
+												<input type="text" class="inp-txt-admin-nav js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
 											</a>
 											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-												<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
+												<input type="text" class="inp-txt-admin-nav js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
 												<div class="dropdown-divider"></div>
-												<button class="btn js-headerNav-delete" data-id="<%= r.id -%>">У</button>
+												<button class="btn btn-admin-nav js-headerNav-delete" data-id="<%= r.id -%>">У</button>
 											</div>
 										</li>
 									<% } else { %>
-										<li class="nav-item pr-4 pl-4">
+										<li class="nav-item mr-3 ml-3">
 											<a class="nav-link" href="<%= r.href -%>"><%= r.title -%></a>
 										</li>
 									<% } %>
@@ -137,7 +137,7 @@
 							<% if (user.id && user.admin) { %>
 								<% if(user.adminMode) { %>
 									<div>
-										<button class="btn js-headerNav-add" style="height: 35px">+</button>
+										<button class="btn btn-admin-nav js-headerNav-add">+</button>
 									</div>
 								<% } %>
 							<% } %>

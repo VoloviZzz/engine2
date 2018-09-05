@@ -1,9 +1,14 @@
 .document-content{
-    display: flex;
+    //display: flex;
     height: 100%;
     padding: 10px;
     background-color: #eaeaea;
     color: #000;
+    margin-bottom: 35px;
+
+    /*flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;*/
 }
 
 @import 'section'; // Колонки

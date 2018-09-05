@@ -23,27 +23,49 @@
 </main>-->
 
 <main class="document-content">
-    <div class="container-fluid column-container">
+    <!--<div class="container-fluid column-container">
         <div class="row">
-            <div class="col-lg-3 col-md-12">
+            <div class="col-lg-3">
                 <p class="fs-regular column-title">Меню</p>
             </div>
-            <div class="col-lg-9 col-md-12 column-bg">
+            <div class="col-lg-9 column-bg">
                 <% if(route.show_title) { %>
                     <p class="fs-regular column-title text-center"><%= route.title -%></p>
                 <% } %>
             </div>
         </div>
         <div class="row h-100">
-            <div class="col-lg-3 col-md-12" style="overflow-y: auto">
+            <div class="col-lg-3" style="overflow-y: auto">
                 <nav>
                     <%- include('./includes/fragments-container', { block_id: 1 }) -%>
                 </nav>
             </div>
-            <div class="col-lg-9 col-md-12 column-bg" style="overflow-y: auto">
+            <div class="col-lg-9 column-bg" style="overflow-y: auto">
+                <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="container-fluid column-container">
+        <div class="row">
+            <div class="col-lg-3 col-md-12">
+                <p class="column-title">Меню</p>
+            </div>
+            <div class="col-lg-3 col-md-12 order-lg-3" style="overflow-y: auto; height: calc(100vh - 150px)">
+                <nav>
+                    <%- include('./includes/fragments-container', { block_id: 1 }) -%>
+                </nav>
+            </div>
+            <div class="col-lg-9 col-md-12 order-lg-2 column-bg">
+                <% if(route.show_title) { %>
+                    <p class="column-title text-center"><%= route.title -%></p>
+                <% } %>
+            </div>
+            <div class="col-lg-9 col-md-12 order-lg-3 column-bg" style="overflow-y: auto; height: calc(100vh - 150px)">
                 <%- include('./includes/fragments-container', { block_id: 2 }) -%>
             </div>
         </div>
     </div>
+
 </main>
 <%- include('./includes/footer') -%>

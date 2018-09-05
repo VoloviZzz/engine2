@@ -31,7 +31,7 @@
 </main>-->
 
 <main class="document-content">
-    <div class="container-fluid column-container">
+    <!--<div class="container-fluid column-container">
         <div class="row">
             <div class="col-lg-3 col-md-12 col-md-12">
                 <p class="fs-regular column-title">Меню</p>
@@ -55,6 +55,31 @@
             <div class="col-lg-3 col-md-12 column-bg" style="overflow-y: auto">
                 <%- include('./includes/fragments-container', { block_id: 3 }) -%>
             </div>  
+        </div>
+    </div>-->
+
+    <div class="container-fluid column-container">
+        <div class="row">
+            <div class="col-lg-3 col-md-12 col-md-12 order-lg-1">
+                <p class="column-title">Меню</p>
+            </div>
+            <div class="col-lg-3 col-md-12 order-lg-6" style="overflow-y: auto; height: calc(100vh - 150px)">
+                <nav> <!-- блок меню -->
+                    <%- include('./includes/fragments-container', { block_id: 1 }) -%>
+                </nav>
+            </div>
+            <div class="col-lg-6 col-md-12 column-bg order-lg-2"> <!-- о компании заголовок -->
+                <p class="fs-regular column-title text-center"><%= route.title -%></p>
+            </div>
+            <div class="col-lg-6 col-md-12 column-bg order-lg-7" style="overflow-y: auto; height: calc(100vh - 150px)">
+                <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+            </div> <!-- о компании блок -->
+            <div class="col-lg-3 col-md-12 column-bg order-lg-3">
+                <p class="fs-regular column-title">Акции и предложения</p>
+            </div> <!-- Акции и предложения -->
+            <div class="col-lg-3 col-md-12 column-bg order-lg-9" style="overflow-y: auto; height: calc(100vh - 150px)">
+                <%- include('./includes/fragments-container', { block_id: 3 }) -%>
+            </div> <!-- Акции и предложения блок -->
         </div>
     </div>
 </main>

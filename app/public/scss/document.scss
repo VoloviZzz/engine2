@@ -16,26 +16,24 @@
 }
 
 html {
-    //min-height: 100%;
-    height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    //position: relative;
-    /*position: relative;
-    height: 100%;*/
-    //margin-bottom: 35px; /* Поле снизу по высоте футера */
+    background-color: #eaeaea;
+
+    /*display: flex;
+    flex-direction: column;*/
 }
 
 ul {
     list-style: none;
 }
 
-@import 'scrollbar'; // Подключаем Scroll
+@import 'scrollbar'; // Подключаем Scrollbar
 
 @import 'header/header'; // Подключаем header
-@import 'main/main';
+@import 'main/main'; // Подключаем content
 @import 'footer'; // Подключаем footer

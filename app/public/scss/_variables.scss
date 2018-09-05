@@ -7,19 +7,19 @@ $black:    #000;
 
 // Ссылки
 
-$link-color:                $white; // Цвет ссылок
-$link-decoration:           none; // При наведеннии
+$link-color:                $black; // Цвет ссылок по умолчанию
+$link-decoration:           none; // Цвет ссылок по умолчанию при наведеннии
 $link-hover-color:          #f36c2a; //
 $link-hover-decoration:     underline; //
 
 // Navbar цвета темы
 
-$navbar-letaindex-color:                $white; // Цвета ссылок Navbar
-$navbar-letaindex-hover-color:          #f36c2a; // Цвета ссылок Navbar при наведении
+$navbar-letaindex-color:                $white; // Цвет ссылок Navbar по умолчанию
+$navbar-letaindex-hover-color:          #f36c2a; // Цвет ссылок Navbar по умолчанию при наведении
 $navbar-letaindex-active-color:         $white;
 $navbar-letaindex-disabled-color:       $white;
 //$navbar-letaindex-toggler-icon-bg:      null;
-$navbar-letaindex-toggler-border-color:  #262626; // Рамка
+$navbar-letaindex-toggler-border-color:  #262626; // Цвет рамки toggler
 
 // Шрифты
 

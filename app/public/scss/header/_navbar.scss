@@ -21,6 +21,26 @@
 	  background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 }
 
+// Удаление стрелки из выпадающего списка
+
+.dropdown-toggle::after {
+    display:none;
+}
+
+// Кнопка navBar
+
+.btn-admin-nav{
+  padding: 2px 10px;
+	font-size: 1rem;
+}
+
+//
+
+.inp-txt-admin-nav{
+  height: 28px;
+  width: 120px;
+}
+
 .nav-letaindex{ // Navbar letaindex
 
   .navbar-brand {
@@ -70,5 +90,14 @@
         color: $navbar-letaindex-active-color;
       }
     }
+  }
+}
+
+@media (max-width: 991px){
+  .navbar-nav li a {
+    line-height: 27px;
+    height: 23px;
+    padding-top: 0;
+    text-align: center;
   }
 }

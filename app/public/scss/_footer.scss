@@ -1,15 +1,19 @@
 // Футер
 
 .document-footer {
-    /*position: absolute;
+    position: absolute;
     bottom: 0;
     width: 100%;
-    min-height: 35px; // Высота*/
-    line-height: 35px; // Центрирование
-    //align-items: flex-end;
-    min-height: 35px;
-    flex: 2;
+    min-height: 35px; // Высота
+    line-height: 35px; // Центрирование текста
     z-index: 100;
+
+    //display: flex;
+    //align-items: flex-end;
+
+    /*flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;*/
 
     .footer-social{
         text-align: right;
@@ -24,6 +28,10 @@
             font-size: 27px;
         }
     }
+}
+
+.document-footer a{
+    color: #fff;
 }
 
 .bg-footer-letaindex{ // Фон и размер шрифта
