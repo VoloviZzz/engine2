@@ -79,8 +79,6 @@ $(document).ready(function () {
 	$('.js-goodsCategories-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
-		if (!confirm('Удалить данную категорию с сайта?')) return false;
-
 		return shop.delCategories({ id: id });
 	});
 
@@ -126,7 +124,10 @@ $(document).ready(function () {
 	});
 
 	$('.js-headerNav-add').on('click', function (e) {
-		$.post('/api/headerNav/add').done(function (result) {
+
+		var parentId = $(this).data('parent-id');
+
+		$.post('/api/headerNav/add', {parentId}).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
@@ -138,6 +139,10 @@ $(document).ready(function () {
 
 	$('.js-headerNav-delete').on('click', function (e) {
 		var id = $(this).data('id');
+
+		if(confirm('Удалить пункт меню') === false) {
+			return false;
+		}
 
 		$.post('/api/headerNav/delete', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
@@ -208,8 +213,6 @@ $(document).ready(function () {
 	$('.js-slide-delete').on('click', function (e) {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
-
-		if (!confirm('Удалить слайд?')) return false;
 
 		return slider.deleteSlide({ slide_id: slide_id, fragment_id: fragment_id });
 	});
@@ -337,8 +340,9 @@ $(document).ready(function () {
 	// Удаление иконок
 	$('.js-socialLink-delete').on('click', function (e) {
 		e.preventDefault();
-		console.log('here');
 		var id = $(this).data('id');
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/socialLinks/del', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {

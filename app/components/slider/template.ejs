@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="/vendors/slick/slick.css">
+<link rel="stylesheet" href="/vendors/slick/slick-theme.css">
+
+<% if(user.adminMode) { %>
+    <div class="">
+        <div>
+            <p>Количество слайдов на экране:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToShow"
+                type="text" value="<%= fragment.settings.slidesToShow || 1 -%>">
+        </div>
+        <div>
+            <p>Количество слайдов для скролла:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToScroll"
+                type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
+        </div>
+		<div>
+			<button class="btn js-slider-add" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>
+			<br>
+			<br>
+		</div>
+    </div>
+<% } %>
+
+<div class="fragment-slider" data-fragment-id="<%= fragment.id -%>">
+    <% slides.forEach(slide => { %>
+		<div>
+			<% if(user.adminMode) { %>
+				<div class="admin-control-container text-left flex-container">
+					<% if(slide.published == 1) { %>
+						<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="0">Снять с публикации</button>
+					<% } else { %>
+						<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="1">Опубликовать</button>
+					<% } %>
+					<label>
+						<span class="btn js-slider-addSlideImage">Добавить изображение</span>
+						<input type="file" class="js-slides-uploadImage" data-id="<%= slide.id -%>" style="display: none">
+					</label>
+					<div>
+						<span>Приоритет:</span>
+						<input class="js-slide-update" data-target="priority" data-id="<%= slide.id -%>" type="text" value="<%= slide.priority -%>">
+					</div>
+					<button class="btn bg-delete js-slider-deleteSlide" data-id="<%= slide.id -%>">Удалить</button>
+				</div>
+			<% } %>
+			<img height="350px" src="<%= slide.image -%>">
+		</div>
+	<% }) %>
+</div>
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", function () {
+        $('.fragment-slider[data-fragment-id=<%= fragment.id -%>]').slick({
+            infinite: true,
+            slidesToShow: <%= fragment.settings.slidesToShow || 1 -%>,
+            slidesToScroll: <%= fragment.settings.slidesToScroll || 1 -%>,
+            adaptiveHeight: true
+        });
+    });
+
+</script>
+
+<script src="/vendors/slick/slick.min.js" defer></script>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/slider.js" defer></script>
+<% } %>

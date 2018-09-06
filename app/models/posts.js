@@ -39,5 +39,5 @@ exports.upd = (arg = {}) => {
 	if (typeof arg.value == "undefined") return Promise.resolve([new Error('Нет параметра value')]);
 	if (typeof arg.id == "undefined") return Promise.resolve([new Error('Нет параметра id')]);
 
-	return db.execQuery(`UPDATE posts SET ${arg.target} = '${arg.value}' WHERE id = ${arg.id}`);
+	return db.execQuery(`UPDATE posts SET ${arg.target} = ? WHERE id = ${arg.id}`, [arg.value]);
 }

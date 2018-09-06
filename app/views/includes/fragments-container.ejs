@@ -5,7 +5,7 @@
 	<div class="fragment-item">
 		<% if(user.adminMode) { %>
 			<div class="fragment-setting-window">
-				<button href="#" class="setting-call-btn"></button>
+				<button href="#" class="setting-call-btn <%= fragment.published != '1' ? 'fragment-not-published' : '' -%>"></button>
 				<div class="setting-wrapper">
 					<div>
 						<select class="js-upd-fragment-component select-set" data-route-id="<%= route.id -%>" data-fragment-id="<%= id -%>" name="types">

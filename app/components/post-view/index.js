@@ -44,6 +44,8 @@ module.exports = (app) => {
 				return Promise.resolve(["Что-то пошло не так"]);
 			}
 
+			locals.route.show_title = false;
+
 			dataViews.similarPosts = similarPosts;
 			dataViews.post = post;
 			dataViews.postCategories = postCategories;

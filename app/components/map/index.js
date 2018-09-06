@@ -7,10 +7,14 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const [, settings] = await Model.siteConfig.get();
+		const { fragment } = locals;
+		const { user } = session;
 
-		dataViews.settings = settings;
-		dataViews.user = session.user;
+		fragment.settings.center = fragment.settings.center ? fragment.settings.center.split(',') : [55.76, 37.64];
+		fragment.settings.zoom = fragment.settings.zoom || 7;
+
+		dataViews.fragment = fragment;
+		dataViews.user = user;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

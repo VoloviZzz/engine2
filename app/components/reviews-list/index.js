@@ -7,7 +7,10 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const { fragment, dynamicRouteNumber: targetId } = locals;
+		let { fragment, dynamicRouteNumber: targetId } = locals;
+		targetId = targetId || 0;
+
+		fragment.settings.onlyRegister = fragment.settings.onlyRegister || 1;
 
 		// пагинация
 		const reviewsCountParams = {

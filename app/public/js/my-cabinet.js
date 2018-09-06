@@ -5,7 +5,51 @@ $(document).ready(function (e) {
 	var defaultState = {};
 
 	var _ref = new Forms(),
-	    getFormData = _ref.getFormData;
+		getFormData = _ref.getFormData;
+
+	$('#js-upload-avatar').on('change', function (e) {
+
+		var fd = new FormData();
+
+		var $input = $(this);
+		var files = $input.get(0).files;
+		var id = $input.data('id');
+
+		for (var index = 0; index < files.length; index++) {
+			var file = files[index];
+
+			fd.append('upload', file);
+		}
+
+		$input.attr('disabled', 'disabled');
+
+		$.ajax({
+			url: '/api/images/upload',
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function success(result) {
+				$input.removeAttr('disabled');
+
+				if (result.status !== 'ok') {
+					console.log(result);
+					return alert(result.message);
+				}
+
+				var avatar = result.data.fileUrl;
+
+				$.post('/api/clients/update', { target: 'avatar', value: avatar, id: id }).done(function (result) {
+					if (result.status !== 'ok') {
+						console.log(result);
+						return alert(result.message);
+					}
+
+					location.reload();
+				})
+			}
+		});
+	})
 
 	$(".js-masked-phone").mask("+7(999)-999-99-99"); //номер телефона
 

@@ -20,6 +20,8 @@ $(document).ready(function () {
 	$('.js-goodsPhoto-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/photos/delete', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
@@ -195,6 +197,8 @@ $(document).ready(function () {
 			ctrl: 'deleteParamsBindValues',
 			id: $(this).data('id')
 		};
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/goodsPosition/deleteParamsBindValues', postData).done(function (result) {
 			if (result.status == 'bad') {

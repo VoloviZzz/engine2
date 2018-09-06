@@ -1,0 +1,24 @@
+<% if(user.adminMode) { %>
+	<div>
+		<span>Выберите категорию отзывов:</span>
+		<select class="js-fragment-update-settings" data-target="targetType" data-event="change" data-fragment-id="<%= fragment.id -%>" name="target-post">
+			<option value="0">Не выбрано</option>
+			<% for (let target of reviewsCats ) { %>
+				<% var targetSelected = target.id == fragment.settings.targetType ? `selected` : '' %>;
+				<option value="<%= target.id -%>" <%= targetSelected -%> ><%= target.title -%></option>
+			<% } %>
+		</select>
+		<form id="js-add-reviews-category">
+			<span>Или добавьте новую категорию:</span>
+			<input type="text" name="title"/>
+			<button class="btn">добавить</button>
+		</form>
+	</div>
+	<div>
+		<% if(fragment.settings.onlyRegister == 1) { %>
+			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="click" value="0">Оставлять отзывы могут все пользователи</button>
+		<% } else { %>
+			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="click" value="1">Оставлять отзывы могут только зарегистрированные</button>
+		<% } %>
+	</div>
+<% } %>
