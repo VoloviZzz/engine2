@@ -46,22 +46,22 @@
         </div>
     </div>-->
 
-    <div class="container-fluid column-container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 col-md-12">
-                <p class="column-title">Меню</p>
+            <div class="col-lg-2 col-md-12">
+                <p class="col-title">Меню</p>
             </div>
-            <div class="col-lg-3 col-md-12 order-lg-3" style="overflow-y: auto; height: calc(100vh - 150px)">
+            <div class="col-lg-2 col-md-12 order-lg-3 col-scroll">
                 <nav>
                     <%- include('./includes/fragments-container', { block_id: 1 }) -%>
                 </nav>
             </div>
-            <div class="col-lg-9 col-md-12 order-lg-2 column-bg">
+            <div class="col-lg-10 col-md-12 order-lg-2 col-bg">
                 <% if(route.show_title) { %>
-                    <p class="column-title text-center"><%= route.title -%></p>
+                    <p class="col-title text-center"><%= route.title -%></p>
                 <% } %>
             </div>
-            <div class="col-lg-9 col-md-12 order-lg-3 column-bg" style="overflow-y: auto; height: calc(100vh - 150px)">
+            <div class="col-lg-10 col-md-12 order-lg-3 col-bg col-scroll">
                 <%- include('./includes/fragments-container', { block_id: 2 }) -%>
             </div>
         </div>

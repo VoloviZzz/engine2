@@ -21,6 +21,13 @@ $navbar-letaindex-disabled-color:       $white;
 //$navbar-letaindex-toggler-icon-bg:      null;
 $navbar-letaindex-toggler-border-color:  #262626; // Цвет рамки toggler
 
+// Выпадающее меню
+
+$dropdown-min-width:  10rem; // Минимальная ширина
+$dropdown-padding-y:  .5rem; // Внутрений отступ между элементами
+$dropdown-spacer:     1rem; //
+$dropdown-bg:         $white; // Цвет
+
 // Шрифты
 
 $font-family-base: 'Roboto', sans-serif; /// Шрифт по умолчанию

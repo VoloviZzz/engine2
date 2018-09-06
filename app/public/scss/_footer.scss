@@ -8,13 +8,6 @@
     line-height: 35px; // Центрирование текста
     z-index: 100;
 
-    //display: flex;
-    //align-items: flex-end;
-
-    /*flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: auto;*/
-
     .footer-social{
         text-align: right;
     }
@@ -30,11 +23,15 @@
     }
 }
 
-.document-footer a{
-    color: #fff;
+.document-footer a {
+    color: $white;
 }
 
-.bg-footer-letaindex{ // Фон и размер шрифта
+.document-footer a:hover {
+    color: $link-hover-color;
+}
+
+.bg-footer-letaindex { // Фон и размер шрифта
     font-size: 15px;
     font-weight: 400;
     color: $white;

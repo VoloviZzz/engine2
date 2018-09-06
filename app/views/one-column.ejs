@@ -12,12 +12,12 @@
     </section>
 </main>-->
 <main class="document-content">
-    <div class="container-fluid column-container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12 column-bg">
-                <p class="column-title text-center"><%= route.title -%></p>
+            <div class="col-12 col-bg">
+                <p class="col-title text-center"><%= route.title -%></p>
             </div>
-            <div class="col-12 column-bg" style="overflow-y: auto; height: calc(100vh - 150px)">
+            <div class="col-12 col-bg col-scroll">
                 <%- include('./includes/fragments-container', { block_id: 2 }) -%>
             </div>
         </div>

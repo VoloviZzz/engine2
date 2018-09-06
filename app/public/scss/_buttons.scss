@@ -58,3 +58,26 @@
 .btn-disabled:hover {
     background-color: #363636 !important;
 }
+
+.btn-blue, .select-set{
+	width: 100%;
+	max-width: 262px;
+	padding: 10px;
+	padding-top: 13px;
+	padding-bottom: 13px;
+	border: none;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#1f2121), color-stop(35%, #333636), color-stop(68%, #5e6363), color-stop(95%, #686e6e));
+	background: -webkit-linear-gradient(bottom, #1f2121 0%, #333636 35%, #5e6363 68%, #686e6e 95%);
+	background: -o-linear-gradient(bottom, #1f2121 0%, #333636 35%, #5e6363 68%, #686e6e 95%);
+	background: linear-gradient(to top, #1f2121 0%, #333636 35%, #5e6363 68%, #686e6e 95%);
+	font-weight: 400;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+
+.select-set option {
+    color: #000;
+}
