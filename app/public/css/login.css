@@ -2,12 +2,12 @@ body {
     min-height: 100%;
 }
 
-.document-content {
+/*.document-content {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-}
+}*/
 
 .login-wrapper {
     background-color: #fff;
@@ -68,6 +68,7 @@ body {
     -o-transition: border-color .2s;
     transition: border-color .2s;
     position: relative;
+    border: 1px solid #c0c0c0;
 }
 
 .login-body__input-group.required:before {

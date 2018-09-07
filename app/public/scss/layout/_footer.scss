@@ -7,20 +7,10 @@
     min-height: 35px; // Высота
     line-height: 35px; // Центрирование текста
     z-index: 100;
+}
 
-    .footer-social{
-        text-align: right;
-    }
-
-    @media (max-width: 767px){
-        .footer-text{
-            text-align: center;
-        }
-        .footer-social{
-            text-align: center;
-            font-size: 27px;
-        }
-    }
+.footer-social{
+    text-align: right;
 }
 
 .document-footer a {
@@ -68,4 +58,14 @@
 
 .social-btn-inst {
 	background: url(../img/social/insta.png) no-repeat center;
+}
+
+@media (max-width: 767px){
+    .footer-text{
+        text-align: center;
+    }
+    .footer-social{
+        text-align: center;
+        font-size: 27px;
+    }
 }

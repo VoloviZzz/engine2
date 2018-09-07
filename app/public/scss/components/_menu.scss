@@ -48,3 +48,55 @@ li.section-menu-item.active > a {
 .section-menu__sublist > li:last-child {
 	border-bottom: none;
 }
+
+.subsection-1, .subsection-3 {
+	height: 35%;
+}
+
+.subsection-2, .subsection-4 {
+	height: 65%;
+}
+
+.subsection-2 > div {
+	padding: 10px;
+}
+
+.subsection-item {
+	padding: 5px;
+}
+
+.subsection-item > div {
+	height: 100%;
+	background: $white;
+	position: relative;
+	overflow: hidden;
+}
+
+.subsections {
+	position: relative;
+	overflow: hidden;
+	padding: 5px;
+}
+
+.subsection-1, .subsection-3 {
+	height: 35%;
+}
+
+.subsection-2, .subsection-4 {
+	height: 65%;
+}
+
+.subsection-2 > div {
+	padding: 10px;
+}
+
+.subsection-item {
+	padding: 5px;
+}
+
+.subsection-item > div {
+	height: 100%;
+	background: $white;
+	position: relative;
+	overflow: hidden;
+}

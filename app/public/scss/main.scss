@@ -1,0 +1,27 @@
+@import 'utility/module'; // Подключаем утилиты
+@import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
+@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow'); // Подключаем шрифт
+
+*{
+    outline: none;
+    box-sizing: border-box;
+    margin: 0px;
+	padding: 0px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #eaeaea;
+}
+
+ul {
+    list-style: none;
+}
+
+@import 'components/module'; // Подключаем компонеты
+@import 'layout/module'; // Подключаем шаблоны

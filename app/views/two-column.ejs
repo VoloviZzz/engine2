@@ -1,71 +1,26 @@
 <%- include('./includes/header') -%>
-<!--<main class="document-content">
-    <aside class="section-left sections">
-        <div class="section-title">
-            <h3 class="fs-regular">Меню</h3>
-        </div>
-        <div class="section-menu-wrapp">
-			<nav>
-				<%- include('./includes/fragments-container', { block_id: 1 }) -%>
-			</nav>
-		</div>
-    </aside>
-    <section class="section-center sections">
-		<% if(route.show_title) { %>
-			<div class="section-title">
-				<h3 class="fs-regular text-center"><%= route.title -%></h3>
-			</div>
-		<% } %>
-        <div class="section-content">
-            <%- include('./includes/fragments-container', { block_id: 2 }) -%>
-        </div>
-    </section>
-</main>-->
 
 <main class="document-content">
-    <!--<div class="container-fluid column-container">
-        <div class="row">
-            <div class="col-lg-3">
-                <p class="fs-regular column-title">Меню</p>
-            </div>
-            <div class="col-lg-9 column-bg">
-                <% if(route.show_title) { %>
-                    <p class="fs-regular column-title text-center"><%= route.title -%></p>
-                <% } %>
-            </div>
-        </div>
-        <div class="row h-100">
-            <div class="col-lg-3" style="overflow-y: auto">
-                <nav>
-                    <%- include('./includes/fragments-container', { block_id: 1 }) -%>
-                </nav>
-            </div>
-            <div class="col-lg-9 column-bg" style="overflow-y: auto">
-                <%- include('./includes/fragments-container', { block_id: 2 }) -%>
-            </div>
-        </div>
-    </div>-->
-
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 col-md-12">
+            <div class="col-xl-2 col-lg-3 col-md-12">
                 <p class="col-title">Меню</p>
             </div>
-            <div class="col-lg-2 col-md-12 order-lg-3 col-scroll">
+            <div class="col-xl-2 col-lg-3 col-md-12 order-lg-3 order-xl-3 col-scroll">
                 <nav>
                     <%- include('./includes/fragments-container', { block_id: 1 }) -%>
                 </nav>
             </div>
-            <div class="col-lg-10 col-md-12 order-lg-2 col-bg">
+            <div class="col-xl-10 col-lg-9 col-md-12 order-lg-2 order-xl-2 col-bg">
                 <% if(route.show_title) { %>
                     <p class="col-title text-center"><%= route.title -%></p>
                 <% } %>
             </div>
-            <div class="col-lg-10 col-md-12 order-lg-3 col-bg col-scroll">
+            <div class="col-xl-10 col-lg-9 col-md-12 order-lg-3 order-xl-3 col-bg col-scroll">
                 <%- include('./includes/fragments-container', { block_id: 2 }) -%>
             </div>
         </div>
     </div>
-
 </main>
+
 <%- include('./includes/footer') -%>
