@@ -989,6 +989,7 @@ textarea.input-text {
     min-width: 100%;
     max-width: 100%;
     font-size: inherit;
+    font-family: inherit;
 }
 
 .aside-toggle {
