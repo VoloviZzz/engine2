@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/admin.css">
 <div>
-	<div style="display: flex; flex-flow: row wrap; justify-content: space-between; margin-bottom: 20px">
+	<div class="d-flex justify-content-between mb-2"> <!--style="display: flex; flex-flow: row wrap; justify-content: space-between; margin-bottom: 20px"-->
 		<h1>Список маршрутов</h1>
 		<button class="btn js-routes-list-showAddForm">Добавить маршрут</button>
 	</div>
@@ -64,12 +64,14 @@
 			<button>Добавить</button>
 		</div>
 	</form>
-	<ul class="route-items">
+	<!--<ul class="route-items">
 		<% routesList.map((r) => { %>
 		<li class="js-route-item route-item" style="">
 			<a href="<%= r.url -%>"><%= r.url + ' - ' + r.title -%></a>
 			<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button>
 			<button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить маршрут</button>
+
+
 			<div class="js-route-edit-form" style="">
 				<form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
 					<h2>Изменить маршрут</h2>
@@ -172,8 +174,27 @@
 					<input type="hidden" name="id" value="<%=r.id-%>">
 				</form>
 			</div>
+
+
 		</li>
 		<% }) %>
-	</ul>
+	</ul>-->
+
+
+	<table class="route-table route-items">
+		<% routesList.map((r) => { %>
+			<p class="js-route-item route-item">
+				<tr>
+					<th><a href="<%= r.url -%>"><%= r.url + ' - ' + r.title -%></a></th>
+				</tr>
+				<tr>
+					<td><button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button></td>
+					<td><button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить маршрут</button></td>
+				</tr>
+			</p>
+		<% }) %>
+	</table>
+
+	
 </div>
 <script src="/js/routes-list.js" defer></script>

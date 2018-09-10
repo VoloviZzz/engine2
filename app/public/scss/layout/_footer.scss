@@ -7,18 +7,46 @@
     min-height: 35px; // Высота
     line-height: 35px; // Центрирование текста
     z-index: 100;
+
+    a {
+        color: $white;
+    }
+    
+    a:hover {
+        color: $link-hover-color;
+    }
 }
 
 .footer-social{
     text-align: right;
-}
 
-.document-footer a {
-    color: $white;
-}
-
-.document-footer a:hover {
-    color: $link-hover-color;
+    .social-btn {
+        height: 25px;
+    }
+    
+    .social-btn-fb {
+        background: url(../img/social/fb.png) no-repeat center;
+    }
+    
+    .social-btn-tw {
+        background: url(../img/social/tw.png) no-repeat center;
+    }
+    
+    .social-btn-vk {
+        background: url(../img/social/vk.png) no-repeat center;
+    }
+    
+    .social-btn-od {
+        background: url(../img/social/odnk.png) no-repeat center;
+    }
+    
+    .social-btn-ut {
+        background: url(../img/social/youtube.png) no-repeat center;
+    }
+    
+    .social-btn-inst {
+        background: url(../img/social/insta.png) no-repeat center;
+    }
 }
 
 .bg-footer-letaindex { // Фон и размер шрифта
@@ -30,34 +58,6 @@
 	background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 	background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-}
-
-.social-btn {
-	height: 25px;
-}
-
-.social-btn-fb {
-	background: url(../img/social/fb.png) no-repeat center;
-}
-
-.social-btn-tw {
-	background: url(../img/social/tw.png) no-repeat center;
-}
-
-.social-btn-vk {
-	background: url(../img/social/vk.png) no-repeat center;
-}
-
-.social-btn-od {
-	background: url(../img/social/odnk.png) no-repeat center;
-}
-
-.social-btn-ut {
-	background: url(../img/social/youtube.png) no-repeat center;
-}
-
-.social-btn-inst {
-	background: url(../img/social/insta.png) no-repeat center;
 }
 
 @media (max-width: 767px){

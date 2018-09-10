@@ -5,11 +5,15 @@
 $white:    #fff;
 $black:    #000;
 
+// Цвет body
+
+$body-bg:                   #eaeaea;
+
 // Ссылки
 
 $link-color:                $black; // Цвет ссылок по умолчанию
-$link-decoration:           none; // Цвет ссылок по умолчанию при наведеннии
-$link-hover-color:          #f36c2a; //
+$link-decoration:           none; // 
+$link-hover-color:          #f36c2a; // Цвет ссылок по умолчанию при наведеннии
 $link-hover-decoration:     underline; //
 
 // Navbar цвета темы

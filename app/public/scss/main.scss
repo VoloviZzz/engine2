@@ -16,11 +16,14 @@ html {
 
 body {
     height: 100%;
-    background-color: #eaeaea;
 }
 
 ul {
     list-style: none;
+}
+
+table{
+    width: 100%;
 }
 
 @import 'components/module'; // Подключаем компонеты

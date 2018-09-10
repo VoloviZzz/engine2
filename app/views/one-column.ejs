@@ -5,9 +5,11 @@
         <div class="row">
             <div class="col-12 col-bg">
                 <p class="col-title text-center"><%= route.title -%></p>
-            </div>
-            <div class="col-12 col-bg col-scroll">
-                <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+                <div class="row">
+                    <div class="col-12 col-scroll">
+                        <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

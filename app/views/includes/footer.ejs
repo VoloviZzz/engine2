@@ -14,22 +14,22 @@
 					<% } %>
 				</div>
 				<div class="col-md-2 footer-social">
-						<% if(user.adminMode) { %>
+					<% if(user.adminMode) { %>
 							<button class="btn btn-small js-add-social-link">+</button>
-						<% } %>
-						<% socialLinks.get().forEach((item) => { %>
-							<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">
-								<% if(user.adminMode) { %>
-									<div class="js-social-link-form" style="display: none">
-										<button class="btn js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
-										<input class="js-socialLink-edit" data-target="href" data-id="<%= item.id -%>" type="text" name="href" placeholder="Ссылка" value="<%= item.href -%>" style="width: 70px">
-										<input class="js-socialLink-edit" data-target="title" data-id="<%= item.id -%>" type="text" name="title" placeholder="Заголовок" value="<%= item.title -%>" style="width: 70px">
-										<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">
-									</div>
-								<% } %>
-								<i class="fa <%= item.icon ? item.icon : 'fa-question' -%>"></i>
-							</a>	
-						<% }) %>
+					<% } %>
+					<% socialLinks.get().forEach((item) => { %>
+						<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">
+							<% if(user.adminMode) { %>
+								<div class="js-social-link-form" style="display: none">
+									<button class="btn js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
+									<input class="js-socialLink-edit" data-target="href" data-id="<%= item.id -%>" type="text" name="href" placeholder="Ссылка" value="<%= item.href -%>" style="width: 70px">
+									<input class="js-socialLink-edit" data-target="title" data-id="<%= item.id -%>" type="text" name="title" placeholder="Заголовок" value="<%= item.title -%>" style="width: 70px">
+									<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">
+								</div>
+							<% } %>
+							<i class="fa <%= item.icon ? item.icon : 'fa-question' -%>"></i>
+						</a>	
+					<% }) %>
 				</div>
 			</div>
 		</div>
