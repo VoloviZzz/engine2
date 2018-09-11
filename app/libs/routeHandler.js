@@ -31,9 +31,11 @@ const getRoute = (url) => {
 
 					const alias = routesMap[url];
 
-					alias.route_url = alias.route_url.replace(/:params/g, '([a-zA-Z0-9\-]+)');
-					result.route = routesMap[alias.route_url];
+					alias.route_url = alias.route_url;
+					result.route = { ...routesMap[alias.route_url] };
 					result.routeParams = alias.params.split(',');
+
+					result.route.aliasId = alias.id;
 				} else {
 					result.route = route;
 					result.routeParams = urlExec.slice(1);
@@ -105,6 +107,25 @@ module.exports.Router = async (app) => {
 				return next(err);
 			}
 
+			const getMetaParams = {
+				route_id: route.id
+			};
+
+			if (route.aliasId) {
+				getMetaParams.alias_id = route.aliasId;
+			}
+			else if (routeParams.length > 0 && routeParams[0]) {
+				getMetaParams.target_id = routeParams[0];
+			}
+
+			var [error, metaData] = await Model.metaManage.get(getMetaParams);
+			if (error) {
+				console.error(error);
+				throw new Error(error);
+			}
+
+			route.meta = metaData[0] ? metaData[0] : {};
+
 			const getFragmentsParams = {
 				route_id: route.id
 			};
@@ -116,8 +137,9 @@ module.exports.Router = async (app) => {
 			var [err, fragments] = await Model.fragments.get(getFragmentsParams);
 			if (err) return next(err);
 
-			res.locals.route = route;
+			res.locals.route = { ...route };
 			res.locals.dynamicRouteNumber = routeParams[0] || false;
+			res.locals.URIparams = routeParams || false;
 			res.locals.fullUrl = req.url;
 
 			const fragmentsMap = fragments.map(async fragment => {

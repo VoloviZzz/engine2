@@ -10,9 +10,11 @@ exports.get = (args = {}) => {
 		let [err, rows] = await db.execQuery(`
             SELECT r.*,
             	t.title as template_title,
-            	t.name as template_name
+            	t.name as template_name,
+				rt.title as target
             FROM routes r
             	LEFT JOIN templates t ON r.template_id = t.id
+				LEFT JOIN routes_targets rt ON rt.id = r.target_id
             WHERE r.id > 0 ${id}`
 		);
 

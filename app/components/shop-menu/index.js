@@ -14,7 +14,11 @@ module.exports = (app) => {
 				categoriesParams.public = '1';
 			}
 
-			const [, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
+			var [error, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
+			if(error) {
+				console.log(error);
+				throw new Error(error);
+			}
 
 			const resultCatsObj = {};
 

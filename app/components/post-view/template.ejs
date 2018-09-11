@@ -9,6 +9,15 @@
 <div class="news content">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">
+			<label>
+				<span>установить алиас для товара:</span>
+				<select class="js-post-update" data-reload="true" data-target="alias_id" data-id="<%= post.id -%>">
+					<option value="0">Не выбрано</option>
+					<% aliases.forEach(alias => { %>
+						<option <%= post.alias_id == alias.id ? 'selected' : '' -%> value="<%= alias.id -%>"><%= alias.alias -%></option>
+					<% }) %>
+				</select>
+			</label>
 			<span>Категория:</span>
 			<select class="js-post-update" data-reload="true" data-target="cat" data-id="<%= post.id -%>">
 				<option value="0">Не выбрано</option>

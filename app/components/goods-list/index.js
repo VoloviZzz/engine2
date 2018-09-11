@@ -43,7 +43,11 @@ module.exports = (app) => {
 				getCategoriesByParentParams.public = '1';
 			}
 
-			[, categories] = await Model.goodsCategories.get(getCategoriesParams);
+			[getCatsError, categories] = await Model.goodsCategories.get(getCategoriesParams);
+			if (getCatsError) {
+				console.log(getCatsError);
+				throw new Error(getCatsError);
+			};
 			if (categories.length < 1) return resolve([, 'Категория не найдена']);
 
 			[, categoriesByParent] = await Model.goodsCategories.get(getCategoriesByParentParams);
