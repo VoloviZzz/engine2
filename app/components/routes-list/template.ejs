@@ -2,32 +2,25 @@
 <div>
 	<div class="d-flex justify-content-between mb-2"> <!--style="display: flex; flex-flow: row wrap; justify-content: space-between; margin-bottom: 20px"-->
 		<h1>Список маршрутов</h1>
-		<button class="btn js-routes-list-showAddForm">Добавить маршрут</button>
+		<button class="btn js-routes-list-showAddForm">Добавить</button>
 	</div>
-	<form id="js-routes-list-addForm" class="js-routes-list-add-route" action="/api/routes/add" method="POST">
-		<div>
-			<label>
-				<span>URL маршрута:</span>
-				<input name="url" type="text" required>
-			</label>
+	<form id="js-routes-list-addForm" class="js-routes-list-add-route form-group" action="/api/routes/add" method="POST">
+		<div class="mb-2">
+			<span>URL маршрута:</span>
+			<input name="url" class="input-text" type="text" required>
 		</div>
-		<br>
-		<div>
-			<label>
-				<span>Заголовок маршрута:</span>
-				<input name="title" type="text" required>
-			</label>
+		<div class="mb-2">
+			<span>Заголовок маршрута:</span>
+			<input name="title" class="input-text" type="text" required>
 		</div>
-		<br>
-		<div>
+		<div class="mb-3">
 			<span>Шаблон страницы:</span>
-			<select name="template_id">
+			<select class="select-text" name="template_id">
 				<% templatesList.forEach((t) => { %>
 				<option value="<%= t.id -%>"><%= t.title -%></option>
 				<% }) %>
 			</select>
 		</div>
-		<br>
 		<div>
 			<input type="radio" name="dynamic" value="1">
 			<span>Динамический</span>
@@ -61,7 +54,7 @@
 		</section>
 		<br>    
 		<div>
-			<button>Добавить</button>
+			<button class="btn mb-2">Добавить</button>
 		</div>
 	</form>
 	<!--<ul class="route-items">
@@ -189,7 +182,7 @@
 				</tr>
 				<tr>
 					<td><button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button></td>
-					<td><button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить маршрут</button></td>
+					<td><button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить</button></td>
 				</tr>
 			</p>
 		<% }) %>

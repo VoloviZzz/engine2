@@ -2,6 +2,7 @@
 	padding-top: -5px;
 	display: flex;
 	flex-direction: column;
+	font-size: 16px;
 }
 
 .section-menu__sublist .active {
@@ -51,7 +52,7 @@ li.section-menu-item.active > a {
 	border-bottom: none;
 }
 
-.subsection-1, .subsection-3 {
+/*.subsection-1, .subsection-3 {
 	height: 35%;
 }
 
@@ -101,4 +102,4 @@ li.section-menu-item.active > a {
 	background: $white;
 	position: relative;
 	overflow: hidden;
-}
+}*/

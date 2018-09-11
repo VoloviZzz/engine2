@@ -1,31 +1,31 @@
 <link rel="stylesheet" href="/css/cards-list.css">
 <% if(user.adminMode) { %>
-	<div>
+	<div class="mb-2">
 		<span>Тип публикаций:</span>
-		<select class="js-change-fragment-target" data-fragment-id="<%= fragment.id -%>" name="target-post">
+		<select class="js-change-fragment-target select-text" data-fragment-id="<%= fragment.id -%>" name="target-post">
 			<option value="">Не выбрано</option>
 			<% for (let target of postTargets ) { %>
 				<option value="<%= target.id -%>" <%= currentTarget == target.id ? "selected" : "" -%>><%= target.title -%></option>
 			<% } %>
 		</select>
 	</div>
-	<div>
+	<div class="mb-2">
 		<span>Добавить URL для публикаций: <small>(например: /posts)</small></span>
-		<input type="text" class="js-fragment-url-input" value="<%= fragment.settings.url || "" -%>"  data-fragment-id="<%= fragment.id -%>" placeholder="URl...">
+		<input type="text" class="js-fragment-url-input input-text mb-2" value="<%= fragment.settings.url || "" -%>"  data-fragment-id="<%= fragment.id -%>" placeholder="URl...">
 		<button class="btn js-fragment-set-url">Добавить</button>
 	</div>
-	<div>
+	<div class="mb-2">
 		<% var disabledCatOptions = dynamicCategory ? 'disabled' : ''; %>
 		<span>Категория для публикаций:</span>
-		<select class="js-fragment-update-settings" data-event="change" data-target="category" data-fragment-id="<%= fragment.id -%>">
+		<select class="js-fragment-update-settings select-text mb-2" data-event="change" data-target="category" data-fragment-id="<%= fragment.id -%>">
 			<option <%= disabledCatOptions -%> value="">Все категории</option>
 			<% for (let category of postCategories ) { %>
 				<option value="<%= category.id -%>" <%= currentCategory == category.id ? "selected" : "" -%> <%= disabledCatOptions -%>><%= category.title -%></option>
 			<% } %>
 		</select>
-		<form id="js-post-cat-add" data-target-id="<%= currentTarget -%>">
+		<form id="js-post-cat-add" class="mb-2" data-target-id="<%= currentTarget -%>">
 			<span>Добавить новую категорию:</span>
-			<input name="catName" type="text" value="">
+			<input name="catName" class="input-text mb-2" type="text" value="">
 			<button class="btn">Добавить</button>
 		</form>
 	</div>
@@ -57,7 +57,7 @@
 					<% } else { %>
 						<button data-id="<%= n.id -%>" data-value="1" class="btn cards-publicate js-post-togglePublication">Публиковать</button>
 					<% } %>
-					<label class="btn cards-change-photo">
+					<label class="btn cards-change-photo mt-2">
 						<input type="file" class="js-post-upload-mainphoto" data-id="<%= n.id -%>" id="post-upload-mainphoto" style="display: none">
                     	<span>Изменить фото</span>
 					</label>
