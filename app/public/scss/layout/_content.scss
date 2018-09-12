@@ -1,6 +1,7 @@
 .document-content {
     height: 100%;
-    padding: 8px;
+    padding: 6px;
+    padding-top: 10px;
     background-color: #eaeaea;
     color: #000;
     margin-bottom: 35px;
@@ -12,20 +13,27 @@
     .col-scroll {
         overflow-y: auto; 
         overflow-x: hidden;
-        height: calc(100vh - 150px);
+        height: calc(100vh - 167px);
     }
     
     .col-bg {
         background: $white;
-        border-right: 3px solid #eaeaea;
+        border-right: 6px solid #eaeaea;
         border-left: 3px solid #eaeaea;
     }
     
     .col-title {
-        font-size: 22px;
-        padding-top: 5px;
+        font-size: 24px;
+        padding-top: 15px;
         padding-bottom: 5px;
         border-bottom: 1px #c3c3c3 solid;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .col-menu{
+        margin-bottom: 0px;
     }
 }
 

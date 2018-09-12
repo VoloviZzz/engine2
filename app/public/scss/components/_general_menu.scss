@@ -1,8 +1,7 @@
 .section-menu {
-	padding-top: -5px;
 	display: flex;
 	flex-direction: column;
-	font-size: 16px;
+	font-size: 15px;
 }
 
 .section-menu__sublist .active {
@@ -32,16 +31,21 @@ li.section-menu-item.active > a {
 	font-weight: 700;
 }
 
+.section-menu li{
+	vertical-align: middle;
+}
+
 .section-menu a {
 	border-bottom: 1px #c3c3c3 solid;
 	display: block;
 	position: relative;
-	//padding: 12px 12px;
 	text-decoration: none !important;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .section-menu li:not(:first-child) {
-	padding-top: 20px;
+	padding-top: 6px;
 }
 
 .section-menu__sublist > li {
@@ -51,55 +55,3 @@ li.section-menu-item.active > a {
 .section-menu__sublist > li:last-child {
 	border-bottom: none;
 }
-
-/*.subsection-1, .subsection-3 {
-	height: 35%;
-}
-
-.subsection-2, .subsection-4 {
-	height: 65%;
-}
-
-.subsection-2 > div {
-	padding: 10px;
-}
-
-.subsection-item {
-	padding: 5px;
-}
-
-.subsection-item > div {
-	height: 100%;
-	background: $white;
-	position: relative;
-	overflow: hidden;
-}
-
-.subsections {
-	position: relative;
-	overflow: hidden;
-	padding: 5px;
-}
-
-.subsection-1, .subsection-3 {
-	height: 35%;
-}
-
-.subsection-2, .subsection-4 {
-	height: 65%;
-}
-
-.subsection-2 > div {
-	padding: 10px;
-}
-
-.subsection-item {
-	padding: 5px;
-}
-
-.subsection-item > div {
-	height: 100%;
-	background: $white;
-	position: relative;
-	overflow: hidden;
-}*/

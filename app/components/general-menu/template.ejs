@@ -1,5 +1,5 @@
 <% if(user.adminMode) { %>
-	<section style="margin-bottom: 20px">
+	<section>
 		<h3>Выбрать используемое меню из списка</h3>
 		<select class="js-routesList-setMenu select-text" data-target="menu_id" data-id="<%= locals.route.id -%>" style="width: 100%">
 			<option selected value="null">Не выбрано</option>
@@ -25,7 +25,7 @@
 			<div class="d-flex mb-2">
 				<input type="text" name="menu-item-title" class="input-text" id="js-menuItem-add--href" placeholder="URL">
 			</div>
-			<button style="margin-bottom: 10px" class="btn js-menuItem-add" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= locals.route.menu_id -%>" style="width: 100%">Добавить</button>
+			<button class="btn js-menuItem-add mb-2" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= locals.route.menu_id -%>" style="width: 100%">Добавить</button>
 		<% } %>
 	</section>
 <% } %>

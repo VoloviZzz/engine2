@@ -38,7 +38,8 @@
   .navbar-brand {
 
     line-height: 0px;
-    height: 22px;
+    width: 40px;
+    height: 30px;
     padding-top: 0;
 
     color: $navbar-letaindex-active-color;
@@ -51,8 +52,8 @@
   .navbar-nav {
 
     li a{
-      height: 22px;
-      padding-top: 0;
+      //height: 22px;
+      //padding-top: 0;
     }
     
     .nav-link { // Ссылки
@@ -95,12 +96,6 @@
     }
   }
 
-}
-
-// Удаление стрелки возле выпадающего списка
-
-.dropdown-toggle::after {
-  display: none;
 }
 
 @media (max-width: 991px) {
