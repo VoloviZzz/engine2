@@ -9,7 +9,6 @@
 	background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 	background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-	margin-bottom: 10px;
 }
 
 @keyframes hidden {
@@ -35,13 +34,13 @@
 
 .document-header, .document-header nav {
 	top: 0;
-    position: fixed;
+    position: sticky;
 	z-index: 999;
 	font-size: 16px;
 	height: auto;
 }
 
-.document-header--hidden nav {
+.document-header--hidden {
 	animation: hidden .5s ease-in-out;
 	opacity: 0;
 }

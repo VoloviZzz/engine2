@@ -5,12 +5,12 @@
 		<% if(user.adminMode) { %>
 			<li class="section-menu-item" data-href="<%= s.href -%>">
 				<a class="dropdown-toggle" href="#" id="generalMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span><%=s.title%></span>
+					<p><%=s.title%></p>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="generalMenuDropdown">
 					<input class="input-text js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id%>" data-target="title" value="<%= s.title%>">
 					<input class="input-text js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id%>" data-target="href" value="<%= s.href%>">
-					
+					<div class="dropdown-divider"></div>
 					<button class="btn js-menuItem-delete dropdown-item mb-1" data-menu-id="<%= s.id %>">Удалить</button>
 					<% if(locals.route.active_menu_item == s.id) { %>
 						<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать пункт меню активным для текущего маршрута">C</button>
@@ -26,7 +26,7 @@
 		<% } else { %> 
 			<li class="section-menu-item <%= locals.route.url === s.href || locals.route.active_menu_item == s.id ? 'active' : '' -%>" data-href="<%= s.href -%>">
 				<a href="<%= s.href %>" style="width: 100%; padding-left: <%= 20 * level -%>px">
-					<span><%=s.title%></span>
+					<p><%=s.title%></p>
 				</a>
 
 				<% if(!!menuTree[id]['childs'] === true) { %>

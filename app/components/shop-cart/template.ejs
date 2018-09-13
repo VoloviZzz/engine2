@@ -2,7 +2,7 @@
 <div class="js-goods-container basket-list-wrap">
     <% if(!!cart === true && Object.keys(cart.goods).length > 0) { %>
 		<div class="clear-basket">
-			<button class="js-clear-cart form-clear-basket">очистить корзину</button>
+			<button class="btn js-clear-cart">Очистить корзину</button>
 		</div>
         <ul class="basket-list">
             <% var totalPrice = 0; %>
@@ -63,7 +63,7 @@
                         </table>
                     </div>
                     <div class="basket-list__item-remove">
-                        <a href="#" data-id="<%= g.id -%>" class="js-item-remove basket-list__item-remove-link">Убрать из корзины</a>
+                        <a href="#" data-id="<%= g.id -%>" class="btn js-item-remove">Убрать из корзины</a>
                     </div>
                 </li>
             <% }) %>
@@ -78,11 +78,11 @@
                 <span id="js-total-price" class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(totalPrice)%></span>
                 <small>руб.</small>
             </div>
-            <a href="/order" class="basket-total__next">Оформить заказ</a>
+            <a href="/order" class="btn">Оформить заказ</a>
         </div>
     <% }
     else { %>
-        <h1>Сейчас в корзине ничего нет</h1>
+        <h2>Сейчас в корзине ничего нет</h2>
     <% } %>
 </div>
 <script src="/js/cart.js" defer></script>

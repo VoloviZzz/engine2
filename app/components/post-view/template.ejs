@@ -7,7 +7,7 @@
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">
 			<span>Категория:</span>
-			<select class="js-post-update" data-reload="true" data-target="cat" data-id="<%= post.id -%>">
+			<select class="js-post-update input-text mb-1" data-reload="true" data-target="cat" data-id="<%= post.id -%>">
 				<option value="0">Не выбрано</option>
 				<% postCategories.forEach((category) => { -%>
 					<% let selected = post.cat == category.id ? 'selected' : '' -%>

@@ -3,7 +3,6 @@
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     text-align: center;
-    font-family: "Noto Sans",Arial,sans-serif;
 }
 
 .basket-list {
@@ -73,11 +72,10 @@
     display: table-cell;
     line-height: 32px;
     color: #080808;
-    font-size: 11px;
+    font-size: 16px;
     text-align: left;
     letter-spacing: 0;
     font-weight: 600;
-    font-family: "Noto Sans",Arial,serif;
     padding: 0;
 }
 
@@ -105,7 +103,7 @@
 
 .basket-table__name {
     width: 190px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 21px;
     padding-right: 15px;
     vertical-align: top;
@@ -119,7 +117,7 @@
 .basket-table__code {
     width: 100px;
     vertical-align: top;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 21px;
 }
 
@@ -129,14 +127,14 @@
 
 .basket-table__material {
     width: 100px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 21px;
     vertical-align: top;
 }
 
 .basket-table__size {
     width: 100px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 21px;
     padding-right: 15px;
     vertical-align: top;
@@ -152,7 +150,7 @@
         -ms-flex-align: center;
             align-items: center;
     min-width: 100px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 21px;
     padding-right: 15px;
     vertical-align: top;
@@ -190,7 +188,7 @@
 
 .basket-table__price {
     padding-right: 0;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 21px;
     vertical-align: top;
 }
@@ -201,8 +199,7 @@
     bottom: 18px;
     right: 40px;
     color: #080808;
-    font-size: 14px;
-    font-family: "Noto Sans",Arial,sans-serif;
+    font-size: 15px;
 }
 
 .basket-list__item-remove-link {
@@ -278,8 +275,7 @@
     top: 23px;
     left: 50%;
     color: #080808;
-    font-size: 14px;
-    font-family: "Noto Sans",Arial,sans-serif;
+    font-size: 15px;
     line-height: 42px;
     margin-left: -190px;
     text-align: center;
@@ -291,7 +287,6 @@
     display: inline-block;
     color: #1a1a1a;
     font-size: 20px;
-    font-family: "Noto Sans",Arial,sans-serif;
     vertical-align: baseline;
     line-height: 25px;
     padding: 0 4px;
@@ -300,11 +295,9 @@
 .basket-total__sum small {
     font-size: 14px;
     color: #1a1a1a;
-    font-family: "Noto Sans",Arial,sans-serif;
 }
 
 .basket-total__next {
-    font-family: "Noto Sans",Arial,sans-serif;
     height: 35px;
     top: 26px;
     background-color: #363636;
