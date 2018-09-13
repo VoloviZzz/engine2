@@ -33,7 +33,7 @@ $(document).ready(function () {
 				}
 			})
 		});
-	})
+	});
 
 	$('.js-goodsPositions-add').on('click', function (e) {
 		var cat_id = $(this).data('catId');
@@ -127,7 +127,7 @@ $(document).ready(function () {
 
 		var parentId = $(this).data('parent-id');
 
-		$.post('/api/headerNav/add', {parentId}).done(function (result) {
+		$.post('/api/headerNav/add', { parentId }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
@@ -140,7 +140,7 @@ $(document).ready(function () {
 	$('.js-headerNav-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
-		if(confirm('Удалить пункт меню') === false) {
+		if (confirm('Удалить пункт меню') === false) {
 			return false;
 		}
 

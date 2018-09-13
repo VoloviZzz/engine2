@@ -156,8 +156,8 @@ module.exports.Router = async (app) => {
 		}
 	})
 
-	let apiControllers = require('require-dir')('../api');
 
+	const apiControllers = require('require-dir')('../api');
 	Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
 		let { ctrl, action } = req.params;
 		action = action || ctrl;
@@ -177,13 +177,6 @@ module.exports.Router = async (app) => {
 			else {
 				res.json(controllerResult)
 			}
-			// else if (req.xhr === true) {
-			// 	res.json(controllerResult)
-			// } 
-			// else {
-			// 	var backUrl = urlLib.parse(req.header('Referer')).pathname;
-			// 	return res.redirect(backUrl);
-			// }
 		}
 		else {
 			res.json({ status: 'bad', message: 'Действие не найдено' })
