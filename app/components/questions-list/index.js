@@ -15,10 +15,23 @@ module.exports = (app) => {
 			target: locals.fragment.settings.target || '0'
 		};
 
-		const [, cats] = await db.execQuery(`SELECT * FROM questions_categories WHERE target_id = '${questionsTarget.target}'`);
+		var [error, cats] = await db.execQuery(`SELECT * FROM questions_categories WHERE target_id = '${questionsTarget.target}'`);
+		if (error) {
+			console.log(error);
+			return Promise.resolve([null, error.message]);
+		}
 
-		const [, questions] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '1' });
-		const [, questionsNotPublished] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '0' });
+		var [error, questions] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '1' });
+		if (error) {
+			console.log(error);
+			return Promise.resolve([null, error.message]);
+		}
+
+		var [error, questionsNotPublished] = await Model.questions.get({ ...getQuestionsParams, ...questionsTarget, public: '0' });
+		if (error) {
+			console.log(error);
+			return Promise.resolve([null, error.message]);
+		}
 
 		var [error, questionsTargets] = await Model.questions.getTargets();
 
