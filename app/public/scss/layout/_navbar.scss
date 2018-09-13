@@ -1,11 +1,11 @@
 .btn-admin-nav {
   padding: 2px 10px;
-	font-size: 1rem;
+  position: relative;
+  margin-top: 6px;
 }
 
-.inp-txt-admin-nav {
-  height: 27px;
-  width: 120px;
+.aside-toggle {
+	display: none;
 }
 
 .shopping-cart-link {
@@ -51,11 +51,6 @@
 
   .navbar-nav {
 
-    li a{
-      //height: 22px;
-      //padding-top: 0;
-    }
-    
     .nav-link { // Ссылки
         color: $navbar-letaindex-color;
 
@@ -109,5 +104,6 @@
   .btn-admin-nav {
     display: block;
     margin: auto;
+    margin-top: 0px;
   }
 }

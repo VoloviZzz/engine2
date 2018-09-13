@@ -1,13 +1,3 @@
-.js-route-edit-form {
-    display: none;
-}
-
-.js-route-item.js-edit-form--show .js-route-edit-form {
-    display: block;
-    margin-top: 20px;
-    width: 100%;
-}
-
 .js-routes-list-add-route {
     display: none;
     margin-bottom: 20px;
@@ -63,6 +53,16 @@
 .route-item a:hover {
 	color: #ef6c35;
 }*/
+
+.js-route-edit-form {
+    display: none;
+}
+
+td.js-edit-form--show .js-route-edit-form {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+}
 
 .js-edit-form--show {
 	width: 100%;

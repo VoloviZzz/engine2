@@ -1,5 +1,13 @@
 @import 'utility/module'; // Подключаем утилиты
-@import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
+//@import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
+
+@import '../vendors/bootstrap/scss/bootstrap-reboot';
+@import '../vendors/bootstrap/scss/bootstrap-grid'; // Подключаем bootstrap сетку
+@import '../vendors/bootstrap/scss/nav'; // Подключаем nav
+@import '../vendors/bootstrap/scss/navbar'; // Подключаем navbar
+@import '../vendors/bootstrap/scss/dropdown'; // Подключаем dropdown
+@import '../vendors/bootstrap/scss/utilities'; // Подключаем утилиты
+
 //@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow'); // Подключаем шрифт
 
 *{
@@ -9,13 +17,10 @@
 	padding: 0px;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
-    height: 100%;
+    min-height:100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 ul {
@@ -25,7 +30,6 @@ ul {
 table{
     width: 100%;
 }
-
 
 @import 'components/module'; // Подключаем компонеты
 @import 'layout/module'; // Подключаем шаблоны

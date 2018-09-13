@@ -1,12 +1,12 @@
 <%- include('./includes/header') -%>
 
-<main class="document-content">
+<main class="document-content col-wrapper">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-bg">
+            <div class="col-12 col-center">
                 <p class="col-title text-center"><%= route.title -%></p>
                 <div class="row">
-                    <div class="col-12 col-scroll">
+                    <div class="col-12 col-content">
                         <%- include('./includes/fragments-container', { block_id: 2 }) -%>
                     </div>
                 </div>

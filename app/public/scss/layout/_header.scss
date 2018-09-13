@@ -1,6 +1,15 @@
-.document-header{
+.document-header, .document-header nav{
 	width: 100%;
-	height: 39px;
+	height: 40px;
+	font-size: 15px;
+	font-weight: 400;
+	color: $white;
+	background-color: #262626;
+	background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(5%, #636262), color-stop(51%, #0f0f0f), color-stop(83%, #080808));
+	background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	margin-bottom: 10px;
 }
 
 @keyframes hidden {
@@ -22,34 +31,19 @@
 	}
 }
 
-.bg-header-letaindex { // Фон и размер шрифта
-    font-size: 15px;
-    font-weight: 400;
-    color: $white;
-    height: 39px;
-    background-color: #262626;
-	background: -webkit-gradient(linear, left top, left bottom, from(#000000), color-stop(5%, #636262), color-stop(51%, #0f0f0f), color-stop(83%, #080808));
-	background: -webkit-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-	background: -o-linear-gradient(top, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
-}
-
 @media (max-width: 991px) {
 
-.document-header {
+.document-header, .document-header nav {
 	top: 0;
     position: fixed;
-    z-index: 999;
+	z-index: 999;
+	font-size: 16px;
+	height: auto;
 }
 
-.document-header--hidden {
+.document-header--hidden nav {
 	animation: hidden .5s ease-in-out;
 	opacity: 0;
-}
-
-.bg-header-letaindex { // Фон и размер шрифта
-	font-size: 16px;
-    height: auto;
 }
 
 }

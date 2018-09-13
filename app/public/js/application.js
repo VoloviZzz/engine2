@@ -445,7 +445,7 @@ RoutesList.prototype.updRoute = function (data) {
 
 RoutesList.prototype.showEditForm = function (elem) {
 	var $this = $(elem);
-	var $routeItem = $this.parent('.js-route-item');
+	var $routeItem = $this.parent('td');
 
 	$routeItem.toggleClass('js-edit-form--show');
 };

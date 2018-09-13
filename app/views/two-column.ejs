@@ -1,24 +1,24 @@
 <%- include('./includes/header') -%>
 
-<main class="document-content">
+<main class="document-content col-wrapper">
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-2 col-lg-3 col-md-12 order-lg-1 order-xl-1 col-menu">
-                <p class="col-title">Меню</p>
+                <p class="col-title col-title-menu">Меню</p>
                 <div class="row">
-                    <div class="col-12 col-scroll">
+                    <div class="col-12 col-content">
                         <nav>
                             <%- include('./includes/fragments-container', { block_id: 1 }) -%>
                         </nav>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-10 col-lg-9 col-md-12 order-lg-2 order-xl-2 col-bg">
+            <div class="col-xl-10 col-lg-9 col-md-12 order-lg-2 order-xl-2 col-center">
                 <% if(route.show_title) { %>
                     <p class="col-title text-center"><%= route.title -%></p>
                 <% } %>
                 <div class="row">
-                    <div class="col-12 col-scroll">
+                    <div class="col-12 col-content">
                         <%- include('./includes/fragments-container', { block_id: 2 }) -%>
                     </div>
                 </div>

@@ -175,20 +175,19 @@
 
 
 	<table class="route-table route-items">
-				<tr>
-					<th>URL</th>
-					<th>Наименование</th>
-					<th>Действия</th>
-				</tr>
-			<p class="js-route-item route-item">
-				<% routesList.map((r) => { %>
+			<tr>
+				<th>URL</th>
+				<th>Наименование</th>
+				<th>Действия</th>
+			</tr>
+			<% routesList.map((r) => { %>
+			<!--<p class="js-route-item route-item">-->
 				<tr>
 					<td><%= r.url -%></td>
 					<td><a href="<%= r.url -%>"><%= r.title -%></a></td>
 					<td><button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить</button>
-					<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button></td>
-				</tr>
-				<div class="js-route-edit-form" style="">
+					<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button>
+					<div class="js-route-edit-form">
 						<form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
 							<h2>Изменить маршрут</h2>
 							<section class="section-one">
@@ -289,9 +288,12 @@
 							</div>
 							<input type="hidden" name="id" value="<%=r.id-%>">
 						</form>
-					</div>
-				<% }) %>
-			</p>
+					</div></td>
+				</tr>
+				
+			<!--</p>-->
+			<% }) %>
+			
 	</table>
 
 	

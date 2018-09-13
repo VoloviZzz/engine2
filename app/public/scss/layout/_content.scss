@@ -1,27 +1,18 @@
 .document-content {
-    height: 100%;
-    padding: 6px;
-    padding-top: 10px;
-    background-color: #eaeaea;
+    overflow: hidden;
+    background-color: #fff;
     color: #000;
-    margin-bottom: 35px;
+    flex: 1 1 auto;
 
     .fragment-body {
         overflow: hidden;
     }
-    
-    .col-scroll {
-        overflow-y: auto; 
-        overflow-x: hidden;
-        height: calc(100vh - 167px);
+
+    .col-wrapper{
+        padding-left: 8px;
+        padding-right: 8px;
     }
-    
-    .col-bg {
-        background: $white;
-        border-right: 6px solid #eaeaea;
-        border-left: 3px solid #eaeaea;
-    }
-    
+
     .col-title {
         font-size: 24px;
         padding-top: 15px;
@@ -32,8 +23,32 @@
         overflow: hidden;
     }
 
+    .col-title-menu {
+        padding-top: 15px;
+        margin: 0;
+    }
+
     .col-menu{
+        background: $white;
+        border: 1px solid #fff;
         margin-bottom: 0px;
+    }
+
+    .col-center{
+        background: $white;
+        border: 1px solid #c3c3c3;
+    }
+
+    .col-right{
+        background: $white;
+        border: 1px solid #c3c3c3;
+    }
+
+    .col-content{
+        overflow-y: auto; 
+        overflow-x: hidden;
+        position: relative;
+        height: calc(100vh - 170px);
     }
 }
 
@@ -41,7 +56,7 @@
     .document-content {
         margin-top: 50px;
 
-        .col-scroll {
+        .col-content {
             overflow: hidden;
             height: auto;
         }
