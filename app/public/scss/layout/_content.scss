@@ -8,24 +8,24 @@
         overflow: hidden;
     }
 
-    .col-menu{
+    .section-menu{
         background: $white;
         border: 1px solid #fff;
     }
 
-    .col-center{
+    .section-center{
         background: $white;
         border: 1px solid #c3c3c3;
         flex-grow: 2;
     }
 
-    .col-right{
+    .section-right{
         background: $white;
         border: 1px solid #c3c3c3;
         flex-grow: 2;
     }
 
-    .col-title {
+    .section-title {
         font-size: 24px;
         padding-top: 15px;
         padding-bottom: 5px;
@@ -35,12 +35,12 @@
         overflow: hidden;
     }
 
-    .col-title-menu {
+    .section-title-menu {
         padding-top: 15px;
         margin: 0;
     }
 
-    .col-content{
+    .section-content{
         overflow-y: auto; 
         overflow-x: hidden;
         position: relative;
@@ -48,8 +48,9 @@
     }
 }
 
-.col-wrapper{
+.section-wrapper{
     padding-left: 6px;
+    padding-right: 8px;
     padding-top: 10px;
 }
 
@@ -57,14 +58,32 @@
     .document-content {
         //margin-top: 50px;
 
-        .col-content {
+        .section-content {
             overflow: hidden;
             height: auto;
         }
 
-        .col-title {
+        .section-center{
+            background: $white;
+            border: 0px;
+            flex-grow: 2;
+        }
+    
+        .section-right{
+            background: $white;
+            border: 0px;
+            flex-grow: 2;
+        }
+
+        .section-title {
 
         }
+    }
+
+    .section-wrapper{
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 10px;
     }
 }
 

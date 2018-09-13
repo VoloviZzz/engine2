@@ -21,7 +21,7 @@
 				<% }) %>
 			</select>
 		</div>
-		<div>
+		<div class="mb-2">
 			<input type="radio" name="dynamic" value="1">
 			<span>Динамический</span>
 			<input type="radio" name="dynamic" value="0" checked>
@@ -34,25 +34,21 @@
 			<input type="radio" name="access" value="3">
 			<span>Только администратору</span>
 		</div>
-		<br>
-		<section>
+		<section class="mb-1">
 			<h1>SEO установки</h1>
-			<br>
-			<div>
+			<div class="mb-1">
 				<label>
 				<span>Ключевые слова (meta-keywords):</span>
 				<textarea style="min-width: 99%; max-width: 99%;" name="seo_keywords"></textarea>
 				</label>
 			</div>
-			<br>
-			<div>
+			<div class="mb-1">
 				<label>
 				<span>Краткое описание (meta-description):</span>
 				<textarea style="min-width: 99%; max-width: 99%;" name="seo_description"></textarea>
 				</label>
 			</div>
-		</section>
-		<br>    
+		</section>  
 		<div>
 			<button class="btn mb-2">Добавить</button>
 		</div>
@@ -175,55 +171,57 @@
 
 
 	<table class="route-table route-items">
+		<tr>
+			<th>URL</th>
+			<th>Наименование</th>
+			<th>Действия</th>
+		</tr>
+		<% routesList.map((r) => { %>
 			<tr>
-				<th>URL</th>
-				<th>Наименование</th>
-				<th>Действия</th>
+				<td><%= r.url -%></td>
+				<td><a href="<%= r.url -%>"><%= r.title -%></a></td>
+				<td><button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить</button>
+				<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button></td>
 			</tr>
-			<% routesList.map((r) => { %>
-			<!--<p class="js-route-item route-item">-->
-				<tr>
-					<td><%= r.url -%></td>
-					<td><a href="<%= r.url -%>"><%= r.title -%></a></td>
-					<td><button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить</button>
-					<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button>
+			<tr>
+				<td colspan="3" data-route-id="<%= r.id -%>">
 					<div class="js-route-edit-form">
 						<form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
 							<h2>Изменить маршрут</h2>
 							<section class="section-one">
-								<div class="input-wrapper first-wrapper">
-									<label>
+							<div class="input-wrapper first-wrapper">
+								<label>
 									<span>URL маршрута:</span>
 									<input name="url" type="text" value="<%=r.url-%>" placeholder="url маршрута / " required>
-									</label>
-									<label>
+								</label>
+								<label>
 									<span>Заголовок маршрута:</span>
 									<input name="title" type="text" value="<%=r.title-%>" required>
-									</label>
-									<label>
-										<span class="input-wrapper__title">Шаблон страницы:</span>
-										<select name="template_id">
+								</label>
+								<label>
+								<span class="input-wrapper__title">Шаблон страницы:</span>
+									<select name="template_id">
 											<% templatesList.forEach((t) => { %>
 											<option value="<%= t.id -%>" <%= r.template_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
 											<% }) %>
-										</select>
+									</select>
+								</label>
+							</div>
+							<div class="input-wrapper second-wrapper">
+								<div>
+									<h3>Доступ</h3>
+									<label>Публичный <input type="radio" name="access" value="1" <%= r.access == 1 ? 'checked' : ''-%>>
+										<span class="checkbox-indicator"></span>
 									</label>
+									<label>Только авторизованным <input type="radio" name="access" value="2" <%= r.access == 2 ? 'checked' : ''-%>>
+										<span class="checkbox-indicator"></span>
+									</label>
+									<label>Только администратору <input type="radio" name="access" value="3" <%= r.access == 3 ? 'checked' : ''-%>>
+										<span class="checkbox-indicator"></span>
+									</label>                                   
 								</div>
-								<div class="input-wrapper second-wrapper">
-									<div>
-										<h3>Доступ</h3>
-										<label>Публичный <input type="radio" name="access" value="1" <%= r.access == 1 ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
-										</label>
-										<label>Только авторизованным <input type="radio" name="access" value="2" <%= r.access == 2 ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
-										</label>
-										<label>Только администратору <input type="radio" name="access" value="3" <%= r.access == 3 ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
-										</label>                                   
-									</div>
-									<div>
-										<h3>Отображать тайтл на странице</h3>
+								<div>
+									<h3>Отображать тайтл на странице</h3>
 										<label>
 											Да
 											<input type="radio" name="show_title" value="1" <%= r.show_title == '1' ? 'checked' : ''-%>>
@@ -252,19 +250,19 @@
 										<div>
 											<h3>Разрешить редактирование</h3>
 											<label>Нет <input type="radio" name="edit_access" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
+												<span class="checkbox-indicator"></span>
 											</label>
 											<label>Да <input type="radio" name="edit_access" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
+												<span class="checkbox-indicator"></span>
 											</label>
 										</div>
 										<div>
 											<h3>Разрешить удаление</h3>
 											<label>Нет <input type="radio" name="delete_access" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
+												<span class="checkbox-indicator"></span>
 											</label>
 											<label>Да <input type="radio" name="delete_access" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
-											<span class="checkbox-indicator"></span>
+												<span class="checkbox-indicator"></span>
 											</label>
 										</div>
 									<% } %>
@@ -287,15 +285,11 @@
 								<button class="btn save-btn">Сохранить</button>
 							</div>
 							<input type="hidden" name="id" value="<%=r.id-%>">
-						</form>
-					</div></td>
+							</form>
+						</div>
+					</td>
 				</tr>
-				
-			<!--</p>-->
-			<% }) %>
-			
+		<% }) %>
 	</table>
-
-	
 </div>
 <script src="/js/routes-list.js" defer></script>

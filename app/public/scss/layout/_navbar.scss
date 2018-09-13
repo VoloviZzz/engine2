@@ -56,10 +56,11 @@
 
         @include hover-focus {
           color: $navbar-letaindex-hover-color;
+          text-decoration: underline;
         }
 
         &.disabled {
-        color: $navbar-letaindex-disabled-color;
+          color: $navbar-letaindex-disabled-color;
         }
     }
 

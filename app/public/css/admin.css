@@ -81,8 +81,10 @@ td.js-edit-form--show .js-route-edit-form {
 	overflow: hidden;
 }
 
-.route-table td {
-	display: block;
+.route-table th, .route-table td {
+	display: table-cell;
+	padding: .25em .5em;
+	/*display: block;*/
 }
 
 .route-table tr {
@@ -106,13 +108,13 @@ td.js-edit-form--show .js-route-edit-form {
 }
 
 @media (min-width: 980px) {
-	.route-table td::before{
+	/*.route-table td::before{
 		display: none;
 	}
 	.route-table th, .route-table td{
 		display: table-cell;
 		padding: .25em .5em;
-	}
+	}*/
 }
 
 .btn-wrapper {
