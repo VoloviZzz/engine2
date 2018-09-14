@@ -11,4 +11,5 @@ CKEDITOR.editorConfig = function (config) {
 	config.autoGrow_bottomSpace = 50;
 	config.autoGrow_onStartup = true;
 	config.contentsCss = '/css/imports/buttons-and-inputs.css';
+	config.forcePasteAsPlainText = true;
 };
