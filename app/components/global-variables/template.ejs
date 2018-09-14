@@ -1,4 +1,42 @@
-<section class="form-group">
+<form class="js-add-globalVariables--form">
+	<h1>Добавить новую переменную</h1>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="addGlobalVariablesFormInputTitle">Заголовок:</label>
+			<input name="title" type="text" class="form-control" id="addGlobalVariablesFormInputTitle" aria-describedby="titleHelp">
+		</div>
+		<div class="form-group col-md-6">
+			<label for="addGlobalVariablesFormInputTarget">Название (для программистов):</label>
+			<input name="target" type="text" class="form-control" id="addGlobalVariablesFormInputTarget" aria-describedby="targetHelp">
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label for="js-globalVariable-value-title">Значение:</label>
+			<input name="value" type="text" class="form-control" id="js-globalVariable-value-title" aria-describedby="valueHelp">
+		</div>
+		<div class="form-group col-md-6">
+			<label for="js-globalVariable-image-upload">или фото:</label>
+			<input type="file" name="upload" id="js-globalVariable-image-upload">
+		</div>
+	</div>
+	<div class="mb-2">
+		<button class="btn">Добавить</button>
+	</div>
+	<div class="form-group">
+		<h1>Список настроек</h1>
+		<% settings.forEach((s) => { %>
+			<div class="mb-2">
+				<span><%= s.title -%> </span>
+				<span><b>(<%= s.target -%>)</b>: </span>
+				<span><%= s.value -%></span>
+				<button class="btn btn-small js-variable-delete" data-id="<%= s.id -%>">X</button>
+			</div>
+		<% }) %>
+	</div>
+</form>
+
+<!--<section class="form-group">
 	<form class="js-add-globalVariables--form">
 		<div class="mb-2">
 			<h1>Добавить новую переменную</h1>
@@ -34,5 +72,5 @@
 			<button class="btn btn-small js-variable-delete" data-id="<%= s.id -%>">X</button>
 		</div>
 	<% }) %>
-</section>
+</section>-->
 <script src="/admins/js/globalConfig.js" defer></script>
