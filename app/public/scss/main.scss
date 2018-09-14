@@ -1,37 +1,20 @@
-@import 'utility/module'; // Подключаем утилиты
+@import 'utility/module'; // Подключаем утилиты (переменные, миксины)
 //@import '../vendors/bootstrap/scss/bootstrap'; // Подключаем bootstrap
 
-@import '../vendors/bootstrap/scss/bootstrap-reboot';
+@import '../vendors/bootstrap/scss/bootstrap-reboot'; // Подключаем bootstrap
 @import '../vendors/bootstrap/scss/bootstrap-grid'; // Подключаем bootstrap сетку
 @import '../vendors/bootstrap/scss/nav'; // Подключаем nav
 @import '../vendors/bootstrap/scss/navbar'; // Подключаем navbar
 @import '../vendors/bootstrap/scss/transitions'; //
 @import '../vendors/bootstrap/scss/dropdown'; // Подключаем dropdown
+@import '../vendors/bootstrap/scss/modal'; // Подключаем модальное окно
+@import '../vendors/bootstrap/scss/forms'; // Подключаем формы
+@import '../vendors/bootstrap/scss/buttons'; // Подключаем кнопки
+@import '../vendors/bootstrap/scss/input-group'; //
+@import '../vendors/bootstrap/scss/button-group'; //
 @import '../vendors/bootstrap/scss/utilities'; // Подключаем утилиты
 
-
-//@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow'); // Подключаем шрифт
-
-*{
-    outline: none;
-    box-sizing: border-box;
-    margin: 0px;
-	padding: 0px;
-}
-
-body {
-    min-height:100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-ul {
-    list-style: none;
-}
-
-table{
-    width: 100%;
-}
+@import 'base/module'; // Подключаем базовые стили (html, body)
 
 @import 'components/module'; // Подключаем компонеты
 @import 'layout/module'; // Подключаем шаблоны

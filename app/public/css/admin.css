@@ -93,12 +93,12 @@ td.js-edit-form--show .js-route-edit-form {
     border-bottom: 1px solid #ddd;
 }
 
-.route-table td:first-child{
+.route-table td:first-child {
 	padding-top: .5em;
 	padding-bottom: .5em;
 }
 
-.route-table td:last-child{
+.route-table td:last-child, .route-table th:last-child {
 	padding-top: .5em;
 	padding-bottom: .5em;
 }

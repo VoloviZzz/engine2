@@ -19,82 +19,82 @@
     <body>
 		<header class="document-header">
 			<nav class="navbar navbar-expand-lg nav-letaindex">
-					<a class="navbar-brand">
-						<img src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
-						<% if(user.adminMode) { %>
-							<label class="js-siteLogo-edit-btn" style="cursor: pointer">
-								<span>+</span>
-								<input class="js-siteLogo-file" type="file" style="display: none;">
-							</label>
-						<% } %>
-					</a>
-					<button class="btn aside-toggle"> <i class="fa fa-angle-down fa-2x"></i></button>
-					<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-						<i class="fa fa-bars fa-lg py-1 text-white"></i>
-					</button>
-					<div class="collapse navbar-collapse"></div>
-					<div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
-						<ul class="navbar-nav">
-							<% HeaderRows.forEach((r) => { %>
-								<li>
-									<% if(user.adminMode) { %>
-										<li class="nav-item mr-2 ml-2 dropdown" style="margin-top: 3px">
-											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												<span><%= r.title -%></span>
-											</a>
-											<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-												<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
-												<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
-												<div class="dropdown-divider"></div>
-												<button class="btn js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
-											</div>
-										</li>
-									<% } else { %>
-										<li class="nav-item mr-3 ml-3">
-											<a class="nav-link" href="<%= r.href -%>"><%= r.title -%></a>
-										</li>
-									<% } %>
-								</li>
-							<% }) %>
-							<% if (user.id && user.admin) { %>
+				<a class="navbar-brand">
+					<img src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
+					<% if(user.adminMode) { %>
+						<label class="js-siteLogo-edit-btn" style="cursor: pointer">
+							<span>+</span>
+							<input class="js-siteLogo-file" type="file" style="display: none;">
+						</label>
+					<% } %>
+				</a>
+				<button class="btn aside-toggle"> <i class="fa fa-angle-down fa-2x"></i></button>
+				<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="fa fa-bars fa-lg py-1 text-white"></i>
+				</button>
+				<div class="collapse navbar-collapse"></div>
+				<div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
+					<ul class="navbar-nav">
+						<% HeaderRows.forEach((r) => { %>
+							<li>
 								<% if(user.adminMode) { %>
-									<div>
-										<button class="btn btn-admin-nav js-headerNav-add">+</button>
-									</div>
-								<% } %>
-							<% } %>
-						</ul>
-					</div>
-					<div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
-						<ul class="navbar-nav">
-							<li class="nav-item">
-								<a class="nav-link shopping-cart-link" href="/cart">
-									<i class="fa fa-shopping-cart fa-lg"></i>
-									<span 
-										class="badge shopping-cart-badge" 
-										id="js-shoppingCart-goodsCount" 
-										style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
-								</a>
-							</li>
-							<% if(!user.id) { %>
-								<li class="nav-item">
-									<a class="nav-link" href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
-								</li>
+									<li class="nav-item mr-2 ml-2 mt-1 dropdown">
+										<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span><%= r.title -%></span>
+										</a>
+										<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+											<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
+											<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
+											<div class="dropdown-divider"></div>
+											<button class="btn btn-sm btn-letaindex js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
+										</div>
+									</li>
 								<% } else { %>
-									<% if (user.admin) { %>
-										<li class="nav-item">
-											<a class="nav-link" href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
-										</li>
-									<% } %>
-									<li class="nav-item">
-										<a class="nav-link" href="/my"><%= user.clientName %></a>
+									<li class="nav-item mr-3 ml-3">
+										<a class="nav-link" href="<%= r.href -%>"><%= r.title -%></a>
 									</li>
+								<% } %>
+							</li>
+						<% }) %>
+						<% if (user.id && user.admin) { %>
+							<% if(user.adminMode) { %>
+								<div>
+									<button class="btn btn-sm btn-letaindex js-headerNav-add" style="margin-top: 5px">+</button>
+								</div>
+							<% } %>
+						<% } %>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link shopping-cart-link" href="/cart">
+								<i class="fa fa-shopping-cart fa-lg"></i>
+								<span 
+									class="badge shopping-cart-badge" 
+									id="js-shoppingCart-goodsCount" 
+									style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
+							</a>
+						</li>
+						<% if(!user.id) { %>
+							<li class="nav-item">
+								<a class="nav-link" href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
+							</li>
+							<% } else { %>
+								<% if (user.admin) { %>
 									<li class="nav-item">
-										<a class="nav-link" href="/logout">Выйти</a>
+										<a class="nav-link" href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
 									</li>
-							<% }%>
-						</ul>
-					</div>
+								<% } %>
+								<li class="nav-item">
+									<a class="nav-link" href="/my"><%= user.clientName %></a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/logout">Выйти</a>
+								</li>
+						<% }%>
+					</ul>
+				</div>
 			</nav>
 		</header>
 		<!--<div class="aside-toggle">Меню слева</div>-->
