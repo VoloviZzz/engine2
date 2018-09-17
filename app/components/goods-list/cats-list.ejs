@@ -1,4 +1,4 @@
-<div class="goods-list">
+<!--<div class="goods-list">
 	<div class="goods-list__items-wrapper">
 		<% data.forEach((cat, index) => { %>
 			<div class="goods-list__item">
@@ -25,6 +25,45 @@
 				</div>
 				<div class="goods-item__price">
 					<a href="/shop-categories/<%= cat.id -%>" class="btn">Перейти</a>
+				</div>
+			</div>
+		<% }) %>
+	</div>
+</div>-->
+
+<div class="container-fluid">
+	<div class="row d-inline-flex">
+		<% data.forEach((cat, index) => { %>
+			<div class ="col-lg-3 col-md-12 p-2">
+				<div class="card h-100">
+					<div class="card-body">
+						<% if(user.adminMode) { %>
+							<div class="mb-1">
+								<button class="btn js-goodsCategories-delete w-100" data-id="<%= cat.id -%>">Удалить категорию</button>
+							</div>
+							<input class="js-goodsCategories-upd form-control" data-target="title" data-id="<%= cat.id -%>" type="text" value="<%= cat.title %>">
+						<% } else { %>
+							<div class="card-title text-center" style="min-height: 50px">
+								<b><%= cat.title %></b>
+							</div>
+						<% } %>
+
+						<div>
+							<a href="/shop-categories/<%= cat.id -%>">
+								<img class="card-img-top" src="<%= Helpers.replaceImageIfNotExist(cat.img) %>" alt="Категория">
+							</a>
+							<% if(user.adminMode) { %>
+								<label>
+									<span style="cursor: pointer">Добавить фото <b>+</b></span>
+									<input class="js-goodsCategories-addPhoto" data-target="img" data-id="<%= cat.id -%>" type="file" style="display: none;">
+								</label>
+							<% } %>
+						</div>
+
+						<div>
+							<a href="/shop-categories/<%= cat.id -%>" class="btn w-100 text-center">Перейти</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		<% }) %>

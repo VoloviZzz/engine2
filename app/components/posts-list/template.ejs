@@ -174,16 +174,18 @@
 						</label>
 						<% } %>
 
-						<% if (!n.video) { %>
-							<a href="<%= fragment.settings.url -%>/<%= n.id -%>">
-								<img class="card-img-top" src="<%= n.main_photo -%>" alt="<%=n.title%>">
-							</a>
-						<% }
-						else { %>
-							<%- n.video %>
-						<% } %>
+						<div>
+							<% if (!n.video) { %>
+								<a href="<%= fragment.settings.url -%>/<%= n.id -%>">
+									<img class="card-img-top" src="<%= n.main_photo -%>" alt="<%=n.title%>">
+								</a>
+							<% }
+							else { %>
+								<%- n.video %>
+							<% } %>
+						</div>
 
-						<div style="font-weight: 500; text-align: left; font-size: 22px;">
+						<div class="text-left" style="font-weight: 500; font-size: 22px">
 							<% if(user.adminMode) { %>
 								<input class="js-post-update" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
 							<% } else { %>

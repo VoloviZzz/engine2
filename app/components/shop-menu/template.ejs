@@ -1,6 +1,6 @@
 <% var level = level|| 0;%>
 
-<ul class="section-menu fs-regular">
+<ul class="section-menu">
 	<% for(let id in catsTree) { %>
 		<% var s = catsTree[id] -%>
 		<li class="section-menu-item <%= catId == s.id ? 'active' : '' -%>">

@@ -5,6 +5,10 @@
 	@include bg-letaindex;
 }
 
+.document-header .dropdown-toggle::after {
+    display: none
+}
+
 @keyframes hidden {
     0% {
 		opacity: 1;

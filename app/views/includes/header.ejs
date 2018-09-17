@@ -38,15 +38,20 @@
 						<% HeaderRows.forEach((r) => { %>
 							<li>
 								<% if(user.adminMode) { %>
-									<li class="nav-item mr-2 ml-2 mt-1 dropdown">
+									<li class="nav-item">
+										<a class="nav-link" href="<%= r.href -%>">
+											<%= r.title -%>
+										</a>
+									</li>
+									<li class="nav-item dropdown">
 										<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span><%= r.title -%></span>
+											<i class="fa fa-lg fa-ellipsis-v"></i>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 											<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
 											<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
 											<div class="dropdown-divider"></div>
-											<button class="btn btn-sm btn-letaindex js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
+											<button class="btn btn-md btn-letaindex js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
 										</div>
 									</li>
 								<% } else { %>
@@ -59,7 +64,7 @@
 						<% if (user.id && user.admin) { %>
 							<% if(user.adminMode) { %>
 								<div>
-									<button class="btn btn-sm btn-letaindex js-headerNav-add" style="margin-top: 5px">+</button>
+									<button class="btn btn-md btn-letaindex js-headerNav-add">+</button>
 								</div>
 							<% } %>
 						<% } %>

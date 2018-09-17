@@ -1,4 +1,4 @@
-<div class="goods-list">
+<!--<div class="goods-list">
 	<div class="goods-list__items-wrapper">
 		<% if(data.length < 1) { %>
 			<h2>Товары отсутствуют</h2>
@@ -32,7 +32,49 @@
 			</div>
 		<% }) %>
 	</div>
+</div>-->
+
+<div class="container-fluid">
+	<div class="row d-inline-flex">
+		<% if(data.length < 1) { %>
+			<h2>Товары отсутствуют</h2>
+		<% } %>
+		<% data.forEach((p, i) => { %>
+			<div class ="col-lg-3 col-md-12 p-2">
+				<div class="card h-100">
+					<div class="card-body">
+						<% if(user.adminMode) { %>
+							<button class="btn js-goodsPosition-delete w-100" data-id="<%= p.id -%>">Удалить товар</button>
+						<% } %>
+
+						<div class="card-title text-center" style="min-height: 50px">
+							<b><%= p.title %></b>
+						</div>
+
+						<div class="mb-2">
+							<a href="/product/<%= p.id -%>">
+								<img class="card-img-top" src="<%= Helpers.replaceImageIfNotExist(`${p.photo_path}/preview/${p.photo_name}`) %>" alt="Товары">
+							</a>
+						</div>
+
+						<div class="d-flex justify-content-between align-items-center">
+							<% if(p.float_price) { %>
+								<span style="text-transform: none;">От</span>
+								<span><b><%= Helpers.formatPrice(p.price) %> руб.</b></span>
+							<% } else if(p.contract_price) { %>
+								<span style="text-transform: none;">Договорная</span>
+							<% } else { %>
+								<span><b><%= Helpers.formatPrice(p.price) %> руб.</b></span>
+							<% } %>
+							<a href="/product/<%= p.id -%>" class="btn text-right">Открыть</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+	</div>
 </div>
+
 <% if(user.adminMode) { %>
 	<script src="/admins/js/goods-list.js" defer></script>
 <% } %>
