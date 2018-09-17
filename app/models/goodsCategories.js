@@ -23,7 +23,7 @@ exports.add = function (data = {}) {
 	`);
 }
 
-exports.get = function (data = {}) {
+exports.get = (data = {}) => {
 	data.parent_id = typeof data.parent_id !== "undefined" ? `AND gc.parent_id = ${data.parent_id}` : ``;
 	data.id = typeof data.id !== "undefined" ? `AND gc.id = ${data.id}` : ``;
 	data.public = 'public' in data ? `AND gc.public = '${data.public}'` : '';

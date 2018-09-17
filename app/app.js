@@ -92,6 +92,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	await require('./componentsList')(app);
 	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
+	// await require('./aliases')(app);
 
 	// маршруты выгрузки товаров
 	app.use(`/api/unloading`, require('./unloading'));

@@ -7,6 +7,7 @@ exports.get = function (data = {}) {
 	const alias = !!data.alias === true ? `AND a.alias = '${data.alias}'` : '';
 	const route_id = !!data.route_id ? `AND a.route_id = '${data.route_id}'` : ``;
 	const params = !!data.params ? `AND a.params = '${data.params}'` : ``;
+	const main = !!data.main ? `AND a.main = '${data.main}'` : ``;
 
 	return db.execQuery(`
 		SELECT a.*,
@@ -22,6 +23,7 @@ exports.get = function (data = {}) {
 			${alias}
 			${route_id}
 			${params}
+			${main}
 	`);
 }
 

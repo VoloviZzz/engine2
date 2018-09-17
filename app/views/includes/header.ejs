@@ -25,15 +25,6 @@
 				</a>
 				<span style="margin-left: 25px" id="toggle-admin-mode">Переключение админ. режима</span>
 			</div>
-			<script>
-				document.addEventListener('DOMContentLoaded', function () {
-					document.onkeydown = function () {
-						if (event.keyCode == 69 && event.ctrlKey && event.shiftKey) {
-							$('#toggle-admin-mode').click();
-						}
-					}
-				}, false);
-			</script>
 		<% } %>
         <header class="document-header">
             <nav class="header-nav">

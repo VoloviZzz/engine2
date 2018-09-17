@@ -171,7 +171,10 @@ module.exports.Router = async (app) => {
 
 			const controllerResult = await controllerAction(req, res, next);
 
-			if (!!controllerResult === true && 'sendData' in controllerResult) {
+			if (typeof controllerResult == 'function') {
+				return controllerResult(req, res, next);
+			}
+			else if (!!controllerResult === true && 'sendData' in controllerResult) {
 				return res.send(controllerResult.sendData)
 			}
 			else {

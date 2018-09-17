@@ -10,7 +10,7 @@
 					<div>
 						<select class="js-upd-fragment-component select-set" data-route-id="<%= route.id -%>" data-fragment-id="<%= id -%>" name="types">
 							<% componentsObj[block_id].map(c => { %>
-								<option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
+								<option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%= c.id -%>"><%= c.title -%></option>
 							<% }) %>
 						</select>
 					</div>

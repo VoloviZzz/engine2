@@ -9,9 +9,11 @@ exports.get = (args = {}) => {
 		SELECT s.*,
 			CONCAT(p.path, '/origin/', p.name) as origin_path,
 			CONCAT(p.path, '/prod/', p.name) as prod_path,
-			CONCAT(p.path, '/preview/', p.name) as preview_path
+			CONCAT(p.path, '/preview/', p.name) as preview_path,
+			ra.alias
 		FROM shops_list s
 			LEFT JOIN photos p ON s.main_photo = p.id
+			LEFT JOIN routes_aliases ra ON ra.id = s.alias_id
 		WHERE s.id > 0 
 			${id}
 	`);

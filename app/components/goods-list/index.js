@@ -23,6 +23,7 @@ module.exports = (app) => {
 				locals: {},
 			};
 
+
 			if (object_alias) {
 				[, aliases] = await Model.aliases.get({ title: object_alias, target: 'news' });
 				if (aliases.length < 1) return resolve([, 'Категория найдена'])
@@ -33,7 +34,7 @@ module.exports = (app) => {
 			const getCategoriesParams = {
 				id: object_id
 			};
-			
+
 			const getCategoriesByParentParams = {
 				parent_id: object_id
 			};
@@ -43,7 +44,7 @@ module.exports = (app) => {
 				getCategoriesByParentParams.public = '1';
 			}
 
-			[getCatsError, categories] = await Model.goodsCategories.get(getCategoriesParams);
+			var [getCatsError, categories] = await Model.goodsCategories.get(getCategoriesParams);
 			if (getCatsError) {
 				console.log(getCatsError);
 				throw new Error(getCatsError);

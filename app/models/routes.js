@@ -62,6 +62,7 @@ exports.upd = (arg = {}) => {
 
 	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
 	arg.template_id = typeof arg.template_id !== 'undefined' ? `, template_id = '${arg.template_id}'` : ``;
+	arg.target_id = typeof arg.target_id !== 'undefined' ? `, target_id = '${arg.target_id}'` : ``;
 
 	arg.seo_description = typeof arg.seo_description !== 'undefined' ? `, seo_description = '${arg.seo_description}'` : ``;
 	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
@@ -95,5 +96,6 @@ exports.upd = (arg = {}) => {
 			${arg.edit_access}
 			${arg.show_title}
 			${arg.use_component_title}
+			${arg.target_id}
 		WHERE id = ${arg.id}`)
 }

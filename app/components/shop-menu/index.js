@@ -5,9 +5,7 @@ module.exports = (app) => {
 		return new Promise(async (resolve, reject) => {
 
 			const { locals, session } = data;
-
 			const catId = locals.dynamicRouteNumber || '';
-
 			const categoriesParams = {};
 
 			if (session.user.adminMode == false) {
@@ -17,7 +15,7 @@ module.exports = (app) => {
 			var [error, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
 			if(error) {
 				console.log(error);
-				throw new Error(error);
+				return resolve([, error.message]);
 			}
 
 			const resultCatsObj = {};
