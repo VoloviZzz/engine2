@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/cart.css">
-<div class="js-goods-container basket-list-wrap">
+<div class="js-goods-container">
     <% if(!!cart === true && Object.keys(cart.goods).length > 0) { %>
 		<div class="clear-basket">
 			<button class="btn js-clear-cart">Очистить корзину</button>
@@ -68,7 +68,7 @@
                 </li>
             <% }) %>
         </ul>
-        <div class="basket-content">
+       <!-- <div class="basket-content">
             <div class="basket-content--shadow"></div>
             <hr>
         </div>
@@ -79,6 +79,18 @@
                 <small>руб.</small>
             </div>
             <a href="/order" class="btn">Оформить заказ</a>
+        </div>-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 text-center">
+                    Итоговая стоимость:
+                    <span id="js-total-price" class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(totalPrice)%></span>
+                    <small>руб.</small>
+                </div>
+                <div class="col-6 text-right">
+                    <a href="/order" class="btn mb-2">Оформить заказ</a>
+                </div>
+            </div>
         </div>
     <% }
     else { %>
