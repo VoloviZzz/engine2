@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/vendors/baguettebox.js/dist/baguetteBox.min.css">
-<link rel="stylesheet" href="/css/achievements-list.css">
+<!--<link rel="stylesheet" href="/css/achievements-list.css">-->
 <section>
-	<% if(user.adminMode) { %>
+	<!--<% if(user.adminMode) { %>
 		<div>
 			<form id="js-set-ach-url" data-fragment-id="<%= fragment.id -%>" data-target="urlPage">
 				<span>URL для пагинации: </span>
@@ -53,7 +53,56 @@
 		<div class="admin-control-container">
 			<button class="btn js-achievements-add">Добавить</button>
 		</div>
+	<% } %>-->
+
+	<% if(user.adminMode) { %>
+		<form id="js-set-ach-url" data-fragment-id="<%= fragment.id -%>" data-target="urlPage" class="mb-2">
+			<div class="form-group">
+				<label for="setAchUrl">URL для пагинации:</label>
+				<input type="text" name="urlPage" class="form-control" id="setAchUrl" aria-describedby="urlHelp" value="<%= fragment.settings.urlPage -%>">
+			</div>
+			<button class="btn">Добавить</button>
+		</form>
 	<% } %>
+	<div class="container-fluid">
+		<div class="row mb-2">
+		<% achievements.map((a, i) => { %>
+			<div class="col-lg-6 col-md-12">
+				<% if(user.adminMode) { %>
+					<button data-id="<%= a.id -%>" class="btn js-achievements-delete mb-2">Удалить</button>
+				<% } %>
+				<% if(user.adminMode) { %>
+					<div class="form-group">
+						<input type="text" class="form-control js-achievements-update" data-target="title" data-id="<%= a.id -%>" value="<%= a.title -%>">
+					</div>
+				<% } else { %>
+					<h3 class="text-center"><%= a.title %></h3>
+				<% } %>
+
+				<% if(user.adminMode) { %>
+				<div class="form-group text-center">
+					<label for="imgUpload">Добавить фото:</label>
+					<input type="file" id="imgUpload" name="achievement-img" data-id="<%= a.id -%>" class="js-achievements-upload-img">
+				</div>
+				<% } %>
+				<div class="form-group text-center">
+					<a href="<%= a.img -%>" title="<%= a.title %>">
+						<img src="<%= a.img -%>" alt="МП КПРУ. Достижения">
+					</a>
+				</div>
+				<% if(user.adminMode) { %>
+					<textarea rows="3" class="form-control js-achievements-update mb-2" data-target="text" data-id="<%= a.id -%>"><%= a.text -%></textarea>
+				<% } else { %>
+					<p class="text-center"><%= a.text %></p>
+				<% } %>
+			</div>
+		<% }) %>
+		</div>
+		<% if(user.adminMode) { %>
+			<button class="btn js-achievements-add">Добавить</button>
+		<% } %>
+	</div>
+
 	<div class="pagination">
 		<a class="pagination__to-begin pagination__action-link" href="<%= fragment.settings.urlPage -%>">в начало</a>
 		<% for(let i = pagination.left; i < pagination.right; i++) { %>

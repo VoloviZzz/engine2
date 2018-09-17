@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/css/c_tabs.css">
+<!--<link rel="stylesheet" href="/css/c_tabs.css">
 <link rel="stylesheet" href="/css/reviews-list.css">
 <div class="tabs-wrapper">
 	<% if(user.adminMode) { %>
@@ -48,7 +48,44 @@
 			</div>
 		<% } %>
 	</div>
-</div>
+</div>-->
+
+<% if(user.adminMode) { %>
+
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label>Выберите категорию отзывов:</label>
+			<select class="js-fragment-update-settings form-control" data-target="targetType" data-event="change" data-fragment-id="<%= fragment.id -%>" name="target-post">
+				<option value="">Не выбрано</option>
+				<% for (let target of reviewsCats ) { %>
+					<% var targetSelected = target.title == fragment.settings.targetType ? `selected` : '' %>;
+					<option value="<%= target.title -%>" <%= targetSelected -%> ><%= target.title -%></option>
+				<% } %>
+			</select>
+		</div>
+		<form id="js-add-reviews-category" class="form-group col-md-6">
+			<div>
+				<label>Или добавьте новую категорию:</label>
+				<input type="text" class="form-control mb-2" aria-describedby="titleHelp">
+				<button class="btn">Добавить</button>
+			</div>
+		</form>
+	</div>
+
+	<nav>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+		  <a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">Все</a>
+		  <a class="nav-item nav-link" id="nav-unpublished-tab" data-toggle="tab" href="#nav-unpublished" role="tab" aria-controls="nav-unpublished" aria-selected="false">Неопубликованные</a>
+		</div>
+	</nav>
+
+	<div class="tab-content" id="nav-tabContent">
+		<div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">...</div>
+		<div class="tab-pane fade" id="nav-unpublished" role="tabpanel" aria-labelledby="nav-unpublished-tab">...</div>
+	</div>
+	
+<% } %>
+
 <script src="/js/reviews-list.js" defer></script>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/reviews-list.js" defer></script>

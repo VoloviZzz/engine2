@@ -1,4 +1,4 @@
-<% if(user.adminMode) { %>
+<!--<% if(user.adminMode) { %>
 	<span>Адрес списка публикаций</span>
 	<input class="js-fragment-update-settings" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
 <% } %>
@@ -56,10 +56,81 @@
 			<% } %>
 		</div>
 	</div>
+</div>-->
+
+<% if(user.adminMode) { %>
+	<div class="form-group">
+		<label>Адрес списка публикаций</label>
+		<input class="js-fragment-update-settings form-control" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
+	</div>
+<% } %>
+<a href="<%= fragment.settings.listUrl ? fragment.settings.listUrl : '#' -%>" class="btn mb-2">Назад к списку публикаций</a>
+
+<% if(user.adminMode) { %>
+	<div class="form-group">
+		<label>Категория:</label>
+		<select class="js-post-update form-control mb-1" data-reload="true" data-target="cat" data-id="<%= post.id -%>">
+			<option value="0">Не выбрано</option>
+			<% postCategories.forEach((category) => { -%>
+				<% let selected = post.cat == category.id ? 'selected' : '' -%>
+				<option value="<%= category.id -%>" <%= selected -%>><%= category.title -%></option>
+			<% }) -%>
+		</select>
+	</div>
+	<div class="form-group form-inline">
+		<% if(post.public) { %>
+			<button data-id="<%= post.id -%>" data-value="0" class="btn mr-1 js-post-togglePublication">Снять с публикации</button>
+		<% } else { %>
+			<button data-id="<%= post.id -%>" data-value="1" class="btn mr-1 js-post-togglePublication">Публиковать</button>
+		<% } %>
+		<label class="btn mr-1">
+			<input type="file" class="js-post-upload-mainphoto" data-id="<%= post.id -%>" id="news-upload-mainphoto" style="display: none">
+			<span>Изменить фото</span>
+		</label>
+		<button data-id="<%= post.id -%>" class="btn js-post-delete">Удалить</button>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+			<label>Заголовок:</label>
+			<input class="js-post-update form-control" type="text" data-target="title" data-id="<%= post.id -%>" value="<%= post.title -%>">
+		</div>
+		<div class="form-group col-md-6">
+			<label>Подзаголовок:</label>
+			<input class="js-post-update form-control" type="text" data-target="subtitle" data-id="<%= post.id -%>" value="<%= post.subtitle -%>">
+		</div>
+	</div>
+	<div class="form-group">
+		<label>Источник новости:</label>
+		<input class="js-post-update form-control" type="text" data-target="source_link" data-id="<%= post.id -%>" value="<%= post.source_link -%>">
+	</div>
+<% } %>
+
+<div class="">
+	<% if(!!user.adminMode == false) { %>
+		<div class="text-center">
+			<h2>
+				<em><%= post.subtitle -%></em>
+			</h2>
+		</div>
+	<% } %>
+	<div class="">
+		<% if(user.adminMode) { %>
+			<textarea data-target="text" data-id="<%= post.id -%>" class="js-post-update js-ckeditor-edit"><%- post.text -%></textarea>
+		<% } else { %>
+			<%-post.text-%>
+			<% if(post.source_link) { %>
+				<a href="<%= post.source_link -%>" style="text-decoration: underline"><b>Ссылка на источник</b></a>
+			<% } %>
+			<div class="text-right text-muted">
+				<span>Опубликовано <%= Helpers.formatDate(post.published, 'dd MMMM yyyy в hh:mm') -%></span>
+			</div>
+		<% } %>
+	</div>
 </div>
+
 <section class="similar-posts">
 	<% if(user.adminMode) { %>
-		<input type="text" class="js-post-update input-text" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
+		<input type="text" class="js-post-update form-control" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
 	<% } %>
 	<ul>
 		<% similarPosts.forEach((post) => { -%>
