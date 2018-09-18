@@ -1,4 +1,6 @@
 const express = require('express');
+const app = express();
+
 const bodyParser = require('body-parser');
 const path = require('path');
 const ejs = require('ejs');
@@ -7,7 +9,6 @@ const favicon = require('serve-favicon');
 const fs = require('fs');
 const compression = require('compression');
 
-const app = express();
 
 const config = require('../config');
 const db = require('./libs/db');
@@ -82,11 +83,12 @@ global.imagesPath = 'http://system.mpkpru.ru/';
 app.smsc = require('./services/sendSms/');
 app.transporter = require('./services/sendEmail/');
 
-db.connect(db.MODE_TEST, async (err) => {
-	if (err) throw new Error(err);
+db.connect().then(async () => {
+	
+	await require('./libs/routeHandler').initRoutesList();
 
 	// подключение обработчика маршрутов
-	const routeHandler = await require('./libs/routeHandler').Router(app);
+	const routeHandler = require('./libs/routeHandler').Router(app);
 	const errorHandler = require('./functions/error-handler');
 
 	await require('./componentsList')(app);
