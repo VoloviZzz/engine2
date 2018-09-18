@@ -11,6 +11,7 @@ module.exports = (app) => {
 		targetId = targetId || 0;
 
 		fragment.settings.onlyRegister = fragment.settings.onlyRegister || 1;
+		fragment.settings.targetType = fragment.settings.targetType || 0;
 
 		// пагинация
 		const reviewsCountParams = {
@@ -21,7 +22,7 @@ module.exports = (app) => {
 		};
 
 		var [error, [{ reviews_count: countReviews }]] = await Model.reviews.getCount(reviewsCountParams);
-		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, paramName: 'reviewsPage', currentPage: locals.reqQuery.reviewsPage, pageUrlQuery: locals.reqQuery });
+		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, paramName: 'page', currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
 		// ----------
 
 		const reviewsGet = {
