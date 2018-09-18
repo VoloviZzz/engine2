@@ -175,6 +175,7 @@
 						<% } %>
 
 						<div>
+						<div>
 							<% if (!n.video) { %>
 								<a href="<%= fragment.settings.url -%>/<%= n.id -%>">
 									<img class="card-img-top" src="<%= n.main_photo -%>" alt="<%=n.title%>">
@@ -185,7 +186,7 @@
 							<% } %>
 						</div>
 
-						<div class="text-left" style="font-weight: 500; font-size: 22px">
+						<div class="text-left" style="font-size: 22px">
 							<% if(user.adminMode) { %>
 								<input class="js-post-update" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
 							<% } else { %>
@@ -195,12 +196,15 @@
 							<% } %>
 						</div>
 
-						<p class="card-text"><%- Helpers.replaceLineBreaks(Helpers.trimByWords(n.text, 100)) -%></p>
-						<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="btn text-center mb-3" style="width: 100%">Читать далее</a>
-
-						<% if(fragment.settings.showPublishedTime == '1') { %>
-							<p class="card-text text-right"><small class="text-muted">Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></small></p>
-						<% } %>
+						<div>
+							<p class="card-text"><%- Helpers.replaceLineBreaks(Helpers.trimByWords(n.text, 100)) -%></p>
+							<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="btn text-center mb-3" style="width: 100%">Читать далее</a>
+		
+							<% if(fragment.settings.showPublishedTime == '1') { %>
+								<p class="card-text text-right"><small class="text-muted">Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></small></p>
+							<% } %>
+						</div>
+						</div>
 					</div>
 				</div>
 			</div>

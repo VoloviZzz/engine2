@@ -1,5 +1,9 @@
-.section-menu .dropdown-toggle::after {
-    display: none
+.section-menu-item a.no-arrow::after {
+    display: none;
+}
+
+.section-menu-item a.no-arrow::after {
+	display: none;
 }
 
 .section-menu .dropdown-menu{
@@ -15,8 +19,15 @@
 	white-space: nowrap;
 	border-bottom: 1px solid #c3c3c3;
 	padding-top: 11px;
-	padding-bottom: 11px;
 	font-size: 15px;
+}
+
+.section-menu-item-admin a {
+
+}
+
+.section-menu-item-user a {
+	padding-bottom: 11px;
 }
 
 .section-menu-item p {

@@ -18,7 +18,7 @@ td.js-edit-form--show .js-route-edit-form {
 	background: #f9f9f9;
 }
 
-.route-table {
+/*.route-table {
 	margin: 1em 0;
 	background: #fff;
 	color: #000;
@@ -29,7 +29,7 @@ td.js-edit-form--show .js-route-edit-form {
 .route-table th, .route-table td {
 	display: table-cell;
 	padding: .25em .5em;
-	/*display: block;*/
+	display: block;
 }
 
 .route-table tr {
@@ -50,4 +50,4 @@ td.js-edit-form--show .js-route-edit-form {
 
 .route-table button{
 	margin-bottom: 2px;
-}
+}*/

@@ -1,7 +1,8 @@
 
 <link rel="stylesheet" href="/css/reviews-list.css">
-<link rel="stylesheet" href="/css/c_tabs.css">
-<div class="tabs-wrapper">
+<!--<link rel="stylesheet" href="/css/c_tabs.css">-->
+
+<!--<div class="tabs-wrapper">
 	<% if(user.adminMode) { %>
 		<div>
 			<span>Выберите категорию отзывов:</span>
@@ -16,7 +17,7 @@
 			<form id="js-add-reviews-category" class="mb-3">
 				<span>Или добавьте новую категорию:</span>
 				<input class="input-text mb-2" type="text" />
-				<button class="btn">Добавить</button>
+				<button type="submit" class="btn">Добавить</button>
 			</form>
 		</div>
 	<% } %>
@@ -49,9 +50,9 @@
 			</div>
 		<% } %>
 	</div>
-</div>
+</div>-->
 
-<!--<% if(user.adminMode) { %>
+<% if(user.adminMode) { %>
 
 	<div class="form-row">
 		<div class="form-group col-md-6">
@@ -80,16 +81,16 @@
 		</div>
 	</nav>
 
-	<% } %>
+<% } %>
 
 	<div class="tab-content" id="nav-tabContent">
-		<div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+		<div class="tab-pane show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
 			<%- include('./reviews-list') -%>
 			<%- pagination.render() -%>
 			<% if(user.id) { %>
 				<div class="reviews-add-wrapper" id="js-reviews-add-wrapper" data-target-id="<%= targetId -%>" data-target-type="<%= fragment.settings.targetType -%>">
 					<textarea class="select-text new-reviews-text" id="add-review-text" name="reviews-text"></textarea>
-					<button class="btn new-reviews-button btn-inverse">Добавить</button>
+					<button class="btn new-reviews-button">Добавить</button>
 				</div>
 			<% } else { %>
 				<div class="text-center">
@@ -104,14 +105,14 @@
 				</div>
 			<% } %>
 		</div>
-		<div class="tab-pane fade" id="nav-unpublished" role="tabpanel" aria-labelledby="nav-unpublished-tab">
+		<div class="tab-pane" id="nav-unpublished" role="tabpanel" aria-labelledby="nav-unpublished-tab">
 			<% if(user.adminMode) { %>
 				<div class="tab-content not-modered-reviews">
 					<%- include('./reviews-list', { reviews: reviewsNotPublished }) -%>
 				</div>
 			<% } %>
 		</div>
-	</div>-->
+	</div>
 
 <script src="/js/reviews-list.js" defer></script>
 <% if(user.adminMode) { %>
