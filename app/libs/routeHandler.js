@@ -1,3 +1,4 @@
+const express = require('express');
 const storage = require('../storage');
 const Model = require('../models');
 
@@ -68,13 +69,12 @@ const initRoutesList = async () => {
 	storage.set(`routesMap`, routesMap);
 }
 
+exports.initRoutesList = initRoutesList;
 
-module.exports.Router = async (app) => {
 
+module.exports.Router = (app) => {
 	const Router = app.express.Router();
 	const fragmentsHandler = require('./fragments')(app);
-
-	await initRoutesList();
 
 	Router.use(deleteLastSlash);
 	Router.use(constructHeaderRows);

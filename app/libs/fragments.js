@@ -34,7 +34,7 @@ module.exports = (app) => {
 
 		if (!!fragment.isStatic === false) {
 			Object.assign(data, fragmentData);
-			const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
+			const controllerHandler = await require(path.join(AppRoot, 'components', fragment.component_ctrl))(app);
 			[errors, content] = await controllerHandler(data);
 		}
 		else {
