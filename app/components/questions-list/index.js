@@ -1,8 +1,8 @@
 const path = require('path');
+const Model = require('../../models');
+const db = require('../../libs/db');
 
 module.exports = (app) => {
-
-	const { Model, db } = app;
 
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
