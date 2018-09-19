@@ -1,4 +1,4 @@
-<!--<link rel="stylesheet" href="/css/goods-list.css">-->
+<link rel="stylesheet" href="/css/goods-list.css">
 <div class="text-right">
 	<% if(user.adminMode) { %>
 		<% if(currentCat.public == '1') { %>
@@ -24,14 +24,18 @@
 	<% } %>
 </div>
 <section>
-	<div class="text-right">
-		<form id="js-shop-search-form">
-			<input type="text" name="searchQuery">
-			<button class="btn btn-small mb-1">
-				<i class="fa fa-search" aria-hidden="true"></i>
-			</button>
-		</form>
-	</div>
+	<form id="js-shop-search-form">
+		<div class="d-flex justify-content-end mb-1">
+			<div>
+				<input class="form-control form-control-sm" type="text" name="searchQuery">
+			</div>
+			<div>
+				<button class="btn btn-sm ml-1" style="height: 31px">
+					<i class="fa fa-search" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	</form>
 </section>
 <section id="js-load-content">
 	<%- include(`./${tpl}.ejs`) -%>

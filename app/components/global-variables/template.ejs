@@ -30,47 +30,9 @@
 				<span><%= s.title -%> </span>
 				<span><b>(<%= s.target -%>)</b>: </span>
 				<span><%= s.value -%></span>
-				<button class="btn btn-small js-variable-delete" data-id="<%= s.id -%>">X</button>
+				<button class="btn btn-sm js-variable-delete" data-id="<%= s.id -%>">X</button>
 			</div>
 		<% }) %>
 	</div>
 </form>
-
-<!--<section class="form-group">
-	<form class="js-add-globalVariables--form">
-		<div class="mb-2">
-			<h1>Добавить новую переменную</h1>
-		</div>
-		<div class="mb-2">
-			<span>Заголовок:</span>
-			<input type="text" class="input-text" name="title">
-		</div>
-		<div class="mb-2">
-			<span>Название (для программистов):</span>
-			<input type="text" class="input-text" name="target">
-		</div>
-		<div class="d-flex flex-column justify-content-around mb-3">
-			<span>Значение:</span>
-			<input type="text" class="input-text mb-2" name="value" id="js-globalVariable-value-title">
-			<span>или фото:</span>
-			<input type="file" name="upload" id="js-globalVariable-image-upload">
-		</div>
-		<div class="mb-2">
-			<button class="btn">Добавить</button>
-		</div>
-	</form>
-</section>
-<section class="form-group">
-	<div>
-		<h1>Список настроек</h1>
-	</div>
-	<% settings.forEach((s) => { %>
-		<div class="mb-2">
-			<span><%= s.title -%> </span>
-			<span><b>(<%= s.target -%>)</b>: </span>
-			<span><%= s.value -%></span>
-			<button class="btn btn-small js-variable-delete" data-id="<%= s.id -%>">X</button>
-		</div>
-	<% }) %>
-</section>-->
 <script src="/admins/js/globalConfig.js" defer></script>

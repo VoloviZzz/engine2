@@ -17,37 +17,3 @@ td.js-edit-form--show .js-route-edit-form {
 	width: 100%;
 	background: #f9f9f9;
 }
-
-/*.route-table {
-	margin: 1em 0;
-	background: #fff;
-	color: #000;
-	border-radius: .4em;
-	overflow: hidden;
-}
-
-.route-table th, .route-table td {
-	display: table-cell;
-	padding: .25em .5em;
-	display: block;
-}
-
-.route-table tr {
-	border-color: lighten(#34495E, 10%);
-	border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-}
-
-.route-table td:first-child {
-	padding-top: .5em;
-	padding-bottom: .5em;
-}
-
-.route-table td:last-child, .route-table th:last-child {
-	padding-top: .5em;
-	padding-bottom: .5em;
-}
-
-.route-table button{
-	margin-bottom: 2px;
-}*/
