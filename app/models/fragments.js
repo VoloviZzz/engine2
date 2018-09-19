@@ -6,7 +6,7 @@ exports.get = async (arg = {}) => {
 	arg.public = !!arg.public === true ? `AND f.published = '${arg.public}'` : '';
 	arg.id = 'id' in arg ? `AND f.id = ${arg.id}` : '';
 
-	const fragments = await db.execQuery(`
+	return db.execQuery(`
             SELECT f.*,
                 c.title as component_title,
                 c.ctrl as component_ctrl,
@@ -23,8 +23,6 @@ exports.get = async (arg = {}) => {
 				${arg.id}
             ORDER BY f.priority DESC, f.id ASc`
 	)
-
-	return Promise.resolve(fragments);
 }
 
 exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
@@ -44,7 +42,7 @@ exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
 }
 
 exports.setData = async function ({ fragment_id, data }) {
-	
+
 	var [err, fragmentData] = await exports.getFragmentsData({ fragment_id })
 	if (err) throw new Error(err);
 
