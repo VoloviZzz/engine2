@@ -407,6 +407,10 @@ nav a.active-link {
     display: none;
 }
 
+.margin-y-10 {
+	margin: 10px 0px;
+}
+
 .sections {
     background-color: #ffffff;
     border: 1px #e0dcdc solid;
