@@ -73,14 +73,22 @@ exports.setData = async function (req, res, next) {
 
 exports.handler = async (req, res, next) => {
 	const fragmentsHandler = require('../libs/fragments')(req.app);
-	var [err, fragments] = await Model.fragments.get({ route_id: req.body.route_id });
 
-	const fragmentsMap = fragments.map(async fragment => {
-		return fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals, route: { id: req.body.route_id } } });
-	});
+	const { route_id, id } = req.body;
 
+	const countParams = [route_id, id].filter(item => !!item).length;
+
+	if (countParams == 0) {
+		return { status: 'bad', message: 'Отсутствуют параметры для обработки фрагментов' };
+	}
+
+	var [err, fragments] = await Model.fragments.get(req.body);
+
+	const fragmentsMap = fragments.map(async fragment =>
+		fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals, route: { id: req.body.route_id } } })
+	);
+	
 	const fragmentsData = await Promise.all(fragmentsMap);
-	console.log(fragmentsData);
 
 	return { status: 'ok', body: req.body, fragments, fragmentsData };
 }
