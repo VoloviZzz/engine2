@@ -9,7 +9,7 @@
                 type="text" value="<%= fragment.settings.slidesToShow || 1 -%>">
         </div>
         <div>
-            <p>Количество слайдов для скролла:</p>
+            <p>Сколько слайдов прокручивать за одно нажатие:</p>
             <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToScroll"
                 type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
         </div>
@@ -59,6 +59,7 @@
 				</div>
 			<% } %>
 			<img style="
+					width: 100%; margin: 0 auto;
 					<%= fragment.settings.maxImageHeight ? `max-height: ${fragment.settings.maxImageHeight}px;` : '' -%>
 					<%= fragment.settings.minImageHeight ? `min-height: ${fragment.settings.minImageHeight}px;` : '' -%>
 				"

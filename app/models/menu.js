@@ -5,7 +5,15 @@ exports.getMenuItems = function ({ group_id = '', id = '', parent_id = '' }) {
 	if (!!group_id === true) group_id = `AND group_id = ${group_id}`;
 	if (!!id === true) id = `AND id = ${id}`;
 
-	return db.execQuery(`SELECT * FROM menu_items WHERE id > 0 ${group_id} ${id} ${parent_id}`);
+	return db.execQuery(`
+		SELECT * 
+		FROM menu_items 
+		WHERE id > 0 
+			${group_id} 
+			${id} 
+			${parent_id}
+		ORDER BY priority DESC
+	`);
 }
 exports.getMenuGroups = function () {
 	return db.execQuery("SELECT * FROM menu_groups");

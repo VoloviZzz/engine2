@@ -16,6 +16,8 @@
 					</div>
 					<span class="btn-blue">Приоритет:</span>
 					<input class="btn-blue js-fragment-update" data-event="change" data-target="priority" data-fragment-id="<%= id -%>" type="text" value="<%= fragment.priority -%>">
+					<span class="btn-blue">Минимальная высота фрагмента:</span>
+					<input class="btn-blue js-fragment-update-settings" data-event="change" data-target="minHeight" data-fragment-id="<%= id -%>" type="text" value="<%= fragment.settings.minHeight || '' -%>">
 					<% if(fragment.published == '1') { %>
 						<button class="btn-blue js-fragment-update" data-event="click" data-value="0" data-target="published" data-fragment-id="<%= id -%>">Снять с публикации</button>
 					<% } else { %>
@@ -28,7 +30,8 @@
 		<div class="fragment-body 
 			<%= fragment.isStatic &&
 				fragment.component_id == 2 && 
-				user.adminMode ? 'js-staticFragment-edit js-ckeditor-edit' : '' -%>" 
+				user.adminMode ? 'js-staticFragment-edit js-ckeditor-edit' : '' -%>"
+				style="<%= fragment.settings.minHeight ? 'min-height:' + fragment.settings.minHeight + 'px' : '' -%>"
 				data-fragment-id="<%= id -%>" >
 					<%- content -%>
 		</div>

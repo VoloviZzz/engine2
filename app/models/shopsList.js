@@ -5,7 +5,7 @@ exports.get = (args = {}) => {
 	
 	id = !!id === true ? `AND s.id = ${id}` : '';
 
-	return db.execQuery(`
+	var q = `
 		SELECT s.*,
 			CONCAT(p.path, '/origin/', p.name) as origin_path,
 			CONCAT(p.path, '/prod/', p.name) as prod_path,
@@ -16,7 +16,11 @@ exports.get = (args = {}) => {
 			LEFT JOIN routes_aliases ra ON ra.id = s.alias_id
 		WHERE s.id > 0 
 			${id}
-	`);
+	`;
+	
+	// console.log(q);
+	
+	return db.execQuery(q);
 }
 
 exports.upd = (args = {}) => {

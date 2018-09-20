@@ -2,11 +2,13 @@ const db = require('../libs/db');
 
 exports.get = async (arg = {}) => {
 
+	const resFragments = [];
+
 	arg.route_id = !!arg.route_id === true ? `AND f.route_id = ${arg.route_id}` : '';
 	arg.public = !!arg.public === true ? `AND f.published = '${arg.public}'` : '';
 	arg.id = 'id' in arg ? `AND f.id = ${arg.id}` : '';
 
-	return db.execQuery(`
+	var [error, fragments] = await db.execQuery(`
             SELECT f.*,
                 c.title as component_title,
                 c.ctrl as component_ctrl,
@@ -22,7 +24,23 @@ exports.get = async (arg = {}) => {
 				${arg.public}
 				${arg.id}
             ORDER BY f.priority DESC, f.id ASc`
-	)
+	);
+
+	for (const fragment of fragments) {
+		const { id: fragment_id } = fragment;
+
+		var [error, settings] = await db.execQuery(`SELECT * FROM fragments_settings WHERE fragment_id = ?`, [fragment_id]);
+
+		const settingsObj = settings.reduce((state, item) => {
+			state[item.target] = item.value;
+			return state;
+		}, {});
+
+		fragment.settings = settingsObj;
+		resFragments.push(fragment);
+	}
+
+	return Promise.resolve([error, resFragments]);
 }
 
 exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
