@@ -45,7 +45,7 @@
         margin: 0;
     }
 
-    .section-content{
+    .section-content {
         overflow-y: auto; 
         overflow-x: hidden;
         position: relative;
@@ -83,6 +83,8 @@
 @media (max-width: 991px) {
     .document-content {
 
+        margin-top: 40px;
+
         .section-content {
             overflow: hidden;
             height: auto;
@@ -107,7 +109,5 @@
 }
 
 @media (max-width: 767px) {
-    .document-content {
-        //margin-bottom: 115px;
-    }
+
 }
