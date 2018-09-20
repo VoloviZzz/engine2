@@ -1,5 +1,13 @@
 $(document).ready(function (e) {
-	$('#toggle-admin-mode').on('click', function (e) {
+	$('#toggle-admin-mode').on('click', toggleAdmin);
+
+	$(document).on('keydown', function (e) {
+		if (e.shiftKey && e.ctrlKey && e.keyCode == 'E'.charCodeAt(0)) {
+			toggleAdmin();
+		}
+	});
+
+	function toggleAdmin() {
 		var postData = {
 			ctrl: 'toggle_admin_mode'
 		};
@@ -12,5 +20,5 @@ $(document).ready(function (e) {
 				console.log(result);
 			}
 		})
-	})
+	}
 })

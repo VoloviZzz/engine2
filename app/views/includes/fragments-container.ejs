@@ -5,12 +5,12 @@
 	<div class="fragment-item">
 		<% if(user.adminMode) { %>
 			<div class="fragment-setting-window">
-				<button href="#" class="setting-call-btn"></button>
+				<button href="#" class="setting-call-btn <%= fragment.published != '1' ? 'fragment-not-published' : '' -%>"></button>
 				<div class="setting-wrapper">
 					<div>
 						<select class="js-upd-fragment-component select-set" data-route-id="<%= route.id -%>" data-fragment-id="<%= id -%>" name="types">
 							<% componentsObj[block_id].map(c => { %>
-								<option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%=c.id-%>"><%= c.title -%></option>
+								<option <%= fragment.component_id == c.id ? 'selected' : '' -%> value="<%= c.id -%>"><%= c.title -%></option>
 							<% }) %>
 						</select>
 					</div>
@@ -35,7 +35,7 @@
 	</div>
 <% }) %>
 <% if(user.adminMode && onceFragmentOnPage === false) { %> 
-	<div style="width: 100%">
+	<div style="width: 100%; margin-top: 20px">
 		<button class="btn js-add-fragment" data-id="<%= route.id -%>" data-block-id="<%= block_id -%>" >Добавить фрагмент</button>
 	</div>
 <% } %>

@@ -1,11 +1,5 @@
 var mysql = require('mysql');
 
-var PRODUCTION_DB = 'test-routes'
-	, TEST_DB = 'test-routes'
-
-exports.MODE_TEST = 'mode_test'
-exports.MODE_PRODUCTION = 'mode_production'
-
 let state = {
 	pool: null,
 	mode: null,
@@ -13,43 +7,51 @@ let state = {
 
 const config = require('../../config');
 
-exports.connect = function (mode, done) {
-	state.pool = mysql.createPool(config.db)
+exports.connect = () => new Promise((resolve, reject) => {
 
-	state.mode = mode
-	done()
-}
+	// state.pool = mysql.createPool(config.db)
+	// state.connection = mysql.createConnection(config.db);
+	var connection = mysql.createConnection(config.db);
 
-exports.get = function () {
-	return state.pool
-}
+	connection.connect(error => {
+		if (error) {
+			return reject(error)
+		};
 
-exports.execQuery = function (queryStr, data = {}) {
-	return new Promise((resolve, reject) => {
+		state.connection = connection;
+		return resolve();
+	})
+})
+
+
+exports.get = () => state.connection;
+
+
+exports.execQuery = (queryStr, data = false) => new Promise((resolve, reject) => {
+	if (data === false) {
+		exports.get().query(queryStr, (err, rows) => {
+			if (err) return resolve([err, null, queryStr]);
+			return resolve([err, rows, queryStr]);
+		})
+	} else {
 		exports.get().query(queryStr, data, (err, rows) => {
 			if (err) return resolve([err, null, queryStr]);
 			return resolve([err, rows, queryStr]);
 		})
-	})
-}
+	}
+})
 
-exports.insertQuery = function (queryStr, data = {}) {
-	return new Promise((resolve, reject) => {
+
+exports.insertQuery = (queryStr, data = false) => new Promise((resolve, reject) => {
+	if (data === false) {
+		exports.get().query(queryStr, (err, rows) => {
+			if (err) return resolve([err, null]);
+			return resolve([err, rows.insertId]);
+		})
+	} else {
 		exports.get().query(queryStr, data, (err, rows) => {
 			if (err) return resolve([err, null]);
 			return resolve([err, rows.insertId]);
 		})
-	})
-}
-
-exports.updateQuery = ({ table = '', data = {}, fields = {} }) => {
-	let fieldsStr = Object.keys(fields).map(fieldName => `${fieldName} = '${fields[fieldName]}'`).join(', ');
-	let queryStr = `UPDATE \`${table}\` SET ${fieldsStr} WHERE id = ${data.id}`;
-
-	return new Promise((resolve, reject) => {
-		exports.get().query(queryStr, {}, (err, rows) => {
-			if (err) return resolve([err, null]);
-			return resolve([err, rows]);
-		})
-	})
-}
+	}
+})

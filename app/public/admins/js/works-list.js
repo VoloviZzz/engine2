@@ -33,7 +33,7 @@ $(document).ready(function (e) {
 			location.reload();
 		})
 	})
-	
+
 	$('.js-works-add').on('click', function (e) {
 
 		$.post('/api/works/add', {}).done(function (result) {
@@ -45,13 +45,15 @@ $(document).ready(function (e) {
 			location.reload();
 		})
 	})
-	
+
 	$('.js-works-delete').on('click', function (e) {
 
 		var postData = {};
 		var $this = $(this);
-		
+
 		postData.id = $this.data('id');
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/works/delete', postData).done(function (result) {
 			if (result.status !== 'ok') {

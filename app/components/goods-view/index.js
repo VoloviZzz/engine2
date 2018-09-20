@@ -93,6 +93,13 @@ module.exports = (app) => {
 			dataViews.similarPositions = similarPositions;
 			data.locals.route.title = pos.title;
 
+			var [error, aliases] = await Model.aliases.get({ route_id: data.locals.route.id, params: data.locals.URIparams });
+			if (error) {
+				throw new Error(error);
+			}
+
+			dataViews.aliases = aliases;
+
 			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
 
 			Object.assign(dataViews.user, data.locals.user);

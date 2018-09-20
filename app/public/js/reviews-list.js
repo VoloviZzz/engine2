@@ -12,6 +12,10 @@ $(document).ready(function () {
 			if (!reviewText) return alert('Нельзя добавить пустой отзыв');
 			if (reviewText.length < 6) return alert('Длина отзыва должна быть не меньше 6 символов');
 
+			if (targetType == 0) {
+				return alert('Не выбрана категория отзывов');
+			}
+
 			$.post("/api/reviews/add", { text: reviewText, targetType: targetType, targetId: targetId }).done(function (result) {
 				if (result.status !== 'ok') {
 					console.log(result);

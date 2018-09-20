@@ -21,6 +21,8 @@ $(document).ready(function () {
 
 		const id = $(this).data('id');
 
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/shopsList/deleteItem', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);

@@ -18,6 +18,7 @@ $(document).ready(function (e) {
 	})
 
 	$('.js-news-delete').on('click', function (e) {
+		if (confirm('Удалить?') === false) return false;
 
 		var $button = $(this);
 		var id = $button.data('id');

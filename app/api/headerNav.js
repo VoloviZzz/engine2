@@ -9,7 +9,8 @@ exports.upd = async function (req, res, next) {
 }
 
 exports.add = async function (req, res, next) {
-    return await HeaderNav.addHeaderNav().then(([error, result]) => {
+    const { parentId } = req.body;
+    return await HeaderNav.addHeaderNav({ parentId }).then(([error, result]) => {
         if (error) return { message: error.message }
         return { status: 'ok' };
     })

@@ -1,0 +1,68 @@
+<% if(user.adminMode) { %>
+	<% if(route.aliasId || URIparams.length > 0) { %>
+	<div class="admin-control-container text-left">
+		<section>
+			<h2>Добавить алиас</h2>
+			<form method="POST" class="js-routesAliases-add">
+				<span>Алиас:</span>
+				<input class="input-text" type="text" name="alias">
+				<br>
+				<br>
+				<button class="btn">Добавить</button>
+				<br>
+				<br>
+				<input type="hidden" name="routeId" value="<%= route.id %>">
+				<input type="hidden" name="params" value="<%= URIparams %>">
+			</form>
+		</section>
+		<section>
+			<h2>Добавить мета-тэги</h2>
+			<form class="js-metaManage-add" method="POST" action="/api/metaManage/add">
+				<input type="hidden" name="route_id" value="<%= route.id %>">
+				<span class="fs-bold">Для чего добавить:</span>
+				<div style="padding-left: 20px">
+					<% if(route.aliasId) { %>
+					<input type="hidden" name="alias_id" value="<%= route.aliasId %>">
+					<label>
+						<input type="radio" class="js-metaManage-showParams" name="category" value="alias">
+						Для алиаса
+					</label>
+					<br>
+					<% } %>
+					<% if(URIparams.length > 0 ) { %>
+					<input type="hidden" name="target_id" value="<%= targetId %>">
+					<input type="hidden" name="target_type" value="<%= route.target_id %>">
+					<label>
+						<input type="radio" class="js-metaManage-showParams" name="category" value="target">
+						Для позиции
+					</label>
+					<% } %>
+				</div>
+				<div>
+					<label>
+						meta-title:
+						<input class="input-text" type="text" name="title" value="<%= route.meta.title || route.title -%>">
+					</label>
+				</div>
+				<div>
+					<label>
+						meta-description:
+						<textarea class="input-text" name="description" value=""><%= route.meta.description || route.seo_description -%></textarea>
+					</label>
+				</div>
+				<div>
+					<label>
+						meta-keywords:
+						<input class="input-text" type="text" name="keywords" value="<%= route.meta.keywords || route.seo_keywords -%>">
+					</label>
+				</div>
+				<br>
+				<button class="btn">Сохранить</button>
+			</form>
+		</section>
+	</div>
+	<script src="/admins/js/meta-manage.js" defer></script>
+	<% } else { %>
+		<p>Для статических маршрутов значения устанавливаются в панели удаминистратора</p>
+	<% } %>
+<% } %>

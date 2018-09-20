@@ -31,7 +31,7 @@ module.exports = (app) => {
 			var publicPosts = session.user.adminMode !== true ? `AND public = '1'` : '';
 			var categoryPosts = currentCategory ? `AND cat = ${currentCategory}` : '';
 			var [, [{ all_count: countReviews }]] = await app.db.execQuery(`SELECT COUNT(id) as all_count FROM posts WHERE target = '${currentTarget}' ${publicPosts} ${categoryPosts}`);
-			const pagination = new Pagination({ countOnPage: 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
+			const pagination = new Pagination({ countOnPage: fragment.settings.countPosts || 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
 			// ----------
 
 			const postsGetParams = {

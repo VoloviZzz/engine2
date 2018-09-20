@@ -6,7 +6,7 @@
 }
 
 .fragment-item {
-	min-height: 150px; 
+    min-height: 150px;
 }
 
 .news__item .admin-control-container {
@@ -35,6 +35,11 @@
     cursor: pointer;
 }
 
+.setting-call-btn.fragment-not-published {
+    background: transparent url(/img/settings-icon-not-public.png) no-repeat center;
+    background-size: cover;
+}
+
 .setting-wrapper {
     display: none;
     position: absolute;
@@ -49,4 +54,20 @@
 .fragment-setting-window.setting-wrapper-show .setting-wrapper {
     display: flex;
     flex-direction: column;
+}
+
+.admin-control-container .btn {
+    margin: 0px 2px;
+}
+
+.admin-panel {
+    background: #051738d1;
+    border-bottom: 1px #04355f solid;
+    border-top: 1px #04355f solid;
+    padding: 2px 10px;
+    color: #fff;
+}
+
+#toggle-admin-mode {
+    cursor: pointer;
 }

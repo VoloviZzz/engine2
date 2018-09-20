@@ -114,6 +114,8 @@ $(document).ready(() => {
 			id: $(this).data('id')
 		}
 
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/dead/delVisited', postData).done(result => {
 			if (result.status !== 'ok') {
 				console.log(result);

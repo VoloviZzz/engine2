@@ -1,6 +1,8 @@
 const Model = require('../models');
 const md5 = require('md5');
 
+const smsc = require(AppRoot + '/services/sendSms/');
+
 exports.register = async function (req, res, next) {
 	try {
 		const data = req.body;
@@ -63,7 +65,7 @@ exports.register = async function (req, res, next) {
 
 		req.session.registerData = { codeId, code, clientId: client.id };
 
-		await req.app.smsc.send({ phones: req.body.phone, mes: code })
+		await smsc.send({ phones: req.body.phone, mes: code });
 		return { status: 'ok' };
 	} catch (error) {
 		console.error(error);

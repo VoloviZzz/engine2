@@ -11,6 +11,8 @@ module.exports = (app) => {
 		var client = {};
 		const { fragment } = locals;
 
+		fragment.settings.onlyRegistred = fragment.settings.onlyRegistred || 0;
+
 
 		if (user_id !== false) {
 			var [error, client] = await Model.clients.get({ id: user_id });

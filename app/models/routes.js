@@ -1,17 +1,20 @@
 const db = require("../libs/db");
 
-exports.get = (args = { id: '' }) => {
+exports.get = (args = {}) => {
 	return new Promise(async function (resolve, reject) {
-		let id = args.id;
+		let { id = '', url = '' } = args;
 
 		if (!!id === true) id = `AND r.id = ${id}`;
+		if (!!url === true) url = `AND r.url = '${url}'`;
 
 		let [err, rows] = await db.execQuery(`
             SELECT r.*,
-            t.title as template_title,
-            t.name as template_name
+            	t.title as template_title,
+            	t.name as template_name,
+				rt.title as target
             FROM routes r
-            LEFT JOIN templates t ON r.template_id = t.id
+            	LEFT JOIN templates t ON r.template_id = t.id
+				LEFT JOIN routes_targets rt ON rt.id = r.target_id
             WHERE r.id > 0 ${id}`
 		);
 
@@ -33,7 +36,7 @@ exports.add = async ({ url, title, dynamic, access, seo_keywords, seo_descriptio
 	if (typeof template_id != 'undefined') template_id = `, template_id = '${template_id}'`;
 
 	const [err, insertId] = await db.insertQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${seo_description} ${seo_keywords} ${template_id}`);
-	if (err) throw new Error(err.sql);
+	if (err) throw new Error(err);
 
 	const [queryErr, newRoute] = await exports.get({ id: insertId });
 	return Promise.resolve([null, newRoute]);
@@ -59,10 +62,11 @@ exports.upd = (arg = {}) => {
 
 	arg.menu = typeof arg.menu !== 'undefined' ? `, menu_id = '${arg.menu}'` : ``;
 	arg.template_id = typeof arg.template_id !== 'undefined' ? `, template_id = '${arg.template_id}'` : ``;
+	arg.target_id = typeof arg.target_id !== 'undefined' ? `, target_id = '${arg.target_id}'` : ``;
 
 	arg.seo_description = typeof arg.seo_description !== 'undefined' ? `, seo_description = '${arg.seo_description}'` : ``;
 	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
-	
+
 	arg.show_title = typeof arg.show_title !== 'undefined' ? `, show_title = '${arg.show_title}'` : ``;
 	arg.use_component_title = typeof arg.use_component_title !== 'undefined' ? `, use_component_title = '${arg.use_component_title}'` : ``;
 
@@ -92,5 +96,6 @@ exports.upd = (arg = {}) => {
 			${arg.edit_access}
 			${arg.show_title}
 			${arg.use_component_title}
+			${arg.target_id}
 		WHERE id = ${arg.id}`)
 }
