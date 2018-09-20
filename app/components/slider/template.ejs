@@ -13,17 +13,25 @@
             <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToScroll"
                 type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
         </div>
+        <div>
+            <p>Минимальная высота слайдера:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="minImageHeight"
+                type="text" value="<%= fragment.settings.minImageHeight || '' -%>">
+        </div>
+        <div>
+            <p>Максимальная высота высота слайдера:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="maxImageHeight"
+                type="text" value="<%= fragment.settings.maxImageHeight || '' -%>">
+        </div>
 		<div>
-			<button class="btn js-slider-add" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>
-			<br>
-			<br>
+			<button class="btn js-slider-add margin-y-10" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>
 		</div>
     </div>
 <% } %>
 
 <div class="fragment-slider" data-fragment-id="<%= fragment.id -%>">
     <% slides.forEach(slide => { %>
-		<div>
+		<div class="slide">
 			<% if(user.adminMode) { %>
 				<div class="admin-control-container text-left flex-container">
 					<% if(slide.published == 1) { %>
@@ -41,8 +49,20 @@
 					</div>
 					<button class="btn bg-delete js-slider-deleteSlide" data-id="<%= slide.id -%>">Удалить</button>
 				</div>
+				<div>
+					<span class="fs-body">Заголовок</span>
+					<input type="text" class="input-text js-slide-update" data-target="title" data-id="<%= slide.id -%>" value="<%= slide.title -%>">
+					<span class="fs-body">Подзаголовок</span>
+					<input type="text" class="input-text js-slide-update" data-target="subtitle" data-id="<%= slide.id -%>" value="<%= slide.subtitle -%>">
+					<span class="fs-body">Текст слайда</span>
+					<textarea class="input-text js-slide-update" data-target="text" data-id="<%= slide.id -%>"><%= slide.text -%></textarea>
+				</div>
 			<% } %>
-			<img height="350px" src="<%= slide.image -%>">
+			<img style="
+					<%= fragment.settings.maxImageHeight ? `max-height: ${fragment.settings.maxImageHeight}px;` : '' -%>
+					<%= fragment.settings.minImageHeight ? `min-height: ${fragment.settings.minImageHeight}px;` : '' -%>
+				"
+				src="<%= slide.image -%>">
 		</div>
 	<% }) %>
 </div>
@@ -52,9 +72,11 @@
     document.addEventListener("DOMContentLoaded", function () {
         $('.fragment-slider[data-fragment-id=<%= fragment.id -%>]').slick({
             infinite: true,
+			dots: true,
             slidesToShow: <%= fragment.settings.slidesToShow || 1 -%>,
             slidesToScroll: <%= fragment.settings.slidesToScroll || 1 -%>,
-            adaptiveHeight: true
+            adaptiveHeight: true,
+			slide: '.fragment-slider .slide'
         });
     });
 
