@@ -16,15 +16,33 @@ exports.deleteHeaderNav = function ({ id }) {
 exports.updateHeaderNav = function ({ id, target, value }) {
     return db.execQuery(`UPDATE header_nav SET ${target} = '${value}' WHERE id = ${id}`);
 }
+exports.getStoreCats = function () {
+    return db.execQuery("SELECT * FROM goods_cats WHERE parent_id IS NULL");
+}
 
 exports.constructHeaderRows = async (req, res, next) => {
-    await this.getHeaderNav().then(([error, rows]) => {
-        if (error) throw new Error(error);
-        const tree = unflatten(rows);
-        
-        res.locals.HeaderRows = tree;
-        next();
-    })
+    var tree = false;
+	await this.getHeaderNav()
+		.then(([error, rows]) => {
+			if (error) throw new Error(error);
+			tree = unflatten(rows);
+		})
+		.then(() => {
+			return this.getStoreCats();
+		})
+		.then(([error, rows]) => {
+			if (error) throw new Error(error);
+			
+			tree.forEach((item, i) => {
+				if (item.id == 4) {
+					tree[i]['childs'] = rows;					
+				}
+			});
+		})
+		.then(() => {
+			res.locals.HeaderRows = tree;
+			next();
+		})
 }
 
 function unflatten(arr) {

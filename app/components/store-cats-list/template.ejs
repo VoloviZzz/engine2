@@ -1,0 +1,93 @@
+
+<style>
+	* {
+	}
+	
+	.btn-block {
+		display: block;
+	}
+	
+	/* items list */
+	
+	.items-list {
+	}
+	.items-list li {
+		display: inline-block;
+		vertical-align: top;
+	}
+	.items-list-img-cnt {
+		width: 100%;
+		height: 250px;
+		display: table;
+	}
+	.items-list-img-cnt > div {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.items-list img {
+		width: 100%;
+		height: auto;
+	}
+	.items-list li .btn {
+		margin: 1em;
+	}
+	
+	/* sm */
+	
+	.sm-container {
+		background: #fff;
+		border:1px solid #000;
+		margin: -1px;
+	}
+	.sm-container h2 {
+		margin: 30px;
+	}
+	.sm-cats li {
+		padding: 30px;
+		width: 25%;
+	}
+	.sm-cats-img img {
+		max-height: 240px;
+	}
+	.sm-cats li p {
+	}
+</style>
+
+<div class="sm-container">
+	<h2>Товары и услуги по категориям</h2>
+	<ul class="items-list sm-cats"><%
+
+		cats.map((c, index) => {
+		
+			c.desc = typeof c.description !== "undefined" ? c.description : "описание отсутствует";
+			c.href = "/store-cat/" + c.id;
+
+			%><li>
+				<h4 class="sm-cats-title">
+					<a href="<%=c.href%>"><%=c.title%></a>
+				</h4>
+				<div class="items-list-img-cnt sm-cats-img">
+					<div>
+						<a href="<%=c.href%>">
+							<img src="<%=c.img%>" />
+						</a>
+					</div>
+				</div>
+				<p><%=c.desc%></p>
+				<a class="btn btn-block items-list-btn" href="<%=c.href%>">Подробнее</a>
+			</li><%
+			
+			if(user.adminMode) {
+			}
+			else {
+			}
+			
+			%><%
+
+		});
+	%></ul>
+</div>
+
+<script>
+	//setTimeout(() => { location.reload(); }, 5000);
+</script>
