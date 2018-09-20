@@ -10,6 +10,8 @@
 			</form>
 		</div>
 		<br>
+		<span class="fs-bold">Количество на странице:</span>
+		<input type="text" class="input-text js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="countOnPage" data-event="change" value="<%= fragment.settings.countOnPage -%>">
 	<% } %>
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">

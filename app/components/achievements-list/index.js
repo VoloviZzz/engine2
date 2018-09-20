@@ -7,10 +7,14 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
+		const { fragment } = locals;
+
+		fragment.settings.countOnPage = fragment.settings.countOnPage || 10;
+
 		var [error, achievements] = await Model.achievements.get();
 		if (error) throw new Error(error);
 
-		const countOnPage = 10;
+		const countOnPage = fragment.settings.countOnPage;
 		const curPage = locals.reqQuery.page || 1;
 		const pagOffset = (curPage - 1) * countOnPage;
 
