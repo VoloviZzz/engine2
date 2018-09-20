@@ -15,10 +15,11 @@
 		</form>
 	</div>
 	<div>
+		<span class="fs-bold">Могут оставлять только зарегистрированные</span>
 		<% if(fragment.settings.onlyRegister == 1) { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="click" value="0">Оставлять отзывы могут все пользователи</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="0" checked>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="click" value="1">Оставлять отзывы могут только зарегистрированные</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="1">
 		<% } %>
 	</div>
 <% } %>

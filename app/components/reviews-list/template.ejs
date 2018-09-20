@@ -5,12 +5,16 @@
 	<% if(user.adminMode) { %>
 		<ul class="tabs-titles-wrap">
 			<li class="tab active tab-all">Все</li>
-			<li class="tab tab-all">Неопубликованные</li>
+			<li class="tab tab-all">Неопубликованные (<%= reviewsNotPublished.length -%>)</li>
 		</ul>
 	<% } %>
 	<div class="tabs-content-wrap">
 		<div class="tab-content active">
-			<%- include('./reviews-list') -%>
+			<% if(reviews.length > 0) { %>
+				<%- include('./reviews-list') -%>
+			<% } else { %>
+				<h2>Оставьте отзыв. Ваш отзыв будет первым</h2>
+			<% } %>
 			<%- pagination.render() -%>
 			<% if(fragment.settings.targetType != 0) { %>
 				<% if((fragment.settings.onlyRegister != 0 && user.id) || fragment.settings.onlyRegister == 0) { %>

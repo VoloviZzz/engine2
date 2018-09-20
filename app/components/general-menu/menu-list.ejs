@@ -20,6 +20,7 @@
 				<% } else { %>
 					<button class="btn js-route-toggleActiveMenuItem" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= s.id %>" title="Сделать пункт меню активным для текущего маршрута">А</button>
 				<% } %>
+				<span title="Приоритет">П:</span>
 				<input type="text" class="js-menuItem-edit"  data-id="<%= s.id -%>" data-target="priority" name="priority" value="<%= s.priority -%>">
 			<% } %>
 			<% if(!!menuTree[id]['childs'] === true) { %>
