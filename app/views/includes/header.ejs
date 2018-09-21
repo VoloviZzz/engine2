@@ -17,7 +17,7 @@
 		<% } %>
     </head>
     <body>
-		<header class="document-header">
+		<!--<header class="document-header">
 			<nav class="navbar navbar-expand-lg nav-letaindex">
 				<a class="navbar-brand">
 					<img src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
@@ -100,5 +100,79 @@
 					</ul>
 				</div>
 			</nav>
-		</header>
-		<!--<div class="aside-toggle">Меню слева</div>-->
+		</header>-->
+
+	<header class="document-header">
+		<nav class="header-nav">
+			<div class="site-band">
+				<img class="nav-band" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
+				<% if(user.adminMode) { %>
+					<label class="js-siteLogo-edit-btn" style="cursor: pointer">
+						<span>+</span>
+						<input class="js-siteLogo-file" type="file" style="display: none;">
+					</label>
+				<% } %>
+				<button class="toggle-menu btn"></button>
+			</div>
+			<div class="menu-container">
+				<ul class="header-menu header-menu-center">
+					<% HeaderRows.forEach((r) => { %>
+						<li>
+							<% if(user.adminMode) { %>
+								<div style="display: flex;">
+									<div>
+										<div>
+											<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
+										</div>
+										<div>
+											<input type="text" class="js-headerNav-edit" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
+										</div>
+									</div>
+									<div>
+										<button class="btn js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
+									</div>
+								</div>
+							<% } else { %>
+								<a href="<%= r.href -%>"><%= r.title -%></a>
+							<% } %>
+						</li>
+					<% }) %>
+					<% if (user.id && user.admin) { %>
+						<% if(user.adminMode) { %>
+							<div>
+								<button class="btn js-headerNav-add" style="height: 100%">+</button>
+							</div>
+						<% } %>
+					<% } %>
+				</ul>
+				<ul class="header-menu header-menu-right">
+					<li>
+						<a class="shopping-cart-link" href="/cart">
+							<i class="fa fa-shopping-cart fa-lg"></i>
+							<span 
+								class="badge shopping-cart-badge" 
+								id="js-shoppingCart-goodsCount" 
+								style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
+						</a>
+					</li>
+					<% if(!user.id) { %>
+						<li>
+							<a href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
+						</li>
+					<% } else { %>
+						<% if (user.admin) { %>
+							<li>
+								<a href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
+							</li>
+						<% } %>
+						<li>
+							<a href="/my"><%= user.clientName %></a>
+						</li>
+						<li>
+							<a href="/logout">Выйти</a>
+						</li>
+					<% }%>
+				</ul>
+			</div>
+		</nav>
+	</header>
