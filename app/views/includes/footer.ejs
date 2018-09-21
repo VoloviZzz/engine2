@@ -1,52 +1,45 @@
-	<footer class="document-footer">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-3 leta-logo">
-					<a href="#">
-						<img src="/img/leta-logo.png" alt="Лета-Индекс">
-					</a>
+<footer class="document-footer">
+<div class="leta-logo">
+	<a class="leta-link" href="#">
+		<img src="/img/leta-logo.png" alt="Лета-Индекс">
+	</a>
+</div>          
+	<div class="copyright">
+		<% if(user.adminMode) { %>
+			<input class="js-set-siteConfig" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
+		<% } else { %>
+			<%= siteConfig.get('footerText') -%>
+		<% } %>
+	</div>
+<div class="footer-social">
+	<% if(user.adminMode) { %>
+		<button class="js-add-social-link">+</button>
+	<% } %>
+	<% socialLinks.get().forEach((item) => { %>
+		<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">
+			<% if(user.adminMode) { %>
+				<div class="js-social-link-form" style="display: none">
+					<button class="js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
+					<input class="js-socialLink-edit" data-target="href" data-id="<%= item.id -%>" type="text" name="href" placeholder="Ссылка" value="<%= item.href -%>" style="width: 70px">
+					<input class="js-socialLink-edit" data-target="title" data-id="<%= item.id -%>" type="text" name="title" placeholder="Заголовок" value="<%= item.title -%>" style="width: 70px">
+					<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">
 				</div>
-				<div class="col-md-6 copyright text-center">
-					<% if(user.adminMode) { %>
-						<input class="js-set-siteConfig" style="height: 20px" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
-					<% } else { %>
-						<%= siteConfig.get('footerText') -%>
-					<% } %>
-				</div>
-				<div class="col-md-3 footer-social">
-					<% if(user.adminMode) { %>
-						<button class="btn btn-sm btn-letaindex js-add-social-link">+</button>
-					<% } %>
-					<% socialLinks.get().forEach((item) => { %>
-						<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">
-							<% if(user.adminMode) { %>
-								<div class="js-social-link-form" style="display: none">
-									<button class="btn btn-sm js-socialLink-delete" data-id="<%= item.id -%>">Удалить</button>
-									<input class="js-socialLink-edit" data-target="href" data-id="<%= item.id -%>" type="text" name="href" placeholder="Ссылка" value="<%= item.href -%>" style="width: 70px">
-									<input class="js-socialLink-edit" data-target="title" data-id="<%= item.id -%>" type="text" name="title" placeholder="Заголовок" value="<%= item.title -%>" style="width: 70px">
-									<input class="js-socialLink-edit" data-target="icon" data-id="<%= item.id -%>" type="text" name="icon" placeholder="Иконка" value="<%= item.icon -%>" style="width: 70px">
-								</div>
-							<% } %>
-							<i class="fa <%= item.icon ? item.icon : 'fa-question' -%>"></i>
-						</a>	
-					<% }) %>
-				</div>
-			</div>
-		</div>
-	</footer>
-
+			<% } %>
+			<i class="fa <%= item.icon ? item.icon : 'fa-question' -%>"></i>
+		</a>	
+	<% }) %>
+</div>
+</footer>
 </body>
 <script type="text/javascript" src="/vendors/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/vendors/ace/ace.js"></script>
 <script type="text/javascript" src="/vendors/ace/ext-textarea.js"></script>
-<script type="text/javascript" src="/vendors/bootstrap/dist/js/popper.min.js"></script>
-<script type="text/javascript" src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/application.js"></script>
 <% if(!!user.adminMode === true) { %>
-    <script src="/admins/js/admin.js"></script>
+<script src="/admins/js/admin.js"></script>
 <% } %>
 <% if(user.admin) { %>
-    <script src="/admins/js/toggle-admin.js"></script>
+<script src="/admins/js/toggle-admin.js"></script>
 <% } %>
 </html>
