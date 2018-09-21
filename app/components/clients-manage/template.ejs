@@ -1,7 +1,3 @@
-<!--<link rel="stylesheet" href="/css/clients-manage.css">-->
-<!--<div class="clients-search">
-	<input class="clients-search__input" type="text" placeholder="Введите e-mail или номер телефона для поиска">
-</div>-->
 <div class="form-group">
 	<input name="title" type="text" class="form-control clients-search__input" aria-describedby="clientsSearchHelp" placeholder="Введите e-mail или номер телефона для поиска">
 </div>
@@ -31,29 +27,4 @@
 		<% }) %>
 	</tbody>
 </table>
-<!--<div id="clients-list" class="clients-list">
-	<% clients.forEach((c) => { %>
-		<div class="client-card">
-			<div class="client-card__title">
-				<h2>#<%= c.id -%> - <%= c.surname -%> <%= c.firstname -%> <%= c.patronymic -%></h2>
-				<ul class="text-left">
-					<li class="mb-2">Электронный адрес:
-						<a class="page-link" href="mailto:<%= c.mail -%>"><%= c.mail -%></a>
-					</li>
-					<li class="mb-2">Номер телефона:
-						<a class="page-link" href="callto:<%= c.phone -%>"><%= c.phone -%></a>
-					</li>
-					<li>
-						<p>Администратор: </p>
-						<% if(c.admin) { %>
-							<button class="btn btn-middle js-clients-toggleAdmin" data-user-id="<%= c.id -%>" value="0">Убрать администратора</button>
-						<% } else { %>
-							<button class="btn btn-middle js-clients-toggleAdmin" data-user-id="<%= c.id -%>" value="1">Сделать администратором</button>
-						<% } %>
-					</li>
-				</ul>
-			</div>
-		</div>
-	<% }) %>
-</div>-->
 <script src="/js/clients-manage.js" defer></script>

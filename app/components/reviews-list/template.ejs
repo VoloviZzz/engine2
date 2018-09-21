@@ -1,57 +1,5 @@
 
 <link rel="stylesheet" href="/css/reviews-list.css">
-<!--<link rel="stylesheet" href="/css/c_tabs.css">-->
-
-<!--<div class="tabs-wrapper">
-	<% if(user.adminMode) { %>
-		<div>
-			<span>Выберите категорию отзывов:</span>
-			<select class="js-fragment-update-settings select-text mb-2" data-target="targetType" data-event="change" data-fragment-id="<%= fragment.id -%>" name="target-post">
-				<option value="">Не выбрано</option>
-				<% for (let target of reviewsCats ) { %>
-					<% var targetSelected = target.title == fragment.settings.targetType ? `selected` : '' %>;
-					<option value="<%= target.title -%>" <%= targetSelected -%> ><%= target.title -%></option>
-				<% } %>
-			</select>
-			
-			<form id="js-add-reviews-category" class="mb-3">
-				<span>Или добавьте новую категорию:</span>
-				<input class="input-text mb-2" type="text" />
-				<button type="submit" class="btn">Добавить</button>
-			</form>
-		</div>
-	<% } %>
-	<% if(user.adminMode) { %>
-		<ul class="tabs-titles-wrap">
-			<li class="tab active tab-all">Все</li>
-			<li class="tab tab-all">Неопубликованные</li>
-		</ul>
-	<% } %>
-	<div class="tabs-content-wrap">
-		<div class="tab-content active">
-			<%- include('./reviews-list') -%>
-			<%- pagination.render() -%>
-			<% if(user.id) { %>
-				<div class="reviews-add-wrapper" id="js-reviews-add-wrapper" data-target-id="<%= targetId -%>" data-target-type="<%= fragment.settings.targetType -%>">
-					<textarea class="select-text new-reviews-text" id="add-review-text" name="reviews-text"></textarea>
-					<button class="btn new-reviews-button btn-inverse">Добавить</button>
-				</div>
-			<% } else { %>
-				<div class="text-center">
-					<h3>
-						<b>Добавлять отзывы могут только зарегистрированные пользователи</b>
-					</h3>
-				</div>
-			<% } %>
-		</div>
-		<% if(user.adminMode) { %>
-			<div class="tab-content not-modered-reviews">
-				<%- include('./reviews-list', { reviews: reviewsNotPublished }) -%>
-			</div>
-		<% } %>
-	</div>
-</div>-->
-
 <% if(user.adminMode) { %>
 
 	<div class="form-row">
