@@ -5,10 +5,17 @@
 	padding: 0px;
 }
 
+html {
+    height: 100%;
+}
+
 body {
-    min-height: 100vh;
+    /*min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;*/
+    height: 100%;
+    display: flex;
+    flex-flow: column;
 }
 
 ul {
@@ -17,4 +24,10 @@ ul {
 
 table{
     width: 100%;
+}
+
+@media (max-width: 991px) {
+    body {
+        height: auto;
+    }
 }
