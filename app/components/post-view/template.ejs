@@ -1,11 +1,23 @@
+<div class="section-title" style="display: flex; flex-flow: row wrap; align-items: center;">
+	<a href="<%= fragment.settings.listUrl ? fragment.settings.listUrl : '#' -%>" style="text-decoration: underline;">Вернуться к списку</a>
+	<h3 class="fs-regular text-center" style="margin: auto;"><%= post.title -%></h3>
+</div>
 <% if(user.adminMode) { %>
 	<span>Адрес списка публикаций</span>
 	<input class="js-fragment-update-settings" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
 <% } %>
-<a href="<%= fragment.settings.listUrl ? fragment.settings.listUrl : '#' -%>" class="btn">Назад к списку публикаций</a>
 <div class="news content">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container">
+			<label>
+				<span>установить алиас для товара:</span>
+				<select class="js-post-update" data-reload="true" data-target="alias_id" data-id="<%= post.id -%>">
+					<option value="0">Не выбрано</option>
+					<% aliases.forEach(alias => { %>
+						<option <%= post.alias_id == alias.id ? 'selected' : '' -%> value="<%= alias.id -%>"><%= alias.alias -%></option>
+					<% }) %>
+				</select>
+			</label>
 			<span>Категория:</span>
 			<select class="js-post-update" data-reload="true" data-target="cat" data-id="<%= post.id -%>">
 				<option value="0">Не выбрано</option>

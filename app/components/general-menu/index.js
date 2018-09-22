@@ -14,12 +14,16 @@ module.exports = (app) => {
 				menuTree = await Menu.constructMenu({ menu_id: route.menu_id });
 			}
 
+			menuTree = Object.values(menuTree).sort((a, b) => {
+				return b.priority - a.priority;
+			})
+
 			const dataViews = {
 				user: {},
 				locals: {},
 			};
 
-			const [, menuGroups] = await app.Model.menu.getMenuGroups();
+			const [, menuGroups] = await Model.menu.getMenuGroups();
 
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);

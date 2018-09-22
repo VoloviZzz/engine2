@@ -53,6 +53,8 @@ $(document).ready(function (e) {
 		
 		postData.id = $this.data('id');
 
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/partners/delete', postData).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);

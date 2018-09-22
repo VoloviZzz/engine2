@@ -27,3 +27,12 @@ exports.delete = (req, res, next) => {
 		return { status: 'ok' }
 	})
 }
+
+exports.upd = (req, res, next) => {
+	const Model = req.app.Model;
+
+	return Model.siteConfig.upd(req.body).then(async () => {
+		await req.app.siteConfig.refresh();
+		return { status: 'ok' }
+	})
+}

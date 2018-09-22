@@ -66,28 +66,37 @@
 	</form>
 	<ul class="route-items">
 		<% routesList.map((r) => { %>
-		<li class="js-route-item route-item" style="">
+		<li class="js-route-item route-item">
 			<a href="<%= r.url -%>"><%= r.url + ' - ' + r.title -%></a>
 			<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= r.id -%>">Редактировать</button>
 			<button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= r.id -%>">Удалить маршрут</button>
-			<div class="js-route-edit-form" style="">
+			<div class="js-route-edit-form">
 				<form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
 					<h2>Изменить маршрут</h2>
 					<section class="section-one">
 						<div class="input-wrapper first-wrapper">
 							<label>
-							<span>URL маршрута:</span>
-							<input name="url" type="text" value="<%=r.url-%>" placeholder="url маршрута / " required>
+								<span>URL маршрута:</span>
+								<input name="url" type="text" value="<%=r.url-%>" placeholder="url маршрута / " required>
 							</label>
 							<label>
-							<span>Заголовок маршрута:</span>
-							<input name="title" type="text" value="<%=r.title-%>" required>
+								<span>Заголовок маршрута:</span>
+								<input name="title" type="text" value="<%=r.title-%>" required>
 							</label>
 							<label>
 								<span class="input-wrapper__title">Шаблон страницы:</span>
 								<select name="template_id">
 									<% templatesList.forEach((t) => { %>
-									<option value="<%= t.id -%>" <%= r.template_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
+										<option value="<%= t.id -%>" <%= r.template_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
+									<% }) %>
+								</select>
+							</label>
+							<label>
+								<span class="input-wrapper__title">Классификация страницы</span>
+								<select name="target_id">
+									<option value="0">Не выбрано</option>
+									<% targets.forEach((t) => { %>
+										<option value="<%= t.id -%>" <%= r.target_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
 									<% }) %>
 								</select>
 							</label>

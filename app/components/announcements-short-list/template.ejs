@@ -1,1 +1,71 @@
-Hello world
+<style>
+	.right-list {
+	}
+	.right-list li {
+		text-align: center;
+		margin: 0 auto 30px auto;
+		display: block;
+		width: 96%;
+	}
+	.right-list li h4 {
+		font-size: 20px;
+		font-weight: 500;
+	}
+	.right-list li > a {
+		display: block;
+	}
+	.right-list li > a img {
+		width: 96%;
+		display: block;
+		margin: 10px auto;
+	}
+	.right-list li p {
+	}
+	.right-list li .btn {
+		margin: 10px auto 30px auto;
+	}
+</style><%
+
+var offers = [
+	{
+		title: "Лучшая цена",
+		img: "/img/components/offers-list/1.jpg",
+		desc: "Специальное предложение на все товары и услуги. Только до конца месяца!",
+		link: "",
+	},
+	{
+		title: "Распродажа",
+		img: "/img/components/offers-list/2.jpg",
+		desc: "Распродажа модельного ряда уходящего года. Спешите успеть!",
+		link: "",
+	},
+	{
+		title: "Специальное предложение",
+		img: "/img/components/offers-list/3.jpg",
+		desc: "Станьте заказчиком сегодня и получите индивидуальное выгодное предложение",
+		link: "",
+	},
+];
+
+%><ul class="right-list"><%
+	
+	
+	offers.forEach((o, i) => {
+	
+		%><li>
+			<h4>
+				<a href="<%= o.link %>"><%= o.title %></a>
+			</h4>
+			<a href="<%= o.link %>">
+				<div>
+					<img src="<%= o.img %>" />
+				</div>
+			</a>
+			<p><%= o.desc %></p>
+			<a class="btn" href="<%= o.link %>">Подробнее</a>
+		</li><%
+		
+	});
+	
+	
+%></ul>

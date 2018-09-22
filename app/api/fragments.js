@@ -1,4 +1,5 @@
 const Model = require('../models');
+const db = require('../libs/db');
 
 exports.add = async function (req, res, next) {
 	let error = false;
@@ -27,27 +28,25 @@ exports.upd = async function (req, res, next) {
 
 exports.updSettings = async function (req, res, next) {
 	try {
-		let error = false;
 
 		if ('value' in req.body === false || 'target' in req.body === false) return { status: 'bad', message: 'Отсутствуют необходимые параметры' };
 
-		[error, [fragment]] = await Model.fragments.get({ id: req.body.fragment_id });
-		if (error) return { status: 'bad', message: error.message, error }
+		const { fragment_id, target, value } = req.body;
 
-		if (!!fragment.settings === true) {
-			let _settings = JSON.parse(fragment.settings);
-			fragment.settings = _settings;
+		[error, [fragment]] = await Model.fragments.get({ id: fragment_id });
+		if (error) return { status: 'bad', message: error.message, error };
+
+		var [error, checkSettings] = await db.execQuery(`SELECT * FROM fragments_settings WHERE fragment_id = '${fragment_id}' AND target = '${target}'`);
+
+		if (checkSettings.length < 1) {
+			await db.execQuery(`INSERT INTO fragments_settings SET ?`, { target, value, fragment_id });
 		} else {
-			fragment.settings = {};
+			await db.execQuery(`UPDATE fragments_settings SET value = ? WHERE fragment_id = ? AND target = ?`, [value, fragment_id, target]);
 		}
-
-		Object.assign(fragment.settings, { [req.body.target]: req.body.value });
-
-		[error, fragmentId] = await Model.fragments.upd({ target: 'settings', value: JSON.stringify(fragment.settings), id: fragment.id });
-		if (error) return { status: 'bad', message: error.message, error }
 
 		return { status: 'ok' }
 	} catch (error) {
+		console.log(error);
 		return { status: 'bad', error, message: error.message };
 	}
 }
@@ -73,14 +72,22 @@ exports.setData = async function (req, res, next) {
 
 exports.handler = async (req, res, next) => {
 	const fragmentsHandler = require('../libs/fragments')(req.app);
-	var [err, fragments] = await Model.fragments.get({ route_id: req.body.route_id });
 
-	const fragmentsMap = fragments.map(async fragment => {
-		return fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals, route: { id: req.body.route_id } } });
-	});
+	const { route_id, id } = req.body;
+
+	const countParams = [route_id, id].filter(item => !!item).length;
+
+	if (countParams == 0) {
+		return { status: 'bad', message: 'Отсутствуют параметры для обработки фрагментов' };
+	}
+
+	var [err, fragments] = await Model.fragments.get(req.body);
+
+	const fragmentsMap = fragments.map(async fragment =>
+		fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals, route: { id: req.body.route_id } } })
+	);
 
 	const fragmentsData = await Promise.all(fragmentsMap);
-	console.log(fragmentsData);
 
 	return { status: 'ok', body: req.body, fragments, fragmentsData };
 }

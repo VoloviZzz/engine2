@@ -43,7 +43,7 @@ $(document).ready(function () {
 		postData.value = value;
 		postData.fragment_id = fragmentId;
 
-		const urlValid = /^\/[a-z-]+$/.test(value);
+		const urlValid = /^(\/[a-z-]+)|#$/.test(value);
 
 		if (urlValid === false) {
 			return alert(`Неправильный формат url`);

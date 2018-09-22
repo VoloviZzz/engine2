@@ -23,17 +23,20 @@ exports.add = function (data = {}) {
 	`);
 }
 
-exports.get = function (data = {}) {
-	data.parent_id = typeof data.parent_id !== "undefined" ? `AND parent_id = ${data.parent_id}` : ``;
-	data.id = typeof data.id !== "undefined" ? `AND id = ${data.id}` : ``;
-	data.public = 'public' in data ? `AND public = '${data.public}'` : '';
-	data.level = typeof data.level !== "undefined" ? `AND level = ${data.level}` : ``;
+exports.get = (data = {}) => {
+	data.parent_id = typeof data.parent_id !== "undefined" ? `AND gc.parent_id = ${data.parent_id}` : ``;
+	data.id = typeof data.id !== "undefined" ? `AND gc.id = ${data.id}` : ``;
+	data.public = 'public' in data ? `AND gc.public = '${data.public}'` : '';
+	data.level = typeof data.level !== "undefined" ? `AND gc.level = ${data.level}` : ``;
 	data.orderBy = 'orderBy' in data ? `ORDER BY ${data.orderBy}` : '';
 
 	return db.execQuery(`
-		SELECT * FROM goods_cats
+		SELECT gc.*,
+			ra.alias
+		FROM goods_cats gc
+			LEFT JOIN routes_aliases ra ON ra.id = gc.alias_id
 		WHERE
-			id > 0
+			gc.id > 0
 			${data.parent_id}
 			${data.id}
 			${data.level}

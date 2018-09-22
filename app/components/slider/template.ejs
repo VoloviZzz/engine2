@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="/vendors/slick/slick.css">
+<link rel="stylesheet" href="/vendors/slick/slick-theme.css">
+
+<% if(user.adminMode) { %>
+    <div class="">
+        <div>
+            <p>Количество слайдов на экране:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToShow"
+                type="text" value="<%= fragment.settings.slidesToShow || 1 -%>">
+        </div>
+        <div>
+            <p>Сколько слайдов прокручивать за одно нажатие:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToScroll"
+                type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
+        </div>
+        <div>
+            <p>Минимальная высота слайдера:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="minImageHeight"
+                type="text" value="<%= fragment.settings.minImageHeight || '' -%>">
+        </div>
+        <div>
+            <p>Максимальная высота высота слайдера:</p>
+            <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="maxImageHeight"
+                type="text" value="<%= fragment.settings.maxImageHeight || '' -%>">
+        </div>
+		<div>
+			<button class="btn js-slider-add margin-y-10" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>
+		</div>
+    </div>
+<% } %>
+
+<div class="fragment-slider" data-fragment-id="<%= fragment.id -%>">
+    <% slides.forEach(slide => { %>
+		<div class="slide">
+			<% if(user.adminMode) { %>
+				<div class="admin-control-container text-left flex-container">
+					<% if(slide.published == 1) { %>
+						<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="0">Снять с публикации</button>
+					<% } else { %>
+						<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="1">Опубликовать</button>
+					<% } %>
+					<label>
+						<span class="btn js-slider-addSlideImage">Добавить изображение</span>
+						<input type="file" class="js-slides-uploadImage" data-id="<%= slide.id -%>" style="display: none">
+					</label>
+					<div>
+						<span>Приоритет:</span>
+						<input class="js-slide-update" data-target="priority" data-id="<%= slide.id -%>" type="text" value="<%= slide.priority -%>">
+					</div>
+					<button class="btn bg-delete js-slider-deleteSlide" data-id="<%= slide.id -%>">Удалить</button>
+				</div>
+				<div>
+					<span class="fs-body">Заголовок</span>
+					<input type="text" class="input-text js-slide-update" data-target="title" data-id="<%= slide.id -%>" value="<%= slide.title -%>">
+					<span class="fs-body">Подзаголовок</span>
+					<input type="text" class="input-text js-slide-update" data-target="subtitle" data-id="<%= slide.id -%>" value="<%= slide.subtitle -%>">
+					<span class="fs-body">Текст слайда</span>
+					<textarea class="input-text js-slide-update" data-target="text" data-id="<%= slide.id -%>"><%= slide.text -%></textarea>
+				</div>
+			<% } %>
+			<img style="
+					width: 100%; margin: 0 auto;
+					<%= fragment.settings.maxImageHeight ? `max-height: ${fragment.settings.maxImageHeight}px;` : '' -%>
+					<%= fragment.settings.minImageHeight ? `min-height: ${fragment.settings.minImageHeight}px;` : '' -%>
+				"
+				src="<%= slide.image -%>">
+		</div>
+	<% }) %>
+</div>
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", function () {
+        $('.fragment-slider[data-fragment-id=<%= fragment.id -%>]').slick({
+            infinite: true,
+			dots: true,
+            slidesToShow: <%= fragment.settings.slidesToShow || 1 -%>,
+            slidesToScroll: <%= fragment.settings.slidesToScroll || 1 -%>,
+            adaptiveHeight: true,
+			slide: '.fragment-slider .slide'
+        });
+    });
+
+</script>
+
+<script src="/vendors/slick/slick.min.js" defer></script>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/slider.js" defer></script>
+<% } %>

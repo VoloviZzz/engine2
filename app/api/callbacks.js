@@ -1,3 +1,5 @@
+const smsc = require(AppRoot + '/services/sendSms/');
+
 exports.get = (req, res, next) => {
 	const Model = req.app.Model;
 
@@ -57,7 +59,7 @@ exports.add = async (req, res, next) => {
 		[error, [agent]] = await Model.agents.get({ id: req.body.targetId });
 
 		if (agent.contact_phone) {
-			await app.smsc.send({
+			await smsc.send({
 				phones: agent.contact_phone,
 				mes: 'Заказан обратный звонок: ' + req.body.clientNumber,
 			});

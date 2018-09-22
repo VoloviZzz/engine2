@@ -32,10 +32,38 @@
 	<div>
 		<span>Отображение даты публикации:</span>
 		<% if(fragment.settings.showPublishedTime == '1') { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="0">Скрыть</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="change" value="0" checked>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="1">показать</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="change" value="1">
 		<% } %>
+	</div>
+	<div>
+		<span>Отображение картинки:</span>
+		<% if(fragment.settings.showImage == 1 || 'showImage' in fragment.settings === false) { %>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showImage" data-event="change" value="0" checked>
+		<% } else { %>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showImage" data-event="change" value="1">
+		<% } %>
+	</div>
+	<div>
+		<span>Отображать описание:</span>
+		<% if(fragment.settings.showDescription == 1 || 'showDescription' in fragment.settings === false) { %>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showDescription" data-event="change" value="0" checked>
+		<% } else { %>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showDescription" data-event="change" value="1">
+		<% } %>
+	</div>
+	<div>
+		<span>Отображать пагинацию:</span>
+		<% if(fragment.settings.showPagination == '1') { %>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPagination" data-event="change" value="0" checked>
+		<% } else { %>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPagination" data-event="change" value="1">
+		<% } %>
+	</div>
+	<div>
+		<span>Количество отображаемых постов:</span>
+		<input class="js-fragment-update-settings" type="text" value="<%= fragment.settings.countPosts || '' -%>" data-fragment-id="<%= fragment.id -%>" data-target="countPosts" data-event="change">
 	</div>
 <% } %>
 <div class="cards">
@@ -63,46 +91,49 @@
 					</label>
                 </div>
             <% } %>
-            <div class="cards__img-wrapp">
-                
-				<% if (!n.video) { %>
-					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__img-link">
-						<img class="cards__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
-					</a>
-				<% }
-				else { %>
-					<%- n.video %>
-				<% } %>
-				
-            </div>
+			<% if(fragment.settings.showImage == 1 || 'showImage' in fragment.settings === false) { %>
+            	<div class="cards__img-wrapp">
+					<% if (!n.video) { %>
+						<a href="<%= n.alias || fragment.settings.url + '/' + n.id -%>" class="cards__img-link">
+							<img class="cards__img" src="<%= n.main_photo -%>" alt="<%=n.title%>">
+						</a>
+					<% } else { %>
+						<%- n.video %>
+					<% } %>
+            	</div>
+			<% } %>
             <div class="cards__title-wrap">
                 <h2 class="cards__title">
 					<% if(user.adminMode) { %>
 						<input class="cards-title-edit js-post-update input-text" data-id="<%= n.id -%>" data-target="title" type="text" value="<%=n.title%>">
 					<% } else { %>
-						<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="cards__title-link">
+						<a href="<%= n.alias || fragment.settings.url + '/' + n.id -%>" class="cards__title-link">
 							<span><%= n.title %></span>
 						</a>
 					<% } %>
                 </h2>
             </div>
-            <div class="cards__content-wrapp">
-                <div class="cards__content">
-					<p><%- Helpers.replaceLineBreaks(Helpers.trimByWords(n.text, 100)) -%></p>
-					<a href="<%= fragment.settings.url -%>/<%= n.id -%>" class="btn cards__content-link text-center">Читать далее</a>
-                </div>
-            </div>
-			<div class="cards-meta-wrapp">
-				<div class="cards__content text-right">
-					<% if(fragment.settings.showPublishedTime == '1') { %>
-						<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
-					<% } %>
+			<% if(fragment.settings.showDescription == 1 || 'showDescription' in fragment.settings === false) { %>
+				<div class="cards__content-wrapp">
+					<div class="cards__content">
+						<p><%- Helpers.replaceLineBreaks(Helpers.trimByWords(n.text, 100)) -%></p>
+						<a href="<%= n.alias || fragment.settings.url + '/' + n.id -%>" class="btn cards__content-link text-center">Читать далее</a>
+					</div>
 				</div>
-			</div>
+			<% } %>
+			<% if(fragment.settings.showPublishedTime == '1') { %>
+				<div class="cards-meta-wrapp">
+					<div class="cards__content text-right">
+							<span>Опубликовано: <%= Helpers.formatDate(n.published, 'dd MMMM yyyy в hh:mm') -%></span>
+					</div>
+				</div>
+			<% } %>
         </article>
 	<% }) %>
 </div>
-<%- pagination.render() -%>
+<% if(fragment.settings.showPagination == 1) { %>
+	<%- pagination.render() -%>
+<% } %>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/posts-list.js" defer></script>
 <% } %>

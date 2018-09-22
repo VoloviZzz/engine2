@@ -49,9 +49,11 @@ exports.get = function (data = {}) {
 	return db.execQuery(`
 		SELECT gp.*,
 			p.path as photo_path,
-			p.name as photo_name
+			p.name as photo_name,
+			ra.alias
 		FROM goods_pos gp
 			LEFT JOIN photos p ON p.id = gp.main_photo
+			LEFT JOIN routes_aliases ra ON ra.id = gp.alias_id
 		WHERE
 			gp.id > 0
 			${data.cat_id}

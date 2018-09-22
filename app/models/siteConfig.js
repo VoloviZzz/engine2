@@ -17,7 +17,7 @@ exports.get = (data = {}) => {
 exports.add = (data = {}) => {
 
 	if (!!data.target === false) return Promise.resolve([new Error('Отсутствует параметр target')]);
-	if (!!data.value === false) return Promise.resolve([new Error('Отсутствует параметр value')]);
+	if (!!data.value === false && data.value !== '') return Promise.resolve([new Error('Отсутствует параметр value')]);
 
 	data.title = !!data.title ? data.title : ``;
 
@@ -28,7 +28,7 @@ exports.upd = (data = {}) => {
 
 	if (!!data.id === false) return Promise.resolve([new Error('Отсутствует параметр id')]);
 	if (!!data.target === false) return Promise.resolve([new Error('Отсутствует параметр target')]);
-	if (!!data.value === false) return Promise.resolve([new Error('Отсутствует параметр value')]);
+	if (!!data.value === false && data.value !== '') return Promise.resolve([new Error('Отсутствует параметр value')]);
 
 	return db.execQuery(`
 		UPDATE global_site_config SET ${data.target} = '${data.value}' WHERE id = '${data.id}'

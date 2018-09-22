@@ -13,11 +13,7 @@ module.exports = (app) => {
 	const fragmentsHandler = async function (fragment, data) {
 		let errors, fragmentData = {}, content = '';
 
-		try {
-			fragment.settings = fragment.settings ? JSON.parse(fragment.settings) : {};
-		} catch (error) {
-			fragment.settings = {};
-		}
+		fragment.settings = fragment.settings || {};
 
 		data.locals.fragment = fragment;
 
@@ -34,7 +30,7 @@ module.exports = (app) => {
 
 		if (!!fragment.isStatic === false) {
 			Object.assign(data, fragmentData);
-			const controllerHandler = await require(path.join(app.componentsPath, fragment.component_ctrl))(app);
+			const controllerHandler = await require(path.join(AppRoot, 'components', fragment.component_ctrl))(app);
 			[errors, content] = await controllerHandler(data);
 		}
 		else {

@@ -1,7 +1,8 @@
+const Model = require('./models');
+
 module.exports = async app => {
 
-	const Model = app.Model;
-	var [, configs] = await Model.siteConfig.get();
+	var [error, configs] = await Model.siteConfig.get();
 	var configs = configs;
 
 	app.siteConfig = app.locals.siteConfig = {

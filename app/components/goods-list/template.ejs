@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/goods-list.css">
-<div class="text-right">
+<div class="text-right admin-control-container">
 	<% if(user.adminMode) { %>
 		<% if(currentCat.public == '1') { %>
 			<button class="btn js-goodsCategories-togglePublic" data-id="<%= currentCat.id -%>" value="0">Скрыть категорию</button>

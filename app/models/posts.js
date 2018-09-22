@@ -1,17 +1,19 @@
 const db = require("../libs/db");
 
 exports.get = (args = { id: '' }) => {
-	args.id = !!args.id === true ? `AND id = ${args.id}` : ``;
+	args.id = !!args.id === true ? `AND p.id = ${args.id}` : ``;
 	args.orderBy = typeof args.orderBy != 'undefined' ? `ORDER BY ${args.orderBy}` : '';
 	args.limit = 'limit' in args ? `LIMIT ${args.limit}` : '';
-	args.target = 'target' in args ? `AND target = '${args.target}'` : ``;
-	args.public = 'public' in args ? `AND public = '${args.public}'` : ``;
-	args.category = 'category' in args && args.category !== '' ? `AND cat = '${args.category}'` : ``;
+	args.target = 'target' in args ? `AND p.target = '${args.target}'` : ``;
+	args.public = 'public' in args ? `AND p.public = '${args.public}'` : ``;
+	args.category = 'category' in args && args.category !== '' ? `AND p.cat = '${args.category}'` : ``;
 
 	const q = `
-		SELECT * 
-		FROM posts 
-		WHERE id > 0 
+		SELECT p.*,
+			ra.alias
+		FROM posts p
+			LEFT JOIN routes_aliases ra ON ra.id = p.alias_id
+		WHERE p.id > 0 
 			${args.id} 
 			${args.target}
 			${args.public}
@@ -39,5 +41,5 @@ exports.upd = (arg = {}) => {
 	if (typeof arg.value == "undefined") return Promise.resolve([new Error('Нет параметра value')]);
 	if (typeof arg.id == "undefined") return Promise.resolve([new Error('Нет параметра id')]);
 
-	return db.execQuery(`UPDATE posts SET ${arg.target} = '${arg.value}' WHERE id = ${arg.id}`);
+	return db.execQuery(`UPDATE posts SET ${arg.target} = ? WHERE id = ${arg.id}`, [arg.value]);
 }

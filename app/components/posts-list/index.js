@@ -9,6 +9,7 @@ module.exports = (app) => {
 		// logic...
 
 		const { fragment } = locals;
+
 		const currentTarget = fragment.settings.target;
 		const currentCategory = locals.dynamicRouteNumber ? locals.dynamicRouteNumber : ('category' in fragment.settings ? fragment.settings.category : false);
 		const dynamicCategory = locals.dynamicRouteNumber ? true : false;
@@ -17,13 +18,15 @@ module.exports = (app) => {
 		var posts = [];
 		var [error, postTargets] = await app.db.execQuery(`SELECT * FROM post_targets`);
 
+		fragment.settings.showPagination = fragment.settings.showPagination || '1';
+
 		if (!!currentTarget === false) {
 			templatePath = path.join(__dirname, 'settings.ejs')
 		} else {
 			templatePath = path.join(__dirname, 'template.ejs');
 
 			var [error, postCategories] = await app.db.execQuery(`SELECT * FROM post_categories WHERE target_id = '${currentTarget}'`);
-			if(error) {
+			if (error) {
 				console.log('get post_categories error:', error);
 			}
 
@@ -31,7 +34,7 @@ module.exports = (app) => {
 			var publicPosts = session.user.adminMode !== true ? `AND public = '1'` : '';
 			var categoryPosts = currentCategory ? `AND cat = ${currentCategory}` : '';
 			var [, [{ all_count: countReviews }]] = await app.db.execQuery(`SELECT COUNT(id) as all_count FROM posts WHERE target = '${currentTarget}' ${publicPosts} ${categoryPosts}`);
-			const pagination = new Pagination({ countOnPage: 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
+			const pagination = new Pagination({ countOnPage: fragment.settings.countPosts || 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
 			// ----------
 
 			const postsGetParams = {

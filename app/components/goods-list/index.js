@@ -5,37 +5,25 @@ module.exports = (app) => {
 	return (data = {}) => {
 		return new Promise(async (resolve, reject) => {
 
-			let object_id, object_alias;
+			let news_id, object_alias;
 			let goodsPositions = [];
 			let goodsCategories = [];
 
-			if (data.locals.dynamicRouteAlias) {
-				object_alias = data.locals.dynamicRouteAlias;
-			}
-			else {
-				object_id = data.locals.dynamicRouteNumber;
-			}
+			news_id = data.locals.dynamicRouteNumber;
 
-			if (!!object_id === false && !!object_alias === false) return resolve([, "Отсутствует аргумент для динамического фрагмента страницы"])
+			if (!!news_id === false) return resolve([, "Отсутствует аргумент для динамического фрагмента страницы"])
 
 			const dataViews = {
 				user: {},
 				locals: {},
 			};
 
-			if (object_alias) {
-				[, aliases] = await Model.aliases.get({ title: object_alias, target: 'news' });
-				if (aliases.length < 1) return resolve([, 'Категория найдена'])
-
-				news_id = aliases[0].target_id;
-			}
-
 			const getCategoriesParams = {
-				id: object_id
+				id: news_id
 			};
-			
+
 			const getCategoriesByParentParams = {
-				parent_id: object_id
+				parent_id: news_id
 			};
 
 			if (data.session.user.adminMode == false) {
@@ -43,12 +31,16 @@ module.exports = (app) => {
 				getCategoriesByParentParams.public = '1';
 			}
 
-			[, categories] = await Model.goodsCategories.get(getCategoriesParams);
+			var [getCatsError, categories] = await Model.goodsCategories.get(getCategoriesParams);
+			if (getCatsError) {
+				console.log(getCatsError);
+				throw new Error(getCatsError);
+			};
 			if (categories.length < 1) return resolve([, 'Категория не найдена']);
 
 			[, categoriesByParent] = await Model.goodsCategories.get(getCategoriesByParentParams);
 
-			[, [currentCat]] = await Model.goodsCategories.get({ id: object_id });
+			[, [currentCat]] = await Model.goodsCategories.get({ id: news_id });
 			dataViews.currentCat = currentCat;
 
 			if (categoriesByParent.length > 0) {
@@ -56,7 +48,7 @@ module.exports = (app) => {
 				dataViews.data = categoriesByParent;
 			}
 			else {
-				[, goodsPositions] = await Model.goodsPositions.get({ cat_id: object_id });
+				[, goodsPositions] = await Model.goodsPositions.get({ cat_id: news_id });
 				dataViews.tpl = 'pos-list';
 				dataViews.data = goodsPositions;
 			}

@@ -4,6 +4,20 @@ $(document).ready(function () {
 
 	var shopId = $('#js-shop-id').val();
 
+	$('.js-shop-update').on('change', function (e) {
+		var value = $(this).val();
+		var target = $(this).data('target');
+
+		$.post('/api/shopsList/update', { value: value, id: shopId, target: target }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+	});
+
 	$('.js-shopSchedule-edit').on('input', function (e) {
 		var value = $(this).text().trim();
 		var scheduleDay = $(this).data('scheduleDay');
@@ -20,8 +34,6 @@ $(document).ready(function () {
 		if (isNaN(Number(value.split(':')[1]))) {
 			return false;
 		}
-
-		console.log(value);
 
 		$.post('/api/shopsList/updSchedule', { shopId: shopId, value: value, scheduleDay: scheduleDay, target: target }).done(function (result) {
 			console.log(result);
