@@ -10,14 +10,14 @@
 					</a>
 					<a class="dropdown-toggle no-arrow" id="generalMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="fa fa-2x fa-ellipsis-v"></i></a>
 					<div class="dropdown-menu" aria-labelledby="generalMenuDropdown">
-						<input class="form-control js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id%>" data-target="title" value="<%= s.title%>">
-						<input class="form-control js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id%>" data-target="href" value="<%= s.href%>">
+						<input class="form-control js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id -%>" data-target="title" value="<%= s.title -%>">
+						<input class="form-control js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id -%>" data-target="href" value="<%= s.href -%>">
 						<span title="Приоритет">П:</span>
 						<input type="text" class="form-control js-menuItem-edit"  data-id="<%= s.id -%>" data-target="priority" name="priority" value="<%= s.priority -%>">
 						<div class="dropdown-divider"></div>
 						<button class="btn js-menuItem-delete dropdown-item mb-1" data-menu-id="<%= s.id %>">Удалить</button>
 						<% if(locals.route.active_menu_item == s.id) { %>
-							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать пункт меню активным для текущего маршрута">C</button>
+							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать некактивным пункт меню для текущего маршрута">C</button>
 						<% } else { %>
 							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= s.id %>" title="Сделать пункт меню активным для текущего маршрута">А</button>
 						<% } %>
@@ -37,12 +37,5 @@
 				<% } %>
 			</li>
 		<% } %>
-		
-		
-<% /* conflict */ %>
-
-
-
-<% }
-
-%></ul>
+	<% } %>
+</ul>
