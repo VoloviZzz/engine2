@@ -72,3 +72,19 @@ exports.del = (arg = {}) => {
 
 	return db.execQuery(`DELETE FROM questions WHERE id = '${arg.id}'`);
 }
+
+exports.addCategory = (args = {}) => {
+	var { target_id, title, ...args } = args;
+
+	if ([target_id, title].includes(undefined || '')) return Promise.resolve([new Error('Нет необходимых параметров')]);
+
+	return db.execQuery(`INSERT INTO questions_categories SET ?`, { target_id, title });
+}
+
+exports.deleteCategory = (args = {}) => {
+	var { id } = args;
+
+	if ([id].includes(undefined || '')) return Promise.resolve([new Error('Нет необходимых параметров')]);
+
+	return db.execQuery(`DELETE FROM questions_categories WHERE id = ?`, id);
+}
