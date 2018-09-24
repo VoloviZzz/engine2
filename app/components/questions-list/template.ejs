@@ -3,7 +3,7 @@
 <div class="tabs-wrapper">
 	<% if(session.user.adminMode) { %>
 		
-		<div>
+		<div class="admin-control-container text-left">
 			<div>
 				<span>Выбор target отзывов:</span>
 				<select class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="target">
@@ -20,6 +20,15 @@
 					<button class="btn">Добавить</button>
 				</form>
 			</div>
+			<hr class="margin-y-10">
+			<div>
+				<form class="js-questionCategories-add" method="POST">
+					<span class="fs-bold">Добавить категорию:</span>
+					<input type="text" name="category">
+					<input type="hidden" name="target_id" value="<%= fragment.settings.target -%>">
+					<button class="btn">Добавить</button>
+				</form>
+			</div>
 		</div>
 
 		<ul class="tabs-titles-wrap">
@@ -31,7 +40,12 @@
 		
 		<div class="tab-content active">
 			<% cats.map(c => { %>
-				<h3><%= c.title %> (<%= c.questions.length -%>)</h3>
+				<div style="display: flex; justify-content: space-between">
+					<h3><%= c.title %> (<%= c.questions.length -%>)</h3>
+					<% if(session.user.adminMode && c.id) { %>
+						<button class="btn bg-delete js-questionCategories-delete" data-title="<%= c.title -%>" data-id="<%= c.id -%>">Удалить категорию</button>
+					<% } %>
+				</div>
 				<br/>
 				<%- include("./question-list", { questions : c.questions, catsArray }) -%>	
 			<% }); %>
