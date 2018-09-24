@@ -27,33 +27,35 @@
 </style><%
 
 
-
 %><ul class="right-list"><%
 
-
-
-	offers.forEach((o, i) => {
-		if(o.active != 0){
-		%><li>
-			<h4>
-				<a href="<%= o.link %>"><%= o.title %></a>
-			</h4>
-			<a href="<%= o.link %>">
-				<div>
-					<img src="<%= o.img %>" />
-				</div>
-			</a>
-			<p><%= o.desc %></p>
-			<%
-			if(o.link){
-				%>
-					<a class="btn" href="<%= o.link %>">Подробнее</a>
+	
+	
+	if (typeof offers !== "undefined" && offers !== null && offers.length > 0) {
+	
+		offers.forEach((o, i) => {
+			if(o.active != 0){
+			%><li>
+				<h4>
+					<a href="<%= o.link %>"><%= o.title %></a>
+				</h4>
+				<a href="<%= o.link %>">
+					<div>
+						<img src="<%= o.img %>" />
+					</div>
+				</a>
+				<p><%= o.desc %></p>
 				<%
+				if(o.link){
+					%>
+						<a class="btn" href="<%= o.link %>">Подробнее</a>
+					<%
+				}
+				%>
+			</li><%
 			}
-			%>
-		</li><%
-}
-	});
+		});
 
+	}
 
 %></ul>

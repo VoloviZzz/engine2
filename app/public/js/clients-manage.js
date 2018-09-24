@@ -37,7 +37,7 @@ $(document).ready(function () {
 					return resultHtml;
 				}
 
-				clients.map(function (c) {
+				/*clients.map(function (c) {
 					resultHtml += `
 						<div class="client-card">
 							<div class="client-card__title">
@@ -55,6 +55,21 @@ $(document).ready(function () {
 								</ul>
 							</div>
 						</div>
+					`;
+				});*/
+				clients.map(function (c) {
+					resultHtml += `
+						<tr>
+							<td class="tbody-p">${c.surname} ${c.firstname} ${c.patronymic}</td>
+							<td class="tbody-p">${c.mail}</td>
+							<td class="tbody-p">${c.phone}</td>
+							<td style="text-align: right">
+							${c.admin ? 
+								`<button class="btn js-clients-toggleAdmin" data-user-id="${c.id}" value="0">Убрать администратора</button>` :
+								`<button class="btn js-clients-toggleAdmin" data-user-id="${c.id}" value="1">Сделать администратором</button>`
+							}
+							</td>
+						</tr>
 					`;
 				});
 

@@ -1,0 +1,17 @@
+ =======
+			<% } %>
+			<% if(user.adminMode) { %>
+				<button class="btn bg-delete js-menuItem-delete" data-menu-id="<%= s.id %>">У</button>
+				<% if(locals.route.active_menu_item == s.id) { %>
+					<button class="btn js-route-toggleActiveMenuItem" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать пункт меню активным для текущего маршрута">С</button>
+				<% } else { %>
+					<button class="btn js-route-toggleActiveMenuItem" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= s.id %>" title="Сделать пункт меню активным для текущего маршрута">А</button>
+				<% } %>
+				<span title="Приоритет">П:</span>
+				<input type="text" class="js-menuItem-edit"  data-id="<%= s.id -%>" data-target="priority" name="priority" value="<%= s.priority -%>">
+			<% } %>
+			<% if(!!menuTree[id]["childs"] === true) { %>
+				<%- include("./menu-list.ejs", {menuTree: menuTree[id]["childs"], level: level + 1}) %>
+			<% } %>
+		</li>
+>>>>>>> dev

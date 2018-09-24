@@ -3,8 +3,10 @@
 	<h3 class="fs-regular text-center" style="margin: auto;"><%= post.title -%></h3>
 </div>
 <% if(user.adminMode) { %>
-	<span>Адрес списка публикаций</span>
-	<input class="js-fragment-update-settings" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
+	<div class="form-group">
+		<label>Адрес списка публикаций</label>
+		<input class="js-fragment-update-settings form-control" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
+	</div>
 <% } %>
 <div class="news content">
 	<% if(user.adminMode) { %>
@@ -38,40 +40,24 @@
 			<button data-id="<%= post.id -%>" class="btn news-delete js-post-delete">Удалить</button>
 		</div>
 	<% } %>
-	<% if(user.adminMode) { %>
-		<span>Заголовок:</span>
-		<input class="input-text js-post-update" type="text" data-target="title" data-id="<%= post.id -%>" value="<%= post.title -%>">
-		<span>Подзаголовок:</span>
-		<input class="input-text js-post-update" type="text" data-target="subtitle" data-id="<%= post.id -%>" value="<%= post.subtitle -%>">
-		<span>Источник новости:</span>
-		<input class="input-text js-post-update" type="text" data-target="source_link" data-id="<%= post.id -%>" value="<%= post.source_link -%>">
-	<% } %>
-	<div class="news__news-right">
-		<% if(!!user.adminMode == false) { %>
-			<div class="text-center">
-				<h2>
-					<em><%= post.subtitle -%></em>
-				</h2>
+	<div>
+		<% if(user.adminMode) { %>
+			<textarea data-target="text" data-id="<%= post.id -%>" class="js-post-update js-ckeditor-edit"><%- post.text -%></textarea>
+		<% } else { %>
+			<%-post.text-%>
+			<% if(post.source_link) { %>
+				<a href="<%= post.source_link -%>" style="text-decoration: underline"><b>Ссылка на источник</b></a>
+			<% } %>
+			<div class="text-right text-muted">
+				<span>Опубликовано <%= Helpers.formatDate(post.published, 'dd MMMM yyyy в hh:mm') -%></span>
 			</div>
 		<% } %>
-		<div class="news__news-text text-indent_p text-margin-bottom-p">
-			<% if(user.adminMode) { %>
-				<textarea data-target="text" data-id="<%= post.id -%>" class="js-post-update js-ckeditor-edit"><%- post.text -%></textarea>
-			<% } else { %>
-				<%-post.text-%>
-				<% if(post.source_link) { %>
-					<a href="<%= post.source_link -%>" style="text-decoration: underline"><b>Ссылка на источник</b></a>
-				<% } %>
-				<div class="text-right">
-					<span>Опубликовано <%= Helpers.formatDate(post.published, 'dd MMMM yyyy в hh:mm') -%></span>
-				</div>
-			<% } %>
-		</div>
 	</div>
 </div>
+
 <section class="similar-posts">
 	<% if(user.adminMode) { %>
-		<input type="text" class="js-post-update input-text" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
+		<input type="text" class="js-post-update form-control" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
 	<% } %>
 	<ul>
 		<% similarPosts.forEach((post) => { -%>

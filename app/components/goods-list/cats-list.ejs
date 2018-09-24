@@ -1,10 +1,10 @@
-<div class="goods-list">
+<div class="container-fluid">
 	<div class="goods-list__items-wrapper">
 		<% data.forEach((cat, index) => { %>
 			<div class="goods-list__item">
 				<div class="goods-item__title">
 					<% if(user.adminMode) { %>
-						<div class="text-right">
+						<div class="mb-1">
 							<button class="btn js-goodsCategories-delete" data-id="<%= cat.id -%>">Удалить категорию</button>
 						</div>
 						<input class="js-goodsCategories-upd input-text" data-target="title" data-id="<%= cat.id -%>" type="text" value="<%= cat.title %>">

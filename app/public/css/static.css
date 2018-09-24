@@ -557,6 +557,14 @@ table {
     color: #006fab;
 }
 
+.text-indent, .text-indent_p p {
+	text-indent: 30px;
+}
+
+.text-margin-bottom, .text-margin-bottom-p p {
+	margin-bottom: 25px;
+}
+
 .text-right {
     text-align: right;
 }
@@ -677,6 +685,15 @@ table {
 
 .text-left {
     text-align: left !important;
+}
+
+.default-list {
+	list-style-type: initial;
+	margin: 0px 20px;
+}
+
+.fa-margin-right {
+	margin-right: 10px;
 }
 
 .mCSB_scrollTools {
