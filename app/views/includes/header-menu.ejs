@@ -5,16 +5,17 @@
 		%><li>
 			<% if (user.adminMode) { %>
 				<div class="d-flex">
-					<div>
-						<div>
-							<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
-						</div>
-						<div>
-							<input type="text" class="js-headerNav-edit" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
-						</div>
-					</div>
-					<div>
-						<button class="btn bg-delete js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
+					<a href="<%= r.href -%>">
+						<%= r.title -%>
+					</a>
+					<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-lg fa-ellipsis-v"></i>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
+						<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
+						<div class="dropdown-divider"></div>
+						<button class="btn btn-md js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
 					</div>
 				</div>
 				<ul class="submenu"><%
