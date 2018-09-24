@@ -67,21 +67,22 @@
 		</div>
 	<% }) %>
 </div>
+<% if(slides.length > 0) { %>
+	<script type="text/javascript">
 
-<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function () {
+			$('.fragment-slider[data-fragment-id=<%= fragment.id -%>]').slick({
+				infinite: true,
+				dots: true,
+				slidesToShow: <%= fragment.settings.slidesToShow || 1 -%>,
+				slidesToScroll: <%= fragment.settings.slidesToScroll || 1 -%>,
+				adaptiveHeight: true,
+				slide: '.fragment-slider .slide'
+			});
+		});
 
-    document.addEventListener("DOMContentLoaded", function () {
-        $('.fragment-slider[data-fragment-id=<%= fragment.id -%>]').slick({
-            infinite: true,
-			dots: true,
-            slidesToShow: <%= fragment.settings.slidesToShow || 1 -%>,
-            slidesToScroll: <%= fragment.settings.slidesToScroll || 1 -%>,
-            adaptiveHeight: true,
-			slide: '.fragment-slider .slide'
-        });
-    });
-
-</script>
+	</script>
+<% } %>
 
 <script src="/vendors/slick/slick.min.js" defer></script>
 <% if(user.adminMode) { %>
