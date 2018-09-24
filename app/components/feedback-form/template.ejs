@@ -45,11 +45,23 @@
 	<div class="feedback__wrapper">
 		<% if((fragment.settings.onlyRegistred == '1' && !!user.id !== false) || fragment.settings.onlyRegistred == '0') { %>
 			<% var inputDisabled = fragment.settings.onlyRegistred == '1' ? 'disabled' : '' %>
-			<% if(user.adminMode) { %>
-				<input type="text" class="js-fragment-update-settings input-text" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="<%= formTitle -%>">
-			<% } else { %> 
+			<% if(user.adminMode) {
+				if(formTitle != 'NULL'){
+				 %>
+				 <input type="text" class="js-fragment-update-settings input-text" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="<%= formTitle -%>">
+				<%
+			}else{
+				%>
+				<input type="text" class="js-fragment-update-settings input-text" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="">
+			 <%
+			}
+			 } else {
+				if(formTitle != 'NULL'){
+				 %>
 				<h2 class="feedback__title"><%= formTitle -%></h2>
-			<% } %>
+			<%
+			}
+		 } %>
 			<form class="feedback__form" action="" method="post">
 				<input <%= inputDisabled -%> class="feedback__bio" type="text" name="client_name" value="<%= client.fio -%>" required placeholder="Как к Вам обращаться">
 				<% if(fragment.settings.showClientFrom == '1') { %>
