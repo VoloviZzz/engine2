@@ -2,11 +2,9 @@
 
 	HeaderRows.forEach((r) => {
 
-		%><li><%
-			
-			if(user.adminMode) {
-				
-				%><div class="d-flex">
+		%><li>
+			<% if (user.adminMode) { %>
+				<div class="d-flex">
 					<div>
 						<div>
 							<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
@@ -25,9 +23,8 @@
 						%><p>Данное меню строится автоматически по дереву категорий и не подлежит редактированию</p><%
 					}
 					else {
-						r.childs.forEach(child => {
-							
-							%><li>
+						r.childs.forEach(child => { %>
+							<li>
 								<div style="display: flex;">
 									<div>
 										<div>

@@ -136,17 +136,9 @@ button.btn.new-reviews-button:hover {
 }
 
 @media (min-width: 1450px) {
-<<<<<<< HEAD
 	/*.section-content {
 		margin-top: 44px;
 		padding-left: 33px;
 		padding-right: 23px;
 	}*/
-=======
-    .section-content {
-        margin-top: 44px;
-        padding-left: 33px;
-        padding-right: 23px;
-    }
->>>>>>> dev
 }

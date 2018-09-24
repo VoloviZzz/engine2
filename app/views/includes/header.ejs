@@ -32,7 +32,7 @@
             <nav class="header-nav">
                 <div class="site-band">
                     <a href="/">
-						<img class="nav-band" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>">
+						<img class="nav-band" height="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>">
 					</a>
 					<% if(user.adminMode) { %>
 						<label class="js-siteLogo-edit-btn" style="cursor: pointer">
