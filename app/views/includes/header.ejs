@@ -18,14 +18,8 @@
 		<% } %>
     </head>
     <body>
-		<% if(user.admin) { %>
-			<div class="admin-panel">
-				<a href="/admin" title="Перейти в админ. панель">
-					<span class="fa fa-cogs"></span>
-				</a>
-				<span style="margin-left: 25px" id="toggle-admin-mode">Переключение админ. режима</span>
-			</div>
-		<% } %>
+		<%- include('./admin-panel.ejs') -%>
+		<%- include('./route-settings-modal') -%>
         <header class="document-header">
             <nav class="header-nav">
                 <div class="site-band">
