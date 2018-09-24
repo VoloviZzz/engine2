@@ -133,7 +133,7 @@ exports.addPhoto = (req, res, next) => {
 			})
 
 			if (errors.length > 0) return Promise.reject(error);
-			
+
 			State.photoId = photoId;
 			return Model.goodsPositions.get({ id: goodId });
 		}).then(([error, goodsPos]) => {
