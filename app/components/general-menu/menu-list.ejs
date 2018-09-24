@@ -17,9 +17,9 @@
 						<div class="dropdown-divider"></div>
 						<button class="btn js-menuItem-delete dropdown-item mb-1" data-menu-id="<%= s.id %>">Удалить</button>
 						<% if(locals.route.active_menu_item == s.id) { %>
-							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать некактивным пункт меню для текущего маршрута">C</button>
+							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="0" title="Сделать некактивным пункт меню для текущего маршрута">Неактивная для маршрута</button>
 						<% } else { %>
-							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= s.id %>" title="Сделать пункт меню активным для текущего маршрута">А</button>
+							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= locals.route.id -%>" data-menu-id="<%= s.id %>" title="Сделать пункт меню активным для текущего маршрута">Активная для машрута</button>
 						<% } %>
 					</div>
 				</div>
