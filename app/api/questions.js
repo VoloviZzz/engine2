@@ -1,4 +1,5 @@
 const db = require('../libs/db');
+const Model = require('../models');
 
 exports.createTarget = (req, res, next) => {
 	const Model = req.app.Model;
@@ -86,6 +87,7 @@ exports.togglePublication = async (req, res, next) => {
 	})
 
 }
+
 exports.changeCategory = (req, res, next) => {
 	const { Model } = req.app;
 
@@ -94,4 +96,22 @@ exports.changeCategory = (req, res, next) => {
 	}).catch(error => {
 		return { status: 'bad', message: 'error' };
 	})
+}
+
+exports.addCategory = async (req, res, next) => {
+	var [error] = await Model.questions.addCategory(req.body);
+	if (error) {
+		return { status: 'bad', message: error.message };
+	}
+
+	return { status: 'ok' };
+}
+
+exports.deleteCategory = async (req, res, next) => {
+	var [error] = await Model.questions.deleteCategory(req.body);
+	if (error) {
+		return { status: 'bad', message: error.message };
+	}
+
+	return { status: 'ok' };
 }
