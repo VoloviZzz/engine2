@@ -15,6 +15,18 @@
 			<button class="btn js-goodsPositions-add" data-cat-id="<%= currentCat.id -%>">Добавить товар</button>
 		<% } %>
 	<% } %>
+	<% if(user.adminMode) { %>
+		<div class="admin-control-container text-left">
+			<div>
+				<span class="fs-bold">Установить коренвой url для категорий:</span>
+				<input value="<%= fragment.settings.categoriesRootUrl -%>" type="text" class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="categoriesRootUrl">
+			</div>
+			<div>
+				<span class="fs-bold">Установить коренвой url для товаров:</span>
+				<input value="<%= fragment.settings.positionsRootUrl -%>" type="text" class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="positionsRootUrl">
+			</div>
+		</div>
+	<% } %>
 </div>
 <div style="padding: 20px 0px; border-bottom: #c3c3c3 solid 1px; margin-bottom: 20px">
 	<% if(user.adminMode) { %>
