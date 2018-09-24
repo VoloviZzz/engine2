@@ -13,7 +13,7 @@
 					<% } %>
 				</div>
 				<div class="goods-item__img">
-					<a href="<%= cat.alias || `/shop-categories/` + cat.id -%>">
+					<a href="<%= cat.alias || fragment.settings.categoriesRootUrl + '/' + cat.id -%>">
 						<img src="<%= Helpers.replaceImageIfNotExist(cat.img) %>" alt="Категория">
 					</a>
 					<% if(user.adminMode) { %>
@@ -24,7 +24,7 @@
 					<% } %>
 				</div>
 				<div class="goods-item__price">
-					<a href="<%= cat.alias || `/shop-categories/` + cat.id -%>" class="btn">Перейти</a>
+					<a href="<%= cat.alias || fragment.settings.categoriesRootUrl + '/' + cat.id -%>" class="btn">Перейти</a>
 				</div>
 			</div>
 		<% }) %>
