@@ -14,7 +14,7 @@
 					</span>
 				</div>
 				<div class="goods-item__img">
-					<a href="<%= p.alias || `/product/` + p.id -%>">
+					<a href="<%= p.alias || `/store-pos/` + p.id -%>">
 						<img src="<%= Helpers.replaceImageIfNotExist(`${p.photo_path}/preview/${p.photo_name}`) %>" alt="Товары">
 					</a>
 				</div>
@@ -27,7 +27,7 @@
 					<% } else { %>
 						<span><%= Helpers.formatPrice(p.price) %> руб.</span>
 					<% } %>
-					<a href="<%= p.alias || `/product/` + p.id -%>" class="btn">Открыть</a>
+					<a href="<%= p.alias || `/store-pos/` + p.id -%>" class="btn">Открыть</a>
 				</div>
 			</div>
 		<% }) %>

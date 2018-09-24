@@ -14,6 +14,10 @@ module.exports = (app) => {
 				menuTree = await Menu.constructMenu({ menu_id: route.menu_id });
 			}
 
+			menuTree = Object.values(menuTree).sort((a, b) => {
+				return b.priority - a.priority;
+			})
+
 			const dataViews = {
 				user: {},
 				locals: {},

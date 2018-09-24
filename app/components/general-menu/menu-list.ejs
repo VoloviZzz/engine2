@@ -23,19 +23,26 @@
 						<% } %>
 					</div>
 				</div>
-				<% if(!!menuTree[id]['childs'] === true) { %>
-					<%- include('./menu-list.ejs', {menuTree: menuTree[id]['childs'], level: level + 1}) %>
+				<% if(!!menuTree[id]["childs"] === true) { %>
+					<%- include("./menu-list.ejs", {menuTree: menuTree[id]["childs"], level: level + 1}) %>
 				<% } %>
 			</li>
 		<% } else { %> 
-			<li class="section-menu-item section-menu-item-user <%= locals.route.url === s.href || locals.route.active_menu_item == s.id ? 'active' : '' -%>" data-href="<%= s.href -%>">
+			<li class="section-menu-item section-menu-item-user <%= locals.route.url === s.href || locals.route.active_menu_item == s.id ? "active" : "" -%>" data-href="<%= s.href -%>">
 				<a href="<%= s.href %>" style="width: 100%; padding-left: <%= 20 * level -%>px">
-					<p><%=s.title%></p>
+					<p><%= s.title -%></p>
 				</a>
-				<% if(!!menuTree[id]['childs'] === true) { %>
-					<%- include('./menu-list.ejs', {menuTree: menuTree[id]['childs'], level: level + 1}) %>
+				<% if(!!menuTree[id]["childs"] === true) { %>
+					<%- include("./menu-list.ejs", {menuTree: menuTree[id]["childs"], level: level + 1}) %>
 				<% } %>
 			</li>
 		<% } %>
-	<% } %>
-</ul>
+		
+		
+<% /* conflict */ %>
+
+
+
+<% }
+
+%></ul>

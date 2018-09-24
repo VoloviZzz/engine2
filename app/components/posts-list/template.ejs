@@ -39,33 +39,33 @@
 	<div>
 		<span>Отображение даты публикации:</span>
 		<% if(fragment.settings.showPublishedTime == '1') { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="0">Скрыть</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="change" value="0" checked>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="click" value="1">показать</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPublishedTime" data-event="change" value="1">
 		<% } %>
 	</div>
 	<div>
 		<span>Отображение картинки:</span>
 		<% if(fragment.settings.showImage == 1 || 'showImage' in fragment.settings === false) { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showImage" data-event="click" value="0">Скрыть</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showImage" data-event="change" value="0" checked>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showImage" data-event="click" value="1">показать</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showImage" data-event="change" value="1">
 		<% } %>
 	</div>
 	<div>
 		<span>Отображать описание:</span>
 		<% if(fragment.settings.showDescription == 1 || 'showDescription' in fragment.settings === false) { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showDescription" data-event="click" value="0">Скрыть</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showDescription" data-event="change" value="0" checked>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showDescription" data-event="click" value="1">показать</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showDescription" data-event="change" value="1">
 		<% } %>
 	</div>
 	<div>
 		<span>Отображать пагинацию:</span>
 		<% if(fragment.settings.showPagination == '1') { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPagination" data-event="click" value="0">Скрыть</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPagination" data-event="change" value="0" checked>
 		<% } else { %>
-			<button class="btn js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPagination" data-event="click" value="1">показать</button>
+			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="showPagination" data-event="change" value="1">
 		<% } %>
 	</div>
 	<div>

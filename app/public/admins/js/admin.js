@@ -292,7 +292,7 @@ $(document).ready(function () {
 		return menuList.deleteMenuItem({ menu_id: menu_id });
 	});
 
-	$('.js-menuItem-edit').on('input', function () {
+	$('.js-menuItem-edit').on('change', function () {
 		var id = $(this).data('id');
 		var target = $(this).data('target');
 		var value = $(this).val().trim();

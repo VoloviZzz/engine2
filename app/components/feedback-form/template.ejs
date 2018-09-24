@@ -7,7 +7,7 @@
 			<select class="form-control" id="js-feedback-setCategory" data-fragment-id="<%= fragment.id -%>">
 				<option value="">Не выбрано</option>
 				<% categories.forEach((c) => { -%>
-					<option <%= fragment.settings.category == c ? 'selected' : '' -%> value="<%= c -%>"><%= c -%></option>
+					<option <%= fragment.settings.category == c ? "selected" : "" -%> value="<%= c -%>"><%= c -%></option>
 				<% }) -%>
 			</select>
 		</div>
@@ -24,13 +24,13 @@
 			<div class="col-md-6 text-center">
 				<h3>Только для зарегистрированных:</h3>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input js-feedback-setOnlyRegistred" data-fragment-id="<%= fragment.id -%>" type="radio" name="onlyRegistred" value="0" id="feedBackFormRadio1" <%= fragment.settings.onlyRegistred == '0' ? 'checked' : '' -%>>
+					<input class="form-check-input js-feedback-setOnlyRegistred" data-fragment-id="<%= fragment.id -%>" type="radio" name="onlyRegistred" value="0" id="feedBackFormRadio1" <%= fragment.settings.onlyRegistred == "0" ? "checked" : "" -%>>
 					<label class="form-check-label" for="feedBackFormRadio1">
 						Нет
 					</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input js-feedback-setOnlyRegistred" data-fragment-id="<%= fragment.id -%>"  type="radio" name="onlyRegistred" value="1" id="feedBackFormRadio2" <%= fragment.settings.onlyRegistred == '1' ? 'checked' : '' -%>>
+					<input class="form-check-input js-feedback-setOnlyRegistred" data-fragment-id="<%= fragment.id -%>"  type="radio" name="onlyRegistred" value="1" id="feedBackFormRadio2" <%= fragment.settings.onlyRegistred == "1" ? "checked" : "" -%>>
 					<label class="form-check-label" for="feedBackFormRadio2">
 						Да
 					</label>
@@ -39,13 +39,13 @@
 			<div class="col-md-6 text-center">
 				<h3>Показывать поле "откуда вы":</h3>
 				<div class="form-check form-check-inline">
-					<input data-fragment-id="<%= fragment.id -%>" class="form-check-input js-feedback-setShowClientFrom" type="radio" id="feedBackFormRadio3" name="showClientFrom" value="0" <%= fragment.settings.showClientFrom == '0' ? 'checked' : '' -%>>
+					<input data-fragment-id="<%= fragment.id -%>" class="form-check-input js-feedback-setShowClientFrom" type="radio" id="feedBackFormRadio3" name="showClientFrom" value="0" <%= fragment.settings.showClientFrom == "0" ? "checked" : "" -%>>
 					<label class="form-check-label" for="feedBackFormRadio3">
 						Нет
 					</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input data-fragment-id="<%= fragment.id -%>" class="form-check-input js-feedback-setShowClientFrom" type="radio" id="feedBackFormRadio4" name="showClientFrom" value="1" <%= fragment.settings.showClientFrom == '1' ? 'checked' : '' -%>>
+					<input data-fragment-id="<%= fragment.id -%>" class="form-check-input js-feedback-setShowClientFrom" type="radio" id="feedBackFormRadio4" name="showClientFrom" value="1" <%= fragment.settings.showClientFrom == "1" ? "checked" : "" -%>>
 					<label class="form-check-label" for="feedBackFormRadio4">
 						Да
 					</label>
@@ -56,20 +56,24 @@
 	<% } %>
 	<div class="row w-50 mr-auto ml-auto">
 		<div class="col-12">
-			<% if((fragment.settings.onlyRegistred == '1' && !!user.id !== false) || fragment.settings.onlyRegistred == '0') { %>
-				<% var inputDisabled = fragment.settings.onlyRegistred == '1' ? 'disabled' : '' %>
+			<% if((fragment.settings.onlyRegistred == "1" && !!user.id !== false) || fragment.settings.onlyRegistred == "0") { %>
+				<% var inputDisabled = fragment.settings.onlyRegistred == "1" ? "disabled" : "" %>
 				<% if(user.adminMode) { %>
 					<div class="form-group">
 						<input type="text" class="js-fragment-update-settings form-control" data-reload="false" data-event="input" data-target="title" data-fragment-id="<%= fragment.id -%>" value="<%= formTitle -%>">
-					</div>
-				<% } else { %>
-					<h2 class="text-center"><%= formTitle -%></h2>
-				<% } %>
-			<form action="" method="post">
+					</div><%
+				}
+				else {
+					if(formTitle != "NULL"){
+						%><h2 class="text-center"><%= formTitle -%></h2><%
+					}
+				}
+			
+			%><form action="" method="post">
 				<div class="form-group">
 					<input type="text" class="form-control" name="client_name" value="<%= client.fio -%>" placeholder="Как к Вам обращаться" required <%= inputDisabled -%>>
 				</div>
-				<% if(fragment.settings.showClientFrom == '1') { %>
+				<% if(fragment.settings.showClientFrom == "1") { %>
 					<div class="form-group">
 						<input class="form-control" type="text" name="client_from" required placeholder="Откуда Вы (город, организация)">
 					</div>

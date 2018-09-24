@@ -72,13 +72,13 @@
 			<div class="col-6">
 				<h3>Статический</h3>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="static" id="showComponentFormInputStaticRadio1" <%= component.static == 1 ? 'checked' : '' -%>>
+					<input class="form-check-input" type="radio" name="static" id="showComponentFormInputStaticRadio1" <%= component.static == 1 ? "checked" : "" -%>>
 					<label class="form-check-label" for="showComponentFormInputStaticRadio1">
 						Да
 					</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="static" id="showComponentFormInputStaticRadio2" <%= component.static == 0 ? 'checked' : '' -%>>
+					<input class="form-check-input" type="radio" name="static" id="showComponentFormInputStaticRadio2" <%= component.static == 0 ? "checked" : "" -%>>
 					<label class="form-check-label" for="showComponentFormInputStaticRadio2">
 						Нет
 					</label>
@@ -87,13 +87,13 @@
 			<div class="col-6">
 				<h3>Один на странице</h3>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="once" id="showComponentFormInputStaticRadio3" <%= component.once == 1 ? 'checked' : '' -%>>
+					<input class="form-check-input" type="radio" name="once" id="showComponentFormInputStaticRadio3" <%= component.once == 1 ? "checked" : "" -%>>
 					<label class="form-check-label" for="showComponentFormInputStaticRadio3">
 						Да
 					</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="once" id="showComponentFormInputStaticRadio4" <%= component.once == 0 ? 'checked' : '' -%>>
+					<input class="form-check-input" type="radio" name="once" id="showComponentFormInputStaticRadio4" <%= component.once == 0 ? "checked" : "" -%>>
 					<label class="form-check-label" for="showComponentFormInputStaticRadio4">
 						Нет
 					</label>
@@ -117,7 +117,7 @@
 	</div>
 	<div class="mb-2">
 		<span>Дата добавления:</span>
-		<span><%= Helpers.formatDate(component.created, 'dd-MM-yyyy') -%></span>
+		<span><%= Helpers.formatDate(component.created, "dd-MM-yyyy") -%></span>
 	</div>
 </form>
 <% }) -%>

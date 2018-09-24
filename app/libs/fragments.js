@@ -13,11 +13,7 @@ module.exports = (app) => {
 	const fragmentsHandler = async function (fragment, data) {
 		let errors, fragmentData = {}, content = '';
 
-		try {
-			fragment.settings = fragment.settings ? JSON.parse(fragment.settings) : {};
-		} catch (error) {
-			fragment.settings = {};
-		}
+		fragment.settings = fragment.settings || {};
 
 		data.locals.fragment = fragment;
 

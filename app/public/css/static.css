@@ -86,6 +86,7 @@ body {
 
 @media (min-width: 992px) {
     body {
+        transition: all .3s;
         height: 100%;
     }
 }
@@ -405,6 +406,10 @@ nav a.active-link {
 
 .two-sections .section-right {
     display: none;
+}
+
+.margin-y-10 {
+	margin: 10px 0px;
 }
 
 .sections {

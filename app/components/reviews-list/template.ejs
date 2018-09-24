@@ -2,7 +2,8 @@
 <link rel="stylesheet" href="/css/reviews-list.css">
 
 	<% if(user.adminMode) { %>
-		<%- include('./settings.ejs') -%>
+
+	<%- include('./settings.ejs') -%>
 		<nav>
 			<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			  <a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">Все</a>
@@ -29,6 +30,14 @@
 							</h3>
 						</div>
 					<% } %>
+
+
+
+<% /* conflict */ %>
+
+
+
+
 				<% } else { %>
 					<div class="text-center">
 						<h3>

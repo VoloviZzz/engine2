@@ -19,6 +19,7 @@ module.exports = (app) => {
 			var [error, slides] = await db.execQuery(`SELECT * FROM slides WHERE fragment_id = '${id}' AND published = 1 ORDER BY priority desc`);
 		}
 
+		fragment.settings.maxImageHeight = fragment.settings.maxImageHeight || '350';
 
 		dataViews.user = session.user;
 		dataViews.fragment = fragment;

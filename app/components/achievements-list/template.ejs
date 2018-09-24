@@ -47,7 +47,7 @@
 			<button class="btn js-achievements-add">Добавить</button>
 		<% } %>
 	</div>
-
+	<%if(pagination.countPages > 1){%>
 	<div class="pagination">
 		<a class="pagination__to-begin pagination__action-link" href="<%= fragment.settings.urlPage -%>">в начало</a>
 		<% for(let i = pagination.left; i < pagination.right; i++) { %>
@@ -55,6 +55,7 @@
 		<% } %>
 		<a class="pagination__to-end pagination__action-link" href="<%= fragment.settings.urlPage -%>?page=<%=pagination.countPages%>">в конец</a>
 	</div>
+	<%}%>
 </section>
 	<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js"></script>
 	<script src="/js/achievements-list.js" defer></script>

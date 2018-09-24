@@ -38,6 +38,10 @@
 		<div class="tab-pane not-modered-reviews" id="nav-unpublished" role="tabpanel" aria-labelledby="nav-unpublished-tab">
 			<%- include('./question-list', { questions: questionsNotPublished }) -%>
 		</div>
+		<ul class="tabs-titles-wrap">
+			<li class="tab active tab-all">Все (<%= questions.length -%>)</li>
+			<li class="tab tab-all">Неопубликованные (<%= questionsNotPublished.length -%>)</li>
+		</ul>
 	<% } %>
 </div>
 

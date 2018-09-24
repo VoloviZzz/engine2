@@ -1,15 +1,6 @@
 <link rel="stylesheet" href="/css/goods-list.css">
 <div class="text-right admin-control-container">
 	<% if(user.adminMode) { %>
-		<label>
-			<span>Выбор алиаса:</span>
-			<select class="js-goodsCategories-upd" data-target="alias_id" data-id="<%= currentCat.id -%>">
-				<option value="0">Не выбрано</option>
-				<% aliases.forEach(alias => { %>
-					<option <%= currentCat.alias_id == alias.id ? 'selected' : '' -%> value="<%= alias.id -%>"><%= alias.alias -%></option>
-				<% }) %>
-			</select>
-		</label>
 		<% if(currentCat.public == '1') { %>
 			<button class="btn js-goodsCategories-togglePublic" data-id="<%= currentCat.id -%>" value="0">Скрыть категорию</button>
 		<% } else { %>
