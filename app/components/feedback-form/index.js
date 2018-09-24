@@ -49,7 +49,7 @@ module.exports = (app) => {
 		dataViews.client = client;
 		dataViews.fragment = locals.fragment;
 		dataViews.user = session.user;
-		dataViews.formTitle = locals.fragment.settings.title || 'Обратная связь';
+		dataViews.formTitle = locals.fragment.settings.title || 'NULL';
 
 		return new Promise((resolve, reject) => {
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

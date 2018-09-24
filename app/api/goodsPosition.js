@@ -1,4 +1,5 @@
 const UploadPhotos = require('../libs/UploadPhotos');
+const path = require('path');
 
 exports.addProduct = function (req, res, next) {
 	const { Model } = req.app;

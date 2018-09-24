@@ -53,7 +53,7 @@ module.exports = (app) => {
 		dataViews.achievements = resArray;
 		dataViews.pagination = pagination;
 		dataViews.fragment = locals.fragment;
-
+		console.log(pagination);
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
