@@ -2,6 +2,26 @@
 
 $(document).ready(function () {
 
+	$('.js-good-change').on('change', function (e) {
+		var postData = {};
+
+		postData.id = this.dataset.id;
+		postData.target = this.dataset.target;
+		postData.value = this.value.trim();
+
+		if (!!postData.id === false || !!postData.target === false || !!postData.value === false && postData.value !== '') return alert('Ошибка входных параметров');
+
+		$.post('/api/goodsPosition/upd', postData).done(function (result) {
+
+			if (result.status == 'ok') {
+				return location.reload();
+			}
+
+			console.log(result.error);
+			alert(result.message);
+		});
+	})
+
 	$('.js-goodsPosition-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
@@ -19,6 +39,8 @@ $(document).ready(function () {
 
 	$('.js-goodsPhoto-delete').on('click', function (e) {
 		var id = $(this).data('id');
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/photos/delete', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
@@ -195,6 +217,8 @@ $(document).ready(function () {
 			ctrl: 'deleteParamsBindValues',
 			id: $(this).data('id')
 		};
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/goodsPosition/deleteParamsBindValues', postData).done(function (result) {
 			if (result.status == 'bad') {

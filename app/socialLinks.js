@@ -1,7 +1,8 @@
+const Model = require('./models');
+
 module.exports = async app => {
 
-	const Model = app.Model;
-	const [, socialLinks] = await Model.socialLinks.get();
+	const [error, socialLinks] = await Model.socialLinks.get();
 
 	app.socialLinks = app.locals.socialLinks = {
 		socialLinks,

@@ -11,7 +11,13 @@ module.exports = (app) => {
 		try {
 			const routeParam = locals.dynamicRouteNumber;
 
-			var [error, [post]] = await Model.posts.get({ id: routeParam });
+			var [error, post] = await Model.posts.get({ id: routeParam });
+			if (error) {
+				console.log(error);
+				throw new Error(error);
+			}
+
+			post = post[0] ? post[0] : false;
 
 			if (!!post === false) {
 				return Promise.resolve([, 'Публикая не найдена']);
@@ -44,13 +50,23 @@ module.exports = (app) => {
 				return Promise.resolve(["Что-то пошло не так"]);
 			}
 
+			var [error, aliases] = await Model.aliases.get({ route_id: locals.route.id });
+			if (error) {
+				console.log(error);
+				return Promise.resolve(["Что-то пошло не так"]);
+			}
+
+			locals.route.show_title = false;
+
 			dataViews.similarPosts = similarPosts;
+			dataViews.aliases = aliases;
 			dataViews.post = post;
 			dataViews.postCategories = postCategories;
 			locals.route.title = post.title;
 			dataViews.user = session.user;
 			dataViews.fragment = locals.fragment;
 		} catch (e) {
+			console.log(e);
 			return Promise.resolve([, 'Что-то пошло не так']);
 		}
 

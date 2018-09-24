@@ -29,11 +29,20 @@ module.exports = (app) => {
 
 		}
 
-		[error, photos] = await Model.photos.get({target: 'shop', target_id: shop.id});
+		[error, photos] = await Model.photos.get({ target: 'shop', target_id: shop.id });
 
-		if(error) {
+		if (error) {
+			console.error(error);
 			return Promise.resolve([, "что-то пошло не так"]);
 		}
+
+		var [error, aliases] = await Model.aliases.get({ route_id: locals.route.id, params: locals.URIparams });
+		if (error) {
+			console.error(error);
+			return Promise.resolve([, "что-то пошло не так"]);
+		}
+
+		dataViews.aliases = aliases;
 
 
 		dataViews.shop = shop;

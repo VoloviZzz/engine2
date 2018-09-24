@@ -6,7 +6,7 @@
 			
 			if(user.adminMode) {
 				
-				%><div style="display: flex;">
+				%><div class="d-flex">
 					<div>
 						<div>
 							<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
@@ -41,7 +41,8 @@
 										<button class="btn bg-delete js-headerNav-delete" data-id="<%= child.id -%>" style="height: 100%">У</button>
 									</div>
 								</div>
-							</li><%
+							</li>
+							<%
 						
 						})
 					}

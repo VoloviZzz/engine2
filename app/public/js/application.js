@@ -188,6 +188,8 @@ Shop.prototype.updCategories = function (args) {
 Shop.prototype.delCategories = function (args) {
 	var id = args.id;
 
+	if (confirm('Удалить?') === false) return false;
+
 	$.post('/api/shop/delCategories', { id: id }).done(function (result) {
 		if (result.status !== 'ok') {
 			console.log(result);
@@ -250,6 +252,10 @@ function Slider() { };
 Slider.prototype.deleteSlide = function (_ref5) {
 	var slide_id = _ref5.slide_id,
 		fragment_id = _ref5.fragment_id;
+
+	if (confirm('Удалить слайд?') === false) {
+		return false;
+	}
 
 	$.post('/api/slider/deleteSlide', { slide_id: slide_id, fragment_id: fragment_id }).done(function (result) {
 		if (result.status == 'ok') return location.reload();
@@ -325,6 +331,11 @@ Fragments.prototype.changeComponent = function (fragment_id, value) {
 };
 
 Fragments.prototype.delete = function (fragment_id) {
+
+	if (confirm('Удалить фрагмент?') === false) {
+		return false;
+	}
+
 	$.post('/api/fragments/del', { fragment_id: fragment_id }).done(function (result) {
 		if (result.status === 'ok') return location.reload();
 
@@ -379,6 +390,10 @@ MenuList.prototype.addMenuGroup = function (_ref11) {
 
 MenuList.prototype.deleteMenuItem = function (_ref12) {
 	var menu_id = _ref12.menu_id;
+
+	if (confirm('Удалить пункт меню?') === false) {
+		return false;
+	}
 
 	$.post('/api/menu/deleteMenuItem', { menu_id: menu_id }).done(function (result) {
 		if (result.status == 'ok') return location.reload();

@@ -107,6 +107,36 @@ nav a.active-link {
 	font: 2em "arial";
 }
 
+.menu-container a {
+	padding: 7px;
+}
+
+ul.submenu {
+    display: none;
+}
+
+.subnav ul {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    overflow-x: auto;
+}
+
+.subnav li {
+    margin: 15px 20px;
+    padding: 0px 15px;
+}
+
+.header-menu-center li:hover > .submenu {
+    display: block;
+    position: absolute;
+    background: black;
+    width: 200px;
+    text-align: center;
+    background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+}
+
 @media (max-width: 991px) {
 	.site-band {
 		width: 100%;

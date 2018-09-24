@@ -6,8 +6,11 @@
 			<span class="item__title">Основное</span>
 			<div class="my__item">
 				<div class="my__photo">
-					<img src="/img/no-photo-img.png" alt="Фото пользователя">
-					<a href="#" class="my__photo-download">Загрузить фото</a>
+					<img src="<%= Helpers.replaceImageIfNotExist(user.avatar) -%>" alt="Фото пользователя">
+					<label>
+						<span style="cursor: pointer" class="my__photo-download">Загрузить фото</span>
+						<input type="file" style="display: none" id="js-upload-avatar" data-id="<%= user.id -%>">
+					</label>
 				</div>
 				<div class="my__right">
 						<div class="input-group">
@@ -24,7 +27,7 @@
 						</div>
 						<div class="input-group">
 							<label>
-								<span class="my-item__input-name">Отчестов:</span>
+								<span class="my-item__input-name">Отчество:</span>
 								<input class="input-text js-input-text" name="patronymic" type="text" value="<%=user.patronymic%>">
 							</label>
 						</div>

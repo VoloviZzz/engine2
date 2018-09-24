@@ -45,22 +45,22 @@
 		</script>
 	</div>
 		<% if(user.adminMode) { %>
-		<div class="text-right">
-			<button class="btn js-add-shopItem">Добавить магазин</button>
-		</div>
-	<% } %>
+			<div class="text-right admin-control-container">
+				<button class="btn js-add-shopItem">Добавить магазин</button>
+			</div>
+		<% } %>
 	<div class="shops-items">
 		<% shops.forEach((shop) => { %>
 			<div class="shops-item" data-id="<%= shop.id -%>" data-coord="<%= shop.coords %>" data-title="<%= shop.title -%>" data-addr="<%= shop.address -%>">
 				<% if(user.adminMode) { %>
-					<div class="text-right">
+					<div class="text-right admin-control-container">
 						<button data-id="<%= shop.id -%>" class="btn js-delete-shopItem">Удалить из списка</button>
 					</div>
 				<% } %>
-				<a class="page-link" href="/shop-page/<%= shop.id -%>">
+				<a class="page-link" href="<%= shop.alias || `/shop-page/` + shop.id -%>">
 					<h1 class="shops-item__title"><%= shop.title -%></h1>
 				</a>
-				<a class="shops-item__image" href="/shop-page/<%= shop.id -%>">
+				<a class="shops-item__image" href="<%= shop.alias || `/shop-page/` + shop.id -%>">
 					<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.prod_path) -%>" alt="">
 				</a>
 				<div class="shops-item__text text-margin-bottom-p text-indent">
@@ -71,7 +71,7 @@
 					<span class="shops-item__phone">Телефон: <%= shop.phones -%></span>
 				</div>
 				<div class="shops-item__more">
-					<a class="page-link" href="/shop-page/<%= shop.id -%>">Подробнее...</a>
+					<a class="page-link" href="<%= shop.alias || `/shop-page/` + shop.id -%>">Подробнее...</a>
 				</div>
 			</div>
 		<% }) %>

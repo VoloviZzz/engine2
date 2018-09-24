@@ -5,16 +5,18 @@ module.exports = (app) => {
 		return new Promise(async (resolve, reject) => {
 
 			const { locals, session } = data;
-
 			const catId = locals.dynamicRouteNumber || '';
-
 			const categoriesParams = {};
 
 			if (session.user.adminMode == false) {
 				categoriesParams.public = '1';
 			}
 
-			const [, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
+			var [error, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
+			if(error) {
+				console.log(error);
+				return resolve([, error.message]);
+			}
 
 			const resultCatsObj = {};
 

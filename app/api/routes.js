@@ -1,8 +1,12 @@
+const db = require('../libs/db');
+const storage = require('../storage');
+
 const Model = require('../models');
 const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {
 
+	const routesMap = storage.get('routesMap');
 	const { dynamic, url } = req.body;
 
 	const hasParams = url.search(/\/:params/i);
@@ -12,9 +16,17 @@ exports.add = async function (req, res, next) {
 		return { status: 'bad', message: 'Отсутствуют параметры для динамического маршрута' };
 	}
 
-	const [err, route] = await Model.routes.add(req.body);
+	if(url in routesMap) {
+		return { status: 'bad', message: 'Существует маршрут с таким URL' };
+	}
 
+	var [err, route, sql] = await Model.routes.add(req.body);
 	if (err) return { status: 'bad', message: err.message, error: err };
+
+	var [error, route] = await Model.routes.get({ id: route.id });
+	if (error) return { status: 'bad', message: err.message, error: err };
+
+	routesMap[route.url] = route;
 
 	return { status: 'ok' };
 }
@@ -36,7 +48,8 @@ exports.del = async function (req, res, next) {
 	[error, rows] = await Model.routes.del(req.body);
 	if (error) return { status: 'bad', message: err.message, error };
 
-	delete req.app.locals.routesList[route.url];
+	const routesMap = storage.get('routesMap');
+	delete routesMap[route.url];
 
 	return { status: 'ok' };
 }
@@ -63,7 +76,8 @@ exports.upd = async function (req, res, next) {
 
 	[error, route] = await Model.routes.get({ id: routeId });
 
-	[error, req.app.locals.routesList] = await initRoutes();
+	const routesMap = storage.get('routesMap');
+	routesMap[route.url] = route;
 
 	return { status: 'ok' };
 }
@@ -76,7 +90,10 @@ exports.toggleActiveMenuItem = async function (req, res, next) {
 		return { message: error.message };
 	}
 
-	[error, req.app.locals.routesList] = await initRoutes();
+	var [error, route] = await Model.routes.get({ id: id });
+
+	const routesMap = storage.get('routesMap');
+	routesMap[route.url] = route;
 
 	return { status: 'ok' };
 }

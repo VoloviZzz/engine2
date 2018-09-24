@@ -46,6 +46,8 @@ $(document).ready(function () {
 	$('.js-question-delete').on('click', function () {
 		var id = $(this).data('id');
 
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/questions/delQuestion', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);

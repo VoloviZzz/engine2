@@ -4,7 +4,7 @@ exports.add = (arg = {}) => {
 
 	const { creator, text, targetType } = arg;
 
-	if (!!creator === false) return Promise.resolve([new Error('Отсутствует параметр creator')]);
+	if (!!creator === false && creator !== 0) return Promise.resolve([new Error('Отсутствует параметр creator')]);
 	if (!!text === false) return Promise.resolve([new Error('Отсутствует параметр text')]);
 	if (!!targetType === false) return Promise.resolve([new Error('Отсутствует параметр targetType')]);
 
@@ -17,6 +17,18 @@ exports.add = (arg = {}) => {
 			text = '${text}',
 			target_type = '${targetType}'
 			${targetId}
+	`;
+
+	return db.insertQuery(q);
+}
+
+exports.addCategory = (arg = {}) => {
+	const { title } = arg;
+
+	if (!!title === false && title == '') return Promise.resolve([new Error('Отсутствует параметр title')]);
+
+	const q = `
+		INSERT INTO reviews_target SET title = '${title}'
 	`;
 
 	return db.insertQuery(q);
@@ -38,7 +50,8 @@ exports.get = (arg = {}) => {
 
 	var q = `
 		SELECT r.*,
-			c.name as clientName
+			c.name as clientName,
+			c.avatar as clientAvatar
 		FROM reviews r
 			LEFT JOIN clients c ON r.client_id = c.id
 		WHERE r.id > 0
@@ -71,7 +84,7 @@ exports.getCount = function (args = {}) {
 }
 
 exports.getTargets = (args = {}) => {
-	return db.execQuery(`SELECT target_type as title FROM reviews WHERE target_type IS NOT NULL GROUP BY target_type`);
+	return db.execQuery(`SELECT * FROM reviews_target`);
 }
 
 exports.upd = (arg = {}) => {

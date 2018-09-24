@@ -44,8 +44,8 @@ exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
 }
 
 exports.setData = async function ({ fragment_id, data }) {
-	let err;
-	[err, fragmentData] = await exports.getFragmentsData({ fragment_id })
+	
+	var [err, fragmentData] = await exports.getFragmentsData({ fragment_id })
 	if (err) throw new Error(err);
 
 	let strData = JSON.stringify({ content: data });

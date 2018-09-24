@@ -1,6 +1,9 @@
 const ShoppingCart = require('../classes/ShoppingCart');
 const md5 = require('md5');
 const sendSoldItems = require('../unloading/functions/send_sold_items');
+
+const smsc = require(AppRoot + '/services/sendSms/');
+
 // добавление данных оформления заказа в сессию
 exports.setOrderData = (req, res, next) => {
 	const { Model } = req.app;
@@ -25,7 +28,10 @@ exports.setOrderData = (req, res, next) => {
 			code = req.app.Helpers.getRandomNumber(6);
 			let [, codeId] = await Model.confirmedPhones.add({ phone: data.phone, code });
 
-			// await req.app.smsc.send({ phones: req.body.phone, mes: code });
+			if (process.env.NODE_ENV === 'production') {
+				await smsc.send({ phones: req.body.phone, mes: code });
+			}
+
 
 			req.session.tempOrderData.code = code;
 			req.session.tempOrderData.codeId = codeId;
@@ -41,7 +47,9 @@ exports.setOrderData = (req, res, next) => {
 			req.session.tempOrderData.codeId = codeId;
 			req.session.tempOrderData.code = code;
 
-			// await req.app.smsc.send({ phones: req.body.phone, mes: code });
+			if (process.env.NODE_ENV === 'production') {
+				await smsc.send({ phones: req.body.phone, mes: code });
+			}
 
 			return { status: 'confirm phone' }
 		}
@@ -138,7 +146,9 @@ exports.addOrder = async (req, res, next) => {
 			if (error) console.log(error);
 		}
 
-		// return req.app.smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })
+		if (process.env.NODE_ENV === 'production') {
+			return smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })
+		}
 	}).then(async () => {
 
 		const updatePositionsPromises = [];

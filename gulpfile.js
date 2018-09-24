@@ -21,7 +21,7 @@ gulp.task('scss', function() {
     .src('app/public/scss/**/*.scss') // Выбираем scss файлы
     .pipe(sass()) // Компилируем в css
     .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {cascade: true})) //Проставляем автопрефиксы
-    .pipe(concatCss('main.min.css')) // Собираем все в единый файл
+    .pipe(concatCss('static.min.css')) // Собираем все в единый файл
     .pipe(cssnano()) // Удаляем пробелы и табуляции
     .pipe(gulp.dest('app/public/css')); // Выгружаем в папку css
 })

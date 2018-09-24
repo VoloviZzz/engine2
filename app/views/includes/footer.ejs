@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-3 footer-social">
 					<% if(user.adminMode) { %>
-						<button class="btn btn-sm btn-letaindex js-add-social-link">+</button>
+						<button class="btn btn-sm js-add-social-link">+</button>
 					<% } %>
 					<% socialLinks.get().forEach((item) => { %>
 						<a class="js-social-btn social-btn" href="<%= item.href -%>" title="<%= item.title -%>">

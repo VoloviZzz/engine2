@@ -14,10 +14,16 @@
 	<% }) -%>
 </div>
 <% if(user.adminMode) { %>
-	<div>
-		<label>
-			<span>Добавить фото</span>
-			<input class="js-shopPhoto-add" multiple type="file">
+	<div class="admin-control-container">
+		<select class="js-shop-update" data-target="alias_id" data-id="<%= shop.id -%>">
+			<option value="0">Не выбрано</option>
+			<% aliases.forEach(alias => { %>
+				<option <%= shop.alias_id == alias.id ? 'selected' : '' -%> value="<%= alias.id -%>"><%= alias.alias -%></option>
+			<% }) %>
+		</select>
+		<label class="btn">
+			Добавить фото
+			<input class="js-shopPhoto-add" multiple type="file" style="display: none">
 		</label>
 		<span style="display: none" id="js-photos-load-message">Идёт загрузка фото. Подождите</span>
 	</div>

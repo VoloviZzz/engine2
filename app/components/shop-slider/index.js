@@ -1,4 +1,5 @@
 const path = require('path');
+const Model = require('../../models');
 
 module.exports = (app) => {
 	return (data = {}) => {
@@ -13,7 +14,7 @@ module.exports = (app) => {
 				getGoodsCategoriesParams.public = '1';
 			}
 
-			const [, goodsCategories] = await app.Model.goodsCategories.get(getGoodsCategoriesParams);
+			const [, goodsCategories] = await Model.goodsCategories.get(getGoodsCategoriesParams);
 
 			const slides = goodsCategories || [];
 

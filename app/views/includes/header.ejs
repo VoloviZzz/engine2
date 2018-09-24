@@ -4,175 +4,75 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height">
         <meta charset="utf-8">
         <meta content="yes" name="apple-mobile-web-app-capable" />
-        <meta name="description" content="<%= route.seo_description %>">
-        <meta name="keywords" content="<%= route.seo_keywords %>">
-        <title><%= route.title -%> <%= ` - ` + siteConfig.get("appendTitle") -%></title>
+        <meta name="description" content="<%= route.meta.description || route.seo_description %>">
+        <meta name="keywords" content="<%= route.meta.keywords || route.seo_keywords %>">
+        <title><%= route.meta.title || route.title -%> <%= ` - ` + siteConfig.get("appendTitle") -%></title>
+        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&amp;subset=cyrillic">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700,900&amp;subset=cyrillic">
 		<link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/css/main.min.css">
+		<!--<link rel="stylesheet" href="/css/static.css">-->
+		<link rel="stylesheet" href="/css/static.min.css">
 		<link rel="shortcut icon" href="<%= siteConfig.get("favicon") -%>">
-		<% if(user.adminMode) { %>
+		<% if(user.admin) { %>
 			<link rel="stylesheet" href="/admins/css/admin.css">
 		<% } %>
     </head>
     <body>
-		<!--<header class="document-header">
-			<nav class="navbar navbar-expand-lg nav-letaindex">
-				<a class="navbar-brand">
-					<img src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
+		<% if(user.admin) { %>
+			<div class="admin-panel">
+				<a href="/admin" title="Перейти в админ. панель">
+					<span class="fa fa-cogs"></span>
+				</a>
+				<span style="margin-left: 25px" id="toggle-admin-mode">Переключение админ. режима</span>
+			</div>
+		<% } %>
+        
+		<header class="document-header">
+            <nav class="header-nav">
+                <div class="site-band">
+                    <a href="/">
+						<img class="nav-band" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>">
+					</a>
 					<% if(user.adminMode) { %>
 						<label class="js-siteLogo-edit-btn" style="cursor: pointer">
 							<span>+</span>
 							<input class="js-siteLogo-file" type="file" style="display: none;">
 						</label>
 					<% } %>
-				</a>
-				<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-					<i class="fa fa-bars fa-lg py-1 text-white"></i>
-				</button>
-				<div class="collapse navbar-collapse"></div>
-				<div class="collapse navbar-collapse justify-content-center" id="navbarMenu">
-					<ul class="navbar-nav">
-						<% HeaderRows.forEach((r) => { %>
+                    <button class="toggle-menu btn"></button>
+                </div>
+                <div class="menu-container"><%
+					
+					%><%- include("./header-menu") -%><%
+					
+					%><ul class="header-menu header-menu-right">
+						<% if(siteConfig.get("showCart") === "1") { %>
 							<li>
-								<% if(user.adminMode) { %>
-									<li class="nav-item">
-										<a class="nav-link" href="<%= r.href -%>">
-											<%= r.title -%>
-										</a>
-									</li>
-									<li class="nav-item dropdown">
-										<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<i class="fa fa-lg fa-ellipsis-v"></i>
-										</a>
-										<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-											<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
-											<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
-											<div class="dropdown-divider"></div>
-											<button class="btn btn-md btn-letaindex js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
-										</div>
-									</li>
-								<% } else { %>
-									<li class="nav-item mr-3 ml-3">
-										<a class="nav-link" href="<%= r.href -%>"><%= r.title -%></a>
-									</li>
-								<% } %>
+								<a class="shopping-cart-link" href="/cart">
+									<i class="fa fa-shopping-cart fa-lg"></i>
+									<span 
+										class="badge shopping-cart-badge" 
+										id="js-shoppingCart-goodsCount" 
+										style="<%= session.shoppingCart.totalCountGoods < 1 ? "display: none" : "" -%>"><%= session.shoppingCart.totalCountGoods -%></span>
+								</a>
 							</li>
-						<% }) %>
-						<% if (user.id && user.admin) { %>
-							<% if(user.adminMode) { %>
-								<div>
-									<button class="btn btn-md btn-letaindex js-headerNav-add">+</button>
-								</div>
-							<% } %>
 						<% } %>
-					</ul>
-				</div>
-				<div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link shopping-cart-link" href="/cart">
-								<i class="fa fa-shopping-cart fa-lg"></i>
-								<span 
-									class="badge shopping-cart-badge" 
-									id="js-shoppingCart-goodsCount" 
-									style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
-							</a>
-						</li>
 						<% if(!user.id) { %>
 							<li class="nav-item">
 								<a class="nav-link" href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
 							</li>
-							<% } else { %>
-								<% if (user.admin) { %>
-									<li class="nav-item">
-										<a class="nav-link" href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
-									</li>
-								<% } %>
-							<li class="nav-item">
-								<a class="nav-link" href="/my"><%= user.clientName %></a>
+						<% } else { %>
+							<li>
+								<a href="/my"><%= user.clientName %></a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="/logout">Выйти</a>
 							</li>
 						<% }%>
 					</ul>
-				</div>
-			</nav>
-		</header>-->
-
-	<header class="document-header">
-		<nav class="header-nav">
-			<div class="site-band">
-				<img class="nav-band" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
-				<% if(user.adminMode) { %>
-					<label class="js-siteLogo-edit-btn" style="cursor: pointer">
-						<span>+</span>
-						<input class="js-siteLogo-file" type="file" style="display: none;">
-					</label>
-				<% } %>
-				<button class="toggle-menu btn"></button>
-			</div>
-			<div class="menu-container">
-				<ul class="header-menu header-menu-center">
-					<% HeaderRows.forEach((r) => { %>
-						<li>
-							<% if(user.adminMode) { %>
-								<div style="display: flex;">
-									<div>
-										<div>
-											<input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
-										</div>
-										<div>
-											<input type="text" class="js-headerNav-edit" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
-										</div>
-									</div>
-									<div>
-										<button class="btn js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
-									</div>
-								</div>
-							<% } else { %>
-								<a href="<%= r.href -%>"><%= r.title -%></a>
-							<% } %>
-						</li>
-					<% }) %>
-					<% if (user.id && user.admin) { %>
-						<% if(user.adminMode) { %>
-							<div>
-								<button class="btn js-headerNav-add" style="height: 100%">+</button>
-							</div>
-						<% } %>
-					<% } %>
-				</ul>
-				<ul class="header-menu header-menu-right">
-					<li>
-						<a class="shopping-cart-link" href="/cart">
-							<i class="fa fa-shopping-cart fa-lg"></i>
-							<span 
-								class="badge shopping-cart-badge" 
-								id="js-shoppingCart-goodsCount" 
-								style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
-						</a>
-					</li>
-					<% if(!user.id) { %>
-						<li>
-							<a href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
-						</li>
-					<% } else { %>
-						<% if (user.admin) { %>
-							<li>
-								<a href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
-							</li>
-						<% } %>
-						<li>
-							<a href="/my"><%= user.clientName %></a>
-						</li>
-						<li>
-							<a href="/logout">Выйти</a>
-						</li>
-					<% }%>
-				</ul>
-			</div>
-		</nav>
-	</header>
+                </div>
+            </nav>
+            
+		</header>
+		<!--<div class="aside-toggle">Меню слева</div>-->

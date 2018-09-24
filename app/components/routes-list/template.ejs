@@ -124,6 +124,15 @@
 										</select>	
 									</div>
 									<div class="form-group">
+										<label for="target_id">Классификация страницы</label>
+										<select name="target_id" class="form-control">
+											<option value="0">Не выбрано</option>
+											<% targets.forEach((t) => { %>
+												<option value="<%= t.id -%>" <%= r.target_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
+											<% }) %>
+										</select>
+									</div>
+									<div class="form-group">
 										<h3>Доступ</h3>
 										<div class="row">
 											<div class="col-6">

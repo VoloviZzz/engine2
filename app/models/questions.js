@@ -15,7 +15,7 @@ exports.get = (arg = {}) => {
 			SELECT q.*
 			FROM questions q
 			WHERE
-				id > 0
+				q.id > 0
 				${type}
 				${category_id}
 				${author}
