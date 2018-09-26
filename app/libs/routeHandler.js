@@ -8,7 +8,7 @@ const deleteLastSlash = (req, res, next) => {
 }
 
 const replaceParams = (route) => {
-	route.url = route.url.replace(/:params/g, '([a-zA-Z0-9\-]+)');
+	route.url = route.url.replace(/:params/g, '([а-яА-Яa-zA-Z0-9\-]+)');
 	return route;
 }
 
@@ -81,6 +81,7 @@ module.exports.Router = (app) => {
 	Router.use((req, res, next) => {
 		res.locals.session = req.session;
 		res.locals.reqQuery = req.query;
+		res.locals.templatesList = [];
 		next();
 	});
 
@@ -90,8 +91,9 @@ module.exports.Router = (app) => {
 
 	Router.get('*', async (req, res, next) => {
 		try {
-			const findRoute = await getRoute(req.url);
+			const findRoute = await getRoute( decodeURIComponent(req.url));
 			const { route, routeParams } = findRoute;
+
 
 			if (!!route === false) return next({ message: 'Страница не найдена', status: '404' });
 
@@ -148,6 +150,11 @@ module.exports.Router = (app) => {
 
 			const fragmentsData = await Promise.all(fragmentsMap);
 
+			if (req.session.user.admin) {
+				var [error, templatesList] = await Model.templates.get();
+				res.locals.templatesList = templatesList;
+			}
+
 			res.locals.fragmentsData = fragmentsData;
 
 			return res.render(route.template_name);
@@ -178,6 +185,10 @@ module.exports.Router = (app) => {
 				return res.send(controllerResult.sendData)
 			}
 			else {
+				if (controllerResult.status !== 'ok') {
+					controllerResult.message = controllerResult.message || "Что-то пошло не так. Попробуйте позже";
+				}
+
 				res.json(controllerResult)
 			}
 		}

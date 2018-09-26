@@ -7,10 +7,14 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
+		const { fragment } = locals;
+
+		fragment.settings.countOnPage = fragment.settings.countOnPage || 10;
+
 		var [error, achievements] = await Model.achievements.get();
 		if (error) throw new Error(error);
 
-		const countOnPage = 10;
+		const countOnPage = fragment.settings.countOnPage;
 		const curPage = locals.reqQuery.page || 1;
 		const pagOffset = (curPage - 1) * countOnPage;
 
@@ -49,7 +53,7 @@ module.exports = (app) => {
 		dataViews.achievements = resArray;
 		dataViews.pagination = pagination;
 		dataViews.fragment = locals.fragment;
-		console.log(pagination);
+		// console.log(pagination);
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);

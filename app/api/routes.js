@@ -1,8 +1,6 @@
-const db = require('../libs/db');
 const storage = require('../storage');
 
 const Model = require('../models');
-const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {
 
@@ -55,16 +53,16 @@ exports.del = async function (req, res, next) {
 }
 
 exports.upd = async function (req, res, next) {
+	const routesMap = storage.get('routesMap');
 	const routeId = req.body.id;
-	let error = false;
-
+	
 	if (!!routeId === false) return { status: 'bad', message: 'Нет параметра routeId' };
 
-	[error, route] = await Model.routes.get({ id: routeId });
+	var [error, oldRoute] = await Model.routes.get({ id: routeId });
 	if (error) return { status: 'bad', message: err.message, error };
-	if (!!route === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
+	if (!!oldRoute === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
 
-	if (route.edit_access == "0" && req.session.user.root != "1") {
+	if (oldRoute.edit_access == "0" && req.session.user.root != "1") {
 		return { message: 'Недостаточно прав для редактирования данного маршрута' }
 	}
 
@@ -73,10 +71,11 @@ exports.upd = async function (req, res, next) {
 		console.log(error)
 		return { status: 'bad', message: error.message, error };
 	}
+	
+	delete routesMap[oldRoute.url];
 
-	[error, route] = await Model.routes.get({ id: routeId });
+	var [error, route] = await Model.routes.get({ id: routeId });
 
-	const routesMap = storage.get('routesMap');
 	routesMap[route.url] = route;
 
 	return { status: 'ok' };

@@ -12,7 +12,7 @@ module.exports = (app) => {
 		dataViews.offers = offers;
 		dataViews.user = session.user;
 
-		console.log(dataViews);
+		// console.log(dataViews);
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

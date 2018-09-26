@@ -55,6 +55,8 @@ module.exports = (app) => {
 
 			data.locals.route.title = currentCat.title;
 
+			dataViews.fragment = data.locals.fragment;
+
 			Object.assign(dataViews.user, data.locals.user);
 			Object.assign(dataViews.locals, data.locals);
 

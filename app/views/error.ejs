@@ -1,7 +1,7 @@
 <%- include('./includes/header') -%>
-        <main style="flex: 1">
-            <h1><%= message -%></h1>
-            <h2>Статус ошибки: <%= error.status -%></h2>
-            <pre><%= error.stack -%></pre>
-        </main>
+    <main class="document-content">
+        <h1><%= message -%></h1>
+        <h2>Статус ошибки: <%= error.status -%></h2>
+        <pre><%= error.stack -%></pre>
+    </main>
 <%- include('./includes/footer') -%>

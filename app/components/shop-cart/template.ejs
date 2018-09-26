@@ -1,88 +1,70 @@
 <link rel="stylesheet" href="/css/cart.css">
-<div class="js-goods-container basket-list-wrap">
+<div class="js-goods-container">
     <% if(!!cart === true && Object.keys(cart.goods).length > 0) { %>
-		<div class="clear-basket">
-			<button class="js-clear-cart form-clear-basket">очистить корзину</button>
-		</div>
-        <ul class="basket-list">
-            <% var totalPrice = 0; %>
-            <% Object.keys(cart.goods).map(key => { %>
-				<% var g = goodsList[key] %>
-				<% var cartItem = cart.goods[key] %>
+    <div class="form-group text-right">
+        <button class="btn js-clear-cart">Очистить корзину</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Стоимость</th>
+                </tr>
+            </thead>
+            <tbody style="vertical-align: middle;">
+                <% var totalPrice = 0; %>
+                <% Object.keys(cart.goods).map(key => { %>
+                <% var g = goodsList[key] %>
+                <% var cartItem = cart.goods[key] %>
                 <% totalPrice += +g.price * cartItem.countInShopCart; %>
-                <li data-id="<%=g.id%>" class="js-goods-item basket-list__item">
-                    <div class="basket-list__item-img">
-                        <div>
-                            <img src="<%= Helpers.replaceImageIfNotExist(`${g.photo_path}/preview/${g.photo_name}`) -%>" alt="Гроб Элитный">
+                <tr class="js-goods-item" style="margin: 0 auto">
+                    <td>
+                        <div style="width: 200px; height: 130px;">
+                            <img width="100%" height="100%" src="<%= Helpers.replaceImageIfNotExist(`${g.photo_path}/preview/${g.photo_name}`) -%>" alt="Гроб Элитный">
                         </div>
-                    </div>
-                    <div class="basket-list__item-info">
-                        <table class="basket-list__item-info__params basket-table">
-                            <tbody>
-                                <tr class="basket-table__caption">
-                                    <th class="basket-table__name">
-                                        <div><span>Название</span></div>
-                                    </th>
-                                    <th class="basket-table__counter">
-                                        <div><span>Количество</span></div>
-                                    </th>
-                                    <th class="basket-table__price">
-                                        <div><span>Стоимость</span></div>
-                                    </th>
-                                </tr>
-                                <tr class="order-table__hr">
-                                    <td class="order-table__hr-small" colspan="5">
-                                        <div class="hr"></div>
-                                    </td>
-                                </tr>
-                                <tr class="basket-table__value">
-                                    <td class="basket-table__name">
-                                        <div>
-                                            <a href="/product/<%= g.id -%>">
-                                                <span><%=g.title%></span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="basket-table__counter">
-                                        <button data-vector="-1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table__counter-btn counter-btn-minus"></button>
-                                        <div>
-											<span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span>
-										</div>
-                                        <button data-vector="1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table__counter-btn counter-btn-plus"></button>
-                                    </td>
-                                    <td class="basket-table__price">
-                                        <div><span><%=Helpers.formatPrice(g.price * cartItem.countInShopCart)%> руб.</span></div>
-                                    </td>
-                                </tr>
-                                <tr class="order-table__hr">
-                                    <td class="order-table__hr-small" colspan="5">
-                                        <div class="hr"></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="basket-list__item-remove">
-                        <a href="#" data-id="<%= g.id -%>" class="js-item-remove basket-list__item-remove-link">Убрать из корзины</a>
-                    </div>
-                </li>
-            <% }) %>
-        </ul>
-        <div class="basket-content">
-            <div class="basket-content--shadow"></div>
-            <hr>
-        </div>
-        <div class="basket-total">
-            <div class="basket-total__sum">
+                    </td>
+                    <td>
+                        <a href="/product/<%= g.id -%>">
+                            <span><%=g.title%></span>
+                        </a>
+                    </td>
+                    <td class="basket-table-counter" style="min-width: 120px">
+                        <button data-vector="-1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table-counter__btn basket-table-counter__btn-minus"></button>
+                        <div>
+                            <span data-id="<%=g.id%>" class="js-count-goods"><%= cartItem.countInShopCart -%> шт.</span>
+                        </div>
+                        <button data-vector="1" data-good-id="<%= g.id -%>" class="js-goods-count-edit basket-table-counter__btn basket-table-counter__btn-plus"></button>
+                    </td>
+                    <td style="min-width: 120px">
+                        <div><%=Helpers.formatPrice(g.price * cartItem.countInShopCart)%> руб.</div>
+                    </td>
+                    <td style="border: none">
+                        <div>
+                            <a href="#" data-id="<%= g.id -%>" class="btn btn-sm js-item-remove">Убрать из корзины</a>
+                        </div>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 text-center">
                 Итоговая стоимость:
                 <span id="js-total-price" class="basket-total__sum-value basket-total__sum-value--rub"><%=Helpers.formatPrice(totalPrice)%></span>
                 <small>руб.</small>
             </div>
-            <a href="/order" class="basket-total__next">Оформить заказ</a>
+            <div class="col-6 text-right">
+                <a href="/order" class="btn mb-2">Оформить заказ</a>
+            </div>
         </div>
-    <% }
-    else { %>
-        <h1>Сейчас в корзине ничего нет</h1>
+    </div>
+    <% } else { %>
+        <h2 class="text-center">Сейчас в корзине ничего нет</h2>
     <% } %>
 </div>
 <script src="/js/cart.js" defer></script>

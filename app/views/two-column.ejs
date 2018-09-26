@@ -1,24 +1,30 @@
 <%- include('./includes/header') -%>
-<main class="document-content">
-    <aside class="section-left sections">
-        <div class="section-title">
-            <h3 class="fs-regular">Меню</h3>
+
+<main class="document-content section-wrapper">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-xl col-lg-3 col-md-12 order-lg-1 order-xl-1 section-menu h-100">
+                <p class="section-title section-title-menu">Меню</p>
+                <div class="row h-100">
+                    <div class="col section-content">
+                        <nav>
+                            <%- include('./includes/fragments-container', { block_id: 1 }) -%>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl col-lg-9 col-md-12 order-lg-2 order-xl-2 section-center h-100">
+                <% if(route.show_title) { %>
+                    <p class="section-title text-center"><%= route.title -%></p>
+                <% } %>
+                <div class="row h-100">
+                    <div class="col section-content">
+                        <%- include('./includes/fragments-container', { block_id: 2 }) -%>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="section-menu-wrapp">
-			<nav>
-				<%- include('./includes/fragments-container', { block_id: 1 }) -%>
-			</nav>
-		</div>
-    </aside>
-    <section class="section-center sections">
-		<% if(route.show_title) { %>
-			<div class="section-title">
-				<h3 class="fs-regular text-center"><%= route.title -%></h3>
-			</div>
-		<% } %>
-        <div class="section-content">
-            <%- include('./includes/fragments-container', { block_id: 2 }) -%>
-        </div>
-    </section>
+    </div>
 </main>
+
 <%- include('./includes/footer') -%>

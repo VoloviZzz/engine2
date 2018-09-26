@@ -1,11 +1,12 @@
 const path = require('path');
 const db = require('../../libs/db');
+const Model = require('../../models');
 
 module.exports = (app) => {
 
 	return async (data = {}) => {
 
-		const [queryError, templatesList] = await db.execQuery("SELECT * FROM templates");
+		const [queryError, templatesList] = await Model.templates.get();
 		if (queryError) throw new Error(queryError);
 
 		var [error, routes] = await app.Model.routes.get();

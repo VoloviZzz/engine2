@@ -3,7 +3,7 @@ $(document).ready(function () {
 	var selectCategory = $('.js-change-category');
 
 	selectCategory.on('change', function () {
-		
+
 		var value = $(this).val();
 		var id = $(this).data('id');
 
@@ -97,4 +97,44 @@ $(document).ready(function () {
 
 		return false;
 	});
+
+	$('.js-questionCategories-add').on('submit', function (e) {
+		e.preventDefault();
+
+		var data = {
+			title: this.elements.category.value.trim(),
+			target_id: this.elements.target_id.value
+
+		};
+
+		$.post("/api/questions/addCategory", data).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+
+		return false;
+	})
+
+	$('.js-questionCategories-delete').on('click', function (e) {
+		var data = {
+			id: $(this).data('id')
+		};
+
+		var title = $(this).data('title');
+
+		if (confirm('Удалить категорию: ' + title + '?') === false) return false;
+
+		$.post("/api/questions/deleteCategory", data).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+	})
 })

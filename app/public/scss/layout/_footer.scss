@@ -1,0 +1,60 @@
+.document-footer {
+    width: 100%;
+    min-height: 35px; // Высота
+    line-height: 35px; // Центрирование текста
+    z-index: 10000;
+    font-size: 15px;
+    margin-top: 2px;
+    flex: 0 0 auto;
+    @include bg-letaindex;
+
+    a {
+        color: $white;
+    }
+    
+    a:hover {
+        color: $link-hover-color;
+    }
+}
+
+.footer-social{
+    text-align: right;
+
+    .social-btn {
+        height: 25px;
+    }
+    
+    .social-btn-fb {
+        background: url(../img/social/fb.png) no-repeat center;
+    }
+    
+    .social-btn-tw {
+        background: url(../img/social/tw.png) no-repeat center;
+    }
+    
+    .social-btn-vk {
+        background: url(../img/social/vk.png) no-repeat center;
+    }
+    
+    .social-btn-od {
+        background: url(../img/social/odnk.png) no-repeat center;
+    }
+    
+    .social-btn-ut {
+        background: url(../img/social/youtube.png) no-repeat center;
+    }
+    
+    .social-btn-inst {
+        background: url(../img/social/insta.png) no-repeat center;
+    }
+}
+
+@media (max-width: 767px){
+    .document-footer div{
+        text-align: center;
+    }
+    .footer-social{
+        text-align: center;
+        font-size: 27px;
+    }
+}

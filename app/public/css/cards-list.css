@@ -1,12 +1,3 @@
-* {
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
-}
-
-.div {
-	display: block;
-}
-
 .cards__date {
 	width: 100%;
 	padding-top: 0;
@@ -23,11 +14,11 @@
 	margin-bottom: 24px;
 }
 
-.section-right .cards__item {
+.cards__item {
 	width: 100%;
 }
 
-.section-right .cards-meta-wrapp {
+.cards-meta-wrapp {
 	display: none;
 }
 
@@ -91,7 +82,7 @@
 	width: 100%;
 }
 
-.pagination {
+/*.pagination {
 	margin-bottom: 10px;
 	text-align: center;
 }
@@ -104,15 +95,7 @@
 	border: 1px solid #CDCDD0;
 	-webkit-border-radius: 2px 2px 2px 2px;
 	        border-radius: 2px 2px 2px 2px;
-}
-
-.inactive {
-	display: none;
-}
-
-.active {
-	color: black;
-}
+}*/
 
 @media (max-width: 767px) {
 	.cards__img-wrapp {
