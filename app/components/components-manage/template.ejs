@@ -1,3 +1,77 @@
+<link rel="stylesheet" href="/css/admin.css">
+<div style="text-align: center;">
+  <div class="hidden-add-block" style="display:none;">
+    	<h2>Создать компонент</h2>
+      <br>
+    		<div class="input-group">
+    			<label>
+    				<span class="fs-bold">Заголовок:&nbsp;&nbsp;</span>
+    				<input type="text" class="input-text add-title" style="width: auto;">
+    			</label>
+    		</div>
+				<div class="input-group">
+    			<label>
+    				<span class="fs-bold">Компонент:&nbsp;</span>
+    				<input type="text" class="input-text add-component" style="width: auto;">
+    			</label>
+    		</div>
+				<div class="input-group">
+					<span class="fs-bold">Место на странице:</span>
+					<select class="input-text block_id" style="width: auto;">
+						<% componentBlocks.forEach((block) => { -%>
+							<option value="<%= block.id -%>"><%= block.title -%></option>
+						<% }) -%>
+					</select>
+				</div>
+				<div class="input-group">
+					<span class="fs-bold">Статический:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label>
+						<input type="radio" class="static" name="static" value="1"/>
+						<span>Да</span>
+					</label>
+					<label>
+						<input type="radio" class="static" name="static" checked value="0"/>
+						<span>Нет</span>
+					</label>
+				</div>
+				<div class="input-group">
+					<span class="fs-bold">Один на странице:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label>
+						<input type="radio" class="once" name="once" value="1"/>
+						<span>Да</span>
+					</label>
+					<label>
+						<input type="radio" class="once" name="once" checked value="0"/>
+						<span>Нет</span>
+					</label>
+				</div>
+    		<div class="input-group">
+          <button class="btn save-added-component"><i class="fa fa-add"></i> Создать</button>
+    			<button class="btn close-added-component" onclick="$('.hidden-add-block').toggle(300);"><i class="fa fa-remove"></i></button>
+    		</div>
+        <hr>
+        <br>
+  </div>
+		<button class="btn" onclick="$('.hidden-add-block').toggle(300)">Добавить</button>
+		<br>
+</div>
+<br>
+<hr>
+<br>
+	<ul class="route-items">
+		<% componentsList.forEach((c) => { %>
+		<li class="js-route-item route-item">
+			<a href=""><%= c.title + ' | ' + c.ctrl -%></a>
+			<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= c.id -%>">Редактировать</button>
+			<button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= c.id -%>">Удалить компанент</button>
+		</li>
+		<% })%>
+	</ul>
+
+
+<br>
+<hr>
+<br>
 <section>
 	<div>
 		<form method="POST" class="js-add-component-form">
