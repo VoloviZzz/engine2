@@ -1,124 +1,73 @@
-<div class="d-flex justify-content-between mb-2">
-	<h1>Список компонентов</h1>
+<link rel="stylesheet" href="/css/admin.css">
+<div style="text-align: center;">
+  <div class="hidden-add-block" style="display:none;">
+    	<h2>Создать компонент</h2>
+      <br>
+    		<div class="input-group">
+    			<label>
+    				<span class="fs-bold">Заголовок:&nbsp;&nbsp;</span>
+    				<input type="text" class="input-text add-title" style="width: auto;">
+    			</label>
+    		</div>
+				<div class="input-group">
+    			<label>
+    				<span class="fs-bold">Компонент:&nbsp;</span>
+    				<input type="text" class="input-text add-component" style="width: auto;">
+    			</label>
+    		</div>
+				<div class="input-group">
+					<span class="fs-bold">Место на странице:</span>
+					<select class="input-text block_id" style="width: auto;">
+						<% componentBlocks.forEach((block) => { -%>
+							<option value="<%= block.id -%>"><%= block.title -%></option>
+						<% }) -%>
+					</select>
+				</div>
+				<div class="input-group">
+					<span class="fs-bold">Статический:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label>
+						<input type="radio" class="static" name="static" value="1"/>
+						<span>Да</span>
+					</label>
+					<label>
+						<input type="radio" class="static" name="static" checked value="0"/>
+						<span>Нет</span>
+					</label>
+				</div>
+				<div class="input-group">
+					<span class="fs-bold">Один на странице:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<label>
+						<input type="radio" class="once" name="once" value="1"/>
+						<span>Да</span>
+					</label>
+					<label>
+						<input type="radio" class="once" name="once" checked value="0"/>
+						<span>Нет</span>
+					</label>
+				</div>
+    		<div class="input-group">
+          <button class="btn save-added-component"><i class="fa fa-add"></i> Создать</button>
+    			<button class="btn close-added-component" onclick="$('.hidden-add-block').toggle(300);"><i class="fa fa-remove"></i></button>
+    		</div>
+        <hr>
+        <br>
+  </div>
+		<button class="btn" onclick="$('.hidden-add-block').toggle(300)">Добавить</button>
+		<br>
 </div>
-<form method="POST" class="js-add-component-form">
-	<div class="form-row">
-		<div class="form-group col-md-6">
-			<label for="addGlobalVariablesFormInputTitle">Название:</label>
-			<input name="title" type="text" class="form-control" id="addComponentFormInputTitle" aria-describedby="titleHelp">
-		</div>
-		<div class="form-group col-md-6">
-			<label for="addComponentFormInputCtrl">Название контроллера:</label>
-			<input name="ctrl" type="text" class="form-control" id="addComponentFormInputCtrl" aria-describedby="ctrlHelp">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="template_id">Место на странице:</label>
-		<select class="form-control" name="block_id">
-			<% componentBlocks.forEach((block) => { -%>
-				<option value="<%= block.id -%>"><%= block.title -%></option>
-			<% }) -%>
-		</select>
-	</div>
-	<div class="form-group">
-		<div class="row">
-			<div class="col-6">
-				<h3>Статический</h3>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="static" value="1" id="addComponentFormInputStaticRadio1">
-					<label class="form-check-label" for="addComponentFormInputStaticRadio1">
-						Да
-					</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="static" value="0" id="addComponentFormInputAccessRadio2">
-					<label class="form-check-label" for="addComponentFormInputAccessRadio2">
-						Нет
-					</label>
-				</div>
-			</div>
-			<div class="col-6">
-				<h3>Один на странице</h3>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="once" value="1" id="addComponentFormInputAccessRadio3">
-					<label class="form-check-label" for="addComponentFormInputAccessRadio3">
-						Да
-					</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="once" value="0" id="addComponentFormInputAccessRadio4">
-					<label class="form-check-label" for="addComponentFormInputAccessRadio4">
-						Нет
-					</label>
-				</div>
-			</div>
-		</div>
-	</div>
-	<button class="js-add-component-form--submit btn mb-2">Добавить</button>
-</form>
-<% componentsList.forEach((component) => { -%>
-<form>
-	<div class="mb-2">
-		<hr>
-		<h1><%= component.title -%></h1>
-		<hr>
-	</div>
-	<div class="mb-2">
-		<span>Название контроллера:</span>
-		<span><%= component.ctrl -%></span>
-	</div>
-	<div class="form-group">
-		<div class="row">
-			<div class="col-6">
-				<h3>Статический</h3>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="static" id="showComponentFormInputStaticRadio1" <%= component.static == 1 ? "checked" : "" -%>>
-					<label class="form-check-label" for="showComponentFormInputStaticRadio1">
-						Да
-					</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="static" id="showComponentFormInputStaticRadio2" <%= component.static == 0 ? "checked" : "" -%>>
-					<label class="form-check-label" for="showComponentFormInputStaticRadio2">
-						Нет
-					</label>
-				</div>
-			</div>
-			<div class="col-6">
-				<h3>Один на странице</h3>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="once" id="showComponentFormInputStaticRadio3" <%= component.once == 1 ? "checked" : "" -%>>
-					<label class="form-check-label" for="showComponentFormInputStaticRadio3">
-						Да
-					</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="once" id="showComponentFormInputStaticRadio4" <%= component.once == 0 ? "checked" : "" -%>>
-					<label class="form-check-label" for="showComponentFormInputStaticRadio4">
-						Нет
-					</label>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="d-flex mb-2">
-		<div class="mr-3">
-			<span>Стили:</span>
-			<span><%= component.styles -%></span>
-		</div>
-		<div>
-			<span>Скрипты:</span>
-			<span><%= component.scripts -%></span>
-		</div>
-	</div>
-	<div class="mb-2">
-		<span>Начальные настройки:</span>
-		<span><%= component.default_config -%></span>
-	</div>
-	<div class="mb-2">
-		<span>Дата добавления:</span>
-		<span><%= Helpers.formatDate(component.created, "dd-MM-yyyy") -%></span>
-	</div>
-</form>
-<% }) -%>
-<script src="/admins/js/components-manage.js" defer></script>
+<br>
+<hr>
+<br>
+	<ul class="route-items">
+		<% componentsList.forEach((c) => { %>
+		<li class="js-route-item route-item">
+			<a href=""><%= c.title + ' | ' + c.ctrl -%></a>
+			<button class="js-show-edit-route-form route-item__admin-btn btn" data-route-id="<%= c.id -%>">Редактировать</button>
+			<button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= c.id -%>">Удалить компанент</button>
+		</li>
+		<% })%>
+	</ul>
+
+<% if(user.admin) { %>
+	<script src="/admins/js/components-manage.js" defer></script>
+<% } %>
