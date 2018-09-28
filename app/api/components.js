@@ -2,20 +2,26 @@ var fs = require("fs");
 
 
 exports.addComponent = (req, res, next) => {
-	fs.mkdir('app/components/'+req.body.component, function() {
+	
+	const Model = req.app.Model;
+	
+	fs.mkdir('app/components/' + req.body.component, function () {
+		
+
 		var data = `
-		<link rel="stylesheet" href="/css/`+req.body.component+`.css">
-		<h1>`+req.body.title+`</h1>
-		<script src="/js/`+req.body.component+`.js" defer></script>
+		<link rel="stylesheet" href="/css/`+ req.body.component + `.css">
+		<h1>`+ req.body.title + `</h1>
+		<script src="/js/`+ req.body.component + `.js" defer></script>
 		<% if(user.adminMode) { %>
-			<script src="admin/js/`+req.body.component+`.js" defer></script>
+			<script src="/admins/js/`+ req.body.component + `.js" defer></script>
 		<% } %>
 		`;
-		fs.writeFile('app/components/'+req.body.component+'/template.ejs', data);
-		fs.writeFile('app/public/js/'+req.body.component+'.js', '');
-		fs.writeFile('app/public/admins/js/'+req.body.component+'.js', '');
-	  fs.writeFile('app/public/css/'+req.body.component+'.css', '');
-		 var data2 = `
+		fs.writeFile('app/components/' + req.body.component + '/template.ejs', data);
+		fs.writeFile('app/public/js/' + req.body.component + '.js', '');
+		fs.writeFile('app/public/admins/js/' + req.body.component + '.js', '');
+		fs.writeFile('app/public/css/' + req.body.component + '.css', '');
+		
+		var data2 = `
 			 const path = require('path');
 				module.exports = (app) => {
 					const Model = app.Model;
@@ -31,11 +37,11 @@ exports.addComponent = (req, res, next) => {
 				}
 		 `;
 
- 	   fs.writeFile('app/components/'+req.body.component+'/index.js', data2);
+		fs.writeFile('app/components/' + req.body.component + '/index.js', data2);
 	});
-	const Model = req.app.Model;
+	
 	return Model.components.add(req.body).then(([error, rows]) => {
 		if (error) return { message: error.message, error };
-		return { status: 'ok'}
+		return { status: 'ok' }
 	})
 }
