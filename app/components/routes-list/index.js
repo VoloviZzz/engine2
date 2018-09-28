@@ -30,9 +30,28 @@ module.exports = (app) => {
 			}
 		}).filter(r => !!r === true);
 
+		var [error, fragments] = await Model.fragments.get();
+
+		const fragmentsByRoute = fragments.reduce((object, fragment) => {
+			const { route_id } = fragment;
+
+			if (route_id in object === false) {
+				object[route_id] = [];
+			}
+
+			object[route_id].push(fragment);
+			return object;
+		}, {});
+
+		const dataViews = {
+			user: data.locals.user, routesList, templatesList, targets
+		};
+
+		dataViews.fragmentsByRoute = fragmentsByRoute;
+
 		const templatePath = path.join(__dirname, 'template.ejs');
 		return new Promise((resolve, reject) => {
-			const template = app.ejs.renderFile(templatePath, { user: data.locals.user, routesList, templatesList, targets }, (err, str) => {
+			const template = app.ejs.renderFile(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);
