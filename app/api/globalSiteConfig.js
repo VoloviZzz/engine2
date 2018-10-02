@@ -1,12 +1,20 @@
-exports.add = (req, res, next) => {
+exports.add = async (req, res, next) => {
 	const Model = req.app.Model;
+	const { target, value } = req.body;
 
-	return Model.siteConfig.add(req.body).then(async ([error, result]) => {
+	var [error, result] = await Model.siteConfig.get({ target });
+
+	if (result.length > 0) {
+		var [error] = await Model.siteConfig.setValue({ target, value });
 		if (error) return { message: error.message, error }
 
-		await req.app.siteConfig.refresh();
-		return { status: 'ok' };
-	})
+	} else {
+		var [error] = await Model.siteConfig.add(req.body);
+		if (error) return { message: error.message, error }
+	}
+
+	await req.app.siteConfig.refresh();
+	return { status: 'ok' };
 }
 
 exports.setValue = (req, res, next) => {
