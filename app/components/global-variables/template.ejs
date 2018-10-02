@@ -1,42 +1,9 @@
 <section style="margin-bottom: 20px">
 	<button class="btn js-add-variable">Добавить новую переменную</button>
-	<!-- <form class="js-add-globalVariables--form">
-		<div class="form-group">
-			<h1>Добавить новую переменную</h1>
-		</div>
-		<div class="form-group col-md-6">
-			<label for="addGlobalVariablesFormInputTarget">Название (для программистов):</label>
-			<input name="target" type="text" class="form-control" id="addGlobalVariablesFormInputTarget" aria-describedby="targetHelp">
-		</div>
-	</div>
-	<div class="form-row">
-		<div class="form-group col-md-6">
-			<label for="js-globalVariable-value-title">Значение:</label>
-			<input name="value" type="text" class="form-control" id="js-globalVariable-value-title" aria-describedby="valueHelp">
-		</div>
-		<div class="form-group col-md-6">
-			<label for="js-globalVariable-image-upload">или фото:</label>
-			<input type="file" name="upload" id="js-globalVariable-image-upload">
-		</div>
-		<div class="form-group">
-			<button class="btn">Добавить</button>
-		</div>
-	</form> -->
 </section>
 <section>
-	<div class="form-group">
-		<h1>Список настроек</h1>
-		<% settings.forEach((s) => { %>
-			<div class="mb-2">
-				<span><%= s.title -%> </span>
-				<span><b>(<%= s.target -%>)</b>: </span>
-				<span><%= s.value -%></span>
-				<button class="btn btn-sm js-variable-delete" data-id="<%= s.id -%>">X</button>
-			</div>
-		<% }) %>
-	</div>
 	<% settings.forEach((s) => { %>
-		<div class="form-group">
+		<div class="form-group border p-2">
 			<% if(user.adminMode) { %>
 				<div>
 					<span>Заголовок:</span>
