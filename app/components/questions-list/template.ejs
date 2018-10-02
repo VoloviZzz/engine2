@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/questions-list.css">
-<% if(session.user.adminMode) { %>
+<% if(user.adminMode) { %>
 	<div class="form-row">
 		<div class="form-group col-md-6">
 			<label>Выбор target отзывов:</label>
@@ -18,20 +18,19 @@
 			</form>
 		</div>
 
-		<div class="form-group col-md-6">
+		<div class="form-group col-md-12">
 			<label>Добавить категорию:</label>
 			<form class="js-questionCategories-add" method="POST">
 				<input class="form-control" type="text" name="category">
 				<input type="hidden" name="target_id" value="<%= fragment.settings.target -%>">
-				<button class="btn">Добавить</button>
 			</form>
 		</div>
 	</div>
 
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
-		<a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">Все</a>
-		<a class="nav-item nav-link" id="nav-unpublished-tab" data-toggle="tab" href="#nav-unpublished" role="tab" aria-controls="nav-unpublished" aria-selected="false">Неопубликованные</a>
+		<a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">Все (<%= questions.length -%>)</a>
+		<a class="nav-item nav-link" id="nav-unpublished-tab" data-toggle="tab" href="#nav-unpublished" role="tab" aria-controls="nav-unpublished" aria-selected="false">Неопубликованные (<%= questionsNotPublished.length -%>)</a>
 		</div>
 	</nav>
 <% } %>
@@ -40,7 +39,7 @@
 		<% cats.map(c => { %>
 			<div style="display: flex; justify-content: space-between">
 				<h3><%= c.title %> (<%= c.questions.length -%>)</h3>
-				<% if(session.user.adminMode && c.id) { %>
+				<% if(user.adminMode && c.id) { %>
 					<button class="btn bg-delete js-questionCategories-delete" data-title="<%= c.title -%>" data-id="<%= c.id -%>">Удалить категорию</button>
 				<% } %>
 			</div>
@@ -48,14 +47,10 @@
 			<%- include("./question-list", { questions : c.questions, catsArray }) -%>	
 		<% }); %>
 	</div>
-	<% if(session.user.adminMode) { %>
+	<% if(user.adminMode) { %>
 		<div class="tab-pane not-modered-reviews" id="nav-unpublished" role="tabpanel" aria-labelledby="nav-unpublished-tab">
 			<%- include('./question-list', { questions: questionsNotPublished }) -%>
 		</div>
-		<ul class="tabs-titles-wrap">
-			<li class="tab active tab-all">Все (<%= questions.length -%>)</li>
-			<li class="tab tab-all">Неопубликованные (<%= questionsNotPublished.length -%>)</li>
-		</ul>
 	<% } %>
 </div>
 
@@ -66,6 +61,6 @@
 </div>
 
 <script src="/js/questions-list.js" defer></script>
-<% if(session.user.adminMode) { %>
+<% if(user.adminMode) { %>
 	<script src="/admins/js/questions-list.js" defer></script>
 <% } %>
