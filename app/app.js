@@ -40,9 +40,6 @@ const setDefaultSessionData = (req, res, next) => {
 	req.session.user.admin = req.session.user.admin || false;
 	req.session.user.adminMode = req.session.user.adminMode || false;
 	req.session.user.root = req.session.user.root || false;
-
-	res.locals.user = { ...req.session.user };
-
 	next();
 }
 
@@ -73,6 +70,8 @@ app.locals.uploadDir = path.join(__dirname, 'public', 'uploads');
 app.locals.tempUploadDir = path.join(__dirname, 'public', 'uploads', 'temp');
 app.Helpers = app.locals.Helpers = require('./libs/Helpers');
 
+global.app = app;
+
 global.DocumentRoot = __dirname;
 global.AppRoot = path.join(__dirname);
 app.publicDir = global.PublicDir = path.join(__dirname, 'public');
@@ -80,17 +79,23 @@ app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
 global.imagesPath = 'http://system.mpkpru.ru/';
 
+// 	отвечает за работу некоторого кода:
+// 	если установлено не production, то не будет таких функций,
+// 	как отправка SMS при заказах
+process.env.NODE_ENV = 'development';
+
 app.smsc = require('./services/sendSms/');
 app.transporter = require('./services/sendEmail/');
 
 db.connect().then(async () => {
-	
+
 	await require('./libs/routeHandler').initRoutesList();
 
 	// подключение обработчика маршрутов
 	const routeHandler = require('./libs/routeHandler').Router(app);
 	const errorHandler = require('./functions/error-handler');
 
+	await require('./services/sendSms').init(app);
 	await require('./componentsList')(app);
 	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
