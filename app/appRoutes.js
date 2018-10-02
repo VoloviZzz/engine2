@@ -23,9 +23,7 @@ const toggleAdminMode = (req, res, next) => {
 	});
 
 	req.session.user.adminMode = !req.session.user.adminMode;
-	res.json({
-		status: 'ok'
-	});
+	res.json({ status: 'ok' });
 }
 
 Router.post('/toggle-admin', toggleAdminMode);

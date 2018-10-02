@@ -10,10 +10,9 @@ module.exports = (app) => {
 		const [, settings] = await Model.siteConfig.get();
 
 		dataViews.settings = settings;
-		dataViews.user = session.user;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

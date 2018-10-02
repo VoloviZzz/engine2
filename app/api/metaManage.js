@@ -3,10 +3,7 @@ const Model = require('../models');
 exports.add = async (req, res, next) => {
 
 	var [error, metaData] = await Model.metaManage.get(req.body);
-	if (error) {
-		console.error(error);
-		return { message: error.message };
-	}
+	if (error) return { message: error.message };
 
 	let action;
 
@@ -19,10 +16,7 @@ exports.add = async (req, res, next) => {
 
 	const controller = actions[action];
 	var [error] = await controller(req.body);
-	if (error) {
-		console.log(error);
-		return { status: 'bad', message: error.message };
-	}
+	if (error) return { status: 'bad', message: error.message };
 
 	return { status: 'ok' };
 }

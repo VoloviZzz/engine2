@@ -26,6 +26,11 @@ exports.get = async (arg = {}) => {
             ORDER BY f.priority DESC, f.id ASc`
 	);
 
+	if(error) {
+		console.error(error);
+		throw new Error(error);
+	}
+
 	for (const fragment of fragments) {
 		const { id: fragment_id } = fragment;
 

@@ -3,7 +3,6 @@ module.exports = async app => {
 
 	var [error, aliases] = await Model.aliases.get();
 	if (error) {
-		console.log('Произошла ошибка при инициализации алиасов');
 		throw new Error(error);
 	}
 

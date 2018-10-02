@@ -24,8 +24,8 @@ module.exports = (app) => {
 
 		var entrusting = [];
 
-		if (!!session.user.id === true) {
-			var [error, entrusting] = await Model.entrusting.get_entrusting({ 'client': session.user.id, 'pers': defaultData.id });
+		if (!!locals.user.id === true) {
+			var [error, entrusting] = await Model.entrusting.get_entrusting({ 'client': locals.user.id, 'pers': defaultData.id });
 
 			var mods = [];
 			var goods_mods = '';
@@ -56,7 +56,7 @@ module.exports = (app) => {
 		}
 
 		try {
-			[, visitedGraves] = await Model.visitedGraves.get({ client_id: session.user.id, grave_id: defaultData.id });
+			[, visitedGraves] = await Model.visitedGraves.get({ client_id: locals.user.id, grave_id: defaultData.id });
 		}
 		catch (e) {
 			console.log('Ошибка получение посещаемых захоронений');
@@ -75,16 +75,16 @@ module.exports = (app) => {
 
 		const getMemoryParams = {
 			dead_id: data.id,
-			author_id: session.user.id,
+			author_id: locals.user.id,
 			common_id: '74-3435-' + data.id
 		};
 
 		const getPhotosParams = {
 			dead_id: '74-3435-' + data.id,
-			author_id: session.user.id
+			author_id: locals.user.id
 		};
 
-		if (session.user.adminMode === false) {
+		if (locals.user.adminMode === false) {
 			getMemoryParams.state = '3';
 			getPhotosParams.state = '3';
 		}
@@ -149,12 +149,11 @@ module.exports = (app) => {
 
 		dataViews.flowers = [];
 		dataViews.data = body.data;
-		dataViews.user = session.user;
 		dataViews.memoryBookPhotoPath = api.memoryBookPhotoPath;
 		dataViews.g = g;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);
