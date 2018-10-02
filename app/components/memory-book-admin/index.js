@@ -21,13 +21,12 @@ module.exports = (app) => {
 		const { deads, countDeads } = await memoryBook.get('deads2', getMemoryParams);
 		const pagination = new Pagination({ allCountPosts: countDeads, countOnPage: getMemoryParams.count, currentPage: currentPage });
 
-		dataViews.user = session.user;
 		dataViews.pagination = pagination;
 		dataViews.deads = deads;
 		dataViews.countDeads = countDeads;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

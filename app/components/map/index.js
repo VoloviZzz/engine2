@@ -8,7 +8,7 @@ module.exports = (app) => {
 		// logic...
 
 		const { fragment } = locals;
-		const { user } = session;
+		const { user } = locals;
 
 		fragment.settings.center = fragment.settings.center ? fragment.settings.center.split(',') : [55.76, 37.64];
 		fragment.settings.zoom = fragment.settings.zoom || 7;
@@ -17,7 +17,7 @@ module.exports = (app) => {
 		dataViews.user = user;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);
