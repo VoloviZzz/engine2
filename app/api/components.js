@@ -9,13 +9,14 @@ exports.addComponent = (req, res, next) => {
 		
 
 		var data = `
-		<link rel="stylesheet" href="/css/`+ req.body.component + `.css">
-		<h1>`+ req.body.title + `</h1>
-		<script src="/js/`+ req.body.component + `.js" defer></script>
-		<% if(user.adminMode) { %>
-			<script src="/admins/js/`+ req.body.component + `.js" defer></script>
-		<% } %>
+			<link rel="stylesheet" href="/css/${req.body.component}.css">
+			<h1>${req.body.title}</h1>
+			<script src="/js/${req.body.component}.js" defer></script>
+			<% if(user.adminMode) { %>
+				<script src="/admins/js/${req.body.component}.js" defer></script>
+			<% } %>
 		`;
+		
 		fs.writeFile('app/components/' + req.body.component + '/template.ejs', data);
 		fs.writeFile('app/public/js/' + req.body.component + '.js', '');
 		fs.writeFile('app/public/admins/js/' + req.body.component + '.js', '');
