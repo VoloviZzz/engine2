@@ -26,6 +26,14 @@ const toggleAdminMode = (req, res, next) => {
 	res.json({ status: 'ok' });
 }
 
+Router.get('/robots.txt', (req, res, next) => {
+	res.send('robots.txt');
+})
+
+Router.get('/sitemap.xml', (req, res, next) => {
+	res.send('sitemap.xml');
+})
+
 Router.post('/toggle-admin', toggleAdminMode);
 Router.get('/logout', clearSessionData);
 
