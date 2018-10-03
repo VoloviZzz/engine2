@@ -3,6 +3,8 @@ const express = require('express');
 const Router = express.Router();
 const path = require('path');
 
+const db = require('./libs/db');
+
 const checkAdminMiddleware = (req, res, next) => {
 	if (req.session.user.admin) {
 		return next();
@@ -26,13 +28,13 @@ const toggleAdminMode = (req, res, next) => {
 	res.json({ status: 'ok' });
 }
 
-Router.get('/robots.txt', (req, res, next) => {
+Router.get('/robots.txt', async (req, res, next) => {
 	res.send('robots.txt');
-})
+});
 
 Router.get('/sitemap.xml', (req, res, next) => {
 	res.send('sitemap.xml');
-})
+});
 
 Router.post('/toggle-admin', toggleAdminMode);
 Router.get('/logout', clearSessionData);
