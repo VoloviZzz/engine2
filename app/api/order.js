@@ -2,10 +2,8 @@ const ShoppingCart = require('../classes/ShoppingCart');
 const md5 = require('md5');
 const sendSoldItems = require('../unloading/functions/send_sold_items');
 
-const smsc = require(AppRoot + '/services/sendSms/');
-
 // добавление данных оформления заказа в сессию
-exports.setOrderData = (req, res, next) => {
+exports.setOrderData = async (req, res, next) => {
 	const { Model } = req.app;
 	const data = req.body;
 
@@ -20,44 +18,49 @@ exports.setOrderData = (req, res, next) => {
 	req.session.tempOrderData = req.body;
 
 	// проверяем, является ли номер подтвержденным
-	return Model.confirmedPhones.get({ phone: data.phone }).then(async ([error, confirmedPhones]) => {
-		let code;
+	var [error, confirmedPhones] = await Model.confirmedPhones.get({ phone: data.phone })
+	let code;
 
-		// если такого номера нет в базе, то создаём новый код и добавляем в  базу
-		if (confirmedPhones.length === 0) {
-			code = req.app.Helpers.getRandomNumber(6);
-			let [, codeId] = await Model.confirmedPhones.add({ phone: data.phone, code });
+	// если такого номера нет в базе, то создаём новый код и добавляем в  базу
+	if (confirmedPhones.length === 0) {
+		code = req.app.Helpers.getRandomNumber(6);
+		[error, codeId] = await Model.confirmedPhones.add({ phone: data.phone, code });
+		if (error) throw new Error(error);
 
-			if (process.env.NODE_ENV === 'production') {
-				await smsc.send({ phones: req.body.phone, mes: code });
-			}
+		if (process.env.NODE_ENV === 'production') {
+			var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
+			var smsMessage = result.value.replace(/{{code}}/g, code);
 
-
-			req.session.tempOrderData.code = code;
-			req.session.tempOrderData.codeId = codeId;
-
-			return { status: 'confirm phone' }
+			await app.smsc.send({ phones: req.body.phone, mes: smsMessage });
 		}
-		// если номер есть в базе, но не подтверждён, то отправить пользователю уже существующий код
-		else if (confirmedPhones.length == 1 && confirmedPhones[0].confirmed == '0') {
 
-			code = confirmedPhones[0].code;
-			codeId = confirmedPhones[0].id;
+		req.session.tempOrderData.code = code;
+		req.session.tempOrderData.codeId = codeId;
 
-			req.session.tempOrderData.codeId = codeId;
-			req.session.tempOrderData.code = code;
+		return { status: 'confirm phone' }
+	}
+	// если номер есть в базе, но не подтверждён, то отправить пользователю уже существующий код
+	else if (confirmedPhones.length == 1 && confirmedPhones[0].confirmed == '0') {
 
-			if (process.env.NODE_ENV === 'production') {
-				await smsc.send({ phones: req.body.phone, mes: code });
-			}
+		code = confirmedPhones[0].code;
+		codeId = confirmedPhones[0].id;
 
-			return { status: 'confirm phone' }
+		req.session.tempOrderData.codeId = codeId;
+		req.session.tempOrderData.code = code;
+
+		if (process.env.NODE_ENV === 'production') {
+			var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
+			var smsMessage = result.value.replace(/{{code}}/g, code);
+			await app.smsc.send({ phones: req.body.phone, mes: smsMessage });
 		}
-		// если есть в базе и подтверждён, то просто продолжить
-		else if (confirmedPhones.length == 1 && confirmedPhones[0].confirmed == '1') {
-			return { status: 'ok' };
-		}
-	})
+
+		return { status: 'confirm phone' }
+	}
+	// если есть в базе и подтверждён, то просто продолжить
+	else if (confirmedPhones.length == 1 && confirmedPhones[0].confirmed == '1') {
+		return { status: 'ok' };
+	}
+
 }
 
 // подтверждение номера телефона пользователя
@@ -143,11 +146,13 @@ exports.addOrder = async (req, res, next) => {
 		for (const good_id of Object.keys(clientCart.goods)) {
 			const goodsItem = clientCart.goods[good_id];
 			const [error] = await Model.ordersGoods.add({ order_id, good_id, count: goodsItem.countInShopCart, price: goodsItem.price });
-			if (error) console.log(error);
 		}
 
 		if (process.env.NODE_ENV === 'production') {
-			return smsc.send({ phones: req.body.phone, mes: `Заказ успешно оформлен.\nНомер заказа: ${order_id}` })
+			var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplateOrderComplete' });
+			var smsMessage = result.value.replace(/{{order_id}}/g, code);
+
+			return app.smsc.send({ phones: req.body.phone, mes: smsMessage });
 		}
 	}).then(async () => {
 

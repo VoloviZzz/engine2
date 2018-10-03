@@ -6,7 +6,7 @@ module.exports = (app) => {
 		// logic...
 
 		const cart = session.shoppingCart;
-		const userId = session.user.id || false;
+		const userId = locals.user.id || false;
 		let user = false;
 
 		if (!!userId === true) {
@@ -55,7 +55,7 @@ module.exports = (app) => {
 		};
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

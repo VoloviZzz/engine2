@@ -108,7 +108,10 @@ module.exports = {
 	},
 
 	// вывод даты в заданном формате
-	formatDate(date, format) {
+	formatDate(date = false, format) {
+
+		if(!!date === false) return '';
+
 		var resultDateTime = format;
 
 		var regUnix = /^[0-9]+$/;

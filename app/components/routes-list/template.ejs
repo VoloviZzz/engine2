@@ -100,125 +100,126 @@
 					<div class="modal fade" id="editModal<%= r.id -%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 						<div class="modal-dialog modal-lg" role="document">
 							<div class="modal-content">
-								<form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
 								<div class="modal-header">
 									<h2 class="modal-title" id="exampleModalLongTitle">Изменить маршрут</h2>
 								</div>
 								<div class="modal-body">
-									<div class="form-row">
-										<div class="form-group col-md-6">
-											<label for="editFormInputUrl">URL маршрута:</label>
-											<input name="url" type="text" value="<%=r.url-%>" class="form-control" id="editFormInputUrl" aria-describedby="urlHelp" placeholder="Введите url" required>
+									<form class="js-routes-list-upd-route" action="/api/routes/upd" method="POST">
+
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<label for="editFormInputUrl">URL маршрута:</label>
+												<input name="url" type="text" value="<%=r.url-%>" class="form-control" id="editFormInputUrl" aria-describedby="urlHelp" placeholder="Введите url" required>
+											</div>
+											<div class="form-group col-md-6">
+												<label for="editFormInputTitle">Заголовок маршрута:</label>
+												<input name="title" type="text" value="<%=r.title-%>" class="form-control" id="editFormInputTitle" aria-describedby="titleHelp" placeholder="Введите заголовок маршрута" required>
+											</div>
 										</div>
-										<div class="form-group col-md-6">
-											<label for="editFormInputTitle">Заголовок маршрута:</label>
-											<input name="title" type="text" value="<%=r.title-%>" class="form-control" id="editFormInputTitle" aria-describedby="titleHelp" placeholder="Введите заголовок маршрута" required>
+										<div class="form-group">
+											<label for="template_id">Шаблон страницы:</label>
+											<select class="form-control" name="template_id">
+												<% templatesList.forEach((t) => { %>
+													<option value="<%= t.id -%>" <%= r.template_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
+												<% }) %>
+											</select>	
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="template_id">Шаблон страницы:</label>
-										<select class="form-control" name="template_id">
-											<% templatesList.forEach((t) => { %>
-												<option value="<%= t.id -%>" <%= r.template_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
-											<% }) %>
-										</select>	
-									</div>
-									<div class="form-group">
-										<label for="target_id">Классификация страницы</label>
-										<select name="target_id" class="form-control">
-											<option value="0">Не выбрано</option>
-											<% targets.forEach((t) => { %>
-												<option value="<%= t.id -%>" <%= r.target_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
-											<% }) %>
-										</select>
-									</div>
-									<div class="form-group">
-										<h3>Доступ</h3>
-										<div class="row">
-											<div class="col-6">
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio" name="access" id="editFormInputAccessRadio1" value="1" <%= r.access == 1 ? 'checked' : ''-%>>
-													<label class="form-check-label" for="editFormInputAccessRadio1">
-														Публичный
-													</label>
-												</div>
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio" name="access" id="editFormInputAccessRadio2" value="2" <%= r.access == 2 ? 'checked' : ''-%>>
-													<label class="form-check-label" for="editFormInputAccessRadio2">
-														Только авторизованным
-													</label>
-												</div>
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio" name="access" id="editFormInputAccessRadio3" value="3" <%= r.access == 3 ? 'checked' : ''-%>>
-													<label class="form-check-label" for="editFormInputAccessRadio3">
-														Только администратору
-													</label>
+										<div class="form-group">
+											<label for="target_id">Классификация страницы</label>
+											<select name="target_id" class="form-control">
+												<option value="0">Не выбрано</option>
+												<% targets.forEach((t) => { %>
+													<option value="<%= t.id -%>" <%= r.target_id == t.id ? 'selected' : '' %> ><%= t.title -%></option>
+												<% }) %>
+											</select>
+										</div>
+										<div class="form-group">
+											<h3>Доступ</h3>
+											<div class="row">
+												<div class="col-6">
+													<div class="form-check form-check-inline">
+														<input class="form-check-input" type="radio" name="access" id="editFormInputAccessRadio1" value="1" <%= r.access == 1 ? 'checked' : ''-%>>
+														<label class="form-check-label" for="editFormInputAccessRadio1">
+															Публичный
+														</label>
+													</div>
+													<div class="form-check form-check-inline">
+														<input class="form-check-input" type="radio" name="access" id="editFormInputAccessRadio2" value="2" <%= r.access == 2 ? 'checked' : ''-%>>
+														<label class="form-check-label" for="editFormInputAccessRadio2">
+															Только авторизованным
+														</label>
+													</div>
+													<div class="form-check form-check-inline">
+														<input class="form-check-input" type="radio" name="access" id="editFormInputAccessRadio3" value="3" <%= r.access == 3 ? 'checked' : ''-%>>
+														<label class="form-check-label" for="editFormInputAccessRadio3">
+															Только администратору
+														</label>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<h3>Отображать тайтл на странице</h3>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="show_title" id="editFormInputAccessRadio4" value="1" <%= r.show_title == '1' ? 'checked' : ''-%>>
-											<label class="form-check-label" for="editFormInputAccessRadio4">
-												Да
-											</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="show_title" id="editFormInputAccessRadio5" value="0" <%= r.show_title == '0' ? 'checked' : ''-%>>
-											<label class="form-check-label" for="editFormInputAccessRadio5">
-												Нет
-											</label>
-										</div>
-									</div>
-									<div class="form-group">
-										<h3>Использовать заголовок компонента</h3>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="use_component_title" id="editFormInputAccessRadio6" value="1" <%= r.use_component_title == '1' ? 'checked' : ''-%>>
-											<label class="form-check-label" for="editFormInputAccessRadio6">
-												Да
-											</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="use_component_title" id="editFormInputAccessRadio7" value="0" <%= r.use_component_title == '0' ? 'checked' : ''-%>>
-											<label class="form-check-label" for="editFormInputAccessRadio7">
-												Нет
-											</label>
-										</div>
-									</div>
-									<% if(user.root) { %>
 										<div class="form-group">
-											<h3>Разрешить редактирование</h3>
+											<h3>Отображать тайтл на странице</h3>
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="edit_access" id="editFormInputAccessRadio8" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
-												<label class="form-check-label" for="editFormInputAccessRadio8">
+												<input class="form-check-input" type="radio" name="show_title" id="editFormInputAccessRadio4" value="1" <%= r.show_title == '1' ? 'checked' : ''-%>>
+												<label class="form-check-label" for="editFormInputAccessRadio4">
 													Да
 												</label>
 											</div>
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="edit_access" id="editFormInputAccessRadio9" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
-												<label class="form-check-label" for="editFormInputAccessRadio9">
+												<input class="form-check-input" type="radio" name="show_title" id="editFormInputAccessRadio5" value="0" <%= r.show_title == '0' ? 'checked' : ''-%>>
+												<label class="form-check-label" for="editFormInputAccessRadio5">
 													Нет
 												</label>
-											</div>								
+											</div>
 										</div>
 										<div class="form-group">
-											<h3>Разрешить удаление</h3>
+											<h3>Использовать заголовок компонента</h3>
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="delete_access" id="editFormInputAccessRadio10" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
-												<label class="form-check-label" for="editFormInputAccessRadio10">
+												<input class="form-check-input" type="radio" name="use_component_title" id="editFormInputAccessRadio6" value="1" <%= r.use_component_title == '1' ? 'checked' : ''-%>>
+												<label class="form-check-label" for="editFormInputAccessRadio6">
 													Да
 												</label>
 											</div>
 											<div class="form-check form-check-inline">
-												<input class="form-check-input" type="radio" name="delete_access" id="editFormInputAccessRadio11" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
-												<label class="form-check-label" for="editFormInputAccessRadio11">
+												<input class="form-check-input" type="radio" name="use_component_title" id="editFormInputAccessRadio7" value="0" <%= r.use_component_title == '0' ? 'checked' : ''-%>>
+												<label class="form-check-label" for="editFormInputAccessRadio7">
 													Нет
 												</label>
-											</div>								
+											</div>
 										</div>
-									<% } %>
+										<% if(user.root) { %>
+											<div class="form-group">
+												<h3>Разрешить редактирование</h3>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio" name="edit_access" id="editFormInputAccessRadio8" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
+													<label class="form-check-label" for="editFormInputAccessRadio8">
+														Да
+													</label>
+												</div>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio" name="edit_access" id="editFormInputAccessRadio9" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
+													<label class="form-check-label" for="editFormInputAccessRadio9">
+														Нет
+													</label>
+												</div>								
+											</div>
+											<div class="form-group">
+												<h3>Разрешить удаление</h3>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio" name="delete_access" id="editFormInputAccessRadio10" value="0" <%= r.edit_access == "0" ? 'checked' : ''-%>>
+													<label class="form-check-label" for="editFormInputAccessRadio10">
+														Да
+													</label>
+												</div>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio" name="delete_access" id="editFormInputAccessRadio11" value="1" <%= r.edit_access == "1" ? 'checked' : ''-%>>
+													<label class="form-check-label" for="editFormInputAccessRadio11">
+														Нет
+													</label>
+												</div>								
+											</div>
+										<% } %>
 										<h3>SEO установки</h3>
 										<div class="form-group">
 											<label for="editFormInputTextarea1">Ключевые слова (meta-keywords):</label>
@@ -229,12 +230,29 @@
 											<textarea class="form-control" id="editFormInputTextarea2" rows="3" name="seo_description"><%= r.seo_description%></textarea>
 										</div>
 										<input type="hidden" name="id" value="<%=r.id-%>">
+
+										<div class="text-right">
+											<button type="submit" class="btn">Сохранить</button>
+										</div>
+									</form>
+									<div class="form-group">
+										<span>Фрагменты на странице:</span>
+										<% if(fragmentsByRoute[r.id]) fragmentsByRoute[r.id].forEach(fragment => { -%>
+											<div class="form-group js-routeFragment-item">
+												<span><%= fragment.id -%> - <%= fragment.component_title -%></span>
+												<button class="btn bg-delete js-routeFragments-delete" data-id="<%= fragment.id -%>">Удалить</button>
+												<% if(fragment.published == '0') { %>
+													<button class="btn js-routeFragments-togglePublished" value="1" data-id="<%= fragment.id -%>">Опубликовать</button>
+												<% } else { %>
+													<button class="btn js-routeFragments-togglePublished" value="0" data-id="<%= fragment.id -%>">Снять с публикации</button>
+												<% } %>
+											</div>
+										<% }) %>
+									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-									<button type="submit" class="btn">Сохранить</button>
 								</div>
-							</form>
 							</div>
 						</div>
 					</div>
@@ -244,4 +262,3 @@
 		</tbody>
 	</table>
 </div>
-<script src="/admins/js/routes-list.js" defer></script>

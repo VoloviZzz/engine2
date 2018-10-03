@@ -5,16 +5,16 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const { id } = session.user;
+		const { id } = locals.user;
 
 		if (!!id === false) return Promise.resolve([, 'Ошибка доступа компонента']);
 
-		const [, [user]] = await Model.clients.get({ id });
+		var [error, [user]] = await Model.clients.get({ id });
 
 		dataViews.user = user;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

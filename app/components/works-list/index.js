@@ -10,11 +10,10 @@ module.exports = (app) => {
 		var [error, works] = await Model.works.get();
 		if (error) throw new Error(error);
 
-		dataViews.user = session.user;
 		dataViews.works = works;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

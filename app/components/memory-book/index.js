@@ -54,7 +54,6 @@ module.exports = (app) => {
 		data.deads = data.deads.deads || [];
 		dataViews.data = data;
 		dataViews.fragment = fragment;
-		dataViews.user = session.user;
 		dataViews.pagination = pagination;
 		dataViews.currentMemoryTarget = target;
 

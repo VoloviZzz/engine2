@@ -37,7 +37,7 @@ exports.upd = (data = {}) => {
 
 exports.setValue = (data = {}) => {
 
-	if(!!data.value === false) return Promise.resolve([new Error('Нет параметра value')]);
+	if(!!data.value === false && data.value !== '') return Promise.resolve([new Error('Нет параметра value')]);
 	if(!!data.target === false) return Promise.resolve([new Error('Нет параметра target')]);
 
 	return db.execQuery(`

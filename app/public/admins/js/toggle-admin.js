@@ -12,7 +12,7 @@ $(document).ready(function (e) {
 		const $close = $modal.find('.close');
 
 		const closeModal = function () {
-			$modal.hide(function(e) {
+			$modal.hide(function (e) {
 				$close.off('click', closeModal);
 			});
 		};
@@ -21,9 +21,9 @@ $(document).ready(function (e) {
 
 
 		$close.on('click', closeModal);
-		
-		$(window).click(function(e) {
-			if(e.target === $modal.get(0)) {
+
+		$(window).click(function (e) {
+			if (e.target === $modal.get(0)) {
 				closeModal();
 			}
 		})
@@ -35,13 +35,28 @@ $(document).ready(function (e) {
 			ctrl: 'toggle_admin_mode'
 		};
 
-		$.post("/toggle-admin", postData).done(function (result) {
-			if (result.status == 'ok') {
-				return location.reload();
+		var parseQueryString = function () {
+			var queryString = location.search.substring(1);
+
+			if (queryString == '') return {};
+
+			var params = {}, queries, temp, i, l;
+			// Split into key/value pairs
+			queries = queryString.split("&");
+			// Convert the array of strings into an object
+			for (i = 0, l = queries.length; i < l; i++) {
+				temp = queries[i].split('=');
+				params[temp[0]] = temp[1];
 			}
-			else {
-				console.log(result);
-			}
-		})
+			return params;
+		};
+
+		var queryParams = parseQueryString();
+
+		queryParams['admin-mode'] = queryParams['admin-mode'] == '1' ? '0' : '1';
+
+		var queryString = $.param(queryParams);
+
+		location.search = queryString;
 	}
 })

@@ -1,17 +1,13 @@
 const path = require('path');
 
 module.exports = (app) => {
-	return (data = {}) => {
+	return ({ locals, session, dataViews } = {}) => {
 		return new Promise((resolve, reject) => {
 
-			const dataViews = {
-				user: {},
-			};
-
-			Object.assign(dataViews.user, data.locals);
+			dataViews.referer = locals.reqReferer || '';
 
 			const templatePath = path.join(__dirname, 'template.ejs');
-			const template = app.ejs.renderFile(templatePath, dataViews, (err, str) => {
+			app.render(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, null]);
 
 				return resolve([err, str]);
