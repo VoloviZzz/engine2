@@ -3,7 +3,8 @@ const path = require('path');
 
 exports.addProduct = function (req, res, next) {
 	const { Model } = req.app;
-	return Model.goodsPositions.add(req.body).then(([error, newProduct]) => {
+
+	return Model.goodsPositions.add({ ...req.body }).then(([error, newProduct]) => {
 		if (error) return { message: error.message, error };
 		return { status: 'ok' }
 	})
