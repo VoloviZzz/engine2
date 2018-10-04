@@ -7,6 +7,10 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
+		const { user } = locals;
+
+		if (user.admin == false) return Promise.resolve(['', 'Только для администратора']);
+
 		return new Promise((resolve, reject) => {
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
