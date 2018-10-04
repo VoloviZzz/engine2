@@ -11,11 +11,15 @@ module.exports = (app) => {
 			id: locals.dynamicRouteNumber
 		});
 		dataViews.component = component[0];
-		dataViews.files = fs.readdirSync('app/components/'+ dataViews.component.ctrl +'', (err, files) => {return files});
+		dataViews.filesComponents = fs.readdirSync('app/components/'+ dataViews.component.ctrl +'', (err, files) => {return files});
+		dataViews.api = fs.readdirSync('app/api/', (err, files) => {return files});
+		dataViews.models = fs.readdirSync('app/models/', (err, files) => {return files});
+		dataViews.adminsJS = fs.readdirSync('app/public/admins/js/', (err, files) => {return files});
+		dataViews.adminsCSS = fs.readdirSync('app/public/admins/css/', (err, files) => {return files});
+		dataViews.publicJS = fs.readdirSync('app/public/js/', (err, files) => {return files});
+		dataViews.publicCSS = fs.readdirSync('app/public/css/', (err, files) => {return files});
 		dataViews.index = fs.readFileSync('app/components/'+ dataViews.component.ctrl +'/index.js').toString();
 		dataViews.template = fs.readFileSync('app/components/'+ dataViews.component.ctrl +'/template.ejs').toString();
-		dataViews.css = fs.readFileSync('app/public/css/'+dataViews.component.ctrl+'.css').toString();
-		dataViews.js = fs.readFileSync('app/public/js/'+ dataViews.component.ctrl +'.js').toString();
 		dataViews.user = session.user;
 
 		return new Promise((resolve, reject) => {

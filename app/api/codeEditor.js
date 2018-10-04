@@ -4,15 +4,25 @@ var fs = require("fs");
 exports.getFS = (req, res, next) => {
 
 }
-exports.addFile = (req, res, next) => {
-	fs.writeFile('app/components/'+req.body.component+'/'+req.body.file+'', '');
+exports.addFS = (req, res, next) => {
+	fs.writeFile('app/'+req.body.path+''+req.body.file+'', '');
 	return { status: 'ok' }
 }
 
+exports.getFile = (req, res, next) => {
+	var file = fs.readFileSync('app/'+req.body.dirname).toString();;
+	return { status: 'ok', value: file }
+}
+
 exports.setFS = (req, res, next) => {
-	fs.writeFile('app/components/'+req.body.component+'/template.ejs', req.body.template);
-	fs.writeFile('app/components/'+req.body.component+'/index.js', req.body.index);
-	fs.writeFile('app/public/js/'+req.body.component+'.js', req.body.js);
-	fs.writeFile('app/public/css/'+req.body.component+'.css', req.body.css);
+	fs.writeFile('app/'+req.body.path, req.body.template);
+
+	return { status: 'ok' }
+}
+
+
+exports.rmFS = (req, res, next) => {
+	fs.unlinkSync('app/'+req.body.path);
+
 	return { status: 'ok' }
 }

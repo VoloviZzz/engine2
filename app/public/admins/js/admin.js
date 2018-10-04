@@ -6,7 +6,7 @@ $(document).ready(function () {
 	var routesList = new RoutesList();
 	var slider = new Slider();
 	var shop = new Shop();
-	
+
 	var aceEditorsElements = $('.js-ace-editor');
 
 	$.each(aceEditorsElements, function (index, elem) {
@@ -19,7 +19,7 @@ $(document).ready(function () {
 		editor.setAutoScrollEditorIntoView(true);
 		if ($elem.data('lang') == 'html') {
 			editor.session.setMode("ace/mode/html");
-		}else if ($elem.data('lang') == 'javascript') {
+		}else if ($elem.data('lang') == 'js') {
 			editor.session.setMode("ace/mode/javascript");
 		}else if ($elem.data('lang') == 'ejs') {
 			editor.session.setMode("ace/mode/ejs");
