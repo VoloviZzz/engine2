@@ -2,10 +2,12 @@ const db = require("../libs/db");
 
 exports.get = (args = {}) => {
 	return new Promise(async function (resolve, reject) {
-		let { id = '', url = '' } = args;
+		let { id = '', url = '', dynamic = '', access = '' } = args;
 
 		if (!!id === true) id = `AND r.id = ${id}`;
 		if (!!url === true) url = `AND r.url = '${url}'`;
+		if (!!dynamic === true) dynamic = `AND r.dynamic = '${dynamic}'`;
+		if (!!access === true) access = `AND r.access = '${access}'`;
 
 		let [err, rows] = await db.execQuery(`
             SELECT r.*,
@@ -15,8 +17,11 @@ exports.get = (args = {}) => {
             FROM routes r
             	LEFT JOIN templates t ON r.template_id = t.id
 				LEFT JOIN routes_targets rt ON rt.id = r.target_id
-            WHERE r.id > 0 ${id}`
-		);
+            WHERE r.id > 0 
+				${id}
+				${dynamic}
+				${access}
+		`);
 
 		if (err) throw new Error(err);
 
