@@ -47,7 +47,7 @@ module.exports = async (req, res, next) => {
 			if (folderExist === false) {
 				fs.mkdirSync(`app/public/uploads/unloading/position_${id}`);
 				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/origin`);
-				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/full`);
+				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/prod`);
 				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/preview`);
 			}
 
@@ -55,7 +55,7 @@ module.exports = async (req, res, next) => {
 			const { host, port } = connectedCrm[0];
 
 			const originFile = fs.createWriteStream(`app/public/${photoUrl}/origin/${photoName}`);
-			const fullFile = fs.createWriteStream(`app/public/${photoUrl}/full/${photoName}`);
+			const fullFile = fs.createWriteStream(`app/public/${photoUrl}/prod/${photoName}`);
 			const previewFile = fs.createWriteStream(`app/public/${photoUrl}/preview/${photoName}`);
 
 			const originUrl = `http://${host}:${port}${links.origin}`;
