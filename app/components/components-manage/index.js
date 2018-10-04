@@ -8,12 +8,13 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		var [error, components] = await Model.components.get();
+		var [error1, components] = await Model.components.get();
 		var [error, componentBlocks] = await Model.components.getComponentBlocks();
 
 		const controllersList = fs.readdirSync(`${AppRoot}/components`);
 
 		dataViews.componentsList = components;
+		console.log(error1);
 		dataViews.componentBlocks = componentBlocks;
 		dataViews.controllersList = controllersList;
 

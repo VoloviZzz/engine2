@@ -1,0 +1,33 @@
+
+<link rel="stylesheet" href="/css/code-editor.css">
+<h1>Редактор компонента</h1>
+
+<div class="code-editor" data-component="<%= component.ctrl %>">
+	<div class="show-editor javascript">
+		<div class="js-ace-editor s-javascript" data-lang = 'javascript'><% if(index){%><%= index -%><%}%></div>
+	</div>
+	<div class="file-list">
+		<div class="directory">┏<span>api</span></div>
+		<div class="directory">┣<span>components</span></div>
+		<div class="directory components hidden">┣─<span><%= component.ctrl %></span></div>
+		<div class="directory">┣<span>models</span></div>
+		<div class="directory">┗<span>public</span></div>
+		<div class="directory public hidden">┣─<span>admins</span></div>
+		<div class="directory admins hidden">┣──<span>css</span></div>
+		<div class="directory admins hidden">┗──<span>js</span></div>
+		<div class="directory public hidden">┣─<span>css</span></div>
+		<div class="directory public hidden">┗<span>js</span></div>
+	</div>
+	<div class="seleced-editors">
+		<div class="file open">file.ejs</div>
+		<div class="file">file2.js</div>
+	</div>
+
+</div>
+
+
+
+<script src="/js/code-editor.js" defer></script>
+<% if(user.adminMode) { %>
+	<script src="/admins/js/code-editor.js" defer></script>
+<% } %>

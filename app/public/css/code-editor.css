@@ -1,0 +1,68 @@
+
+.code-editor{
+    position: relative;
+    background-color: #404040;
+    width: 100%;
+    height: 500px;
+}
+.file-list{
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    background-color: #292929;
+    color: #b3b3b3;
+}
+.directory{
+
+}
+.directory:hover{
+    background-color: #101010;
+}
+.hidden{
+    display: none;
+}
+
+
+
+/* .show-editor{
+    position: relative;
+    margin: 0px 0px 0px 0px;
+    padding: 0 0 0 0;
+    width: 40%;
+    height: 300px;
+    background-color: #ccc;
+    display:  inline-grid;
+    border:  0;
+}
+.dir{
+    width: 19% !important;
+}
+.directory{
+    position: absolute;
+    width:  100%;
+}
+.file{
+    cursor: pointer;
+    position: relative;
+    background: #333;
+    text-align: left;
+    color: #fff;
+    box-shadow: inset 0 -5px 5px #696969;
+}
+.file:hover{
+    background: #868686;
+}
+.addNewFile{
+    text-align: center;
+}
+.code-editor .show-editor span1{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #c1c1c1;
+    font-weight: 999;
+    font-size: 7em;
+    transform:  translate(-50%,-50%);
+    cursor:  pointer;
+}
+.js-ace-editor{/* display:  none; */position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;} */
