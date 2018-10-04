@@ -121,9 +121,6 @@ $(document).ready(function () {
                           });
                         }
                       })
-
-
-
                     }
                   });
                 }
@@ -143,10 +140,10 @@ $(document).ready(function () {
         $(this).removeClass('open');
       });
       // $(this).addClass('open');
+      var tmp_path2 = $(this).data('path')+$(this).find('span').text();
       var tmp_path = $(this).data('path');
-      var tmp_path = $(this).data('path')+$(this).find('span').text();
       $('.js-ace-editor').each(function () {
-        if ($(this).data('path') != tmp_path) {
+        if ($(this).data('path') != tmp_path2) {
           $(this).hide();
         }else {
           $(this).show();
