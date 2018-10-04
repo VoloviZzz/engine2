@@ -4,7 +4,7 @@
 			<h2>Товары отсутствуют</h2>
 		<% } %>
 		<% data.forEach((p, i) => { %>
-			<div class="goods-list__item">
+			<div class="goods-list__item js-goods-list__item">
 				<% if(user.adminMode) { %>
 					<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
 				<% } %>
