@@ -1,4 +1,5 @@
 
+
 exports.activeToggle = (req, res, next) => {
 	const Model = req.app.Model;
 	return Model.history.upd(req.body).then(([error, result]) => {
