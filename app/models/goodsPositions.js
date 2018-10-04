@@ -2,12 +2,15 @@ const db = require('../libs/db');
 
 exports.add = function (data = {}) {
 
-	const defaultData = {
-		title: `Новый товар`,
-		cat_id: ''
-	};
+	const DEFAULT_PRICE = '999999999.99';
 
-	data = Object.assign(defaultData, data);
+	data = {
+		title: `Новый товар`,
+		cat_id: '',
+		price: DEFAULT_PRICE,
+		contract_price: '1',
+		...data
+	};
 
 	if (!!data.cat_id === false) return Promise.resolve([new Error(`Отсутствует номер категории`), null]);
 
@@ -18,6 +21,7 @@ exports.add = function (data = {}) {
 	const mod_id = data.mod_id ? `, mod_id = '${data.mod_id}'` : '';
 	const connect_id = data.connect_id ? `, connect_id = '${data.connect_id}'` : '';
 	const service = data.service || data.service === 0 ? `, service = '${data.service}'` : '';
+	const contract_price = (data.price !== DEFAULT_PRICE && data.contract_price == '1') || data.contract_price == '0' ? `, contract_price = '0'` : `, contract_price = '1'`;
 
 	return db.insertQuery(`
 		INSERT INTO 
@@ -32,6 +36,7 @@ exports.add = function (data = {}) {
 			${mod_id}
 			${connect_id}
 			${service}
+			${contract_price}
 			, created = NOW()
 		`);
 }
