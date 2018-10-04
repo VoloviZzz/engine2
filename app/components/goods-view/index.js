@@ -28,24 +28,19 @@ function breadcrumb(cat, id) {
 
 module.exports = (app) => {
 	const Model = app.Model;
-	return (data = {}) => {
+	return ({ locals, session, dataViews } = {}) => {
 		return new Promise(async (resolve, reject) => {
 
 			let object_id, object_alias;
 
-			if (data.locals.dynamicRouteAlias) {
-				object_alias = data.locals.dynamicRouteAlias;
+			if (locals.dynamicRouteAlias) {
+				object_alias = locals.dynamicRouteAlias;
 			}
 			else {
-				object_id = data.locals.dynamicRouteNumber;
+				object_id = locals.dynamicRouteNumber;
 			}
 
 			if (!!object_id === false && !!object_alias === false) return resolve([, "Отсутствует аргумент для динамического фрагмента страницы"])
-
-			const dataViews = {
-				user: {},
-				locals: {},
-			};
 
 			if (object_alias) {
 				[, aliases] = await Model.aliases.get({ title: object_alias, target: 'goods_pos' });
@@ -64,7 +59,7 @@ module.exports = (app) => {
 			dataViews.goodsProps = goodsProps;
 
 			const [posError, [pos]] = await app.Model.goodsPositions.get({ id: object_id });
-			if (posError) return resolve([, posError.message]);
+			if (posError) return resolve([posError, posError.message]);
 			if (!!pos === false) return resolve([, 'Страница не найдена']);
 
 			dataViews.position = pos;
@@ -91,24 +86,18 @@ module.exports = (app) => {
 				WHERE gp.cat_id = '${pos.cat_id}' AND gp.id <> '${pos.id}' ORDER BY RAND() LIMIT ${countSimilarPosts}`);
 
 			dataViews.similarPositions = similarPositions;
-			data.locals.route.title = pos.title;
+			locals.route.title = pos.title;
 
-			var [error, aliases] = await Model.aliases.get({ route_id: data.locals.route.id, params: data.locals.URIparams });
-			if (error) {
-				throw new Error(error);
-			}
+			var [error, aliases] = await Model.aliases.get({ route_id: locals.route.id, params: locals.URIparams });
+			if (error) throw new Error(error);
 
 			dataViews.aliases = aliases;
 
 			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
-
-			Object.assign(dataViews.user, data.locals.user);
-			Object.assign(dataViews.locals, data.locals);
-
 			dataViews.partName = pos.service == 0 ? 'goods.ejs' : 'service.ejs';
 
 			const templatePath = path.join(__dirname, 'template.ejs');
-			const template = app.render(templatePath, dataViews, (err, str) => {
+			app.render(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

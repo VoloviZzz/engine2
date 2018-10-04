@@ -10,12 +10,12 @@ module.exports = (app) => {
 	 * @returns возвращает объект с ключами { id: fragment.id, content, fragment }, 
 	 * где content - данные, которые хранит фрагмент, fragment - объект фрагмента
 	 */
-	const fragmentsHandler = async function (fragment, data) {
+	const fragmentsHandler = async function (fragment, { locals, session }) {
 		let errors, fragmentData = {}, content = '';
 
 		fragment.settings = fragment.settings || {};
 
-		data.locals.fragment = fragment;
+		locals.fragment = fragment;
 
 		[errors, fragmentsData] = await Model.fragments.getFragmentsData({ fragment_id: fragment.id });
 
@@ -29,9 +29,12 @@ module.exports = (app) => {
 		}
 
 		if (!!fragment.isStatic === false) {
-			Object.assign(data, fragmentData);
+			Object.assign(locals, fragmentData);
 			const controllerHandler = await require(path.join(AppRoot, 'components', fragment.component_ctrl))(app);
-			[errors, content] = await controllerHandler(data);
+			
+			// dataViews - переменная, которая передаётся в шаблоны компонентов
+			// dataViews: {...locals} - копирует locals в шаблон компонентов
+			[errors, content] = await controllerHandler({ locals, session, dataViews: { ...locals } });
 		}
 		else {
 			content = fragmentData.content.body || '';

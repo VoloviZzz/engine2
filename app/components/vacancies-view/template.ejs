@@ -2,7 +2,11 @@
 <input type="hidden" id="js-vacancies-id" value="<%= vacancy.id -%>">
 <div id="all" class="menu-sections menu-sections__default">
 	<% if(user.adminMode) { %>
-		<div class="admin-control-container">
+		<div class="admin-control-container my-2">
+			<div class="my-2">
+				<span>URL для списка:</span>
+				<input type="text" class="form-control js-fragment-update-settings" data-target="rootUrl" data-fragment-id="<%= fragment.id -%>" value="<%= fragment.settings.rootUrl -%>">
+			</div>
 			<button data-id="<%= vacancy.id %>" class="btn js-vacancies-delete">Удалить</button>
 			<% if(vacancy.published) { %>
 				<button value="0" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
@@ -21,6 +25,9 @@
 		<div data-id="<%= vacancy.id %>" class="vacancy-text text-margin-bottom-p text-indent">
 			<%- vacancy.text %>
 		</div>
+	<% } %>
+	<% if(vacancy.published_time) { %>
+		<div>Опубликовано: <%= Helpers.formatDate(vacancy.published_time, 'dd MMMM yyyy, hh:mm') -%></div>
 	<% } %>
 </div>
 <% if(user.adminMode) { %>

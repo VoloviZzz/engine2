@@ -31,7 +31,7 @@
 
 <div class="fragment-slider" data-fragment-id="<%= fragment.id -%>">
     <% slides.forEach(slide => { %>
-		<div class="slide">
+		<div style="position: relative;" class="slide">
 			<% if(user.adminMode) { %>
 				<div class="admin-control-container text-left flex-container">
 					<% if(slide.published == 1) { %>
@@ -58,6 +58,11 @@
 					<textarea class="input-text js-slide-update" data-target="text" data-id="<%= slide.id -%>"><%= slide.text -%></textarea>
 				</div>
 			<% } %>
+			<div style="position: absolute;" class="text-center w-100">
+				<p><%= slide.title -%></p>
+				<p><%= slide.subtitle -%></p>
+				<p><%= slide.text -%></p>
+			</div>
 			<img style="
 					width: 100%; margin: 0 auto;
 					<%= fragment.settings.maxImageHeight ? `max-height: ${fragment.settings.maxImageHeight}px;` : '' -%>

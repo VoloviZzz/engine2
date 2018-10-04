@@ -19,6 +19,7 @@ module.exports = (app) => {
 		var [error, postTargets] = await app.db.execQuery(`SELECT * FROM post_targets`);
 
 		fragment.settings.showPagination = fragment.settings.showPagination || '1';
+		fragment.settings.orderByDesc = fragment.settings.orderByDesc || '1';
 
 		if (!!currentTarget === false) {
 			templatePath = path.join(__dirname, 'settings.ejs')
@@ -31,7 +32,7 @@ module.exports = (app) => {
 			}
 
 			// пагинация
-			var publicPosts = session.user.adminMode !== true ? `AND public = '1'` : '';
+			var publicPosts = locals.user.adminMode !== true ? `AND public = '1'` : '';
 			var categoryPosts = currentCategory ? `AND cat = ${currentCategory}` : '';
 			var [, [{ all_count: countReviews }]] = await app.db.execQuery(`SELECT COUNT(id) as all_count FROM posts WHERE target = '${currentTarget}' ${publicPosts} ${categoryPosts}`);
 			const pagination = new Pagination({ countOnPage: fragment.settings.countPosts || 12, allCountPosts: countReviews, currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
@@ -39,11 +40,11 @@ module.exports = (app) => {
 
 			const postsGetParams = {
 				target: currentTarget,
-				orderBy: 'id DESC',
+				orderBy: fragment.settings.orderByDesc == '0' ? 'id' : 'id DESC',
 				limit: `${pagination.options.offset}, ${pagination.options.countOnPage}`
 			};
 
-			if (session.user.adminMode == false) {
+			if (locals.user.adminMode == false) {
 				postsGetParams.public = '1';
 			}
 
@@ -60,7 +61,6 @@ module.exports = (app) => {
 			dataViews.dynamicCategory = dynamicCategory;
 		}
 
-		dataViews.user = session.user;
 		dataViews.postTargets = postTargets;
 		dataViews.currentTarget = currentTarget;
 		dataViews.fragment = locals.fragment;

@@ -1,5 +1,5 @@
 <div>
-	<% if(session.user.admin) { %>
+	<% if(user.admin) { %>
 		<% if(order.status == '1') { %>
 			<button class="btn js-change-order-status" data-hash="<%= order.hash %>" value="2">Отправить в работу</button>
 		<% } else if(order.status == '2') { %>
@@ -17,6 +17,6 @@
 		<%= goodsItem.goods_title -%>
 	</div>
 <% }) %>
-<% if(session.user.admin) { %>
+<% if(user.admin) { %>
 	<script src="/admins//js/orders-view.js" defer></script>
 <% } %>

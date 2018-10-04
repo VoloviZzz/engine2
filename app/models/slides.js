@@ -19,7 +19,7 @@ exports.upd = (args) => {
 	const { target, value, id } = args;
 
 	if (!!target === false) throw new Error(`Отсутствует target`);
-	if (!!value === false) throw new Error(`Отсутствует value`);
+	if (!!value === false && value !== '') throw new Error(`Отсутствует value`);
 	if (!!id === false) throw new Error(`Отсутствует id`);
 
 	return db.execQuery(`UPDATE slides SET ${target} = '${value}' WHERE id = ${id}`);

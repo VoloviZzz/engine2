@@ -1,9 +1,26 @@
 const smscPackage = require('node-smsc');
+const Model = require('../../models');
 
-const smsc = smscPackage({
-    login: 'sandalb',
-    password: '5d93ceb70e2bf5daa84ec3d0cd2c731a', // password is md5-hashed implicitly unless "hashed" option is passed.
-    hashed: true
-})
+module.exports.init = async (app) => {
 
-module.exports = smsc;
+	const result = await Promise.all([
+		Model.siteConfig.get({ target: 'smsAuthLogin' }),
+		Model.siteConfig.get({ target: 'smsAuthPassword' }),
+		Model.siteConfig.get({ target: 'smsAuthHashed' }),
+	]);
+
+	var [error, [{ value: login } = {}]] = result[0];
+	var [error, [{ value: password } = {}]] = result[1];
+	var [error, [{ value: hashed } = {}]] = result[2];
+
+	if ([login, password, hashed].includes(undefined) === true) {
+		console.error('Нет данных для подключения к сервису отправки СМС');
+		return false;
+	}
+
+	app.smsc = smscPackage({
+		login: login,
+		password: password, // password is md5-hashed implicitly unless "hashed" option is passed.
+		hashed: !!hashed
+	});
+};

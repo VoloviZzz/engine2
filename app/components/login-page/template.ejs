@@ -70,6 +70,9 @@
 			<div class="login-body__input-group text-center">
 				<button class="btn login-body__register-button">Вход</button>
 			</div>
+			<% if(referer) { %>
+				<input type="hidden" name="referer" value="<%= referer -%>">
+			<% } %>
 			<div class="login-body__input-group text-center">
 				<a href="#" class="fs-regular td-underline" id="js-get-new-pass">Получить новый пароль</a>
 			</div>

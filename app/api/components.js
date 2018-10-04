@@ -2,7 +2,12 @@ var fs = require("fs");
 const db = require('../libs/db');
 
 exports.addComponent = (req, res, next) => {
-	fs.mkdir('app/components/'+req.body.component, function() {
+
+	const Model = req.app.Model;
+
+	fs.mkdir('app/components/' + req.body.component, function () {
+
+
 		var data = `
 <link rel="stylesheet" href="/css/`+req.body.component+`.css">
 <h1>`+req.body.title+`</h1>
@@ -31,12 +36,12 @@ module.exports = (app) => {
 }
 		 `;
 
- 	   fs.writeFile('app/components/'+req.body.component+'/index.js', data2);
+		fs.writeFile('app/components/' + req.body.component + '/index.js', data2);
 	});
-	const Model = req.app.Model;
+
 	return Model.components.add(req.body).then(([error, rows]) => {
 		if (error) return { message: error.message, error };
-		return { status: 'ok'}
+		return { status: 'ok' }
 	})
 }
 

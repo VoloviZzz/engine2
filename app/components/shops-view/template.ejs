@@ -1,3 +1,13 @@
+<div class="section-title" style="display: flex; flex-flow: row wrap; align-items: center;">
+	<a href="<%= fragment.settings.listUrl ? fragment.settings.listUrl : '#' -%>" style="text-decoration: underline;">Вернуться к списку</a>
+	<p class="fs-regular text-center" style="margin: auto;"><%= shop.title -%></p>
+</div>
+<% if(user.adminMode) { %>
+	<div class="form-group">
+		<label>Адрес списка публикаций</label>
+		<input class="js-fragment-update-settings form-control" data-event="input" data-target="listUrl" data-fragment-id="<%= fragment.id -%>" data-reload="false" type="text" value="<%= fragment.settings.listUrl -%>">
+	</div>
+<% } %>
 <link rel="stylesheet" href="/css/shops-view.css">
 <input type="hidden" id="js-shop-id" value="<%= shop.id -%>">
 <div class="shops-page__shops-top-left shop-img">

@@ -7,9 +7,7 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		if (session.user.admin === false) {
-			return Promise.resolve([, "Фрагмент доступен только для администратора"]);
-		}
+		if (locals.user.admin === false) return Promise.resolve([, "Фрагмент доступен только для администратора"]);
 
 		var [error, connectedCRM] = await app.db.execQuery(`SELECT * FROM connected_crm`);
 

@@ -2,44 +2,55 @@
 <div class="menu-sections menu-sections__default">
 	<div class="vacancies-container">
 		<% if(user.adminMode) { %>
-			<div class="admin-control-container">
-				<button class="btn js-vacancies-add">Добавить новую вакансию</button>
+			<div class="admin-control-container my-2">
+				<div class="form-group">
+					<span>URL для объектов:</span>
+					<input type="text" class="form-control js-fragment-update-settings" data-target="objectUrl" data-fragment-id="<%= fragment.id -%>" value="<%= fragment.settings.objectUrl -%>">
+				</div>
+				<div class="form-group">
+					<button class="btn js-vacancies-add">Добавить новую вакансию</button>
+				</div>
 			</div>
 		<% } %>
-		<% vacancies.map(d => { %>
-			<% if(d.published == "0" && user.adminMode == false) {
-				return false;
-			} %>
-			<div class="vacancies-item">
-				<% if(user.adminMode) { %>
-					<div class="admin-control-container">
-						<button data-id="<%= d.id %>" class="btn js-vacancies-delete">Удалить</button>
-						<% if(d.published) { %>
-							<button value="0" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
-						<% }
-						else { %>
-							<button value="1" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
-						<% } %>
+		<% if(fragment.settings.objectUrl !== '') { %>
+			<% vacancies.map(d => { %>
+				<% if(d.published == "0" && user.adminMode == false) return false; %>
+				<div class="vacancies-item">
+					<% if(user.adminMode) { %>
+						<div class="admin-control-container my-2">
+							<button data-id="<%= d.id %>" class="btn js-vacancies-delete">Удалить</button>
+							<% if(d.published) { %>
+								<button value="0" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
+							<% }
+							else { %>
+								<button value="1" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
+							<% } %>
+						</div>
+					<% } %>
+					<% if(user.adminMode) { %>
+						<div>
+							<input data-id="<%= d.id %>" class="input-text js-vacancies-title-update" type="text" value="<%= d.title %>">
+						</div>
+					<% }
+					else { %>
+						<a class="page-link" href="<%= fragment.settings.objectUrl + '/' + d.id -%>">
+							<h1 class="vacancies-item__title"><%= d.title %> <%= d.published == "0" ? '(Неопубликовано)' : '' -%></h1>
+						</a>
+					<% } %>
+					<div class="vacancies-item__text text-margin-bottom-p text-indent">
+						<%- Helpers.replaceLineBreaks(Helpers.trimStr(d.text, 200)) %>
 					</div>
-				<% } %>
-				<% if(user.adminMode) { %>
-					<div>
-						<input data-id="<%= d.id %>" class="input-text js-vacancies-title-update" type="text" value="<%= d.title %>">
+					<% if(d.published_time) { %>
+						<div>Опубликовано: <%= Helpers.formatDate(d.published_time, 'dd MMMM yyyy, hh:mm') -%></div>
+					<% } %>
+					<div class="vacancies-item__more">
+						<a class="page-link" href="<%= fragment.settings.objectUrl + '/' + d.id -%>">Подробнее</a>
 					</div>
-				<% }
-				else { %>
-					<a class="page-link" href="/vacancy/<%= d.id %>">
-						<h1 class="vacancies-item__title"><%= d.title %> <%= d.published == "0" ? '(Неопубликовано)' : '' -%></h1>
-					</a>
-				<% } %>
-				<div class="vacancies-item__text text-margin-bottom-p text-indent">
-					<%- Helpers.replaceLineBreaks(Helpers.trimStr(d.text, 200)) %>
 				</div>
-				<div class="vacancies-item__more">
-					<a class="page-link" href="/vacancy/<%= d.id %>">Подробнее</a>
-				</div>
-			</div>
-		<% }) %>		
+			<% }) %>		
+		<% } else { %>
+			<h2>Для фрагмента не установлена ссылка на объект</h2>
+		<% } %>
 	</div>
 </div>
 <% if(user.adminMode) { %>

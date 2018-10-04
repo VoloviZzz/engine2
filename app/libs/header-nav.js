@@ -35,7 +35,7 @@ exports.constructHeaderRows = async (req, res, next) => {
 			
 			tree.forEach((item, i) => {
 				if (item.id == 4) {
-					tree[i]['childs'] = rows;					
+					tree[i]['childs'].push({ 'type' : 'categories', rows : rows });
 				}
 			});
 		})

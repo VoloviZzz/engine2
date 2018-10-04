@@ -8,12 +8,12 @@ module.exports = (app) => {
 		// logic...
 
 		var [error, feedbackList] = await Model.feedback.get();
-		if(error) throw new Error(error);
+		if (error) return resolve([, error.message]);
 
 		dataViews.feedbackList = feedbackList;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

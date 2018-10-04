@@ -16,11 +16,10 @@ module.exports = (app) => {
 		dataViews.componentsList = components;
 		console.log(error1);
 		dataViews.componentBlocks = componentBlocks;
-		dataViews.user = session.user;
 		dataViews.controllersList = controllersList;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

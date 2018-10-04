@@ -475,8 +475,7 @@ $(document).ready(function () {
 		var eventName = $(elem).data('event');
 
 		if (!!eventName === false) {
-			console.log('Отсутствует eventName');
-			return alert('Отсутствует eventName');
+			eventName = 'change';
 		}
 
 		$(elem).on(eventName, function (e) {
@@ -512,6 +511,27 @@ $(document).ready(function () {
 			});
 		})
 	})
+
+	function updateFragment(id) {
+		$.post('/api/fragments/handler', { id: id }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+				return location.reload();
+			}
+
+			var fragmentsData = result.fragmentsData;
+
+			fragmentsData.forEach(function (data) {
+				var id = data.id;
+				var content = data.content;
+
+				var $fragmentBody = $('.fragment-body[data-fragment-id=' + id + ']');
+
+				$fragmentBody.html(content);
+			})
+		})
+	}
 
 	$('.js-change-fragment-target').on('change', changeFragmentTarget);
 
