@@ -1,10 +1,15 @@
 const db = require('../libs/db');
+var fs = require("fs");
+
+
+exports.getFS = async (arg = {}) => {
+	return fs.readFileSync('app/components/'+ arg.ctrl +'/'+ arg.name +'.js').toString();
+}
+
 
 exports.get = async (arg = {}) => {
 	if (arg.id) {
 		var id = 'WHERE c.id = '+arg.id;
-	}else {
-		id = '';
 	}
 	return db.execQuery(`
 		SELECT c.*,

@@ -3,22 +3,37 @@
 <link rel="stylesheet" href="/vendors/flexSlider/flexslider.css">
 <div>
 	<% if(user.adminMode) { %>
-		<%- include('./settings') -%>
+		<%- include("./settings") -%>
 	<% } %>
 	<div>
 		<%- include(partName) -%>
 	</div>
 </div>
+
 <section class="similar-positions">
-	<ul>
-		<% similarPositions.forEach((pos) => { -%>
-			<li>
-				<img src="<%= pos.preview_path -%>" alt="">
-				<a href="<%= pos.id -%>"><%= pos.title -%></a>
-			</li>
-		<% }) -%>
-	</ul>
+	<h3>Похожие позиции</h3>
+	<ul class="items-list goods-list"><%
+		
+		similarPositions.forEach((pos) => {
+		
+			var img = pos.preview_path ? pos.preview_path : "/img/image-not-found.jpg";
+			
+			%><li>
+				<h4>
+					<a href="<%= pos.id -%>"><%-pos.title%></a>
+				</h4>
+				<div class="goods-list-price">??? <span class="fa fa-rouhle"></span></div>
+				<div class="items-list-img-cnt">
+					<div>
+						<img src="<%= img -%>" alt="">
+					</div>
+				</div>
+			</li><%
+		})
+		
+	%></ul>
 </section>
+
 <script src="/vendors/baguettebox.js/dist/baguetteBox.min.js" defer></script>
 <script src="/vendors/flexSlider/jquery.flexslider-min.js" defer></script>
 <script src="/js/goods-view.js" defer></script>

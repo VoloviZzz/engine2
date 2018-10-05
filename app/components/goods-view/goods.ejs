@@ -1,16 +1,17 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-12">
-			<% if(user.adminMode) { %>
-				<div class="d-flex w-100 mb-1">
-					<input class="js-good-edit form-control text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<% if(user.adminMode) { %>
+					<div class="d-flex w-100 mb-1">
+						<input class="js-good-edit form-control text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
+					</div>
+				<% } %>
+				<div class="w-100">
+					<% for(const id of Object.keys(breadcrumbNavigation)) { %>
+						<a href="/store-cat/<%= id -%>">/ <%= breadcrumbNavigation[id] %></a>
+					<% } %>
 				</div>
 			<% } %>
-			<div class="w-100">
-				<% for(const id of Object.keys(breadcrumbNavigation)) { %>
-					<a href="/shop-categories/<%= id -%>">/ <%= breadcrumbNavigation[id] %></a>
-				<% } %>
-			</div>
 		</div>
 	</div>
 	<div class="row">
