@@ -1,0 +1,19 @@
+/* goods list */
+
+.goods-list li {
+	position: relative;
+}
+.goods-list li small {
+	display: block;
+	text-align: right;
+	color: green;
+}
+.goods-list-price {
+	position: absolute;
+	top: 30px;
+	right: 10px;
+	font-size: 24px;
+	background: #000;
+	color: #fff;
+	padding: 5px;
+}
