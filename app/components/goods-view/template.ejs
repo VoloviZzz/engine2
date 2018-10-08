@@ -6,7 +6,11 @@
 		<%- include("./settings") -%>
 	<% } %>
 	<div>
-		<%- include(partName) -%>
+		<% try { %>
+			<%- include('./goods.ejs') -%>
+		<% } catch(error) { %>
+			<pre><%= error.message -%></pre>
+		<% } %>
 	</div>
 </div>
 
