@@ -1,8 +1,6 @@
-const db = require('../libs/db');
 const storage = require('../storage');
 
 const Model = require('../models');
-const { initRoutes } = require('../libs/router');
 
 exports.add = async function (req, res, next) {
 
@@ -16,7 +14,7 @@ exports.add = async function (req, res, next) {
 		return { status: 'bad', message: 'Отсутствуют параметры для динамического маршрута' };
 	}
 
-	if(url in routesMap) {
+	if (url in routesMap) {
 		return { status: 'bad', message: 'Существует маршрут с таким URL' };
 	}
 
@@ -55,28 +53,26 @@ exports.del = async function (req, res, next) {
 }
 
 exports.upd = async function (req, res, next) {
+	const routesMap = storage.get('routesMap');
 	const routeId = req.body.id;
-	let error = false;
 
 	if (!!routeId === false) return { status: 'bad', message: 'Нет параметра routeId' };
 
-	[error, route] = await Model.routes.get({ id: routeId });
+	var [error, oldRoute] = await Model.routes.get({ id: routeId });
 	if (error) return { status: 'bad', message: err.message, error };
-	if (!!route === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
+	if (!!oldRoute === false) return { status: 'bad', message: 'Ошибка получения маршрута' };
 
-	if (route.edit_access == "0" && req.session.user.root != "1") {
+	if (oldRoute.edit_access == "0" && req.session.user.root != "1") {
 		return { message: 'Недостаточно прав для редактирования данного маршрута' }
 	}
 
 	[error, rows] = await Model.routes.upd(req.body);
-	if (error) {
-		console.log(error)
-		return { status: 'bad', message: error.message, error };
-	}
+	if (error) return { status: 'bad', message: error.message, error };
 
-	[error, route] = await Model.routes.get({ id: routeId });
+	delete routesMap[oldRoute.url];
 
-	const routesMap = storage.get('routesMap');
+	var [error, route] = await Model.routes.get({ id: routeId });
+
 	routesMap[route.url] = route;
 
 	return { status: 'ok' };
@@ -85,10 +81,8 @@ exports.upd = async function (req, res, next) {
 exports.toggleActiveMenuItem = async function (req, res, next) {
 	const { target, value, id } = req.body;
 	var [error, rows] = await Model.routes.upd({ target, value, id });
+	if (error) return { message: error.message };
 
-	if (!!error === true) {
-		return { message: error.message };
-	}
 
 	var [error, route] = await Model.routes.get({ id: id });
 

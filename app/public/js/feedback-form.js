@@ -17,7 +17,7 @@ $(document).ready(function (e) {
 				return false;
 			}
 		}
-
+		console.log(formData);
 		$.post('/api/feedback/add', formData).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);

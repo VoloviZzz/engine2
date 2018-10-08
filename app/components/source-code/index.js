@@ -37,7 +37,7 @@ module.exports = (app) => {
 			});
 		};
 
-		if (session.user.adminMode == false) {
+		if (locals.user.adminMode == false) {
 			try {
 				value = app.ejs.render(value, { renderView });
 			} catch (e) {
@@ -45,12 +45,10 @@ module.exports = (app) => {
 			}
 		}
 
-		dataViews.user = session.user;
-		dataViews.locals = locals;
 		dataViews.value = value;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

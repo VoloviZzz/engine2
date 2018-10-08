@@ -3,7 +3,8 @@ const path = require('path');
 
 exports.addProduct = function (req, res, next) {
 	const { Model } = req.app;
-	return Model.goodsPositions.add(req.body).then(([error, newProduct]) => {
+
+	return Model.goodsPositions.add({ ...req.body }).then(([error, newProduct]) => {
 		if (error) return { message: error.message, error };
 		return { status: 'ok' }
 	})
@@ -133,7 +134,7 @@ exports.addPhoto = (req, res, next) => {
 			})
 
 			if (errors.length > 0) return Promise.reject(error);
-			
+
 			State.photoId = photoId;
 			return Model.goodsPositions.get({ id: goodId });
 		}).then(([error, goodsPos]) => {

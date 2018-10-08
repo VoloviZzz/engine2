@@ -2,6 +2,8 @@
 <% fragmentsData.forEach(({id, content, fragment}) => { %>
 	<% onceFragmentOnPage = !!fragment.once %>
 	<% if(fragment.block_id !== block_id) return false; %>
+
+
 	<div class="fragment-item">
 		<% if(user.adminMode) { %>
 			<div class="fragment-setting-window">

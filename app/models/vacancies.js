@@ -48,13 +48,7 @@ exports.del = (arg = {}) => {
 
 exports.upd = (arg = {}) => {
 
-	let q = `
-		UPDATE vacancies
-		SET
-			${arg.target} = '${arg.value}'
-		WHERE
-			id = ${arg.id}
-	`;
+	let q = `UPDATE vacancies SET ${arg.target} = '${arg.value}' WHERE id = ${arg.id}`;
 
 	return db.execQuery(q);
 }

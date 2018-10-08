@@ -1,23 +1,25 @@
-exports['upd'] = (req, res, next) => {
+exports['upd'] = async (req, res, next) => {
 	const { Model } = req.app;
-	return Model.vacancies.upd({ target: req.body.target, value: req.body.value, id: req.body.id }).then(data => {
-		return { status: 'ok' };
-	}).catch(e => {
-		console.log('Ошибка во время выполнения запроса');
-		console.log(e);
-		return { status: 'bad', message: e.message }
-	})
+	var [error] = await Model.vacancies.upd({ target: req.body.target, value: req.body.value, id: req.body.id });
+	if (error) return { status: 'bad', message: e.message };
+
+	return { status: 'ok' };
 }
 
-exports['togglePublished'] = (req, res, next) => {
+exports['togglePublished'] = async (req, res, next) => {
 	const { Model } = req.app;
-	return Model.vacancies.upd({ target: 'published', value: req.body.value, id: req.body.id }).then(data => {
-		return { status: 'ok' };
-	}).catch(e => {
-		console.log('Ошибка во время выполнения запроса');
-		console.log(e);
-		return { status: 'bad', message: e.message }
-	})
+	const { value, id } = req.body;
+
+	var [error] = await Model.vacancies.upd({ target: 'published', value, id });
+	if (error) return { status: 'bad', message: e.message };
+
+	if (value == '1') {
+		await Model.vacancies.upd({ target: 'published_time', value: new Date().toLocaleString('ru'), id });
+	} else {
+		await Model.vacancies.upd({ target: 'published_time', value: 'NULL', id });
+	}
+
+	return { status: 'ok' };
 }
 
 exports['del'] = (req, res, next) => {
@@ -25,8 +27,6 @@ exports['del'] = (req, res, next) => {
 	return Model.vacancies.del({ id: req.body.id }).then(data => {
 		return { status: 'ok' };
 	}).catch(e => {
-		console.log('Ошибка во время выполнения запроса');
-		console.log(e);
 		return { status: 'bad', message: e.message }
 	})
 }
@@ -37,9 +37,6 @@ exports['add'] = (req, res, next) => {
 		if (error) return { message: error.message, error }
 		return { status: 'ok' };
 	}).catch(e => {
-		console.log('Ошибка во время выполнения запроса');
-		console.log(e);
-		console.log(e);
 		return { status: 'bad', message: e.message }
 	})
 }

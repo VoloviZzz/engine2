@@ -3,6 +3,9 @@ const express = require('express');
 const Router = express.Router();
 const path = require('path');
 
+const db = require('./libs/db');
+const model = require('./models');
+
 const checkAdminMiddleware = (req, res, next) => {
 	if (req.session.user.admin) {
 		return next();
@@ -23,10 +26,32 @@ const toggleAdminMode = (req, res, next) => {
 	});
 
 	req.session.user.adminMode = !req.session.user.adminMode;
-	res.json({
-		status: 'ok'
-	});
+	res.json({ status: 'ok' });
 }
+
+Router.get('/robots.txt', async (req, res, next) => {
+	res.send('robots.txt');
+});
+
+Router.get('/sitemap.xml', async (req, res, next) => {
+	const siteName = 'http://localhost:3000';
+	var [error, routes] = await model.routes.get({ access: '1' });
+
+	const urls = routes.map(route => {
+		return `<url>
+			<loc>${siteName}${route.url.trim()}</loc>
+		</url>`;
+	}).join('');
+
+	const template = `
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+			${urls}
+		</urlset>
+	`.trim();
+
+	res.set('Content-Type', 'text/xml');
+	res.send(template);
+});
 
 Router.post('/toggle-admin', toggleAdminMode);
 Router.get('/logout', clearSessionData);

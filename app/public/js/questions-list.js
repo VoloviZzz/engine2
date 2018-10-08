@@ -17,9 +17,13 @@ $(document).ready(function (e) {
 		};
 
 		$.post("/api/questions/addQuestion", data).done(function (result) {
-			if (result.status !== 'ok') return alert('\u041E\u0448\u0438\u0431\u043A\u0430 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F: ' + result);
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
 
-			return location.reload();
+			alert('Ваш вопрос добавлен');
+			location.reload();
 		});
 	});
 });

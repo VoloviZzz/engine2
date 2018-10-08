@@ -8,7 +8,7 @@ const deleteLastSlash = (req, res, next) => {
 }
 
 const replaceParams = (route) => {
-	route.url = route.url.replace(/:params/g, '([a-zA-Z0-9\-]+)');
+	route.url = route.url.replace(/:params/g, '([а-яА-Яa-zA-Z0-9\-]+)');
 	return route;
 }
 
@@ -75,12 +75,15 @@ exports.initRoutesList = initRoutesList;
 module.exports.Router = (app) => {
 	const Router = app.express.Router();
 	const fragmentsHandler = require('./fragments')(app);
+	const apiControllers = require('require-dir')('../api');
 
 	Router.use(deleteLastSlash);
 	Router.use(constructHeaderRows);
 	Router.use((req, res, next) => {
 		res.locals.session = req.session;
 		res.locals.reqQuery = req.query;
+		res.locals.templatesList = [];
+		res.locals.user = { ...req.session.user };
 		next();
 	});
 
@@ -90,7 +93,7 @@ module.exports.Router = (app) => {
 
 	Router.get('*', async (req, res, next) => {
 		try {
-			const findRoute = await getRoute(req.url);
+			const findRoute = await getRoute(decodeURIComponent(req.url));
 			const { route, routeParams } = findRoute;
 
 			if (!!route === false) return next({ message: 'Страница не найдена', status: '404' });
@@ -101,15 +104,21 @@ module.exports.Router = (app) => {
 				return next(err);
 			}
 
+			await require('../componentsList')(app);
+
 			if (route.access == "3" && !!req.session.user.admin === false) {
 				const err = new Error('Нет доступа к странице');
 				err.status = 503;
 				return next(err);
 			}
 
-			const getMetaParams = {
-				route_id: route.id
-			};
+			if (req.query['admin-mode'] == '1' && req.session.user.admin) {
+				res.locals.user.adminMode = true;
+			} else {
+				res.locals.user.adminMode = false;
+			}
+
+			const getMetaParams = { route_id: route.id };
 
 			if (route.aliasId) {
 				getMetaParams.alias_id = route.aliasId;
@@ -119,18 +128,13 @@ module.exports.Router = (app) => {
 			}
 
 			var [error, metaData] = await Model.metaManage.get(getMetaParams);
-			if (error) {
-				console.error(error);
-				throw new Error(error);
-			}
+			if (error) throw new Error(error);
 
 			route.meta = metaData[0] ? metaData[0] : {};
 
-			const getFragmentsParams = {
-				route_id: route.id
-			};
+			const getFragmentsParams = { route_id: route.id };
 
-			if (req.session.user.adminMode === false) {
+			if (res.locals.user.adminMode === false) {
 				getFragmentsParams.public = '1';
 			}
 
@@ -141,12 +145,18 @@ module.exports.Router = (app) => {
 			res.locals.dynamicRouteNumber = routeParams[0] || false;
 			res.locals.URIparams = routeParams || false;
 			res.locals.fullUrl = req.url;
+			res.locals.reqReferer = req.header('Referer');
 
-			const fragmentsMap = fragments.map(async fragment => {
-				return fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals } });
-			});
+			const fragmentsMap = fragments.map(async fragment =>
+				fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals } })
+			);
 
 			const fragmentsData = await Promise.all(fragmentsMap);
+
+			if (req.session.user.admin) {
+				var [error, templatesList] = await Model.templates.get();
+				res.locals.templatesList = templatesList;
+			}
 
 			res.locals.fragmentsData = fragmentsData;
 
@@ -156,8 +166,6 @@ module.exports.Router = (app) => {
 		}
 	})
 
-
-	const apiControllers = require('require-dir')('../api');
 	Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
 		let { ctrl, action } = req.params;
 		action = action || ctrl;
@@ -178,6 +186,10 @@ module.exports.Router = (app) => {
 				return res.send(controllerResult.sendData)
 			}
 			else {
+				if (controllerResult.status !== 'ok') {
+					controllerResult.message = controllerResult.message || "Что-то пошло не так. Попробуйте позже";
+				}
+
 				res.json(controllerResult)
 			}
 		}

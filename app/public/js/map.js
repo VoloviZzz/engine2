@@ -95,9 +95,9 @@ this.addPolylineConstruct();        // конструктор линий
 }
 
 Map.prototype.addMarker = function (lat, lng, popup, draggable) {         // добавить маркер
-	if (draggable == true) {
-		draggable = false;
-	}
+	// if (draggable == true) {
+	// 	draggable = false;
+	// }
   var marker = L.marker([lat, lng],
   {
     draggable:draggable

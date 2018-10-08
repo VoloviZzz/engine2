@@ -1,27 +1,22 @@
 const path = require('path');
 const db = require('../../libs/db');
+const Model = require('../../models');
 
 module.exports = (app) => {
 
-	return async (data = {}) => {
+	return async ({ locals, session, dataViews } = {}) => {
 
-		const [queryError, templatesList] = await db.execQuery("SELECT * FROM templates");
+		const [queryError, templatesList] = await Model.templates.get();
 		if (queryError) throw new Error(queryError);
 
 		var [error, routes] = await app.Model.routes.get();
-		if (error) {
-			console.error(error);
-			return Promise.resolve(['', error.message]);
-		}
+		if (error) return Promise.resolve(['', error.message]);
 
 		var [error, targets] = await app.Model.routesTargets.get();
-		if (error) {
-			console.error(error);
-			return Promise.resolve(['', error.message]);
-		}
+		if (error) return Promise.resolve(['', error.message]);
 
 		const routesList = routes.map(route => {
-			if (route.access == "3" && !!data.locals.user.root === true) {
+			if (route.access == "3" && !!locals.user.root === true) {
 				return route;
 			}
 			else if (route.access != "3") {
@@ -29,9 +24,27 @@ module.exports = (app) => {
 			}
 		}).filter(r => !!r === true);
 
+		var [error, fragments] = await Model.fragments.get();
+
+		const fragmentsByRoute = fragments.reduce((object, fragment) => {
+			const { route_id } = fragment;
+
+			if (route_id in object === false) {
+				object[route_id] = [];
+			}
+
+			object[route_id].push(fragment);
+			return object;
+		}, {});
+
+		dataViews.routesList = routesList;
+		dataViews.templatesList = templatesList;
+		dataViews.targets = targets;
+		dataViews.fragmentsByRoute = fragmentsByRoute;
+
 		const templatePath = path.join(__dirname, 'template.ejs');
 		return new Promise((resolve, reject) => {
-			const template = app.ejs.renderFile(templatePath, { user: data.locals.user, routesList, templatesList, targets }, (err, str) => {
+			app.ejs.renderFile(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

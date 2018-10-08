@@ -11,7 +11,7 @@ module.exports = (app) => {
 		const { fragment } = locals;
 		const { id } = fragment;
 
-		const { user } = session;
+		const { user } = locals;
 
 		if (user.adminMode) {
 			var [error, slides] = await db.execQuery(`SELECT * FROM slides WHERE fragment_id = '${id}' ORDER BY priority desc`);
@@ -21,12 +21,11 @@ module.exports = (app) => {
 
 		fragment.settings.maxImageHeight = fragment.settings.maxImageHeight || '350';
 
-		dataViews.user = session.user;
 		dataViews.fragment = fragment;
 		dataViews.slides = slides;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

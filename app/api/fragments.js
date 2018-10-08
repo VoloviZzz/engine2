@@ -13,15 +13,16 @@ exports.add = async function (req, res, next) {
 }
 
 exports.upd = async function (req, res, next) {
-	let error = false;
+	const { fragment_id } = req.body;
 
-	if ('value' in req.body === false || 'target' in req.body === false) return { status: 'bad', message: 'Отсутствуют необходимые параметры' };
+	if ('value' in req.body === false || 'target' in req.body === false || !!fragment_id === false) return { status: 'bad', message: 'Отсутствуют необходимые параметры' };
 
-	[error, fragmentId, sql] = await Model.fragments.upd({ target: req.body.target, value: req.body.value, id: req.body.fragment_id });
-	if (error) {
-		console.error(error);
-		return { status: 'bad', message: error.message, error }
-	}
+	var [error, [fragment]] = await Model.fragments.get({ id: fragment_id });
+	if (error) return { status: 'bad', message: error.message, error };
+	if (!!fragment === false) return { status: 'bad', message: 'Фрагмент не найден' };
+
+	var [error, fragmentId, sql] = await Model.fragments.upd({ target: req.body.target, value: req.body.value, id: fragment_id });
+	if (error) return { status: 'bad', message: error.message, error };
 
 	return { status: 'ok' }
 }
@@ -35,6 +36,7 @@ exports.updSettings = async function (req, res, next) {
 
 		[error, [fragment]] = await Model.fragments.get({ id: fragment_id });
 		if (error) return { status: 'bad', message: error.message, error };
+		if (!!fragment === false) return { status: 'bad', message: 'Фрагмент не найден' };
 
 		var [error, checkSettings] = await db.execQuery(`SELECT * FROM fragments_settings WHERE fragment_id = '${fragment_id}' AND target = '${target}'`);
 
@@ -52,11 +54,16 @@ exports.updSettings = async function (req, res, next) {
 }
 
 exports.del = async function (req, res, next) {
-	let error = false;
 
-	if (!!req.body.fragment_id === false) return { status: 'bad', message: 'Отсутствуют необходимые параметры' };
+	const { fragment_id } = req.body;
 
-	[error, fragmentId] = await Model.fragments.delete({ id: req.body.fragment_id });
+	if (!!fragment_id === false) return { status: 'bad', message: 'Отсутствуют необходимые параметры' };
+
+	var [error, [fragment]] = await Model.fragments.get({ id: fragment_id });
+	if (error) return { status: 'bad', message: error.message, error };
+	if (!!fragment === false) return { status: 'bad', message: 'Фрагмент не найден' };
+
+	var [error, fragmentId] = await Model.fragments.delete({ id: fragment_id });
 	if (error) return { status: 'bad', message: error.message, error }
 
 	return { status: 'ok' }
@@ -64,7 +71,14 @@ exports.del = async function (req, res, next) {
 
 exports.setData = async function (req, res, next) {
 	const data = JSON.parse(req.body.data);
-	const [queryErr, queryRes] = await Model.fragments.setData({ fragment_id: req.body.fragment_id, data });
+
+	const { fragment_id } = req.body;
+
+	[error, [fragment]] = await Model.fragments.get({ id: fragment_id });
+	if (error) return { status: 'bad', message: error.message, error };
+	if (!!fragment === false) return { status: 'bad', message: 'Фрагмент не найден' };
+
+	const [queryErr, queryRes] = await Model.fragments.setData({ fragment_id, data });
 	if (queryErr) throw new Error(queryErr);
 
 	return { status: 'ok', body: req.body };

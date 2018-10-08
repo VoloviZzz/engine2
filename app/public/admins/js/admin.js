@@ -1,5 +1,5 @@
 'use strict';
-
+var editors = [];
 $(document).ready(function () {
 	var fragments = new Fragments();
 	var menuList = new MenuList();
@@ -12,12 +12,22 @@ $(document).ready(function () {
 	$.each(aceEditorsElements, function (index, elem) {
 		var editor = ace.edit(elem);
 		var $elem = $(elem);
-
+		editors.push(editor);
 		var fragmentId = $elem.data('fragment-id');
 
 		editor.setTheme("ace/theme/monokai");
 		editor.setAutoScrollEditorIntoView(true);
-		editor.session.setMode("ace/mode/html");
+		if ($elem.data('lang') == 'html') {
+			editor.session.setMode("ace/mode/html");
+		}else if ($elem.data('lang') == 'js') {
+			editor.session.setMode("ace/mode/javascript");
+		}else if ($elem.data('lang') == 'ejs') {
+			editor.session.setMode("ace/mode/ejs");
+		}else if ($elem.data('lang') == 'css') {
+			editor.session.setMode("ace/mode/css");
+		}else {
+			editor.session.setMode("ace/mode/html");
+		}
 
 		editor.session.on('change', function (delta) {
 			var editorValue = editor.getValue();
@@ -465,8 +475,7 @@ $(document).ready(function () {
 		var eventName = $(elem).data('event');
 
 		if (!!eventName === false) {
-			console.log('Отсутствует eventName');
-			return alert('Отсутствует eventName');
+			eventName = 'change';
 		}
 
 		$(elem).on(eventName, function (e) {
@@ -502,6 +511,27 @@ $(document).ready(function () {
 			});
 		})
 	})
+
+	function updateFragment(id) {
+		$.post('/api/fragments/handler', { id: id }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+				return location.reload();
+			}
+
+			var fragmentsData = result.fragmentsData;
+
+			fragmentsData.forEach(function (data) {
+				var id = data.id;
+				var content = data.content;
+
+				var $fragmentBody = $('.fragment-body[data-fragment-id=' + id + ']');
+
+				$fragmentBody.html(content);
+			})
+		})
+	}
 
 	$('.js-change-fragment-target').on('change', changeFragmentTarget);
 
