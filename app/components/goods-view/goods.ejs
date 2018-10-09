@@ -130,68 +130,93 @@
 					<p>Детали не указаны</p>
 				<% } %>
 				<table class="table">
-					<tbody>
-						<% var goodsPropsBindValues = goodsPropsBindValues || [] %>
-						<% goodsPropsBindValues.map(p => { %>
-							<tr>
-								<td><%= p.prop_title -%></td>
-								<td><%= p.prop_value_title -%></td>
-								<% if(user.adminMode) { %>
-									<td>
-										<button class="btn btn-sm js-paramsBindValues-delete" data-id="<%=p.id-%>" type="button" name="button">Удалить</button>
-									</td>
-								<% } %>
-							</tr>
-						<% }) %>
-						<% if(user.adminMode) { %>
-							<tr>
-								<td colspan="3">
-									<div class="form-row">
-										<div class="form-group col-md-6">
-											<select data-id="<%=position.id-%>" class="form-control js-params-select" name="">
-												<option value="0">Не выбрано</option>
-												<% var goodsProps = goodsProps || [] %>
-												<% goodsProps.map(p => { %>
-													<option value="<%=p.id-%>"><%=p.title-%></option>
-												<% }) %>
-											</select>
-										</div>
-										<div class="form-group col-md-6">
-											<select data-good="<%=position.id-%>" disabled class="form-control js-params-values-select" name="">
-												<option value="0">Не выбрано</option>
-											</select>
-										</div>
-									</div>
+					<% var goodsPropsBindValues = goodsPropsBindValues || []; %>
+					<% goodsPropsBindValues.map(p => { %>
+						<tr class="js-paramBindValue-item">
+							<td><%= p.prop_title -%></td>
+							<td><%= p.prop_value_title -%></td>
+							<% if(user.adminMode) { %>
+								<td>
+									<button class="btn btn-sm js-paramsBindValues-delete" data-id="<%=p.id-%>" type="button" name="button">Удалить</button>
 								</td>
-							</tr>
-						<% } %>
-					</tbody>
+							<% } %>
+						</tr>
+					<% }) %>
+					<% if(user.adminMode) { %>
+						<tr>
+							<td colspan="3">
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<select data-id="<%=position.id-%>" class="form-control js-params-select" name="">
+											<option value="0">Не выбрано</option>
+											<% var goodsProps = goodsProps || [] %>
+											<% goodsProps.map(p => { %>
+												<option value="<%=p.id-%>"><%=p.title-%></option>
+											<% }) %>
+										</select>
+									</div>
+									<div class="form-group col-md-6">
+										<select data-good="<%=position.id-%>" disabled class="form-control js-params-values-select" name="">
+											<option value="0">Не выбрано</option>
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+					<% } %>
 				</table>
 				<% if(user.adminMode) { -%>
-					<div>
-						<div class="js-form-add-params form-add-params">
-							<table class="table">
-								<tbody>
-									<tr>
-										<td>
+					<div class="js-form-add-params form-add-params">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<form class="js-props-values-add">
 											<div class="form-row">
 												<div class="form-group col-md-6">
 													<label>Параметр:</label>
-													<input id="js-props-title" type="text" class="form-control" name="param_title">
+													<select data-id="<%= position.id -%>" class="form-control" name="prop-id">
+														<option value="0" disabled selected>Не выбрано</option>
+														<% var goodsProps = goodsProps || []; %>
+														<% goodsProps.map(p => { %>
+															<option value="<%= p.id -%>"><%= p.title -%></option>
+														<% }) %>
+													</select>
 												</div>
-												<div class="form-group col-md-6">
+												<div class="form-group col">
 													<label>Значение</label>
-													<input id="js-props-value" type="text" class="form-control" name="param_value_title">
+													<input type="text" class="form-control" name="param_value_title">
+												</div>
+												<div class="form-group d-flex align-items-end">
+													<button class="btn">Добавить</button>
 												</div>
 											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="text-right form-group">
-								<button class="btn js-props-values-add" type="button" name="button">Добавить</button>
-							</div>
-						</div>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="js-form-add-params form-add-params">
+						<table class="table">
+							<tr>
+								<td>
+									<form class="js-props-add">
+										<div class="form-row">
+											<div class="form-group col-4">
+												<span class="align-middle">Добавить параметр:</span>
+											</div>
+											<div class="form-group col">
+												<input id="js-props-title" type="text" class="form-control" name="param-title">
+											</div>
+											<div class="form-group">
+												<button class="btn">Добавить</button>
+											</div>
+										</div>
+									</form>
+								</td>
+							</tr>
+						</table>
 					</div>
 				<% } -%>
 			</div>
