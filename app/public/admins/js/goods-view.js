@@ -188,35 +188,60 @@ $(document).ready(function () {
 		});
 	});
 
-	$('.js-props-values-add').on('click', function (e) {
-		var title = $('#js-props-title').val().trim();
-		var value = $('#js-props-value').val().trim();
+	$('.js-props-values-add').on('submit', function (e) {
+		e.preventDefault();
 
-		if (!!title === false || !!value === false) return alert('Оба поля должны быть заполнены');
+		var inputTitle = this.elements['param_value_title'];
+
+		var propId = this.elements['prop-id'].value;
+		var value = inputTitle.value;
+
+		if ((!!propId === false || propId == '0') || !!value === false) {
+			alert('Оба поля должны быть заполнены');
+			return false;
+		};
 
 		var postData = {
-			ctrl: 'addPropsvalues',
-			prop_title: title,
+			prop_id: propId,
 			prop_value: value
 		};
 
-		$.post('/api/goodsPosition/addPropsvalues', postData).done(function (result) {
-			if (result.status == 'bad') {
+		$.post('/api/goodsPosition/addPropsValues', postData).done(function (result) {
+			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
 
-			return location.reload();
-		}).catch(function (error) {
-			alert('Что-то пошло не так');
+			alert('Значение добавлено');
+			inputTitle.value = '';
 		});
+
+		return false;
 	});
+
+	$('.js-props-add').on('submit', function (e) {
+
+		var title = this.elements['param-title'].value.trim();
+
+		$.post('/api/goodsPosition/addProps', { title: title }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+
+		return false;
+	})
 
 	$('.js-paramsBindValues-delete').on('click', function (e) {
 		var postData = {
 			ctrl: 'deleteParamsBindValues',
 			id: $(this).data('id')
 		};
+
+		var $this = $(this);
 
 		if (confirm('Удалить?') === false) return false;
 
@@ -226,10 +251,8 @@ $(document).ready(function () {
 				return alert(result.message);
 			}
 
-			return location.reload();
-		}).catch(function (error) {
-			alert('Что-то пошло не так');
-		});
+			$this.parents('.js-paramBindValue-item').remove();
+		})
 	});
 
 	$('.js-change-goodsPosition-priceType').on('change', function (e) {

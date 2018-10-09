@@ -8,9 +8,9 @@ $(document).ready(function () {
 		animation: "slide"
 	});
 
-	var addToCartBtn = document.querySelector(".good-price__buy");
+	var $addToCartBtn = $(".good-price__buy");
 
-	addToCartBtn.addEventListener('animationend', function () {
+	$addToCartBtn.on('animationend', function () {
 		addToCartBtn.removeAttribute("disabled");
 		addToCartBtn.classList.remove("added");
 	});

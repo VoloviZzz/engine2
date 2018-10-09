@@ -27,12 +27,10 @@ exports.setOrderData = async (req, res, next) => {
 		[error, codeId] = await Model.confirmedPhones.add({ phone: data.phone, code });
 		if (error) throw new Error(error);
 
-		if (process.env.NODE_ENV === 'production') {
-			var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
-			var smsMessage = result.value.replace(/{{code}}/g, code);
+		var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
+		var smsMessage = result.value.replace(/{{code}}/g, code);
 
-			await app.smsc.send({ phones: req.body.phone, mes: smsMessage });
-		}
+		await app.smsc.send({ phones: req.body.phone, mes: smsMessage });
 
 		req.session.tempOrderData.code = code;
 		req.session.tempOrderData.codeId = codeId;
@@ -48,11 +46,11 @@ exports.setOrderData = async (req, res, next) => {
 		req.session.tempOrderData.codeId = codeId;
 		req.session.tempOrderData.code = code;
 
-		if (process.env.NODE_ENV === 'production') {
-			var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
-			var smsMessage = result.value.replace(/{{code}}/g, code);
-			await app.smsc.send({ phones: req.body.phone, mes: smsMessage });
-		}
+
+		var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
+		var smsMessage = result.value.replace(/{{code}}/g, code);
+		await app.smsc.send({ phones: req.body.phone, mes: smsMessage });
+
 
 		return { status: 'confirm phone' }
 	}
@@ -148,12 +146,12 @@ exports.addOrder = async (req, res, next) => {
 			const [error] = await Model.ordersGoods.add({ order_id, good_id, count: goodsItem.countInShopCart, price: goodsItem.price });
 		}
 
-		if (process.env.NODE_ENV === 'production') {
-			var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplateOrderComplete' });
-			var smsMessage = result.value.replace(/{{order_id}}/g, code);
 
-			return app.smsc.send({ phones: req.body.phone, mes: smsMessage });
-		}
+		var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplateOrderComplete' });
+		var smsMessage = result.value.replace(/{{order_id}}/g, code);
+
+		return app.smsc.send({ phones: req.body.phone, mes: smsMessage });
+
 	}).then(async () => {
 
 		const updatePositionsPromises = [];
