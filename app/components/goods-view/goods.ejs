@@ -24,6 +24,9 @@
 									<% if(user.adminMode) { %>
 										<div style="position: absolute;">
 											<button class="btn js-goodsPhoto-delete" data-id="<%= photo.id -%>">Удалить</button>
+											<% if(position.main_photo !== photo.id) { %>
+												<button class="btn js-goodsPhoto-setMainPhoto" data-position-id="<%= position.id -%>" data-id="<%= photo.id -%>">Сделать фото основным</button>
+											<% } %>
 										</div>
 									<% } %>
 									<a href="<%= Helpers.replaceImageIfNotExist(`${photo.path}/origin/${photo.name}`) %>">

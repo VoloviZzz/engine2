@@ -78,8 +78,14 @@ module.exports = (app) => {
 
 			dataViews.aliases = aliases;
 
-			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
+			[error, positionPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
 			dataViews.partName = pos.service == 0 ? 'goods.ejs' : 'service.ejs';
+
+			positionPhotos = positionPhotos.sort((a) => {
+				return a.id !== dataViews.position.main_photo;
+			});
+
+			dataViews.goodsPhotos = positionPhotos;
 
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);

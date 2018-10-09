@@ -13,12 +13,12 @@ $(document).ready(function () {
 
 		$.post('/api/goodsPosition/upd', postData).done(function (result) {
 
-			if (result.status == 'ok') {
-				return location.reload();
+			if (result.status !== 'ok') {
+				console.log(result.error);
+				alert(result.message);
 			}
 
-			console.log(result.error);
-			alert(result.message);
+			return location.reload();
 		});
 	})
 
@@ -51,6 +51,29 @@ $(document).ready(function () {
 			location.reload();
 		});
 	});
+
+	$('.js-goodsPhoto-setMainPhoto').on('click', function (e) {
+
+		var postData = {};
+		var $this = $(this);
+
+		var value = $this.data('id');
+		var id = $this.data('position-id');
+		var target = 'main_photo';
+
+		postData.value = value;
+		postData.id = id;
+		postData.target = target;
+
+		$.post('/api/goodsPosition/upd', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result.error);
+				alert(result.message);
+			}
+
+			return location.reload();
+		})
+	})
 
 	$('#uploadable-files').on('change', function (e) {
 		var $input = $(this);
