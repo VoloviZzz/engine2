@@ -89,11 +89,7 @@ exports.upd = function (data = {}) {
 		setData = `${data.target} = '${data.value}'`;
 	}
 
-	return db.execQuery(`
-		UPDATE goods_pos
-		SET ${setData}
-		WHERE id = ${data.id}
-	`);
+	return db.execQuery(`UPDATE goods_pos SET ${setData} WHERE id = ${data.id}`);
 }
 
 // используется в модуле выгрузки товаров. Отличие в том, что требуемыми ключами являются именные ключи,
@@ -126,12 +122,7 @@ exports.updateByParams = function (args = {}) {
 		return Promise.resolve(['Отсутствуют данные для условия']);
 	}
 
-	return db.execQuery(`
-		UPDATE goods_pos
-		SET 
-			${setData}
-		WHERE ${whereData}
-	`);
+	return db.execQuery(`UPDATE goods_pos SET ${setData} WHERE ${whereData}`);
 }
 
 exports.del = function (data = {}) {

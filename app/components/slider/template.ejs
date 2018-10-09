@@ -14,14 +14,14 @@
                 type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
         </div>
         <div>
-            <p>Минимальная высота слайдера:</p>
+            <p>Минимальная высота слайдера, px:</p>
             <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="minImageHeight"
-                type="text" value="<%= fragment.settings.minImageHeight || '' -%>">
+                type="text" value="<%= fragment.settings.minImageHeight || "" -%>">
         </div>
         <div>
-            <p>Максимальная высота высота слайдера:</p>
+            <p>Максимальная высота высота слайдера, px:</p>
             <input class="js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="maxImageHeight"
-                type="text" value="<%= fragment.settings.maxImageHeight || '' -%>">
+                type="text" value="<%= fragment.settings.maxImageHeight || "" -%>">
         </div>
 		<div>
 			<button class="btn js-slider-add margin-y-10" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>

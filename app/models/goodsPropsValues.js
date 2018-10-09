@@ -25,14 +25,10 @@ exports.del = function (arg = {}) {
 
 exports.add = function (arg = {}) {
 
-	if (!!arg.title === false || !!arg.prop_id === false) return Promise.reject({ message: 'Отсутствуют необходимые параметры', args: arg })
+	var checkArgs = [arg.title, arg.prop_id].includes(undefined || false || null || '');
+	if (checkArgs === true) return Promise.reject({ message: 'Отсутствуют необходимые параметры', args: arg });
 
-	const q = `
-			INSERT INTO goods_props_values
-			SET
-				title = '${arg.title}',
-				prop_id = '${arg.prop_id}'
-		`;
+	const q = `INSERT INTO goods_props_values SET ?`;
 
-	return db.insertQuery(q);
+	return db.insertQuery(q, { title: arg.title, prop_id: arg.prop_id });
 }

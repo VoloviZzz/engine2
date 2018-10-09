@@ -1,5 +1,9 @@
 <link rel="stylesheet" href="/css/vacancies-view.css">
 <input type="hidden" id="js-vacancies-id" value="<%= vacancy.id -%>">
+<div class="section-title" style="display: flex; flex-flow: row wrap; align-items: center;">
+	<a href="<%= fragment.settings.rootUrl -%>" style="text-decoration: underline;">Вернуться к списку</a>
+	<h3 class="fs-regular text-center" style="margin: auto;"><%= vacancy.title -%></h3>
+</div>
 <div id="all" class="menu-sections menu-sections__default">
 	<% if(user.adminMode) { %>
 		<div class="admin-control-container my-2">

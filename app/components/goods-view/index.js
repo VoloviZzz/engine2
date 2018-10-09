@@ -6,7 +6,7 @@ const path = require('path');
  * @return array
  * Получаем массив для хлебных крошек
  */
-function breadcrumb(cat, id) {
+const breadcrumb = (cat, id) => {
 
 	//Создаем пустой массив
 	const brc = {};
@@ -31,23 +31,8 @@ module.exports = (app) => {
 	return ({ locals, session, dataViews } = {}) => {
 		return new Promise(async (resolve, reject) => {
 
-			let object_id, object_alias;
 
-			if (locals.dynamicRouteAlias) {
-				object_alias = locals.dynamicRouteAlias;
-			}
-			else {
-				object_id = locals.dynamicRouteNumber;
-			}
-
-			if (!!object_id === false && !!object_alias === false) return resolve([, "Отсутствует аргумент для динамического фрагмента страницы"])
-
-			if (object_alias) {
-				[, aliases] = await Model.aliases.get({ title: object_alias, target: 'goods_pos' });
-				if (aliases.length < 1) return resolve([, 'Товар не найден'])
-
-				object_id = aliases[0].target_id;
-			}
+			const object_id = locals.dynamicRouteNumber;
 
 			var [[error, goodsPropsBindValues], [error, goodsProps], [error, goodsCats]] = await Promise.all([
 				Model.goodsPropsBindValues.get({ good_id: object_id }),
@@ -93,11 +78,16 @@ module.exports = (app) => {
 
 			dataViews.aliases = aliases;
 
-			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
+			[error, positionPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
 			dataViews.partName = pos.service == 0 ? 'goods.ejs' : 'service.ejs';
 
-			const templatePath = path.join(__dirname, 'template.ejs');
-			app.render(templatePath, dataViews, (err, str) => {
+			positionPhotos = positionPhotos.sort((a) => {
+				return a.id !== dataViews.position.main_photo;
+			});
+
+			dataViews.goodsPhotos = positionPhotos;
+
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

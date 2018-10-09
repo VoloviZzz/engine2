@@ -6,7 +6,7 @@
 			<select class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="target">
 				<option value="">Не выбрано</option>
 				<% targets.forEach((target) => { -%>
-					<option <%= target.id == fragment.settings.target ? 'selected' : '' -%> value="<%= target.id -%>"><%= target.title -%></option>
+					<option <%= target.id == fragment.settings.target ? "selected" : "" -%> value="<%= target.id -%>"><%= target.title -%></option>
 				<% }) -%>
 			</select>
 		</div>
@@ -29,8 +29,8 @@
 
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
-		<a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">Все (<%= questions.length -%>)</a>
-		<a class="nav-item nav-link" id="nav-unpublished-tab" data-toggle="tab" href="#nav-unpublished" role="tab" aria-controls="nav-unpublished" aria-selected="false">Неопубликованные (<%= questionsNotPublished.length -%>)</a>
+		<a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true"><b>Опубликованные</b> (<%= questions.length -%>)</a>
+		<a class="nav-item nav-link" id="nav-unpublished-tab" data-toggle="tab" href="#nav-unpublished" role="tab" aria-controls="nav-unpublished" aria-selected="false"><b>Неопубликованные</b> (<%= questionsNotPublished.length -%>)</a>
 		</div>
 	</nav>
 <% } %>
@@ -49,7 +49,7 @@
 	</div>
 	<% if(user.adminMode) { %>
 		<div class="tab-pane not-modered-reviews" id="nav-unpublished" role="tabpanel" aria-labelledby="nav-unpublished-tab">
-			<%- include('./question-list', { questions: questionsNotPublished }) -%>
+			<%- include("./question-list", { questions: questionsNotPublished }) -%>
 		</div>
 	<% } %>
 </div>
