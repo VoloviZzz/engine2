@@ -66,7 +66,7 @@ module.exports = async (req, res, next) => {
 			await saveImageByUrl(previewUrl, previewFile);
 
 			var [error, newPhotoId] = await Model.photos.add({ name: photoName, path: photoUrl, target: 'goodsPosition', target_id: id, connect_id, crm_photo_id });
-			await Model.goodsPositions.upd({ target: 'main_photo', value: addResult, id: newPhotoId });
+			await Model.goodsPositions.upd({ target: 'main_photo', value: newPhotoId, id });
 
 			if (error) {
 				console.log(`Не удалось сохранить фото в базу`);
