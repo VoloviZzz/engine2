@@ -3,6 +3,7 @@ function Map (map, zoom, lat, lng) {
 	console.log('Map constructor');
 
   this.polygon;
+	this.mapID = map;
   this.polyline;
   this.polyline_array = [];
   this.marker = [];
@@ -58,15 +59,15 @@ Map.prototype.init = function (map, zoom, lat, lng) { // Инициализац�
     };
 
 
-  this.map = L.map('map', {      // Инициализация карты
+  this.map = L.map(this.mapID, {      // Инициализация карты
       center: this.center,
-      zoom: this.zoom,
-      layers: this.google,
-      drawControl: true
+      zoom: this.zoom
+      // layers: this.mapbox
+      // drawControl: true
   });
 
-
-  L.control.layers(this.baseMaps).addTo(this.map); //вставка слоёв в карту
+	  this.mapbox.addTo(this.map);
+  // L.control.layers(this.baseMaps).addTo(this.map); //вставка слоёв в карту
 
   this.markers = L.markerClusterGroup({
     spiderfyOnMaxZoom :  true,
@@ -95,9 +96,9 @@ this.addPolylineConstruct();        // конструктор линий
 }
 
 Map.prototype.addMarker = function (lat, lng, popup, draggable) {         // добавить маркер
-	// if (draggable == true) {
-	// 	draggable = false;
-	// }
+	if (draggable == true) {
+		draggable = false;
+	}
   var marker = L.marker([lat, lng],
   {
     draggable:draggable
@@ -213,14 +214,11 @@ Map.prototype.addAnyIcon = function (lat, lng, img, popup, door) {           // 
 
 
 Map.prototype.saveLatLngDoor = function (lat, lng, id, entrances, lat2, lng2) {                    // Сохранить позицию двери
-  console.log(entrances);
   for (var i in entrances) {
-    console.log(entrances[i].coord.replace(/ /g,'')+' == '+lat2+','+lng2);
     if (entrances[i].coord.replace(/ /g,'') == lat2+','+lng2) {
       entrances[i].coord = lat+','+lng;
     }
   }
-  console.log(entrances);
   var data = {
       route :  'map',
       ctrl : 'saveDoor',
@@ -543,13 +541,13 @@ Map.prototype.clearMap = function () {          // очистить карту |
   this.center = [this.map._lastCenter.lat, this.map._lastCenter.lng];
   this.zoom = this.map._zoom;
   this.map.remove();
-  this.map = L.map('map', {
+  this.map = L.map(this.mapID, {
       center: this.center,
       zoom: this.zoom,
       layers: this.google
   });
 
-  L.control.layers(this.baseMaps).addTo(this.map);
+  // L.control.layers(this.baseMaps).addTo(this.map);
   this.addPolygonConstruct();
   this.addPolylineConstruct();
   this.polyline_array = [];
@@ -564,18 +562,18 @@ Map.prototype.clearMap = function () {          // очистить карту |
 
 Map.prototype.setCenter= function (latlng) {                                 // установить центер
   this.center = [this.map._lastCenter.lat, this.map._lastCenter.lng];
-  this.zoom = this.map._zoom;
+  // this.zoom = this.map._zoom;
   this.map.remove();
   this.center = [latlng.replace(/ /g,'').split(',')[0], latlng.replace(/ /g,'').split(',')[1]];
 
-  this.map = L.map('map', {
+  this.map = L.map(this.mapID, {
       center: this.center,
-      zoom: this.zoom,
-      layers: this.google
+      zoom: this.zoom
+      // layers: this.
   });
+	this.mapbox.addTo(this.map);
 
-
-  L.control.layers(this.baseMaps).addTo(this.map);
+  // L.control.layers(this.baseMaps).addTo(this.map);
   // this.map.options.crs = L.CRS.EPSG3395;
   this.addPolygonConstruct();
   this.addPolylineConstruct();

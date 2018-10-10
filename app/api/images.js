@@ -24,9 +24,25 @@ exports.uploadCKeditor = function (req, res, next) {
 		});
 	})
 }
+exports.uploadPanoram = (req, res, next) => {
+	const getQuery = req.query;
+	const form = new formidable.IncomingForm();
 
+	form.uploadDir = req.app.locals.uploadDirPanorams;
+	form.keepExtensions = true;
+
+	return new Promise((resolve, reject) => {
+
+		form.parse(req, function (err, fields, files) {
+
+			let fileParsePath = path.parse(files.upload.path);
+			let fileUrl = `/uploads/panorams/${fileParsePath.name}${fileParsePath.ext}`;
+
+			return resolve({ status: 'ok', message: 'test', data: { fileUrl } });
+		});
+	})
+}
 exports.upload = (req, res, next) => {
-
 	const getQuery = req.query;
 	const form = new formidable.IncomingForm();
 

@@ -11,6 +11,12 @@
     			</label>
     		</div>
         <div class="input-group">
+    			<label>
+    				<span>Дата:</span>
+    				<input type="date" class="input-text edit-date" style="width: auto;">
+    			</label>
+    		</div>
+        <div class="input-group">
     			<img onclick="$('#edit-img-input-file').click()" style="width: 300px;" src="" alt="Изображение события" class="edit-img-btn">
           <input style="display:none" type="file" id="edit-img-input-file">
     		</div>
@@ -44,9 +50,14 @@
               <div class="btn control right"><i class="fa fa-arrow-down"></i></div>
 						</div>
 						<% } %>
-	        <time><%= o.title %></time>
-					<div class="timeline-desc"><%= o.desc %></div>
-					<img src="<%= o.img %>" alt="">
+            <img src="<%= o.img %>" alt="фото события">
+	          <time><%= o.title %></time>
+					  <div class="timeline-desc"><%= o.desc %></div>
+            <div class="time"><%
+            var time = new Date(o.created);
+            var day = time.getDate() < 10 ? '0'+time.getDate():time.getDate();
+            var month = time.getMonth() + 1; var a = month < 10 ? '0'+month : month;
+            %><%= time.getFullYear() %>-<%= a %>-<%= day %></div>
 	      </div>
 	    </li>
 		<% }); %>

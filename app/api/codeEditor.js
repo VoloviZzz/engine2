@@ -10,7 +10,7 @@ exports.addFS = (req, res, next) => {
 }
 
 exports.getFile = (req, res, next) => {
-	var file = fs.readFileSync('app/'+req.body.dirname).toString();;
+	var file = fs.readFileSync('app/'+req.body.dirname).toString();
 	return { status: 'ok', value: file }
 }
 

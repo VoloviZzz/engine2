@@ -26,13 +26,13 @@
   margin-left: 14px;
 }
 .timeline-desc{
-  width: 80%;
+/*   width: 80%; */
   padding:  0 0 0 0px;
   margin:  0 0 0 0;
   transform: translate(0, 0px);
 }
 .timeline ol li .timeline-block img {
-  position: absolute;
+/*   position: absolute; */
   bottom: 10px;
   right: 5px;
   width: 70px !important;
@@ -64,6 +64,7 @@
   color: black;
   background: #37425d;
   color: #fff;
+  text-align: center;
 }
 
 .timeline ol li .timeline-block::before {
