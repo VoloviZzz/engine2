@@ -13,7 +13,7 @@ exports.addComponent = (req, res, next) => {
 <h1>`+req.body.title+`</h1>
 <script src="/js/`+req.body.component+`.js" defer></script>
 <% if(user.adminMode) { %>
-	<script src="яadmins/js/`+req.body.component+`.js" defer></script>
+	<script src="/admins/js/`+req.body.component+`.js" defer></script>
 <% } %>
 		`;
 		fs.writeFile('app/components/'+req.body.component+'/template.ejs', data);

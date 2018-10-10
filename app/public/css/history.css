@@ -21,18 +21,27 @@
 h1 {
   font-size: 2.5rem;
 }
-.timeline-desc{
-  width: 70%;
+.timeline ul li .timeline-desc{
+/*   width: 70%; */
   padding:  0 0 0 0px;
   margin:  0 0 0 0;
 }
 .timeline ul li img {
-  position: absolute;
+/*   position: absolute; */
   bottom: 10px;
   right: 5px;
   width: 70px !important;
   height: auto !important;
   /* z-index:  999; */
+}
+.timeline-block .time {
+  position: absolute;
+  top: 0px;
+  left: 0px !important;
+  right: 0px !important;
+  background-color: #4c2121;
+  width: 90px;
+  height: 30px;
 }
 
 /* TIMELINE
@@ -69,7 +78,7 @@ h1 {
   bottom: 0;
   width: 400px;
   padding: 15px;
-  background: #456990;
+  background: #37425d;
 }
 
 .timeline ul li .timeline-block::before {
@@ -88,7 +97,7 @@ h1 {
 .timeline ul li:nth-child(odd) div::before {
   left: -15px;
   border-width: 8px 16px 8px 0;
-  border-color: transparent #456990 transparent transparent;
+  border-color: transparent #37425d transparent transparent;
 }
 
 .timeline ul li .control-block{
@@ -106,7 +115,7 @@ h1 {
 .timeline ul li:nth-child(even) div::before {
   right: -15px;
   border-width: 8px 0 8px 16px;
-  border-color: transparent transparent transparent #456990;
+  border-color: transparent transparent transparent #37425d;
 }
 
 time {
@@ -126,13 +135,13 @@ time {
 }
 
 .timeline ul li.in-view::after {
-  background: #456990;
+  background: #37425d;
 }
 
 .timeline ul li div {
   visibility: hidden;
   opacity: 0;
-  transition: all .5s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
 .timeline ul li:nth-child(odd) div {

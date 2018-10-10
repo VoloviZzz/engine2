@@ -33,7 +33,8 @@
 		"resize-crop": "0.0.3",
 		"rollbar": "^2.4.4",
 		"serve-favicon": "^2.5.0",
-		"x-date": "^1.0.2"
+		"x-date": "^1.0.2",
+		"zip-loader": "^1.1.0"
 	},
 	"devDependencies": {
 		"browser-sync": "^2.24.6",
