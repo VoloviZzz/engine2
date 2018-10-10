@@ -80,11 +80,6 @@ app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
 global.imagesPath = 'http://system.mpkpru.ru/';
 
-// 	отвечает за работу некоторого кода:
-// 	если установлено не production, то не будет таких функций,
-// 	как отправка SMS при заказах
-process.env.NODE_ENV = 'development';
-
 app.smsc = require('./services/sendSms/');
 app.transporter = require('./services/sendEmail/');
 

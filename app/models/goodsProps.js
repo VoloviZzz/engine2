@@ -31,11 +31,7 @@ exports.add = function (arg = {}) {
 
 	if (!!arg.title === false) return Promise.reject({ message: 'Отсутствует параметр title' });
 
-	const q = `
-			INSERT INTO goods_props
-			SET
-				title = '${arg.title}'
-		`
+	const q = `INSERT INTO goods_props SET ?`;
 
-	return db.insertQuery(q);
+	return db.insertQuery(q, { title: arg.title });
 }

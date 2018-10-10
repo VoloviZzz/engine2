@@ -3,6 +3,7 @@
 $(document).ready(function () {
 	$('.js-goodsPosition-delete').on('click', function (e) {
 		var id = $(this).data('id');
+		var $item = $(this).parent('.js-goods-list__item');
 
 		if (!confirm('Удалить товар с сайта?')) return false;
 
@@ -12,7 +13,7 @@ $(document).ready(function () {
 				return alert(result.message);
 			}
 
-			location.reload();
+			$item.remove();
 		});
 	});
 });

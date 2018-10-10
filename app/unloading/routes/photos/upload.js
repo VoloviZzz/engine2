@@ -26,7 +26,6 @@ module.exports = async (req, res, next) => {
 	const { Model, db } = req.app.parent;
 	try {
 		const photos = req.body.data;
-		const savePhotoPromises = [];
 		const errorsArray = [];
 
 		for (const photo of photos) {
@@ -47,7 +46,7 @@ module.exports = async (req, res, next) => {
 			if (folderExist === false) {
 				fs.mkdirSync(`app/public/uploads/unloading/position_${id}`);
 				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/origin`);
-				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/full`);
+				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/prod`);
 				fs.mkdirSync(`app/public/uploads/unloading/position_${id}/preview`);
 			}
 
@@ -55,7 +54,7 @@ module.exports = async (req, res, next) => {
 			const { host, port } = connectedCrm[0];
 
 			const originFile = fs.createWriteStream(`app/public/${photoUrl}/origin/${photoName}`);
-			const fullFile = fs.createWriteStream(`app/public/${photoUrl}/full/${photoName}`);
+			const fullFile = fs.createWriteStream(`app/public/${photoUrl}/prod/${photoName}`);
 			const previewFile = fs.createWriteStream(`app/public/${photoUrl}/preview/${photoName}`);
 
 			const originUrl = `http://${host}:${port}${links.origin}`;
@@ -65,8 +64,9 @@ module.exports = async (req, res, next) => {
 			await saveImageByUrl(originUrl, originFile);
 			await saveImageByUrl(fullUrl, fullFile);
 			await saveImageByUrl(previewUrl, previewFile);
-			
-			var [error, addResult] = await Model.photos.add({ name: photoName, path: photoUrl, target: 'goodsPosition', target_id: id, connect_id, crm_photo_id });
+
+			var [error, newPhotoId] = await Model.photos.add({ name: photoName, path: photoUrl, target: 'goodsPosition', target_id: id, connect_id, crm_photo_id });
+			await Model.goodsPositions.upd({ target: 'main_photo', value: newPhotoId, id });
 
 			if (error) {
 				console.log(`Не удалось сохранить фото в базу`);

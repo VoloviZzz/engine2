@@ -6,13 +6,29 @@
 		<%- include("./settings") -%>
 	<% } %>
 	<div>
-		<%- include(partName) -%>
+		<% try { %>
+			<%- include("./goods.ejs") -%>
+		<% } catch(error) { %>
+			<pre><%= error.message -%></pre>
+		<% } %>
 	</div>
 </div>
 
+<style>
+	.btn-block {
+		display: block;
+	}
+		
+	.similar-list li {
+		width: 25%;
+		paddin: 30px;
+	}
+	
+</style>
+
 <section class="similar-positions">
 	<h3>Похожие позиции</h3>
-	<ul class="items-list goods-list"><%
+	<ul class="items-list goods-list similar-list"><%
 		
 		similarPositions.forEach((pos) => {
 		

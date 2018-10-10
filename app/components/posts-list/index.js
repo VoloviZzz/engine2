@@ -20,6 +20,7 @@ module.exports = (app) => {
 
 		fragment.settings.showPagination = fragment.settings.showPagination || '1';
 		fragment.settings.orderByDesc = fragment.settings.orderByDesc || '1';
+		fragment.settings.showPublishedTime = fragment.settings.showPublishedTime || '1';
 
 		if (!!currentTarget === false) {
 			templatePath = path.join(__dirname, 'settings.ejs')

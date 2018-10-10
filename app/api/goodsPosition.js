@@ -1,9 +1,21 @@
 const UploadPhotos = require('../libs/UploadPhotos');
 const path = require('path');
 
+const Model = require('../models');
+
+exports.addProps = async (req, res, next) => {
+	try {
+		await Model.goodsProps.add(req.body);
+		return { status: 'ok' };
+	} catch (error) {
+		return { message: error.message, error };
+	}
+}
+
 exports.addProduct = function (req, res, next) {
 	const { Model } = req.app;
-	return Model.goodsPositions.add(req.body).then(([error, newProduct]) => {
+
+	return Model.goodsPositions.add({ ...req.body }).then(([error, newProduct]) => {
 		if (error) return { message: error.message, error };
 		return { status: 'ok' }
 	})
@@ -57,24 +69,22 @@ exports.addPropsBindValue = async function (req, res, next) {
 	})
 }
 
-exports.addPropsvalues = async function (req, res, next) {
-	const data = req.body;
-	const Model = req.app.Model;
+exports.addPropsValues = async function (req, res, next) {
+	try {
 
-	const [propQueryError, prop_id] = await Model.goodsProps.add({ title: data.prop_title });
-	if (propQueryError) return { status: 'bad', message: 'Что-то пошло не так. Обновите страницу и попробуйте ещё раз' };
+		const { prop_id, prop_value } = req.body;
+		const Model = req.app.Model;
 
-	const [propValueQueryError, propValueQuery] = await Model.goodsPropsValues.add({ title: data.prop_value, prop_id });
+		var [error, propValueId] = await Model.goodsPropsValues.add({ title: prop_value, prop_id });
+		if (error) throw new Error(error);
 
-	if (propValueQueryError) {
-		await Model.goodsProps.del({ id: prop_id }).then(([error, result]) => {
-			if (error) return { status: 'bad', message: 'Что-то пошло не так. Обновите страницу и попробуйте ещё раз' };
-		});
+		// await Model.goodsPropsBindValues.add({});
+
+		return { status: 'ok' }
+	} catch (error) {
+		console.log(error);
+		return { message: error.message, error };
 	}
-
-	// await Model.goodsPropsBindValues.add({});
-
-	return { status: 'ok' }
 }
 
 exports.deleteParamsBindValues = async function (req, res, next) {
