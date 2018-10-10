@@ -27,60 +27,11 @@ $(document).ready(function () {
 	});
 
 	$(".left").click(function() {
-		if (elm.prev().length != 0) {
-			var elm = $(this).parent().parent().parent();
-			 var query = {
-				 id: elm.prev().find('.control-block').data('id'),
-	 			 title: elm.find('time').text(),
-	 			 img: elm.find('img').attr('src'),
-	 			 desc: elm.find('.timeline-desc').text(),
-	 		 };
-	 		$.post('/api/history/saveEvent', query)
-	 		.done(function (result) {
-	 			if (result.status == 'ok') {
-					var query = {
-		 			 	id: elm.find('.control-block').data('id'),
-		  			title: elm.prev().find('time').text(),
-		  			img: elm.prev().find('img').attr('src'),
-		  			desc: elm.prev().find('.timeline-desc').text(),
-		  		 };
-		  		$.post('/api/history/saveEvent', query)
-		  		.done(function (result) {
-		  			if (result.status == 'ok') {
-		 				elm.insertBefore(elm.prev());
-		  			}
-		  		});
-	 			}
-	 		});
-		}
+		moveLeft(this);
 	});
+
 	$(".right").click(function() {
-		var elm = $(this).parent().parent().parent();
-		if (elm.next().length != 0) {
-			var query = {
-				id: elm.next().find('.control-block').data('id'),
-				title: elm.find('time').text(),
-				img: elm.find('img').attr('src'),
-				desc: elm.find('.timeline-desc').text(),
-			};
-		 $.post('/api/history/saveEvent', query)
-		 .done(function (result) {
-			 if (result.status == 'ok') {
-				 var query = {
-					 id: elm.find('.control-block').data('id'),
-					 title: elm.next().find('time').text(),
-					 img: elm.next().find('img').attr('src'),
-					 desc: elm.next().find('.timeline-desc').text(),
-					};
-				 $.post('/api/history/saveEvent', query)
-				 .done(function (result) {
-					 if (result.status == 'ok') {
-					 elm.insertAfter(elm.next());
-					 }
-				 });
-			 }
-		 });
-	 }
+		moveRight(this);
 	});
 
 	$('.save-edited-history').click(function () {
@@ -101,17 +52,23 @@ $(document).ready(function () {
 			return;
 		}
 
+		if ($('.edit-date').val() == '') {
+			alert('Дата не заполнена')
+			return;
+		}
+
 		var query = {
 			 id: id,
 			 title: $('.edit-title').val(),
+			 date: $('.edit-date').val(),
 			 img: $('.edit-img-btn').attr('src'),
 			 desc: $('.edit-desc').val()
 		 };
 		$.post('/api/history/saveEvent', query)
 		.done(function (result) {
 			if (result.status == 'ok') {
-				console.log(result);
 				$('#history'+id).find('time').text(query.title);
+				$('#history'+id).find('.time').text(query.date);
 				$('#history'+id).find('img').attr('src', query.img);
 				$('#history'+id).find('.timeline-desc').text(query.desc);
 			}
@@ -149,11 +106,73 @@ $(document).ready(function () {
 
 });
 
+function moveLeft(element) {
+	var elm = $(element).parent().parent().parent();
+	if (elm.prev().length != 0) {
+		 var query = {
+			 id: elm.prev().find('.control-block').data('id'),
+			 title: elm.find('time').text(),
+			 img: elm.find('img').attr('src'),
+			 date: elm.find('.time').text(),
+			 desc: elm.find('.timeline-desc').text(),
+		 };
+		$.post('/api/history/saveEvent', query)
+		.done(function (result) {
+			if (result.status == 'ok') {
+				var query = {
+					id: elm.find('.control-block').data('id'),
+					title: elm.prev().find('time').text(),
+					img: elm.prev().find('img').attr('src'),
+					date: elm.prev().find('.time').text(),
+					desc: elm.prev().find('.timeline-desc').text(),
+				 };
+				$.post('/api/history/saveEvent', query)
+				.done(function (result) {
+					if (result.status == 'ok') {
+					elm.insertBefore(elm.prev());
+					}
+				});
+			}
+		});
+	}
+}
+function moveRight(element) {
+	var elm = $(element).parent().parent().parent();
+	if (elm.next().length != 0) {
+		var query = {
+			id: elm.next().find('.control-block').data('id'),
+			title: elm.find('time').text(),
+			img: elm.find('img').attr('src'),
+			date: elm.find('.time').text(),
+			desc: elm.find('.timeline-desc').text(),
+		};
+	 $.post('/api/history/saveEvent', query)
+	 .done(function (result) {
+		 if (result.status == 'ok') {
+			 var query = {
+				 id: elm.find('.control-block').data('id'),
+				 title: elm.next().find('time').text(),
+				 img: elm.next().find('img').attr('src'),
+				 date: elm.next().find('.time').text(),
+				 desc: elm.next().find('.timeline-desc').text(),
+				};
+			 $.post('/api/history/saveEvent', query)
+			 .done(function (result) {
+				 if (result.status == 'ok') {
+				 elm.insertAfter(elm.next());
+				 }
+			 });
+		 }
+	 });
+	}
+}
+
 function editEvent(elem) {
 		var elem = $(elem);
 		var id = elem.parent().data('id');
 		var elemli = $(elem).parent().parent();
 		$('.edit-title').val(elemli.find('time').text());
+		$('.edit-date').val(elemli.find('.time').text());
 		$('.edit-img-btn').attr('src', elemli.find('img').attr('src'));
 		$('.edit-desc').val(elemli.find('.timeline-desc').text());
 		$('.hidden-edit-block').find('h2 span').text(id);
@@ -186,15 +205,18 @@ function addBlock(elem) {
 			var text = '<li class="in-view">	   <div class="timeline-block" id="history'+result.data+'">';
 			if ($(elem).data('admin') == true) {
 				text 		+= '		<div class="control-block" data-id="'+result.data+'">';
-				text 		+= '			<div class="btn btn-danger control remove"><i class="fa fa-remove"></i></div>';
+				text 		+= '			<div onclick="removeBlock(this)" class="btn btn-danger control remove"><i class="fa fa-remove"></i></div>';
 				text 		+= '			<div onclick="editEvent(this);" class="btn control edit"><i class="fa fa-edit"></i></div>';
+				text+=`              <div onclick="moveLeft(this);" class="btn control left"><i class="fa fa-arrow-up"></i></div>
+				              <div onclick="moveRight(this);" class="btn control right"><i class="fa fa-arrow-down"></i></div>`;
 				text 		+= '		</div>';
 			}
-        text 		+= '	<time>Новое событие</time>';
+			text 		+= '	<img src="/uploads/upload_3567a312aec44256a029443bfcb4e69f.gif" alt="">';
+			text 		+= '	<time>Новое событие</time>';
+        text 		+= '	<div class="time">00.00.0000</div>';
 				text 		+= '	<div class="timeline-desc">';
 				text 		+= 'Описание нового события';
 				text 		+= '</div>';
-				text 		+= '	<img src="/uploads/upload_3567a312aec44256a029443bfcb4e69f.gif" alt="">';
 				text 		+= '	</div>';
       	text 		+= '</li>';
 			if ($(elem).data('admin') == true) {

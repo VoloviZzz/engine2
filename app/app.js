@@ -67,6 +67,7 @@ app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'libs');
 app.componentsPath = path.join(__dirname, 'components');
 app.locals.uploadDir = path.join(__dirname, 'public', 'uploads');
+app.locals.uploadDirPanorams = path.join(__dirname, 'public', 'uploads/panorams');
 app.locals.tempUploadDir = path.join(__dirname, 'public', 'uploads', 'temp');
 app.Helpers = app.locals.Helpers = require('./libs/Helpers');
 

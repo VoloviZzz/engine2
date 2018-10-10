@@ -42,11 +42,20 @@ exports.saveEvent = (req, res, next) => {
     }
     return Model.history.upd(arg)
   })
-  .then(() => {
+	.then(() => {
     var keys = Object.keys(req.body);
     var arg = {
       value:req.body['desc'],
       target:'`desc`',
+      id:req.body['id']
+    }
+    return Model.history.upd(arg)
+  })
+	.then(() => {
+    var keys = Object.keys(req.body);
+    var arg = {
+      value:req.body['date'],
+      target:'`created`',
       id:req.body['id']
     }
     return Model.history.upd(arg)

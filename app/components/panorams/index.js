@@ -3,21 +3,15 @@ const path = require('path');
 module.exports = (app) => {
 
 	const Model = app.Model;
-
 	return async ({ locals, session, dataViews = {} }) => {
-		// logic...
 
-		const [, history] = await Model.history.get();
+		var [error, panorams] = await Model.panorams.get();
 
-		dataViews.history = history;
-		// dataViews.user = session.user;
-
-		// console.log(dataViews);
+		dataViews.panorams = panorams;
 
 		return new Promise((resolve, reject) => {
 			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
-
 				return resolve([err, str]);
 			});
 		})
