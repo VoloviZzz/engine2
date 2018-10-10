@@ -18,7 +18,19 @@
 		<% if(reviews.length > 0) { %>
 			<%- include('./reviews-list') -%>
 		<% } else { %>
-			<h2>Оставьте отзыв. Ваш отзыв будет первым</h2>
+			<% if(fragment.settings.targetType == '0') { %>
+				<div class="text-center">
+					<h3>
+						<% if(user.adminMode) { %>
+							<b>Отсутствует категория отзывов</b>
+						<% } else { %>
+							<b>В разделе ведутся технические работы</b>
+						<% } %>
+					</h3>
+				</div>
+			<% } else { %>
+				<h2>Оставьте отзыв. Ваш отзыв будет первым</h2>
+			<% } %>
 		<% } %>
 		<%- pagination.render() -%>
 		<% if(fragment.settings.targetType != 0) { %>
@@ -35,15 +47,7 @@
 				</div>
 			<% } %>
 		<% } else { %>
-			<div class="text-center">
-				<h3>
-					<% if(user.adminMode) { %>
-						<b>Отсутствует категория отзывов</b>
-					<% } else { %>
-						<b>В разделе ведутся технические работы</b>
-					<% } %>
-				</h3>
-			</div>
+			
 		<% } %>
 	</div>
 	<% if(user.adminMode) { %>
