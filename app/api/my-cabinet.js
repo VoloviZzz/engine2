@@ -56,7 +56,7 @@ exports.changePhone = async (req, res, next) => {
 		var [error, [result = { value: '' }]] = await Model.siteConfig.get({ target: 'smsTemplatePhoneConfirm' });
 		var smsMessage = result.value.replace(/{{code}}/g, code);
 
-		// await app.smsc.send({ phones: phone, mes: smsMessage });
+		await app.smsc.send({ phones: phone, mes: smsMessage });
 
 		req.session.tempPhone = phone;
 
