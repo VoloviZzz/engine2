@@ -8,6 +8,13 @@ $(document).ready(function () {
 		animation: "slide"
 	});
 
+	var catId = $('#js-shop-cat-id').val();
+	var $menu = $('.js-shop-menu');
+	var $menuItem = $menu.find('.js-shop-menu-item[data-cat-id=' + catId + ']');
+	
+	$menu.find('.js-shop-menu-item').removeClass('active');
+	$menuItem.addClass('active');
+
 	var $addToCartBtn = $(".good-price__buy");
 
 	$addToCartBtn.on('animationend', function () {
@@ -30,7 +37,7 @@ $(document).ready(function () {
 
 			var $countBadge = $('#js-shoppingCart-goodsCount');
 
-			if(result.data.cart.totalCountGoods > 0) {
+			if (result.data.cart.totalCountGoods > 0) {
 				$countBadge.show();
 			}
 
