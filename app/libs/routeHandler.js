@@ -1,6 +1,7 @@
-const express = require('express');
 const storage = require('../storage');
 const Model = require('../models');
+
+const ejs = require('ejs');
 
 const deleteLastSlash = (req, res, next) => {
 	req.url = req.path !== '/' && req.path.trim().substr(-1) === '/' ? req.path.slice(0, -1) : req.path;
