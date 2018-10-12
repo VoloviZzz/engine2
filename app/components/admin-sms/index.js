@@ -21,10 +21,7 @@ module.exports = (app) => {
 		var [error, [smsTemplatePhoneConfirm = { value: '' }]] = result[3];
 		var [error, [smsTemplateOrderComplete = { value: '' }]] = result[4];
 
-		if (error) {
-			console.error(error);
-			return [, error.message];
-		}
+		if (error) return [, error.message];
 
 		dataViews.smsAuthLogin = smsAuthLogin.value;
 		dataViews.smsAuthPassword = smsAuthPassword.value;

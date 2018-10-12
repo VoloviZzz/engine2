@@ -7,6 +7,10 @@ module.exports = (app) => {
 
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
+
+		const agentId = locals.dynamicRouteNumber || '';
+
+		dataViews.agentId = agentId;
 		
 		return new Promise((resolve, reject) => {
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

@@ -2,10 +2,11 @@ const db = require('../libs/db');
 
 exports.get = (data = {}) => {
 
-	let { phone, confirmed } = data;
+	let { phone, confirmed, interval } = data;
 
 	phone = !!phone === true ? `AND phone = '${phone}'` : ``;
 	confirmed = !!confirmed === true ? `AND confirmed = '${confirmed}'` : ``;
+	interval = !!interval === true ? `AND ${interval}` : '';
 
 	const q = `
 		SELECT *
@@ -13,6 +14,7 @@ exports.get = (data = {}) => {
 		WHERE id > 0
 			${phone}
 			${confirmed}
+			${interval}
 	`;
 
 	return db.execQuery(q);

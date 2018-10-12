@@ -1,20 +1,27 @@
-function agentCall () {
+function agentCall(agentId) {
 	var input = $('.agent-call-input'),
 		button = $('.agent-call-btn'),
 		phone = input.val().trim();
+	
 	if (phone == "") {
 		alert('Необходимо ввести номер телефона');
 		return;
 	}
+	
 	if (phone.length < 6) {
 		alert('Слишком короткий номер. Проверьте правильность ввода');
 		return;
 	}
-	if (!confirm ('Заказать звонок похоронного агента на номер ' + phone + '?')) return;
+
+	if (!confirm('Заказать звонок похоронного агента на номер ' + phone + '?')) return;
+	
 	input.attr('disabled', 'disabled');
+
+	agentId = agentId || '1';
+	
 	$.post(
 		'/api/callbacks/add',
-		{ clientNumber : phone, targetId : 1, },
+		{ clientNumber: phone, targetId: agentId, },
 		function (data) {
 			if (data.status == "ok") {
 				alert('Ваше сообщение отправлено дежурному агенту');
@@ -26,9 +33,18 @@ function agentCall () {
 			}
 		}
 	);
+
 	return false;
 }
-$('.agent-call-btn').on('click', agentCall);
-$('.agent-call-input').on('keydown', function () {
-	if (event.keyCode == 13) agentCall();
-});
+
+$(document).ready(function(e) {
+	$('.js-agent-call-form').on('submit', function(e) {
+		e.preventDefault();
+
+		var agentId = this.elements.targetId.value;
+
+		agentCall(agentId);
+
+		return false;
+	})
+})

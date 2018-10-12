@@ -15,17 +15,17 @@
 }
 
 .my__item-wrapp {
-    width: 100%;
-    margin-bottom: 65px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-flow: column wrap;
-    -ms-flex-flow: column wrap;
-    flex-flow: column wrap;
+    /* width: 100%; */
+    /* margin-bottom: 65px; */
+    /* display: -webkit-box; */
+    /* display: -webkit-flex; */
+    /* display: -ms-flexbox; */
+    /* display: flex; */
+    /* -webkit-box-orient: vertical; */
+    /* -webkit-box-direction: normal; */
+    /* -webkit-flex-flow: column wrap; */
+    /* -ms-flex-flow: column wrap; */
+    /* flex-flow: column wrap; */
 }
 
 .my__item {
@@ -35,24 +35,24 @@
     -webkit-border-radius: 2px;
     border-radius: 2px;
     margin-top: 15px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-flow: row wrap;
-    -ms-flex-flow: row wrap;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    flex-flow: row wrap;
-    width: 100%;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-    -ms-flex-align: start;
-    align-items: flex-start;
+    /* display: -webkit-box; */
+    /* display: -webkit-flex; */
+    /* display: -ms-flexbox; */
+    /* display: flex; */
+    /* -webkit-flex-flow: row wrap; */
+    /* -ms-flex-flow: row wrap; */
+    /* -webkit-box-orient: horizontal; */
+    /* -webkit-box-direction: normal; */
+    /* flex-flow: row wrap; */
+    /* width: 100%; */
+    /* -webkit-box-flex: 1; */
+    /* -webkit-flex: 1; */
+    /* -ms-flex: 1; */
+    /* flex: 1; */
+    /* -webkit-box-align: start; */
+    /* -webkit-align-items: flex-start; */
+    /* -ms-flex-align: start; */
+    /* align-items: flex-start; */
 }
 
 .my__left {
@@ -260,16 +260,16 @@ span.item__title {
     }
 
     .personal .form-info {
-        height: 100%;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
+        /* height: 100%; */
+        /* display: -webkit-box; */
+        /* display: -webkit-flex; */
+        /* display: -ms-flexbox; */
+        /* display: flex; */
+        /* -webkit-box-orient: vertical; */
+        /* -webkit-box-direction: normal; */
+        /* -webkit-flex-direction: column; */
+        /* -ms-flex-direction: column; */
+        /* flex-direction: column; */
     }
 
     .security .my__item {
