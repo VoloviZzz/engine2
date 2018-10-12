@@ -53,13 +53,23 @@ $(document).ready(function (e) {
 
 	$(".js-masked-phone").mask("+7(999)-999-99-99"); //номер телефона
 
-	$('.form-info').on('submit', function (e) {
+	var contactForm = $('#contact-form');
+	var contactData = getFormData(contactForm);
+
+	$('.js-contact-form').on('submit', function (e) {
 		e.preventDefault();
+
 		var url = $(this).attr('action');
 		var formData = getFormData(this);
 		var validForm = true;
 
-		$(this).serializeArray().map(function (v) {
+		$(this).serializeArray().forEach(function (v) {
+
+			if (contactData[v.name] === v.value) {
+				delete formData[v.name];
+				return false;
+			}
+
 			var checkValidRes = checkValid(v.name, v.value);
 
 			if (checkValidRes === false) {
@@ -71,6 +81,59 @@ $(document).ready(function (e) {
 		});
 
 		if (validForm === false) return false;
+		if (Object.keys(formData) < 1) return false;
+
+		$.post(url, formData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			$('.js-confirm-wrapper').removeClass('d-none');
+		});
+
+		return false;
+	});
+
+	$('.js-confirm-form').on('submit', function (e) {
+		e.preventDefault();
+
+		var code = this.elements.code.value.trim();
+
+		$.post('/api/my-cabinet/confirmPhone', { code: code }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			alert('Номер телефона успешно сменен');
+			$('.js-confirm-form').remove();
+		})
+
+		return false;
+	})
+
+	$('.js-general-form').on('submit', function (e) {
+		e.preventDefault();
+
+		var url = $(this).attr('action');
+		var formData = getFormData(this);
+		var validForm = true;
+
+		$(this).serializeArray().forEach(function (v) {
+
+			var checkValidRes = checkValid(v.name, v.value);
+
+			if (checkValidRes === false) {
+				validForm = false;
+				alert('Недопустимый формат ввода для поля: ' + getRusFiledName(v.name));
+				delete formData[v.name];
+				return false;
+			}
+		});
+
+		if (validForm === false) return false;
+		if (Object.keys(formData) < 1) return false;
 
 		$.post(url, formData).done(function (result) {
 			if (result.status !== 'ok') {
@@ -80,6 +143,8 @@ $(document).ready(function (e) {
 
 			return location.reload();
 		});
+
+		return false;
 	});
 
 	$('#security-form').on('submit', function (e) {
