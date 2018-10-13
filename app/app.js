@@ -105,7 +105,7 @@ db.connect().then(async () => {
 	app.use(routeHandler);
 	app.use(errorHandler);
 
-	const server = app.listen(config.web.port, (err) => {
+	app.listen(config.web.port, (err) => {
 		if (err) return console.log("Ошибка запуска сервера:" + err.message);
 		console.log("Сервер запущен на порту " + config.web.port);
 	})
