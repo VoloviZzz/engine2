@@ -2,14 +2,11 @@
 <section>
 	<div class="map-yandex">
 		<!--<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A4744011d5fe5b89cb747635576a0b9e591a824f2540798302f69ee16b2d92a7b&amp;source=constructor" width="100%" height="300" frameborder="0"></iframe>-->
-		<div style="width:100%; height:400px; overflow: hidden;" id="map"></div>
-
-
-
-	<script type="text/javascript" src="/vendors/leaflet/dist/leaflet.js"></script>
-	<script type="text/javascript" src="/vendors/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
-	<script src="/js/map.js"></script>
-	<script>
+		<div style="z-index: 0; width:100%; height:400px; overflow: hidden;" id="map"></div>
+		<script type="text/javascript" src="/vendors/leaflet/dist/leaflet.js"></script>
+		<script type="text/javascript" src="/vendors/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+		<script src="/js/map.js"></script>
+		<script>
 		window.onload = () => {
 
 			$('.description').each(function () {
@@ -56,11 +53,8 @@
 
 
 		};
-	</script>
-	<link rel="stylesheet" href="/vendors/leaflet/dist/leaflet.css">
-
-
-
+		</script>
+		<link rel="stylesheet" href="/vendors/leaflet/dist/leaflet.css">
 
 
 		<% /*
@@ -108,7 +102,7 @@
 
 	</div>
 		<% if(user.adminMode) { %>
-			<div class="text-right admin-control-container">
+			<div class="mt-1 text-right admin-control-container">
 				<button class="btn js-add-shopItem">Добавить магазин</button>
 			</div>
 		<% } %>
@@ -116,8 +110,8 @@
 		<% shops.forEach((shop) => { %>
 			<div class="shops-item" data-id="<%= shop.id -%>" data-coord="<%= shop.coords %>" data-title="<%= shop.title -%>" data-addr="<%= shop.address -%>">
 				<% if(user.adminMode) { %>
-					<div class="text-right admin-control-container">
-						<button data-id="<%= shop.id -%>" class="btn js-delete-shopItem">Удалить из списка</button>
+					<div class="pl-1 pr-1 pt-1">
+						<button data-id="<%= shop.id -%>" class="btn w-100 js-delete-shopItem">Удалить из списка</button>
 					</div>
 				<% } %>
 				<a class="page-link" href="<%= shop.alias || `/shop-page/` + shop.id -%>">
@@ -127,11 +121,11 @@
 					<img class="setResponsiveHeight" src="<%= Helpers.replaceImageIfNotExist(shop.prod_path) -%>" alt="">
 				</a>
 				<div class="shops-item__text description text-margin-bottom-p text-indent">
-					<%- Helpers.replaceLineBreaks(Helpers.trimStr(shop.text, 175)) -%> asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd asdasdasd
+					<%- Helpers.replaceLineBreaks(Helpers.trimStr(shop.text, 175)) -%>
 				</div>
 				<div class="shops-item__text text-margin-bottom-p text-indent">
-					<span class="shops-item__adress">Адрес: <%= shop.address -%></span>
-					<span class="shops-item__phone">Телефон: <%= shop.phones -%></span>
+					<span class="shops-item__adress"><span class="font-weight-bold">Адрес:</span> <%= shop.address -%></span>
+					<span class="shops-item__phone"><span class="font-weight-bold">Телефон:</span> <%= shop.phones -%></span>
 				</div>
 				<div class="shops-item__more">
 					<a class="page-link" href="<%= shop.alias || `/shop-page/` + shop.id -%>">Подробнее...</a>

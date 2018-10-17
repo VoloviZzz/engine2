@@ -3,10 +3,10 @@
 		link = "/store-cat/";
 %>
 
-<ul class="section-menu">
+<ul class="section-menu js-shop-menu">
 	<% for(let id in catsTree) { %>
 		<% var s = catsTree[id] -%>
-		<li class="section-menu-item section-menu-item-user <%= catId == s.id ? 'active' : '' -%>">
+		<li data-cat-id="<%= s.id -%>" class="js-shop-menu-item section-menu-item section-menu-item-user">
 			<a href="<%= s.alias || link + s.id  -%>" style="width: 100%; padding-left: <%= 20 * level -%>px">
 				<p><%= s.title -%></p>
 			</a>

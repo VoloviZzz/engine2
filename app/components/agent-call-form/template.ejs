@@ -28,9 +28,12 @@
 <div class="agent-call-form">
 	<h2 class="text-center">Заказать обратный звонок агента</h2>
 	<div class="agent-call-form-wrapper">
-		<input type="text" class="agent-call-input" placeholder="Введите номер телефона" /><%
-		%><button class="btn agent-call-btn"><span class="fa fa-phone"></span> Заказать звонок</button>
+		<form class="js-agent-call-form">
+			<input type="text" class="agent-call-input" placeholder="Введите номер телефона" />
+			<input type="hidden" name="targetId" value="<%= agentId -%>">
+			<button class="btn agent-call-btn"><span class="fa fa-phone"></span> Заказать звонок</button>
+		</form>
 	</div>
 	<p class="text-center">Введите Ваш номер телефона и нажмите кнопку «Заказать звонок» - агент перезвонит Вам через пару минут</p>
 </div>
-<script defer type="text/javascript" src="/js/agent-call-form.js"></script>
+<script defer type="text/javascript" src="/js/agent-call-form.js" defer></script>

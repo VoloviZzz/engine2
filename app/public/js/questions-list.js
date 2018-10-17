@@ -16,6 +16,11 @@ $(document).ready(function (e) {
 			target: $('#js-question-target').val()
 		};
 
+		if (data.question === '') {
+			alert('Нельзя добавить пустой вопрос');
+			return false;
+		}
+
 		$.post("/api/questions/addQuestion", data).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);

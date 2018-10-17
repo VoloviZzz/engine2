@@ -2,6 +2,9 @@ const Model = require('../models');
 
 exports.add = async (req, res, next) => {
 	try {
+
+		if (/^\/\w+$/.test(req.body.alias) === false) return { message: 'Неверный формат алиаса. Алиас должен начинаться со слеша' };
+
 		var [error] = await Model.aliases.add(req.body);
 		if (error) throw new Error(error);
 

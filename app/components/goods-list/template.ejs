@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/goods-list.css">
+<input type="hidden" id="js-shop-cat-id" value="<%= currentCat.id -%>">
 <div class="text-right admin-control-container">
 	<% if(user.adminMode) { %>
 		<% if(currentCat.public == '1') { %>
