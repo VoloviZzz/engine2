@@ -9,9 +9,10 @@
 					<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
 				<% } %>
 				<div class="goods-item__title">
-					<span>
-						<%= p.title %>
-					</span>
+					<% if(p.connect_id && user.adminMode) { %>
+						<div class="text-center" style="color: #4e60ec">(Товар является выгруженным)</div>
+					<% } %>
+					<span><%= p.title %></span>
 				</div>
 				<div class="goods-item__img">
 					<a href="<%= p.alias || fragment.settings.positionsRootUrl + '/' + p.id -%>">

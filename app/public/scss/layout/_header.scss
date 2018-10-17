@@ -116,7 +116,7 @@ nav a.active-link {
 }
 
 ul.submenu {
-    display: none;
+	display: none;
 }
 
 .subnav ul {
@@ -138,7 +138,7 @@ ul.submenu {
     background: black;
     width: 200px;
     text-align: center;
-    background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
+	background: linear-gradient(to bottom, #000000 0%, #636262 5%, #0f0f0f 51%, #080808 83%);
 }
 
 @media (max-width: 991px) {
@@ -177,7 +177,6 @@ ul.submenu {
 	.header-menu-center li:last-child {
 		margin-left: 0;
 	}
-
 }
 
 @media (min-width: 992px) {

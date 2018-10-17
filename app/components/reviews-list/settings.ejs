@@ -1,25 +1,30 @@
 <% if(user.adminMode) { %>
-	<div>
-		<span>Выберите категорию отзывов:</span>
-		<select class="js-fragment-update-settings" data-target="targetType" data-event="change" data-fragment-id="<%= fragment.id -%>">
-			<option value="0">Не выбрано</option>
-			<% for (let target of reviewsCats ) { %>
-				<% var targetSelected = target.id == fragment.settings.targetType ? `selected` : '' %>
-				<option value="<%= target.id -%>" <%= targetSelected -%> ><%= target.title -%></option>
-			<% } %>
-		</select>
-		<form id="js-add-reviews-category">
-			<span>Или добавьте новую категорию:</span>
-			<input type="text" name="title"/>
-			<button class="btn">добавить</button>
-		</form>
+	<div class="form-row">
+		<div class="form-group col-xl-6">
+			<label for="reviewCategory">Выберите категорию отзывов:</label>
+			<select class="js-fragment-update-settings form-control" id="reviewCategory" data-target="targetType" data-event="change" data-fragment-id="<%= fragment.id -%>">
+				<option value="0">Не выбрано</option>
+				<% for (let target of reviewsCats ) { %>
+					<% var targetSelected = target.id == fragment.settings.targetType ? `selected` : '' %>
+					<option value="<%= target.id -%>" <%= targetSelected -%> ><%= target.title -%></option>
+				<% } %>
+			</select>
+		</div>
+		<div class="form-group col-xl-6">
+			<form id="js-add-reviews-category">
+				<label for="addReviewCategory">Или добавьте новую категорию:</label>
+				<input class="form-control" id="addReviewCategory" type="text" name="title"/>
+				<button class="btn mt-1">Добавить</button>
+			</form>
+		</div>
 	</div>
-	<div>
-		<span class="fs-bold">Могут оставлять только зарегистрированные</span>
+
+	<div class="form-group">
+		<label for="rewiewOnlyRegister" class="form-check-label">Могут оставлять только зарегистрированные</label>
 		<% if(fragment.settings.onlyRegister == 1) { %>
-			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="0" checked>
+			<input type="checkbox" class="js-fragment-update-settings" id="rewiewOnlyRegister" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="0" checked>
 		<% } else { %>
-			<input type="checkbox" class="js-fragment-update-settings" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="1">
+			<input type="checkbox" class="js-fragment-update-settings" id="rewiewOnlyRegister" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="1">
 		<% } %>
 	</div>
 <% } %>

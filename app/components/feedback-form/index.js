@@ -48,7 +48,7 @@ module.exports = (app) => {
 
 		dataViews.client = client;
 		dataViews.fragment = locals.fragment;
-		dataViews.formTitle = locals.fragment.settings.title || 'NULL';
+		dataViews.formTitle = locals.fragment.settings.title || '';
 
 		return new Promise((resolve, reject) => {
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

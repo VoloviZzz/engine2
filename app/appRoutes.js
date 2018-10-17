@@ -35,7 +35,7 @@ Router.get('/robots.txt', async (req, res, next) => {
 
 Router.get('/sitemap.xml', async (req, res, next) => {
 	const siteName = 'http://localhost:3000';
-	var [error, routes] = await model.routes.get({ access: '1' });
+	var [error, routes] = await model.routes.get({ dynamic: '0', access: '1' });
 
 	const urls = routes.map(route => {
 		return `<url>
