@@ -3,7 +3,7 @@
 	<% for(let id in menuTree) { %>
 		<% var s = menuTree[id]%>
 		<% if(user.adminMode) { %>
-			<li class="section-menu-item section-menu-item-admin" data-href="<%= s.href -%>">
+			<li class="section-menu-item section-menu-item-admin <%= route.url === s.href || route.active_menu_item == s.id ? "active" : "" -%>" data-href="<%= s.href -%>">
 				<div class="d-flex">
 					<a class="flex-grow-1 no-arrow" href="<%= s.href%>">
 						<span><%=s.title%></span>
@@ -12,9 +12,12 @@
 					<div class="dropdown-menu" aria-labelledby="generalMenuDropdown">
 						<input class="form-control js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id -%>" data-target="title" value="<%= s.title -%>">
 						<input class="form-control js-menuItem-edit dropdown-item mb-1" data-id="<%= s.id -%>" data-target="href" value="<%= s.href -%>">
+
 						<span title="Приоритет">П:</span>
+
 						<input type="text" class="form-control js-menuItem-edit"  data-id="<%= s.id -%>" data-target="priority" name="priority" value="<%= s.priority -%>">
 						<div class="dropdown-divider"></div>
+						
 						<button class="btn js-menuItem-delete dropdown-item mb-1" data-menu-id="<%= s.id %>">Удалить</button>
 						<% if(route.active_menu_item == s.id) { %>
 							<button class="btn js-route-toggleActiveMenuItem dropdown-item" data-route-id="<%= route.id -%>" data-menu-id="0" title="Сделать некактивным пункт меню для текущего маршрута">Неактивная для маршрута</button>
