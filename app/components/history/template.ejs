@@ -2,35 +2,35 @@
 <hr>
 <div style="text-align: center;">
   <div class="hidden-edit-block" style="display:none">
-    	<h2>Редактировать событие № <span></span></h2>
+    	<h2 style="display:none">Редактировать событие № <span></span></h2>
       <br>
+      <div class="input-group">
+        <img onclick="$('#edit-img-input-file').click()" style="width: 300px;" src="" alt="Изображение события" class="edit-img-btn">
+        <input style="display:none" type="file" id="edit-img-input-file">
+      </div>
+      <div class="input-group edit-date-group">
+        <label>
+          <%# <span>Дата:</span> %>
+          <input type="date" class="input-text edit-date" style="width: auto;">
+        </label>
+      </div>
     		<div class="input-group">
     			<label>
-    				<span>Заголовок:</span>
+    				<%# <span>Заголовок:</span> %>
     				<input type="text" class="input-text edit-title" style="width: auto;">
     			</label>
     		</div>
-        <div class="input-group">
-    			<label>
-    				<span>Дата:</span>
-    				<input type="date" class="input-text edit-date" style="width: auto;">
-    			</label>
-    		</div>
-        <div class="input-group">
-    			<img onclick="$('#edit-img-input-file').click()" style="width: 300px;" src="" alt="Изображение события" class="edit-img-btn">
-          <input style="display:none" type="file" id="edit-img-input-file">
-    		</div>
     		<div class="input-group">
     			<label>
-    				<span>Описание:</span>
+    				<%# <span>Описание:</span> %>
     				<input type="text" class="input-text edit-desc" style="width: auto;">
     			</label>
     		</div>
-    		<div class="input-group">
+    		<%# <div class="input-group">
           <button class="btn save-edited-history"><i class="fa fa-edit"></i> Сохранить</button>
     			<button class="btn close-edited-history"><i class="fa fa-remove"></i></button>
-    		</div>
-        <hr>
+    		</div> %>
+        <%# <hr> %>
         <br>
   </div>
 </div>
@@ -53,16 +53,12 @@
             <img src="<%= o.img %>" alt="фото события">
 	          <time><%= o.title %></time>
 					  <div class="timeline-desc"><%= o.desc %></div>
-            <div class="time"><%
-            var time = new Date(o.created);
-            var day = time.getDate() < 10 ? '0'+time.getDate():time.getDate();
-            var month = time.getMonth() + 1; var a = month < 10 ? '0'+month : month;
-            %><%= time.getFullYear() %>-<%= a %>-<%= day %></div>
+            <div class="time" data-created="<%=getTheInputDate(o.created)%>"><%= getTheTime(o.created) %></div>
 	      </div>
 	    </li>
 		<% }); %>
 		<% if(user.adminMode) { %>
-			<li>
+			<li class="plus">
 	      <div class="timeline-block add-new-event" data-admin="<%= user.adminMode %>" style="cursor: pointer; text-align: center;">
 	        <i class="fa fa-plus"></i>
 	      </div>
@@ -71,7 +67,33 @@
   </ul>
 </section>
 
+<%
+function getTheTime(date) {
 
+  function twoCharInt(anInt) {
+    return anInt < 10 ? '0' + anInt : anInt;
+  }
+
+  const times = new Date(date);
+  const year = times.getFullYear();
+  const months = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  const month = months[times.getMonth()];
+  const day = twoCharInt(times.getDate());
+
+  return day + ' ' + month + ' ' + year
+}
+
+
+function getTheInputDate(date) {
+
+  var time = new Date(date);
+  var day = time.getDate() < 10 ? '0'+time.getDate():time.getDate();
+  var month = time.getMonth() + 1; var month = month < 10 ? '0'+month : month;
+  const year = time.getFullYear();
+
+  return year + '-' + month + '-' + day
+}
+%>
 
 	<script src="/js/history.js" defer></script>
 <% if(user.adminMode) { %>
