@@ -4,6 +4,9 @@
     margin-bottom: 10px;
     margin-top: 10px;
 }
+.hidden-edit-block .input-group{
+    display: block;
+}
 
 .fragment-item {
     /* min-height: 150px; */

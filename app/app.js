@@ -1,11 +1,9 @@
 const express = require('express');
 const app = express();
 
-const bodyParser = require('body-parser');
 const path = require('path');
 const ejs = require('ejs');
 const cookieSession = require('cookie-session');
-const favicon = require('serve-favicon');
 const fs = require('fs');
 const compression = require('compression');
 
@@ -15,16 +13,14 @@ const db = require('./libs/db');
 const Model = require('./models/index');
 
 app.use(compression());
-// app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
 	limit: '2048mb',
 	extended: false
 }));
@@ -48,10 +44,6 @@ const setDefaultSessionData = (req, res, next) => {
 process.on('unhandledRejection', (error, p) => {
 	console.log(error);
 	console.error(error.message);
-
-	if (!!error.sql === true) {
-		console.log(error.sql);
-	}
 
 	fs.appendFileSync(path.join(__dirname, '..', 'logs', 'unhandledRejection-log.log'), new Date().toLocaleString() + ': ' + error.stack + '\n\n');
 });
@@ -105,7 +97,7 @@ db.connect().then(async () => {
 	app.use(routeHandler);
 	app.use(errorHandler);
 
-	const server = app.listen(config.web.port, (err) => {
+	app.listen(config.web.port, (err) => {
 		if (err) return console.log("Ошибка запуска сервера:" + err.message);
 		console.log("Сервер запущен на порту " + config.web.port);
 	})

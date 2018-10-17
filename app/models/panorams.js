@@ -1,4 +1,20 @@
 const db = require('../libs/db');
+const fs = require('fs');
+
+exports.setAngle = (args = {}) => {
+	var zip = args.zip.split('.zip')[0];
+	var xml = '';
+	return fs.readFile('app/public'+zip+'/pano.xml', function (err, readXml) {
+		if (err) throw err;
+		xml = readXml.toString();
+		var tmp_xml = xml.split('<start pan="');
+		var tmp_xml2 = tmp_xml[1].split('" tilt="');
+		tmp_xml2[0] = args.angle;
+		xml = tmp_xml[0]+'<start pan="'+tmp_xml2[0]+'" tilt="'+tmp_xml2.splice(1).join('" tilt="');
+		fs.writeFileSync('app/public'+zip+'/pano.xml', xml);
+		return {status: 'ok'};
+	});
+}
 
 exports.get = (args = {}) => {
 	let { id } = args;
@@ -7,6 +23,7 @@ exports.get = (args = {}) => {
 	`;
 	return db.execQuery(q);
 }
+
 
 exports.upd = (args = {}) => {
 	if (!!args.target === false) return Promise.resolve([new Error('Отсутствует параметр target')]);

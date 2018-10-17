@@ -1,6 +1,7 @@
-const express = require('express');
 const storage = require('../storage');
 const Model = require('../models');
+
+const ejs = require('ejs');
 
 const deleteLastSlash = (req, res, next) => {
 	req.url = req.path !== '/' && req.path.trim().substr(-1) === '/' ? req.path.slice(0, -1) : req.path;
@@ -103,8 +104,6 @@ module.exports.Router = (app) => {
 				err.status = 503;
 				return next(err);
 			}
-
-			await require('../componentsList')(app);
 
 			if (route.access == "3" && !!req.session.user.admin === false) {
 				const err = new Error('Нет доступа к странице');

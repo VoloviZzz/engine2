@@ -7,6 +7,16 @@ module.exports = (app) => {
 
 		var [error, panorams] = await Model.panorams.get();
 
+		dataViews.zip = panorams[0].zip.split('.zip')[0];
+
+		if (locals.reqQuery.angle && locals.reqQuery.zip) {
+			var angle = await Model.panorams.setAngle({
+				zip: locals.reqQuery.zip,
+				angle: locals.reqQuery.angle
+			});
+			dataViews.zip = locals.reqQuery.zip.split('.zip')[0];
+		}
+
 		dataViews.panorams = panorams;
 
 		return new Promise((resolve, reject) => {
