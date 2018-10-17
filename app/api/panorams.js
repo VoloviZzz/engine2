@@ -1,10 +1,13 @@
 var fs = require("fs");
-// var ZipLoader = require("ZipLoader");
+ var unzip = require ('unzip');
 const db = require('../libs/db');
 
-exports.getZip = (req, res, next) => {
-	// var loader = new ZipLoader('/uploads/panorams/files.zip');
-	// return loader.load('files.zip://Resources.png');
+exports.addZipDir = (req, res, next) => {
+	console.log(req.body.zip);
+	var zip = req.body.zip.split('.');
+	console.log(zip[0]);
+	fs.createReadStream('app/public/'+req.body.zip).pipe(unzip.Extract({ path: 'app/public/'+zip[0] }));
+
 }
 exports.updPanoram = (req, res, next) => {
 	return db.insertQuery(`UPDATE panorams SET

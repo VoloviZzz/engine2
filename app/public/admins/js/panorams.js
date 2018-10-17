@@ -1,4 +1,5 @@
 var map;
+var files2;
 var marker = false;
 window.onload = () => {
   var mapCenterCoords = ['53.388019', '59.075146'];
@@ -35,7 +36,6 @@ window.onload = () => {
     var id = $(this).data('id');
 
     fd.append('upload', this.files[0]);
-    console.log('asdasd');
     $.ajax({
       url: '/api/images/uploadPanoram?filename=' + this.files[0].name,
       data: fd,
@@ -55,7 +55,6 @@ window.onload = () => {
 
 
   $('.save-edited-panoram').click(function () {
-    console.log('wtf');
     var query = {
       title: $('.edit-title').val(),
       coord: $('.edit-coord').val(),
@@ -73,6 +72,12 @@ window.onload = () => {
         $(elem[2]).text(query.coord);
         $(elem[3]).text(query.created);
 
+        $.post('/api/panorams/addZipDir', {zip: query.zip})
+        .done(function (result) {
+          console.log(result);
+        })
+
+
         $('.hidden-edit-block').hide(300, function () {
     			$('.section-content').animate({
     					scrollTop: $('#panoram'+query.id).offset().top-140
@@ -83,16 +88,15 @@ window.onload = () => {
             }, 200);
           });
     		});
-
-  		}
+      }
   	});
   });
 
   $('.close-edited-component').click(function () {
-		var id = $(this).parent().data('id');
+		var id = $(this).parent().parent().find('h2 span').text();
 		$('.hidden-edit-block').hide(300, function () {
 			$('.section-content').animate({
-					scrollTop: $('#panoram'+id).offset().top-$('#panoram'+id).width()
+					scrollTop: $('#panoram'+id).offset().top-140
 			}, 300);
 		});
 	});

@@ -15,8 +15,8 @@
 			<form id="js-feedback-addCategory" data-fragment-id="<%= fragment.id -%>">
 				<label>или установить свою:</label>
 				<input class="form-control" type="text" name="categoryName">
-			</form>			
-		</div>	
+			</form>
+		</div>
 	</div>
 	<div class="form-group">
 		<h2 class="text-center">Параметры</h2>
@@ -64,11 +64,11 @@
 					</div><%
 				}
 				else {
-					if(formTitle != "NULL"){
+					if(formT	itle != ""){
 						%><h2 class="text-center"><%= formTitle -%></h2><%
 					}
 				}
-			
+
 			%><form action="" method="post">
 				<div class="form-group">
 					<input type="text" class="form-control" name="client_name" value="<%= client.fio -%>" placeholder="Как к Вам обращаться" required <%= inputDisabled -%>>

@@ -5,7 +5,14 @@
 			<h2>Добавить алиас</h2>
 			<form method="POST" class="js-routesAliases-add">
 				<span>Алиас:</span>
-				<input class="input-text" type="text" name="alias">
+				<div class="row">
+					<div class="col-md-10">
+						<input class="input-text alias" type="text" name="alias">
+					</div>
+					<div class="col-md-2">
+						<div class="btn translit">Тranslit</div>
+					</div>
+				</div>
 				<br>
 				<br>
 				<button class="btn">Добавить</button>
@@ -63,6 +70,6 @@
 	</div>
 	<script src="/admins/js/meta-manage.js" defer></script>
 	<% } else { %>
-		<p>Для статических маршрутов значения устанавливаются в панели удаминистратора</p>
+		<p>Для статических маршрутов значения устанавливаются в панели у администратора</p>
 	<% } %>
 <% } %>
