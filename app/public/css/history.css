@@ -22,17 +22,14 @@ h1 {
   font-size: 2.5rem;
 }
 .timeline ul li .timeline-desc{
-/*   width: 70%; */
   padding:  0 0 0 0px;
   margin:  0 0 0 0;
 }
 .timeline ul li img {
-/*   position: absolute; */
   bottom: 10px;
   right: 5px;
   width: 96% !important;
   height: auto !important;
-  /* z-index:  999; */
 }
 .timeline-block .time {
   position: absolute;
@@ -46,18 +43,18 @@ h1 {
 
 /* TIMELINE
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  .hidden-edit-block .input-group{
-    left: 0px !important;
-  }
- .hidden-edit-block .input-group label input{
-    background: transparent;
-    color: #fff;
-    text-align: center;
-  } 
-
-
-
-.edit-date-group{
+.edit-part .input-group{
+  left: 0px !important;
+}
+.edit-part .edit{
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  border: solid 1px #fff;
+  border-radius: 3px;
+  margin-bottom: 10px;
+} 
+.edit-part-date{
   position: absolute;
   top: 0px;
   left: 0px;
@@ -67,7 +64,6 @@ h1 {
 
 
 .timeline ul {
-  /* background: #456990; */
   padding: 50px 0;
 }
 
