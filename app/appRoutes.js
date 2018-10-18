@@ -34,23 +34,86 @@ Router.get('/robots.txt', async (req, res, next) => {
 });
 
 Router.get('/sitemap.xml', async (req, res, next) => {
-	const siteName = 'http://localhost:3000';
-	var [error, routes] = await model.routes.get({ dynamic: '0', access: '1' });
+	try {
+		
+		const siteName = 'http://localhost:3000';
+		const xmlUrls = [];
 
-	const urls = routes.map(route => {
-		return `<url>
-			<loc>${siteName}${route.url.trim()}</loc>
-		</url>`;
-	}).join('');
+		const setRowAliasUrlIfExist = row => {
+			if (!row.alias_id) return row;
 
-	const template = `
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-			${urls}
-		</urlset>
-	`.trim();
+			row.alias_url = aliasesById[row.alias_id].alias;
 
-	res.set('Content-Type', 'text/xml');
-	res.send(template);
+			return row;
+		}
+
+		const groupByParam = param => {
+			return (acc, object) => {
+				acc[object[param]] = object;
+				return acc;
+			};
+		}
+
+		const addRowByTarget = row => {
+			return row.target ? (route.object_target_id == row.target ? row : false) : row;
+		};
+		
+		const addRowByPublic = row => {
+			return 'public' in row ? (row.public == '1' ? row : false) : row;
+		};
+
+		const pushUrlInUrls = (row, urlToOBject) => {
+			xmlUrls.push(`
+				<url>
+					<loc>${siteName}${row.alias_url ? row.alias_url : urlToOBject + '/' + row.id}</loc>
+				</url>
+			`);
+		};
+
+		const [, routes] = await model.routes.get({ dynamic: '0', access: '1', allow_index: '1' });
+		const [, aliases] = await model.aliases.get();
+
+		const groupById = groupByParam('id');
+		const aliasesById = aliases.reduce(groupById, {});
+
+		for (const route of routes) {
+
+			const { url, url_to_object: urlToOBject } = route;
+
+			xmlUrls.push(`
+				<url>
+					<loc>${siteName}${url}</loc>
+				</url>
+			`);
+
+			if (!route.used_table) continue;
+
+			const [error, allRows] = await db.execQuery(`SELECT * FROM ${route.used_table}`);
+			if (error) throw new Error(error);
+
+			const result = allRows
+				.filter(addRowByTarget)
+				.filter(addRowByPublic)
+				.map(setRowAliasUrlIfExist);
+
+
+			result.forEach(row => pushUrlInUrls(row, urlToOBject));
+		}
+
+		const urlsJoined = xmlUrls.join('');
+
+		const xmlTemplate = `
+			<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+				${urlsJoined}
+			</urlset>
+		`;
+
+		res.set('Content-Type', 'text/xml');
+		res.send(xmlTemplate);
+	} catch (error) {
+		console.log(error);
+		res.status('500').send('Что-то пошло не так: \n' + error.message);
+	}
 });
 
 Router.post('/toggle-admin', toggleAdminMode);
