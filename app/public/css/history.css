@@ -28,7 +28,7 @@ h1 {
 .timeline ul li img {
   bottom: 10px;
   right: 5px;
-  width: 70px !important;
+  width: 96% !important;
   height: auto !important;
 }
 .timeline-block .time {
