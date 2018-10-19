@@ -42,9 +42,8 @@ module.exports = (app) => {
 		dataViews.targets = targets;
 		dataViews.fragmentsByRoute = fragmentsByRoute;
 
-		const templatePath = path.join(__dirname, 'template.ejs');
 		return new Promise((resolve, reject) => {
-			app.ejs.renderFile(templatePath, dataViews, (err, str) => {
+			app.ejs.renderFile(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

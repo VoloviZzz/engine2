@@ -1,9 +1,8 @@
-<%
-	cats.forEach((cat, i) => {
-		%><li style="white-space: nowrap; text-align:left;">
-			<img src="<%=cat.img%>" style="width: 30px; height: 30px;" />
-			<a href="/store-cat/<%=cat.id%>"><%=cat.title%></a>
-		</li><%
-	})
-
-%>
+<% cats.forEach((cat, i) => { -%>
+	<li>
+		<div class="submenu-inner" style="text-align: left;">
+			<img src="<%= cat.img -%>" alt="Категория магазина" style="width: 30px; height: 30px;" />
+			<a href="/store-cat/<%= cat.id -%>"><%= cat.title -%></a>
+		</div>
+	</li>
+<% }) -%>

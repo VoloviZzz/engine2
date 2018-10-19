@@ -9,8 +9,11 @@ $(document).ready(function () {
 		removeBlock(this);
 	});
 
-	$('.edit').on('click', function () {
-		editEvent(this);
+	$('.edit').on('keyup', function (e) {
+		everyEdit(this);
+	});
+	$('.edit').on('change', function (e) {
+		everyEdit(this)
 	});
 
 	$(".left").click(function() {
@@ -20,8 +23,20 @@ $(document).ready(function () {
 	$(".right").click(function() {
 		moveRight(this);
 	});
+addEventListenerChangeOnInputHiddenEditBlockUploadPhoto();
 
 });
+
+function everyEdit(elem) {
+	var this_block = $(elem).parent();
+	$('.edit-title').val(this_block.find('.edit-part-title').val());
+	$('.edit-date').val(this_block.find('.edit-part-date').val());
+	$('.edit-img-btn').attr('src', this_block.find('img').attr('src'));
+	$('#edit-img-input-file')[0].dataset.id = this_block.data('id');
+	$('.edit-desc').val(this_block.find('.edit-part-desc').val());
+	$('.hidden-edit-block').find('h2 span').text(this_block.data('id'));
+	saveEditedHistory()
+}
 
 function moveLeft(element) {
 	var elm = $(element).parent().parent().parent();
@@ -134,27 +149,27 @@ function removeBlock(elem) {
 	});
 }
 
-function saveEditedHistory(elem) {
+function saveEditedHistory() {
 	var elemli = $('.hidden-edit-block');
 	var id = elemli.find('h2 span').text();
 
-	if ($('.edit-title').val() == '') {
-		alert('Заголовок не заполнен')
-		return;
-	}
-	if ($('.edit-img-btn').attr('src') == '') {
-		alert('Заголовок не заполнен')
-		return;
-	}
-	if ($('.edit-desc').val() == '') {
-		alert('Заголовок не заполнен')
-		return;
-	}
-
-	if ($('.edit-date').val() == '') {
-		alert('Дата не заполнена')
-		return;
-	}
+	// if ($('.edit-title').val() == '') {
+	// 	alert('Заголовок не заполнен')
+	// 	return;
+	// }
+	// if ($('.edit-img-btn').attr('src') == '') {
+	// 	alert('Заголовок не заполнен')
+	// 	return;
+	// }
+	// if ($('.edit-desc').val() == '') {
+	// 	alert('Заголовок не заполнен')
+	// 	return;
+	// }
+	//
+	// if ($('.edit-date').val() == '') {
+	// 	alert('Дата не заполнена')
+	// 	return;
+	// }
 
 	var query = {
 		 id: id,
@@ -166,10 +181,11 @@ function saveEditedHistory(elem) {
 	$.post('/api/history/saveEvent', query)
 	.done(function (result) {
 		if (result.status == 'ok') {
-			$('#history'+id).find('time').text(query.title);
-			$('#history'+id).find('.time').text(getTheTime(query.date));
-			$('#history'+id).find('img').attr('src', query.img);
-			$('#history'+id).find('.timeline-desc').text(query.desc);
+			console.log(result.status);
+			// $('#history'+id).find('time').text(query.title);
+			// $('#history'+id).find('.time').text(getTheTime(query.date));
+			// $('#history'+id).find('img').attr('src', query.img);
+			// $('#history'+id).find('.timeline-desc').text(query.desc);
 		}
 	});
 }
@@ -188,6 +204,7 @@ function addEventListenerChangeOnInputHiddenEditBlockUploadPhoto() {
 
 		var fd = new FormData();
 		var id = $(this).data('id');
+		var back_id = this.dataset.id;
 
 		fd.append('upload', this.files[0]);
 
@@ -200,6 +217,8 @@ function addEventListenerChangeOnInputHiddenEditBlockUploadPhoto() {
 			success: function success(result) {
 				var value = result.data.fileUrl;
 				$('.edit-img-btn').attr('src', value);
+				console.log(id);
+				$('#history'+id).find('img').attr('src', value);
 				saveEditedHistory();
 			}
 		});
@@ -265,3 +284,42 @@ function getTheInputDate(date) {
 
   return year + '-' + month + '-' + day
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------end-------------------

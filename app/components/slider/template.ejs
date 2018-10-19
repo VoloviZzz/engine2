@@ -68,12 +68,13 @@
 					<%= fragment.settings.maxImageHeight ? `max-height: ${fragment.settings.maxImageHeight}px;` : '' -%>
 					<%= fragment.settings.minImageHeight ? `min-height: ${fragment.settings.minImageHeight}px;` : '' -%>
 				"
+				alt="Изображение слайдера"
 				src="<%= slide.image -%>">
 		</div>
 	<% }) %>
 </div>
 <% if(slides.length > 0) { %>
-	<script type="text/javascript">
+	<script>
 
 		document.addEventListener("DOMContentLoaded", function () {
 			$('.fragment-slider[data-fragment-id=<%= fragment.id -%>]').slick({

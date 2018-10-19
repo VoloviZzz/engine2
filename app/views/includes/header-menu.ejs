@@ -1,15 +1,9 @@
-<ul class="header-menu header-menu-center" title=""><%
-
-	HeaderRows.forEach((r) => {
-	
-		%><li><%
-			
-			if (user.adminMode) {
-				
-				%><div class="d-flex">
-					<a href="<%= r.href -%>">
-						<%= r.title -%>
-					</a>
+<div class="menu-list">
+	<% HeaderRows.forEach((r) => { -%>
+		<% if (user.adminMode) { -%>
+			<div class="menu-item">
+				<div class="menu-text"><a href="<%= r.href -%>"><%= r.title -%></a></div>
+				<div class="menu-text">
 					<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-lg fa-ellipsis-v"></i>
 					</a>
@@ -20,84 +14,81 @@
 						<button class="btn btn-md js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= r.id -%>">Удалить</button>
 					</div>
 				</div>
-				<ul class="submenu"><%
-				
-					if (r.id == 4) {
-						r.childs.forEach(child => {
-							if (typeof child.type !== "undefined" && child.type == "categories") {
-								%><%- include("./header-shop-submenu", { cats : child.rows }) %><%
-							}
-						});
-					}
 
-					r.childs.forEach(child => {
-						
-						if (typeof child.type !== "undefined" && child.type == "categories") return;
-						
-						%><li style="white-space: nowrap;">
-							<div style="display: flex;">
-							<a href="<%= child.href -%>">
-								<%= child.title -%>
-							</a>
-							<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-lg fa-ellipsis-v"></i>
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= child.id -%>" value="<%= child.title -%>">
-								<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= child.id -%>" value="<%= child.href -%>">
-								<div class="dropdown-divider"></div>
-								<button class="btn btn-md js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= child.id -%>">Удалить</button>
+				<ul class="submenu">
+					<% if (r.id == 4) { -%>
+						<% r.childs.forEach(child => { -%>
+							<% if (typeof child.type !== "undefined" && child.type == "categories") { -%>
+								<%- include("./header-shop-submenu", { cats : child.rows }) -%>
+							<% } %>
+						<% }) %>
+					<% } %>
+
+					<% r.childs.forEach(child => { %>
+						<% if (typeof child.type !== "undefined" && child.type == "categories") return; %>
+
+						<li>
+							<div class="submenu-inner">
+								<a href="<%= child.href -%>">
+									<%= child.title -%>
+								</a>
+								<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-lg fa-ellipsis-v"></i>
+								</a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<input type="text" class="js-headerNav-edit dropdown-item" data-target="title" data-id="<%= child.id -%>" value="<%= child.title -%>">
+									<input type="text" class="js-headerNav-edit dropdown-item" data-target="href" data-id="<%= child.id -%>" value="<%= child.href -%>">
+									<div class="dropdown-divider"></div>
+									<button class="btn btn-md js-headerNav-delete dropdown-item" style="display: block; width: 90%; margin: 0 auto" data-id="<%= child.id -%>">Удалить</button>
+								</div>
 							</div>
 						</li>
-						<%
 					
-					})
-					
-					%><li>
-						<div>
+					<% }) %>
+					<li>
+						<div class="submenu-inner">
 							<button class="btn js-headerNav-add" data-parent-id="<%= r.id -%>" style="height: 100%">+</button>
 						</div>
-					</li><%
-						
-					
-				%></ul><%
-			}
-			else {
-			
-				
-				%><a href="<%= r.href -%>"><%= r.title -%></a><%
-				
-				%><ul class="submenu"><%
-					
-					if (r.id == 4) {
+					</li>
+					%>
+				</ul>
+			</div>
+		<% } else { %>
+			<div class="menu-item">
+				<div class="menu-text">
+					<a href="<%= r.href -%>"><%= r.title -%></a>
+				</div>
+				<div class="menu-text submenu-toggle">
+					<a><i class="fa fa-lg fa-chevron-down"></i></a>
+				</div>
 
-						r.childs.forEach(child => {
-							if (typeof child.type !== "undefined" && child.type == "categories") {
-							
-								%><%- include("./header-shop-submenu", { cats : child.rows }) %><%
-								
-							}
-						});
-					}
-						
-					r.childs.forEach(child => {
-					
-						if (typeof child.type !== "undefined" && child.type == "categories") return;
-					
-						%><li style="white-space: nowrap;"><a href="<%= child.href -%>"><%= child.title -%></a></li><%
-					});
-						
-					
-				%></ul><%
-			}
-			
-		%></li><%
-	
-	})
-	
-	if(user.adminMode) { %>
-		<div>
-			<button class="btn js-headerNav-add" style="height: 100%">+</button>
-		</div>
-	<% } %>
-</ul>
+				<ul class="submenu">
+
+					<% if (r.id == 4) { -%>
+						<% r.childs.forEach(child => { -%>
+							<% if (typeof child.type !== "undefined" && child.type == "categories") { -%>
+								<%- include("./header-shop-submenu", { cats : child.rows }) -%>
+							<% } -%>
+						<% }) %>
+					<% } -%>
+
+					<% r.childs.forEach(child => { -%>
+						<% if (typeof child.type !== "undefined" && child.type == "categories") return; %>
+						<li>
+							<div class="submenu-inner">
+								<a href="<%= child.href -%>">
+									<%= child.title -%>
+								</a>
+							</div>
+						</li>
+					<% }) -%>
+				</ul>
+			</div>
+		<% } %>
+	<% }); %>
+</div>
+<% if(user.adminMode) { %>
+<div>
+	<button class="btn h-100 js-headerNav-add">+</button>
+</div>
+<% } %>

@@ -2,18 +2,22 @@ const db = require("../libs/db");
 
 exports.get = (args = {}) => {
 	return new Promise(async function (resolve, reject) {
-		let { id = '', url = '', dynamic = '', access = '' } = args;
+		let { id = '', url = '', dynamic = '', access = '', allow_index = '' } = args;
 
 		if (!!id === true) id = `AND r.id = ${id}`;
 		if (!!url === true) url = `AND r.url = '${url}'`;
 		if (!!dynamic === true) dynamic = `AND r.dynamic = '${dynamic}'`;
 		if (!!access === true) access = `AND r.access = '${access}'`;
+		if (!!allow_index === true) allow_index = `AND r.allow_index = '${allow_index}'`;
 
 		let [err, rows] = await db.execQuery(`
             SELECT r.*,
             	t.title as template_title,
             	t.name as template_name,
-				rt.title as target
+				rt.title as target,
+				rt.used_table,
+				rt.object_target_id,
+				rt.url_to_object
             FROM routes r
             	LEFT JOIN templates t ON r.template_id = t.id
 				LEFT JOIN routes_targets rt ON rt.id = r.target_id
@@ -21,6 +25,7 @@ exports.get = (args = {}) => {
 				${id}
 				${dynamic}
 				${access}
+				${allow_index}
 		`);
 
 		if (err) throw new Error(err);
@@ -31,7 +36,8 @@ exports.get = (args = {}) => {
 	})
 }
 
-exports.add = async ({ url, title, dynamic, access, seo_keywords, seo_description, template_id }) => {
+
+exports.add = async ({ url, title, dynamic, access, seo_keywords, seo_description, template_id, allow_index }) => {
 	if (!!url === false || !!title === false) return Promise.resolve([{ message: 'Отсутствуют необходимые параметры для добавления маршрута' }])
 
 	if (typeof dynamic != 'undefined') dynamic = `, dynamic = ${dynamic}`;
@@ -39,8 +45,9 @@ exports.add = async ({ url, title, dynamic, access, seo_keywords, seo_descriptio
 	if (typeof seo_keywords != 'undefined') seo_keywords = `, seo_keywords = '${seo_keywords}'`;
 	if (typeof seo_description != 'undefined') seo_description = `, seo_description = '${seo_description}'`;
 	if (typeof template_id != 'undefined') template_id = `, template_id = '${template_id}'`;
+	if (typeof allow_index != 'undefined') allow_index = `, allow_index = '${allow_index}'`;
 
-	const [err, insertId] = await db.insertQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${seo_description} ${seo_keywords} ${template_id}`);
+	const [err, insertId] = await db.insertQuery(`INSERT INTO routes SET url = '${url}', title = '${title}' ${dynamic} ${access} ${seo_description} ${seo_keywords} ${allow_index} ${template_id}`);
 	if (err) throw new Error(err);
 
 	const [queryErr, newRoute] = await exports.get({ id: insertId });
@@ -73,7 +80,9 @@ exports.upd = (arg = {}) => {
 	arg.seo_keywords = typeof arg.seo_keywords !== 'undefined' ? `, seo_keywords = '${arg.seo_keywords}'` : ``;
 
 	arg.show_title = typeof arg.show_title !== 'undefined' ? `, show_title = '${arg.show_title}'` : ``;
-	arg.use_component_title = typeof arg.use_component_title !== 'undefined' ? `, use_component_title = '${arg.use_component_title}'` : ``;
+	arg.use_component_title = 'use_component_title' in arg !== 'undefined' ? `, use_component_title = '${arg.use_component_title}'` : ``;
+
+	arg.allow_index = 'allow_index' in arg ? `, allow_index = '${arg.allow_index}'` : ``;
 
 	arg.targetValue = '';
 
@@ -97,6 +106,7 @@ exports.upd = (arg = {}) => {
 			${arg.seo_keywords} 
 			${arg.seo_description}
 			${arg.template_id}
+			${arg.allow_index}
 			${arg.delete_access}
 			${arg.edit_access}
 			${arg.show_title}

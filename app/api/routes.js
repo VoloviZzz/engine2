@@ -18,7 +18,7 @@ exports.add = async function (req, res, next) {
 		return { status: 'bad', message: 'Существует маршрут с таким URL' };
 	}
 
-	var [err, route, sql] = await Model.routes.add(req.body);
+	var [err, route] = await Model.routes.add(req.body);
 	if (err) return { status: 'bad', message: err.message, error: err };
 
 	var [error, route] = await Model.routes.get({ id: route.id });
