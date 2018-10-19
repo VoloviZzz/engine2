@@ -4,7 +4,7 @@ const Router = express.Router();
 const path = require('path');
 
 const db = require('./libs/db');
-const model = require('./models');
+const Model = require('./models');
 
 const checkAdminMiddleware = (req, res, next) => {
 	if (req.session.user.admin) {
@@ -30,12 +30,14 @@ const toggleAdminMode = (req, res, next) => {
 }
 
 Router.get('/robots.txt', async (req, res, next) => {
-	res.send('robots.txt');
+	const resultValue = `<pre style="word-wrap: break-word; white-space: pre-wrap;">${app.siteConfig.get('robotsValue')}</pre>`.trim();
+
+	return res.send(resultValue);
 });
 
 Router.get('/sitemap.xml', async (req, res, next) => {
 	try {
-		
+
 		const siteName = 'http://localhost:3000';
 		const xmlUrls = [];
 
@@ -57,7 +59,7 @@ Router.get('/sitemap.xml', async (req, res, next) => {
 		const addRowByTarget = row => {
 			return row.target ? (route.object_target_id == row.target ? row : false) : row;
 		};
-		
+
 		const addRowByPublic = row => {
 			return 'public' in row ? (row.public == '1' ? row : false) : row;
 		};
@@ -70,8 +72,8 @@ Router.get('/sitemap.xml', async (req, res, next) => {
 			`);
 		};
 
-		const [, routes] = await model.routes.get({ dynamic: '0', access: '1', allow_index: '1' });
-		const [, aliases] = await model.aliases.get();
+		const [, routes] = await Model.routes.get({ dynamic: '0', access: '1', allow_index: '1' });
+		const [, aliases] = await Model.aliases.get();
 
 		const groupById = groupByParam('id');
 		const aliasesById = aliases.reduce(groupById, {});
@@ -156,53 +158,45 @@ Router.get('/admin-logs/:logName', checkAdminMiddleware, (req, res, next) => {
 	})
 });
 
-Router.get('/confirm-email', (req, res, next) => {
-	if (!req.query.t) return res.json({
-		status: 'bad'
-	});
+Router.get('/confirm-email', async (req, res, next) => {
 
-	let clientId;
-
-	return Model.confirmEmails.get({
-		hash: req.query.t
-	}).then(([error, results]) => {
-
-		if (results.length < 1) {
-			return Promise.reject({
-				status: 'bad',
-				message: 'Неправильный hash'
-			});
+	try {
+		if (!req.query.t) {
+			return res.json({ status: 'bad' });
 		}
 
-		return Promise.resolve(results[0]);
-	}).then((result) => {
-		if (result.checked == '1') {
+		var [error, [confirmedEmailsByHash] = [false]] = await Model.confirmEmails.get({ hash: req.query.t });
+
+		if (!!confirmedEmailsByHash === false) {
+			return Promise.reject({ status: 'bad', message: 'Неправильный hash' });
+		}
+
+		if (confirmedEmailsByHash.checked == '1') {
 			return Promise.reject({
 				status: 'bad',
 				message: 'Почта уже подтвеждена'
 			});
 		}
 
-		clientId = result.client_id;
+		const clientId = confirmedEmailsByHash.client_id;
 
-		return Promise.resolve(result);
-	}).then(result => {
-		return Model.confirmEmails.upd({
+		await Model.confirmEmails.upd({
 			target: 'checked',
 			value: '1',
-			id: result.id
+			id: confirmedEmailsByHash.id
 		})
-	}).then(() => {
-		return Model.clients.upd({
+
+		await Model.clients.upd({
 			id: clientId,
 			target: 'confirmed',
 			value: '1'
 		})
-	}).then(result => {
-		res.redirect('/login');
-	}).catch(error => {
-		res.json(error);
-	})
+
+		return res.redirect('/login');
+	} catch (error) {
+		console.error(error);
+		return res.json(error);
+	}
 })
 
 
