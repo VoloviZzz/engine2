@@ -19,7 +19,6 @@ exports.login = async function (req, res, next) {
 	req.session.user.id = client.id;
 	req.session.user.admin = client.admin;
 	req.session.user.root = client.root;
-
-
-	return { status: 'ok', data: { client }, referer: req.body.referer };
+	
+	return { status: 'ok', data: { client }, referer: req.body.referer !== req.url ? req.body.referer : '/' };
 }
