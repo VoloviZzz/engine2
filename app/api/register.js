@@ -111,6 +111,6 @@ exports.sendConfirmAgain = async (req, res) => {
 		return { status: 'ok', message: 'Письмо отправлено на почту' }
 	} catch (error) {
 		console.log(error);
-		return { status: 'bad', message: 'Что-то пошло не так. Напишите нам о проблеме и мы решим её как можно скорее.', error }
+		return { status: 'bad', message: 'Что-то пошло не так. Сообщите нам о проблеме и мы решим её как можно скорее.', error }
 	}
 }

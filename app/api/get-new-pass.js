@@ -27,6 +27,6 @@ exports.index = async (req, res) => {
 		return { status: 'ok', message: 'Новый пароль сгенирирован и отправлен на почту' }
 	} catch (error) {
 		console.log(error);
-		return { status: 'bad', message: 'Что-то пошло не так. Попробуйте позже' }
+		return { status: 'bad', message: 'Что-то пошло не так. Сообщите нам о проблеме и мы решим её как можно скорее.' }
 	}
 }
