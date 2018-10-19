@@ -1,9 +1,27 @@
 const db = require('../libs/db');
 
 exports.add = (args = {}) => {
-	const data = Object.assign({ title: 'Новая целевая страница' }, args);
-	const q = `INSERT INTO routes_targets SET title = '${data.title}'`;
-	return db.execQuery(q);
+
+	const defaultData = {
+		title: 'Новый target',
+		used_table: '',
+		code: '',
+		...args
+	};
+
+	const getDataObject = (acc, key) => {
+		acc[key] = defaultData[key];
+		return acc;
+	};
+
+	const whiteListParams = ['title', 'used_table', 'code'];
+
+	const data = whiteListParams
+		.filter(key => defaultData[key] || defaultData[key] === '')
+		.reduce(getDataObject, {});
+
+	const q = `INSERT INTO routes_targets SET ?`;
+	return db.execQuery(q, data);
 }
 
 exports.get = (args = {}) => {
@@ -26,13 +44,13 @@ exports.update = (args = {}) => {
 		console.error('Отсутствует id для удаления');
 		return Promise.resolve([new Error('Отсутствует id для редактирования')]);
 	}
-	
-	if (!!args.target === false) {
+
+	if (!args.target) {
 		console.error('Отсутствует id для удаления');
 		return Promise.resolve([new Error('Отсутствует target для редактирования')]);
 	}
 
-	if (!!args.value === false) {
+	if (!args.value && args.value !== '') {
 		console.error('Отсутствует id для удаления');
 		return Promise.resolve([new Error('Отсутствует value для редактирования')]);
 	}
