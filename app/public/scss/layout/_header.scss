@@ -214,9 +214,13 @@
 					text-align: center;
 	
 					.submenu {
-						display: none;
+						display: block;
 						position: static;
 						margin-top: 0px;
+
+						li {
+							padding-top: 10px;
+						}
 					}
 	
 					.submenu-toggle {
