@@ -43,8 +43,6 @@ $(document).ready(function () {
 				console.log(result);
 				return alert(result.message);
 			}
-
-			location.reload();
 		})
 	});
 
