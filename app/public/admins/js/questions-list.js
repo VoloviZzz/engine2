@@ -28,8 +28,20 @@ $(document).ready(function () {
 	})
 
 	$('.js-question-togglePusblished').on('click', function () {
-		var id = $(this).data('id');
-		var value = $(this).data('value');
+		var $btn = $(this);
+		var id = $btn.data('id');
+		var value = $btn.attr('data-value');
+
+		var PUBLISHED_STATE = {
+			'1': {
+				text: 'Снять с публикации',
+				value: '0',
+			},
+			'0': {
+				text: 'Опубликовать',
+				value: '1',
+			}
+		};
 
 		$.post('/api/questions/togglePublication', { value: value, id: id }).done(function (result) {
 			if (result.status !== 'ok') {
@@ -37,7 +49,8 @@ $(document).ready(function () {
 				return alert(result.message);
 			}
 
-			location.reload();
+			$btn.text(PUBLISHED_STATE[value].text);
+			$btn.attr('data-value', PUBLISHED_STATE[value].value);
 		})
 	})
 
