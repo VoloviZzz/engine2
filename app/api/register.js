@@ -5,6 +5,9 @@ exports.register = async function (req, res, next) {
 	try {
 		const data = req.body;
 
+		const allowRegisttration = app.siteConfig.get('allowRegistration');
+		if (allowRegisttration !== '' && allowRegisttration != '1') return { message: 'На данный момент регистрация на сайте приостановлена. Попробуйте позже.' };
+
 		if (data.password.length < 6) return { status: 'bad', message: 'Длина пароля не может быть менее 6 символов' };
 		if (data.password !== data['check-password']) return { status: 'bad', message: 'Пароли не совпадают' };
 
