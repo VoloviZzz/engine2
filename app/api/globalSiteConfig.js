@@ -17,14 +17,12 @@ exports.add = async (req, res, next) => {
 	return { status: 'ok' };
 }
 
-exports.setValue = (req, res, next) => {
-	const Model = req.app.Model;
+exports.setValue = async (req, res, next) => {
 	const { target, value } = req.body;
 
-	return req.app.siteConfig.set({ target, value }).then(async () => {
-		await req.app.siteConfig.refresh();
-		return { status: 'ok' }
-	})
+	await req.app.siteConfig.set({ target, value })
+	await req.app.siteConfig.refresh();
+	return { status: 'ok' }
 }
 
 exports.delete = (req, res, next) => {

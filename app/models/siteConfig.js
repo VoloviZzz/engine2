@@ -16,8 +16,8 @@ exports.get = (data = {}) => {
 
 exports.add = (data = {}) => {
 
-	if (!!data.target === false) return Promise.resolve([new Error('Отсутствует параметр target')]);
-	if (!!data.value === false && data.value !== '') return Promise.resolve([new Error('Отсутствует параметр value')]);
+	if (!!data.target === false) return Promise.reject(new Error('Отсутствует параметр target'));
+	if (!!data.value === false && data.value !== '') return Promise.reject(new Error('Отсутствует параметр value'));
 
 	data.title = !!data.title ? data.title : ``;
 

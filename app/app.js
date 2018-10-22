@@ -72,9 +72,6 @@ app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
 global.imagesPath = 'http://system.mpkpru.ru/';
 
-app.smsc = require('./services/sendSms/');
-app.transporter = require('./services/sendEmail/');
-
 db.connect().then(async () => {
 
 	await require('./libs/routeHandler').initRoutesList();
@@ -83,9 +80,13 @@ db.connect().then(async () => {
 	const routeHandler = require('./libs/routeHandler').Router(app);
 	const errorHandler = require('./functions/error-handler');
 
-	await require('./services/sendSms').init(app);
-	await require('./componentsList')(app);
 	await require('./siteConfig')(app);
+
+	const siteUrl = app.siteConfig.get('siteUrlWithProtocolAndHost');
+
+	await require('./services/sendSms').init(app);
+	await require('./services/sendEmail/').init(app);
+	await require('./componentsList')(app);
 	await require('./socialLinks')(app);
 	// await require('./aliases')(app);
 

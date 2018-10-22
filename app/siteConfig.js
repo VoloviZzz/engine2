@@ -13,8 +13,8 @@ module.exports = async app => {
 		},
 
 		async refresh() {
-			var result = await Model.siteConfig.get();
-			this.configs = result[1];
+			var [error, configs] = await Model.siteConfig.get();
+			this.configs = configs;
 			return configs;
 		},
 
@@ -22,18 +22,15 @@ module.exports = async app => {
 			const configItemIndex = this.configs.findIndex(configItem => configItem.target === target);
 
 			if (configItemIndex < 0) {
-				return await Model.siteConfig.add({ title, target, value }).then(() => {
-					this.configs.push({ target, value });
-				})
+				await Model.siteConfig.add({ title, target, value })
+				this.configs.push({ target, value });
+
+				return this;
 			}
 
-			let { id } = this.configs[configItemIndex];
+			await Model.siteConfig.setValue({ target, value });
 
-			Model.siteConfig.setValue({ target, value }).then(([error]) => {
-				if (error) throw error;
-
-				Object.assign(this.configs[configItemIndex], { target, value });
-			})
+			Object.assign(this.configs[configItemIndex], { target, value });
 		}
 	}
 }
