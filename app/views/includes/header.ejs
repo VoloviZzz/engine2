@@ -21,26 +21,26 @@
 		<%- include('./route-settings-modal') -%>
         <header class="document-header">
 			<div class="container-fluid">
-					<div class="menu">
-						<div class="logo-wrapper">
-							<div class="logo-file">
-								<a href="/"><img class="logo" alt="Логотип letaindex" height="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>"></a>
-								<% if(user.adminMode) { %>
-									<label class="js-siteLogo-edit-btn edit-btn">
-										<span>+</span>
-										<input class="js-siteLogo-file d-none" type="file">
-									</label>
-								<% } %>
-							</div>
-
-							<button class="toggle-menu btn"></button>
+				<div class="menu">
+					<div class="logo-wrapper">
+						<div class="logo-file">
+							<a href="/"><img class="logo" alt="Логотип letaindex" height="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>"></a>
+							<% if(user.adminMode) { %>
+								<label class="js-siteLogo-edit-btn edit-btn">
+									<span>+</span>
+									<input class="js-siteLogo-file d-none" type="file">
+								</label>
+							<% } %>
 						</div>
 
-						<div class="menu-center">
-							<%- include("./header-menu") -%>
-						</div>
+						<button class="toggle-menu btn"></button>
+					</div>
 
-						<div class="menu-right">
+					<div class="menu-center">
+						<%- include("./header-menu") -%>
+					</div>
+
+					<div class="menu-right">
 
 						<% if(siteConfig.get("showCart") === "1") { %>
 							<div>
@@ -54,20 +54,19 @@
 							</div>
 						<% } %>
 
-							<% if(!user.id) { %>
-								<div>
-									<a href="/login">Вход</a>
-								</div>
-							<% } else { %>
-								<div>
-									<a href="/my"><%= user.clientName %></a>
-								</div>
-								<div>
-									<a href="/logout">Выйти</a>
-								</div>
-							<% }%>
-						</div>
+						<% if(!user.id) { %>
+							<div>
+								<a href="/login">Вход</a>
+							</div>
+						<% } else { %>
+							<div>
+								<a href="/my"><%= user.clientName %></a>
+							</div>
+							<div>
+								<a href="/logout">Выйти</a>
+							</div>
+						<% }%>
 					</div>
-
+				</div>
 			</div>
 		</header>
