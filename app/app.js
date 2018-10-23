@@ -74,15 +74,13 @@ global.imagesPath = 'http://system.mpkpru.ru/';
 
 db.connect().then(async () => {
 
+	await require('./siteConfig')(app);
+	
 	await require('./libs/routeHandler').initRoutesList();
-
+	
 	// подключение обработчика маршрутов
 	const routeHandler = require('./libs/routeHandler').Router(app);
 	const errorHandler = require('./functions/error-handler');
-
-	await require('./siteConfig')(app);
-
-	const siteUrl = app.siteConfig.get('siteUrlWithProtocolAndHost');
 
 	await require('./services/sendSms').init(app);
 	await require('./services/sendEmail/').init(app);
