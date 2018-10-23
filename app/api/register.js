@@ -81,52 +81,36 @@ exports.confirmRegister = (req, res, next) => {
 	});
 }
 
-const mailOptions = {
-	from: 'bubl174rus@gmail.com',
-	to: '',
-	subject: 'Подтверждение регистрации на сайте new.mpkpru.ru',
-	href: '#',
-	html: ``
-};
 
-exports.sendConfirmAgain = (req, res) => {
-	const data = req.body;
-	if (data.userEmail == '') return { status: 'bad', message: 'Ошибка! Почта не должна оставаться пустой!!!' };
+exports.sendConfirmAgain = async (req, res) => {
+	try {
+		const mailOptions = {};
+		const data = req.body;
 
-	return Model.clients.get({ email: data.userEmail }).then(([error, user]) => {
-		if (user.length == 0 || user === false) {
+		if (!data.userEmail) return { status: 'bad', message: 'Ошибка! Почта не должна оставаться пустой!!!' };
+
+		var [error, [user] = [false]] = await Model.clients.get({ email: data.userEmail })
+
+		if (!!user === false) {
 			return { status: 'bad', message: 'Пользователя с такой почтой не найдено. Проверьте данные, и попробуйте снова.' }
 		}
 
-		user = user[0];
+		const unicHash = md5(user.id);
+		const unicHref = `${app.siteConfig.get('siteUrlWithProtocolAndHost')}/confirm-email/?t=${unicHash}`;
+
+		const link = `<a href="${unicHref}">${unicHref}</a>`;
+		const domainName = app.siteConfig.get('domainName');
 
 		mailOptions.to = data.userEmail;
+		mailOptions.html = app.siteConfig.get('emailRegisterConfirm').replace(/{{link}}/ig, link);
+		mailOptions.subject = app.siteConfig.get('emailRegisterConfirmSubject').replace(/{{siteName}}/ig, domainName);
 
-		const unicHash = md5(user.id);
-		// const unicHref = `http://p-z-nt.ru/confirm-email/?t=${unicHash}`;
-		const unicHref = `http://localhost:3000/confirm-email/?t=${unicHash}`;
+		await app.sendEmail(mailOptions)
+		await Model.confirmEmails.add({ client_id: user.id, hash: unicHash });
 
-		mailOptions.html = `<span>Для завершения регистрации перейдите по следующей ссылке: </span><a href="${unicHref}">${unicHref}</a>`;
-
-		return sendEmail(mailOptions, req.app.transporter).then(() => {
-			return Model.confirmEmails.add({ client_id: user.id, hash: unicHash });
-		}).then(() => {
-			return { status: 'ok', message: 'Письмо отправлено на почту' }
-		}).catch(error => {
-			console.log(error);
-			return { status: 'bad', message: 'Что-то пошло не так. Попробуйте позже' }
-		});
-	})
-}
-
-function sendEmail(mailOptions, transporter) {
-	return new Promise((resolve, reject) => {
-		transporter.sendMail(mailOptions, function (error, info) {
-			if (error) {
-				return reject(error);
-			} else {
-				return resolve({ status: 'ok' });
-			}
-		});
-	})
+		return { status: 'ok', message: 'Письмо отправлено на почту' }
+	} catch (error) {
+		console.log(error);
+		return { status: 'bad', message: 'Что-то пошло не так. Сообщите нам о проблеме и мы решим её как можно скорее.', error }
+	}
 }

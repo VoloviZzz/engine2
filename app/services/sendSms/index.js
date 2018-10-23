@@ -15,6 +15,13 @@ module.exports.init = async (app) => {
 
 	if ([login, password, hashed].includes(undefined) === true) {
 		console.error('Нет данных для подключения к сервису отправки СМС');
+
+		app.smsc = {
+			send() {
+				throw new Error('Нет данных для подключения к сервису отправки СМС')
+			}
+		};
+
 		return false;
 	}
 

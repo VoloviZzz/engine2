@@ -58,9 +58,11 @@
 				<div class="menu-text">
 					<a href="<%= r.href -%>"><%= r.title -%></a>
 				</div>
-				<div class="menu-text submenu-toggle">
-					<a><i class="fa fa-lg fa-chevron-down"></i></a>
-				</div>
+				<% if (r.childs.length != 0) { -%>
+					<div class="menu-text submenu-toggle">
+						<a><i class="fa fa-lg fa-chevron-down"></i></a>
+					</div>
+				<%  } -%>
 
 				<ul class="submenu">
 
