@@ -1,5 +1,5 @@
 const path = require('path');
-const memoryBook = require('../../memory-book-api');
+const memoryBookApi = require('../../memory-book-api');
 const Pagination = require('../../libs/pagination');
 
 module.exports = (app) => {
@@ -18,7 +18,25 @@ module.exports = (app) => {
 			part,
 		};
 
-		const { deads, countDeads } = await memoryBook.get('deads2', getMemoryParams);
+		let memoryResult;
+
+		try {
+			memoryResult = await memoryBookApi.get('deads2', getMemoryParams);
+		} catch (e) {
+			console.log('Ошибка api "memory_book":');
+			console.log(e);
+
+			if (e.code == "ECONNREFUSED") {
+				return Promise.resolve([e, '<b>Сервер "Книги памяти" временно недоступен.</b>']);
+			} else if (e.code == "ENOTFOUND") {
+				return Promise.resolve([e, '<b>Не удалось подключиться к серверу "Книги памяти".</b>']);
+			} else {
+				return Promise.resolve([e, '<b>В работе "Книги памяти" что-то пошло не так.</b>']);
+			}
+		}
+
+		const { deads, countDeads } = memoryResult;
+
 		const pagination = new Pagination({ allCountPosts: countDeads, countOnPage: getMemoryParams.count, currentPage: currentPage });
 
 		dataViews.pagination = pagination;
