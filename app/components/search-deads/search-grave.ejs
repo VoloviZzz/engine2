@@ -2,8 +2,8 @@
 	var part = part || 0;
 	if (part == 0) { %>
 		<div class="text-center">Найдено результатов: <b class="search-results-count"><%= count %></b></div><br />
-	<% }
-	for (id in graves) {	
+	<% } %>
+	<% for (id in graves) {	
 		var g = graves[id],
 		number = String(g.place);
 
@@ -16,8 +16,8 @@
 				<% } else { %>
 					<img src="" />
 				<% } %>
-			</div><%
-			%><div class="place__pairs search__pairs-wrapp">
+			</div>
+			<div class="place__pairs search__pairs-wrapp">
 				<div class="place__pair place__title search__pair search__title">
 					<div>
 						<h1 class="fs-regular dead-name noinit"><%=g.surname%> <%=g.firstname%> <%=g.patronymic%></h1>
@@ -30,7 +30,7 @@
 					<div class="place__pair place-general search__pair">
 						<div>
 							<span class="place__info-name">Кладбище:</span>
-							<span><a href="/cemetery/<%=g.cemetery%>"><%=g.cemetery_name%></a></span>
+							<span><a href="/cemetery/<%=g.cemetery%>"><%= g.cemetery_name -%></a></span>
 						</div>
 						<div>
 							<span class="place__info-name">Квартал:</span>
@@ -85,9 +85,9 @@
 							</div>
 						<% } %>
 					
-					</div><%
+					</div>
 					
-					%><div class="place__buttons search-result_buttons">
+					<div class="place__buttons search-result_buttons">
 						<div>
 							<a href="/person/<%= g.id %>" class="btn">Открыть</a>
 						</div>
@@ -104,9 +104,8 @@
 				</div>
 			</div>
 		</div>
-	<% }
-}
-else { %>
+	<% } %>
+<% } else { %>
 	<h3>Ничего не найдено</h3>
 	<p>Проверьте правильность набранной строки и повторите поиск</p>
 <% } %>
