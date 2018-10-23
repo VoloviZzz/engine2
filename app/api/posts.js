@@ -2,10 +2,10 @@ exports.addPostTarget = async (req, res, next) => {
 
 	const { db } = req.app;
 	var [error, id] = await db.insertQuery(`INSERT INTO post_targets SET title = '${req.body.value}'`);
-	
+
 	if (error) {
 		return { status: 'bad' };
-	
+
 	}
 	return { status: 'ok' };
 }
@@ -55,6 +55,13 @@ exports.upd = (req, res, next) => {
 	return Model.posts.upd(req.body).then(([error, rows]) => {
 		if (error) return { message: error.message, error }
 		return { status: 'ok' };
+	})
+}
+exports.get = (req, res, next) => {
+	const Model = req.app.Model;
+	return Model.posts.get(req.body).then(([error, rows]) => {
+		if (error) return { message: error.message, error }
+		return { status: 'ok', rows: rows };
 	})
 }
 

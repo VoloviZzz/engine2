@@ -2,6 +2,9 @@
 	<a href="<%= fragment.settings.listUrl ? fragment.settings.listUrl : '#' -%>" style="text-decoration: underline;">Вернуться к списку</a>
 	<h3 class="fs-regular text-center" style="margin: auto;"><%= post.title -%></h3>
 </div>
+<div id="postId" >
+	<%= post.id -%>
+</div>
 <% if(user.adminMode) { %>
 	<div class="form-group">
 		<label>Адрес списка публикаций</label>
@@ -57,10 +60,22 @@
 
 <section class="similar-posts">
 	<h3>Похожие посты</h3>
-	<% if(user.adminMode) { %>
-		<input type="text" class="js-post-update form-control" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
+	<% if(user.adminMode) {%>
+		<div class="radio similarView">
+		  <label><input class="input-radio" data-similar="show" type="radio" name="similarView" <%if(post.show_similar == 1){%> checked <%}%>>Отображать</label>
+		</div>
+		<div class="radio similarView">
+		  <label><input class="input-radio" data-similar="hide" type="radio" name="similarView" <%if(post.show_similar == 0){%> checked <%}%>>Не отображать</label>
+		</div>
+		<div <%if(post.show_similar == 0){%> style="display:none" <%}%> class="radio similar">
+		  <label><input class="input-radio" data-similar="random" type="radio" name="similar" <%if(post.random_similar == 1){%> checked <%}%>>Случайные похожие</label>
+		</div>
+		<div <%if(post.show_similar == 0){%> style="display:none" <%}%> class="radio similar">
+		  <label><input class="input-radio" data-similar="ids" type="radio" name="similar" <%if(post.random_similar == 0){%> checked <%}%>>Указать идентификаторы</label>
+		</div>
+		<input type="text" <%if(post.random_similar == 1){%> style="display:none" <%}%> class="similar-input js-post-update form-control" value="<%= post.similar_posts_id -%>" data-reload="false" data-target="similar_posts_id" data-id="<%= post.id -%>">
 	<% } %>
-	<ul>
+	<ul <% if(post.random_similar == 1){ %> style="display:none" <%}%> class="similar_posts">
 		<% similarPosts.forEach((post) => { -%>
 			<li>
 				<img src="<%= post.main_photo -%>" alt="">
