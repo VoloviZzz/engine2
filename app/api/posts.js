@@ -50,12 +50,24 @@ exports.deleteItem = (req, res, next) => {
 	})
 }
 
-exports.upd = (req, res, next) => {
+exports.update = async (req, res, next) => {
+	
 	const Model = req.app.Model;
-	return Model.posts.upd(req.body).then(([error, rows]) => {
-		if (error) return { message: error.message, error }
-		return { status: 'ok' };
-	})
+	
+	const [error, rows] = await Model.posts.upd(req.body)
+	if (error) return { message: error.message, error };
+	
+	return { status: 'ok' };
+}
+
+exports.setSimilarPosts = async (req, res, next) => {
+	
+	const Model = req.app.Model;
+	
+	const [error, rows] = await Model.posts.upd(req.body)
+	if (error) return { message: error.message, error };
+	
+	return { status: 'ok' };
 }
 exports.get = (req, res, next) => {
 	const Model = req.app.Model;

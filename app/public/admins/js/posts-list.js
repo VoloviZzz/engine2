@@ -128,7 +128,7 @@ $(document).ready(function () {
 		var $button = $(this);
 		var id = $button.data('id');
 
-		if(!confirm('Удалить данную публикацию?')) return false;
+		if (!confirm('Удалить данную публикацию?')) return false;
 
 		$button.attr('disabled', 'disabled');
 
@@ -174,6 +174,7 @@ $(document).ready(function () {
 			type: 'POST',
 			success: function success(result) {
 
+<<<<<<< HEAD
 				$.post('/api/posts/get', { id: id })
 				.done(function (res) {
 					console.log(res);
@@ -189,6 +190,12 @@ $(document).ready(function () {
 
 							return location.reload();
 						});
+=======
+				$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
+					if (result.status !== 'ok') {
+						console.log(result);
+						return alert(result.message);
+>>>>>>> 163c41658d7a43d7af80df97b4c75f94133872c2
 					}
 						var target = 'main_photo';
 						var value = result.data.fileUrl;
@@ -221,13 +228,34 @@ $(document).ready(function () {
 			value = CKvalue;
 		}
 
-		$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
+		$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
 
-			if(reload) {
+			if (reload) {
+				location.reload();
+			}
+		})
+	}
+
+	function setSimilarPosts(e) {
+		var $this = $(this);
+		var target = 'similar_posts_id';
+		var id = $this.data('id');
+		var reload = $this.data('reload');
+		var value = $this.val().trim();
+
+		if (/^[0-9,]+$/.test(value) === false) return alert('Неверный формат для конкретных постов');
+
+		$.post('/api/posts/setSimilarPosts', { target: target, id: id, value: value }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			if (reload) {
 				location.reload();
 			}
 		})

@@ -13,11 +13,13 @@
 			<%# CASE: Не знаю для чего оно тут было %>
 			<%# if(!r.by_client_retail_id && !r.clientName) return false; %>
 			
-			<li class="reviews-item" data-id="<%= r.id %>">
+			<li class="reviews-item js-reviews-item" data-id="<%= r.id %>">
 				<% if(user.adminMode) { %>
 					<div class="text-right">
 						<% if(r.published == "0") { %>
-							<button class="btn js-reviews-togglePublished" data-id="<%= r.id -%>">Опубликовать</button>
+							<button class="btn js-reviews-togglePublished" data-value="1" data-id="<%= r.id -%>">Опубликовать</button>
+						<% } else { %>
+							<button class="btn js-reviews-togglePublished" data-value="0" data-id="<%= r.id -%>">Снять с публикации</button>
 						<% } %>
 						<button class="btn js-reviews-delete" data-id="<%= r.id -%>">Удалить</button>
 					</div>

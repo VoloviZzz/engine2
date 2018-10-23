@@ -35,7 +35,8 @@ exports.addQuestion = (req, res, next) => {
 	return Model.questions.add({ question: req.body.question, target: req.body.target }).then(result => {
 		return { status: 'ok' }
 	}).catch(error => {
-		return res.send(error.toString());
+		console.log(error);
+		return { message: error.toString(), error };
 	});
 
 }

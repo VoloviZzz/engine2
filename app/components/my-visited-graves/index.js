@@ -1,6 +1,8 @@
 const path = require('path');
 const request = require('request');
 
+const kpruApi = require('../../libs/search-deads');
+
 module.exports = (app) => {
 
 	const Model = app.Model;
@@ -52,7 +54,7 @@ function getDeadInfo(id) {
 
 		const postData = {
 			__function__: 'getDead',
-			key: apiKey,
+			key: kpruApi.apiKey,
 			id: id
 		};
 

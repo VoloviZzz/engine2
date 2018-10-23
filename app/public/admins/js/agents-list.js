@@ -82,7 +82,7 @@ $(document).ready(function () {
 				var value = result.data.fileUrl;
 				var target = 'main_photo';
 
-				$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
+				$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
 					if (result.status !== 'ok') {
 						console.log(result);
 						return alert(result.message);
@@ -108,7 +108,7 @@ $(document).ready(function () {
 			value = CKvalue;
 		}
 
-		$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
+		$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);

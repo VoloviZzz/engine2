@@ -9,7 +9,7 @@
 					<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
 				<% } %>
 				<div class="goods-item__title">
-					<% if(p.connect_id && user.adminMode) { %>
+					<% if(p.connect_id && user.admin) { %>
 						<div class="text-center" style="color: #4e60ec">(Товар является выгруженным)</div>
 					<% } %>
 					<span><%= p.title %></span>

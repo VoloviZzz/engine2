@@ -6,6 +6,11 @@
 				<div class="d-flex w-100 mb-1">
 					<input class="js-good-edit form-control text-center" data-target="title" data-id="<%= position.id -%>" type="text" name="good_title" value="<%= position.title -%>">
 				</div>
+			<% } -%>
+			<% if(user.admin && position.connect_id) { -%>
+				<div class="w-100">
+					<h2>(Товар является выгруженным)</h2>
+				</div>
 			<% } %>
 			<div class="w-100">
 				<% for(const id of Object.keys(breadcrumbNavigation)) { %>
