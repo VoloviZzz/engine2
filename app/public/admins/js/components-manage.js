@@ -14,6 +14,7 @@ $(document).ready(function () {
 		.done(function (result) {
 			if (result.status == 'ok') {
 				console.log(result);
+				location.reload();
 			}
 		});
 	});

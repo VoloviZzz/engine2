@@ -145,6 +145,7 @@ module.exports.Router = (app) => {
 			res.locals.URIparams = routeParams || false;
 			res.locals.fullUrl = req.url;
 			res.locals.reqReferer = req.header('Referer');
+			await require('../componentsList')(app);
 
 			const fragmentsMap = fragments.map(async fragment =>
 				fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals } })
