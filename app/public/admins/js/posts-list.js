@@ -9,7 +9,7 @@ $(document).ready(function () {
 	$('.similar-input').on('keyup', postUpdate);
 	$('.js-fragment-set-url').on('click', fragmentSetUrl);
 	$('#js-post-cat-add').on('submit', addPostCat);
-	$('input[type=radio]').on('click', checkInput)
+	$('input[type=radio]').on('click', checkInput);
 	function updPosts(target, id) {
 		if (target == 'show') {
 			$.post('/api/posts/upd', {id:id ,target:'show_similar' ,value: 1});
@@ -174,7 +174,6 @@ $(document).ready(function () {
 			type: 'POST',
 			success: function success(result) {
 
-<<<<<<< HEAD
 				$.post('/api/posts/get', { id: id })
 				.done(function (res) {
 					console.log(res);
@@ -190,29 +189,11 @@ $(document).ready(function () {
 
 							return location.reload();
 						});
-=======
-				$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
-					if (result.status !== 'ok') {
-						console.log(result);
-						return alert(result.message);
->>>>>>> 163c41658d7a43d7af80df97b4c75f94133872c2
 					}
-						var target = 'main_photo';
-						var value = result.data.fileUrl;
-						$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
-							if (result.status !== 'ok') {
-								console.log(result);
-								return alert(result.message);
-							}
-
-							return location.reload();
-						});
-
 				});
-
+				return false;
 			}
 		});
-		return false;
 	}
 
 	function postUpdate(e, CKvalue) {
