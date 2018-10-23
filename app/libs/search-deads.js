@@ -1,9 +1,21 @@
 const request = require('request')
 
 module.exports = {
-	url: `https://system.mpkpru.ru/m1api/`,
-	apiKey: '01234567890123456789012345678901',
-	apiLocCode: '74-МГ',
+	url: app.siteConfig.get('searchDeadsUrl'),
+	apiKey: app.siteConfig.get('searchDeadsApiKey'),
+	apiLocCode: app.siteConfig.get('searchDeadsApiLocCode'),
+
+	get url() {
+		return app.siteConfig.get('searchDeadsUrl');
+	},
+	
+	get apiKey() {
+		return app.siteConfig.get('searchDeadsApiKey');
+	},
+	
+	get apiLocCode() {
+		return app.siteConfig.get('searchDeadsApiLocCode');
+	},
 
 	search(queryParams = {}, ctrl) {
 
