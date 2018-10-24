@@ -2,10 +2,10 @@ exports.addPostTarget = async (req, res, next) => {
 
 	const { db } = req.app;
 	var [error, id] = await db.insertQuery(`INSERT INTO post_targets SET title = '${req.body.value}'`);
-	
+
 	if (error) {
 		return { status: 'bad' };
-	
+
 	}
 	return { status: 'ok' };
 }
@@ -50,11 +50,30 @@ exports.deleteItem = (req, res, next) => {
 	})
 }
 
-exports.upd = (req, res, next) => {
+exports.update = async (req, res, next) => {
+	
 	const Model = req.app.Model;
-	return Model.posts.upd(req.body).then(([error, rows]) => {
+	
+	const [error, rows] = await Model.posts.upd(req.body)
+	if (error) return { message: error.message, error };
+	
+	return { status: 'ok' };
+}
+
+exports.setSimilarPosts = async (req, res, next) => {
+	
+	const Model = req.app.Model;
+	
+	const [error, rows] = await Model.posts.upd(req.body)
+	if (error) return { message: error.message, error };
+	
+	return { status: 'ok' };
+}
+exports.get = (req, res, next) => {
+	const Model = req.app.Model;
+	return Model.posts.get(req.body).then(([error, rows]) => {
 		if (error) return { message: error.message, error }
-		return { status: 'ok' };
+		return { status: 'ok', rows: rows };
 	})
 }
 

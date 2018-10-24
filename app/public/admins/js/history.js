@@ -23,8 +23,8 @@ $(document).ready(function () {
 	$(".right").click(function() {
 		moveRight(this);
 	});
-addEventListenerChangeOnInputHiddenEditBlockUploadPhoto();
 
+	addEventListenerChangeOnInputHiddenEditBlockUploadPhoto();
 });
 
 function everyEdit(elem) {
@@ -153,24 +153,6 @@ function saveEditedHistory() {
 	var elemli = $('.hidden-edit-block');
 	var id = elemli.find('h2 span').text();
 
-	// if ($('.edit-title').val() == '') {
-	// 	alert('Заголовок не заполнен')
-	// 	return;
-	// }
-	// if ($('.edit-img-btn').attr('src') == '') {
-	// 	alert('Заголовок не заполнен')
-	// 	return;
-	// }
-	// if ($('.edit-desc').val() == '') {
-	// 	alert('Заголовок не заполнен')
-	// 	return;
-	// }
-	//
-	// if ($('.edit-date').val() == '') {
-	// 	alert('Дата не заполнена')
-	// 	return;
-	// }
-
 	var query = {
 		 id: id,
 		 title: $('.edit-title').val(),
@@ -181,11 +163,7 @@ function saveEditedHistory() {
 	$.post('/api/history/saveEvent', query)
 	.done(function (result) {
 		if (result.status == 'ok') {
-			console.log(result.status);
-			// $('#history'+id).find('time').text(query.title);
-			// $('#history'+id).find('.time').text(getTheTime(query.date));
-			// $('#history'+id).find('img').attr('src', query.img);
-			// $('#history'+id).find('.timeline-desc').text(query.desc);
+			// console.log(result.status);
 		}
 	});
 }

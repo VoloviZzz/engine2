@@ -1,4 +1,24 @@
 <link rel="stylesheet" href="/css/search-deads.css">
+<% if(user.adminMode) { %>
+	<section class="my-2">
+		<h3>Настройки поиска захоронений:</h3>
+		<form action="/api/search-deads-settings/index" method="post">
+			<div class="form-group">
+				<span>url:</span>
+				<input type="text" name="searchDeadsUrl" class="form-control" value="<%= siteConfig.get('searchDeadsUrl') -%>">
+			</div>
+			<div class="form-group">
+				<span>api key:</span>
+				<input type="text" name="searchDeadsApiKey" class="form-control" value="<%= siteConfig.get('searchDeadsApiKey') -%>">
+			</div>
+			<div class="form-group">
+				<span>api loc code:</span>
+				<input type="text" name="searchDeadsApiLocCode" class="form-control" value="<%= siteConfig.get('searchDeadsApiLocCode') -%>">
+			</div>
+			<button class="btn my-2">Сохранить</button>
+		</form>
+	</section>
+<% } %>
 <div class="scroll-content" id="app-search" data-function="default">
     <div id="how-seach__info" class="text-indent_p text-margin-bottom-p">
         <p>На сегодняшний день поиск захоронений работает по всем кладбищам города Магнитогорска. База захоронений обновляется на ежедневном уровне, поэтому здесь Вы сможете найти захоронения произведённые до вчерашнего дня.</p>
@@ -18,7 +38,7 @@
 						type="text" 
 						placeholder="Введите ФИО умершего"
 						<% if (typeof fullname !== "undefined") { %>
-							value="<%=fullname%>"
+							value="<%=fullname -%>"
 						<% } %>
 				 	/>
 				<button id="search-clear-str" class="btn search-buttons__button search__settings" title="Очистить"><i class="fa fa-close fa-2x"></i></button>

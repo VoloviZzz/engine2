@@ -1,8 +1,7 @@
 const request = require('request');
-const api = require('../memory-book-api');
+const memoryBookApi = require('../memory-book-api');
 const formidable = require('formidable');
 const path = require('path');
-const url = require('url');
 const fs = require('fs');
 const searchDeadsLib = require('../libs/search-deads');
 const View = require('../View');
@@ -17,47 +16,44 @@ exports.loadPhoto = (req, res, next) => {
 
 	return new Promise((resolve, reject) => {
 
-		const getQuery = url.parse(req.url, true).query;
 		const form = new formidable.IncomingForm();
 
 		form.uploadDir = req.app.locals.tempUploadDir;
 		form.keepExtensions = true;
 
-		const message = 'Файл загружен на сервер';
-
 		form.parse(req, function (err, fields, files) {
 
-			files = Object.values(files);
-
-			files.forEach(file => {
+			Object.values(files).forEach(file => {
 				const fileParsePath = path.parse(file.path);
 				pathsArray.push(path.join(fileParsePath.dir, fileParsePath.base));
 			})
 
 			return resolve(pathsArray);
 		});
-	}).then((pathsArray) => {
+	})
+		.then(pathsArray => {
 
-		const photos = pathsArray.map((path) => {
-			return fs.createReadStream(path);
-		});
+			const photos = pathsArray.map(path => {
+				return fs.createReadStream(path);
+			});
 
-		var formData = {
-			__function__: 'uploadPhoto',
-			key: '',
-			photo: photos,
-			dead_id: dead_id,
-			dead_code: '74-3435',
-			author_id: req.session.user.id
-		};
+			var formData = {
+				__function__: 'uploadPhoto',
+				key: '',
+				photo: photos,
+				dead_id: dead_id,
+				dead_code: '74-3435',
+				author_id: req.session.user.id
+			};
 
-		return api.photos.addPhoto({ formData });
-	}).then((body) => {
-		if (body.status !== 'ok') return Promise.reject({ body, message: 'Что-то пошло не так' })
+			return memoryBookApi.photos.addPhoto({ formData });
+		})
+		.then(body => {
+			if (body.status !== 'ok') return Promise.reject({ body, message: 'Что-то пошло не так' })
 
-		return Promise.resolve();
-	}).then(() => {
-		return new Promise((resolve, reject) => {
+			return Promise.resolve();
+		})
+		.then(() => new Promise((resolve, reject) => {
 			const unlinksArray = [];
 
 			pathsArray.forEach(path => {
@@ -65,13 +61,11 @@ exports.loadPhoto = (req, res, next) => {
 			})
 
 			return resolve(Promise.all(unlinksArray));
+		})).then(() => Promise.resolve({ status: 'ok' }))
+		.catch(error => {
+			console.log(error);
+			return { status: 'bad', error, message: error.message };
 		})
-	}).then(() => {
-		return Promise.resolve({ status: 'ok' });
-	}).catch(error => {
-		console.log(error);
-		return { status: 'bad', error, message: error.message };
-	})
 }
 
 exports['add_necrologue'] = (req, res, next) => {
@@ -86,9 +80,9 @@ exports['add_necrologue'] = (req, res, next) => {
 		data.userId = req.session.user.id;
 		data.target = 'necrologues';
 
-		let graveInfo = parseDeadData(data);
+		const graveInfo = parseDeadData(data);
 
-		return api.memory.add(graveInfo);
+		return memoryBookApi.memory.add(graveInfo);
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
@@ -112,7 +106,7 @@ exports['add_biography'] = (req, res, next) => {
 
 		let graveInfo = parseDeadData(data);
 
-		return api.memory.add(graveInfo);
+		return memoryBookApi.memory.add(graveInfo);
 	}).then(() => {
 		return { status: 'ok' }
 	}).catch(error => {
@@ -123,8 +117,11 @@ exports['add_biography'] = (req, res, next) => {
 };
 
 exports['search'] = (req, res, next) => {
-	new Promise((resolve, reject) => {
-		request.get(encodeURI(`${api.memoryBookUrl}method/deads.search?q=${req.body.fullname}&part=${req.body.part}`), (error, response, body) => {
+	return new Promise((resolve, reject) => {
+
+		const encodedUrl = encodeURI(`${memoryBookApi.memoryBookUrl}method/deads.search?q=${req.body.fullname}&part=${req.body.part}`);
+
+		request.get(encodedUrl, (error, response, body) => {
 			if (error) {
 				return reject(error);
 			}
@@ -150,7 +147,7 @@ exports['search'] = (req, res, next) => {
 exports['loadMore'] = async (req, res, next) => {
 	var data = {};
 
-	var { deads, countDeads } = await api.get(`deads2?part=${req.body.part}`);
+	var { deads, countDeads } = await memoryBookApi.get(`deads2?part=${req.body.part}`);
 	data.deads = deads;
 	data.countDeads = countDeads;
 	data.part = req.body.part;
@@ -165,30 +162,31 @@ exports['loadMore'] = async (req, res, next) => {
 }
 
 exports['update'] = (req, res, next) => {
-	return api.memory.upd(req.body.table, req.body).then((result) => {
-		if (result.status == 'ok') {
-			return { status: 'ok', data: result };
-		}
+	return memoryBookApi.memory.upd(req.body.table, req.body)
+		.then(result => {
+			if (result.status !== 'ok') {
+				return Promise.reject({ status: 'bad', message: result.message });
+			}
 
-		return Promise.reject({ status: 'bad', message: result.message });
-	}).then(() => {
-		return api.memory.upd(req.body.table, { target: 'state', value: '2', id: req.body.id, table: req.body.table });
-	}).then((result) => {
-		if (result.status == 'ok') {
 			return { status: 'ok', data: result };
-		}
+		})
+		.then(() => memoryBookApi.memory.upd(req.body.table, { target: 'state', value: '2', id: req.body.id, table: req.body.table }))
+		.then(result => {
+			if (result.status !== 'ok') {
+				return Promise.reject({ status: 'bad', message: result.message });
+			}
 
-		return Promise.reject({ status: 'bad', message: result.message });
-	}).catch(error => {
-		console.log(error);
-		return { status: 'bad', message: error.message };
-	})
+			return { status: 'ok', data: result };
+		}).catch(error => {
+			console.log(error);
+			return { status: 'bad', message: error.message };
+		})
 };
 
 exports['change-state-item'] = (req, res, next) => {
 	req.body.reason = req.body.reason || false;
 
-	return api.memory.upd(req.body.table, req.body).then(result => {
+	return memoryBookApi.memory.upd(req.body.table, req.body).then(result => {
 		if (result.status == 'ok') {
 			return { status: 'ok', data: result };
 		}
@@ -204,7 +202,7 @@ exports['delete-item'] = (req, res, next) => {
 
 	if ((req.body.creator != req.session.user.id) && !!req.session.user.adminMode === false) return { status: 'bad', message: 'Нет прав для удаления' };
 
-	return api.memory.del({ target: req.body.target, id: req.body.id }).then(result => {
+	return memoryBookApi.memory.del({ target: req.body.target, id: req.body.id }).then(result => {
 		return { status: 'ok', data: result }
 	}).catch(error => {
 		console.log(error.message);
@@ -214,7 +212,10 @@ exports['delete-item'] = (req, res, next) => {
 
 exports['alphavite-search'] = (req, res, next) => {
 	new Promise((resolve, reject) => {
-		request.get(encodeURI(`${api.memoryBookUrl}deads.letter?value=${req.body.value}&part=${req.body.part}`), (error, response, body) => {
+
+		const encodedUrl = encodeURI(`${memoryBookApi.memoryBookUrl}deads.letter?value=${req.body.value}&part=${req.body.part}`);
+
+		request.get(encodedUrl, (error, response, body) => {
 			if (error) {
 				return reject(error);
 			}

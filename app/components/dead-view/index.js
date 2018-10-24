@@ -1,6 +1,6 @@
 const path = require('path');
 const request = require('request');
-const api = require('../../memory-book-api');
+const memoryBookApi = require('../../memory-book-api');
 const retailApi = require('../../retail-api');
 const searchApiLib = require('../../libs/search-deads');
 
@@ -99,7 +99,7 @@ module.exports = (app) => {
 		}
 
 		try {
-			photos = await api.photos.getPhotos(getPhotosParams);
+			photos = await memoryBookApi.photos.getPhotos(getPhotosParams);
 		} catch (error) {
 			console.log(error);
 		}
@@ -149,7 +149,7 @@ module.exports = (app) => {
 
 		dataViews.flowers = [];
 		dataViews.data = body.data;
-		dataViews.memoryBookPhotoPath = api.memoryBookPhotoPath;
+		dataViews.memoryBookPhotoPath = memoryBookApi.getPhotoPath();
 		dataViews.g = g;
 
 		return new Promise((resolve, reject) => {
@@ -169,7 +169,7 @@ function getMemory(data = [], options = {}) {
 		const values = JSON.stringify(data);
 		options = JSON.stringify(options);
 
-		request.post(api.memoryBookUrl + 'memory.get', { form: { values, options } }, (error, response, body) => {
+		request.post(memoryBookApi.memoryBookUrl + 'memory.get', { form: { values, options } }, (error, response, body) => {
 			if (error) {
 				return reject(error);
 			}

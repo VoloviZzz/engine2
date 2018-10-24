@@ -37,6 +37,7 @@
 <div class="tab-content" id="nav-tabContent">
 	<div class="tab-pane show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
 		<% cats.map(c => { %>
+			<% if(c.questions.length < 1) return false; %>
 			<div class="d-flex justify-content-between">
 				<h3 class="mt-2"><%= c.title %> (<%= c.questions.length -%>)</h3>
 				<% if(user.adminMode && c.id) { %>

@@ -27,7 +27,7 @@ exports.search = async (req, res, next) => {
 
 		return { status: 'ok', data: JSON.stringify(result) };
 	}).catch(error => {
-		return res.json({ status: 'bad', message: error.message });
+		return { status: 'bad', message: error.message };
 	})
 }
 

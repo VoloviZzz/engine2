@@ -38,7 +38,7 @@
 					<input type="file" id="imgUpload" name="achievement-img" data-id="<%= a.id -%>" class="js-achievements-upload-img">
 				</div>
 				<% } %>
-				<div class="form-group text-center">
+				<div class="form-group text-center baguetteBox">
 					<a href="<%= a.img -%>" title="<%= a.title %>">
 						<img style="width: auto; max-height: 300px;" src="<%= a.img -%>" alt="МП КПРУ. Достижения">
 					</a>
@@ -49,21 +49,21 @@
 					<p class="text-center"><%= a.text %></p>
 				<% } %>
 			</div>
-		<% }) %>
+		<% }) -%>
 		</div>
 		<% if(user.adminMode) { %>
 			<button class="btn js-achievements-add">Добавить</button>
 		<% } %>
 	</div>
-	<%if(pagination.countPages > 1){%>
-	<div class="pagination">
-		<a class="pagination__to-begin pagination__action-link" href="<%= fragment.settings.urlPage -%>">в начало</a>
-		<% for(let i = pagination.left; i < pagination.right; i++) { %>
-				<a class="pagination-item <%=pagination.curPage == i ? `pagination-item__active` : ``%>" href="<%= fragment.settings.urlPage -%>?page=<%=i%>"><%=i%></a>
-		<% } %>
-		<a class="pagination__to-end pagination__action-link" href="<%= fragment.settings.urlPage -%>?page=<%=pagination.countPages%>">в конец</a>
-	</div>
-	<%}%>
+	<% if(pagination.countPages > 1) { -%>
+		<div class="pagination">
+			<a class="pagination__to-begin pagination__action-link" href="?page=1">в начало</a>
+			<% for(let i = pagination.left; i < pagination.right; i++) { %>
+				<a class="pagination-item <%= pagination.currentPage == i ? `pagination-item__active` : ``%>" href="?page=<%= i -%>"><%= i -%></a>
+			<% } %>
+			<a class="pagination__to-end pagination__action-link" href="?page=<%= pagination.countPages -%>">в конец</a>
+		</div>
+	<% } -%>
 </section>
 	<script src="/vendors/baguettebox.js/dist/baguetteBox.min.js"></script>
 	<script src="/js/achievements-list.js" defer></script>

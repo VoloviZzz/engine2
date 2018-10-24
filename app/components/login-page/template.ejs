@@ -5,50 +5,56 @@
 		<div class="login-title__item item__login" data-item="login" data-select="true">
 			<a href="#">Вход</a>
 		</div>
-		<div class="login-title__item item__register" data-item="register" data-select="false">
-			<a href="#">Регистрация</a>
-		</div>
+		<% if(siteConfig.get('allowRegistration') == '1' || siteConfig.get('allowRegistration') === '') { %>
+			<div class="login-title__item item__register" data-item="register" data-select="false">
+				<a href="#">Регистрация</a>
+			</div>
+		<% } %>
 	</div>
 	<div class="login-body login-reg">
-		<form name="register" method="POST" id="register-form" action="/register">
-			<div class="login-body__input-group input-group required">
-				<input type="text" class="login-body__input" type="text" name="surname" required placeholder="Фамилия">
-			</div>
-			<div class="login-body__input-group input-group required">
-				<input type="text" class="login-body__input" type="text" name="firstname" required placeholder="Имя">
-			</div>
-			<div class="login-body__input-group input-group required">
-				<input type="text" class="login-body__input" type="text" name="patronymic" required placeholder="Отчество">
-			</div>
-			<div class="login-body__input-group input-group">
-				<input type="text" class="login-body__input" type="text" name="address" placeholder="Адрес">
-			</div>
-			<div class="login-body__input-group input-group required">
-				<input type="text" class="login-body__input" type="text" name="email" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" placeholder="E-mail">
-			</div>
-			<div class="login-body__input-group input-group required">
-				<input type="text" class="login-body__input" type="tel" name="phone" required placeholder="Номер телефона">
-			</div>
-			<div class="login-body__input-group input-group required">
-				<input type="password" class="login-body__input" name="password" required placeholder="Пароль">
-			</div>
-			<div class="login-body__input-group input-group required">
-				<input type="password" class="login-body__input" name="check-password" required placeholder="Подтверждение пароля">
-			</div>
-			<div class="login-body__input-group input-group login-body__agreement">
-				<div>
-					<input type="checkbox" name="agreement" class="login-agreement__checkbox" required>
+		<% if(siteConfig.get('allowRegistration') == '1' || siteConfig.get('allowRegistration') === '') { %>
+			<form name="register" method="POST" id="register-form" action="/register">
+				<div class="login-body__input-group input-group required">
+					<input type="text" class="login-body__input" type="text" name="surname" required placeholder="Фамилия">
 				</div>
-				<div class="login-agreement__right">
-					<p>Я ознакомился и принимаю
-						<a href="#" class="td-underline">Соглашение об оказании услуг</a>
-					</p>
+				<div class="login-body__input-group input-group required">
+					<input type="text" class="login-body__input" type="text" name="firstname" required placeholder="Имя">
 				</div>
-			</div>
-			<div class="login-body__input-group input-group text-center">
-				<button class="btn login-body__register-button register-next">Продолжить</button>
-			</div>
-		</form>
+				<div class="login-body__input-group input-group required">
+					<input type="text" class="login-body__input" type="text" name="patronymic" required placeholder="Отчество">
+				</div>
+				<div class="login-body__input-group input-group">
+					<input type="text" class="login-body__input" type="text" name="address" placeholder="Адрес">
+				</div>
+				<div class="login-body__input-group input-group required">
+					<input type="text" class="login-body__input" type="text" name="email" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" placeholder="E-mail">
+				</div>
+				<div class="login-body__input-group input-group required">
+					<input type="text" class="login-body__input" type="tel" name="phone" required placeholder="Номер телефона">
+				</div>
+				<div class="login-body__input-group input-group required">
+					<input type="password" class="login-body__input" name="password" required placeholder="Пароль">
+				</div>
+				<div class="login-body__input-group input-group required">
+					<input type="password" class="login-body__input" name="check-password" required placeholder="Подтверждение пароля">
+				</div>
+				<div class="login-body__input-group input-group login-body__agreement">
+					<div>
+						<input type="checkbox" name="agreement" class="login-agreement__checkbox" required>
+					</div>
+					<div class="login-agreement__right">
+						<p>Я ознакомился и принимаю
+							<a href="#" class="td-underline">Соглашение об оказании услуг</a>
+						</p>
+					</div>
+				</div>
+				<div class="login-body__input-group input-group text-center">
+					<button class="btn login-body__register-button register-next">Продолжить</button>
+				</div>
+			</form>
+		<% } else { %>
+			<h3>Регистрация на сайте временно приостановленна</h3>
+		<% } %>
 		<form style="display: none" id="confirmRegisterForm" action="POST">
 			<div class="login-body__input-group input-group required">
 				<input id="confirmedCode" type="text" class="login-body__input" name="check-phone-code" placeholder="Проверочный код из SMS">
