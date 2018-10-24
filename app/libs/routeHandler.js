@@ -78,6 +78,13 @@ module.exports.Router = (app) => {
 	const fragmentsHandler = require('./fragments')(app);
 	const apiControllers = require('require-dir')('../api');
 
+
+	Router.use(async (req, res, next) => {
+		const [, metrics] = await Model.metrics.get();
+		res.locals.metrics = metrics;
+		next();
+	})
+
 	Router.use(deleteLastSlash);
 	Router.use(constructHeaderRows);
 	Router.use((req, res, next) => {
@@ -145,6 +152,7 @@ module.exports.Router = (app) => {
 			res.locals.URIparams = routeParams || false;
 			res.locals.fullUrl = req.url;
 			res.locals.reqReferer = req.header('Referer');
+
 			await require('../componentsList')(app);
 
 			const fragmentsMap = fragments.map(async fragment =>
