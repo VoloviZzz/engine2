@@ -1,18 +1,21 @@
 var $form = $('.js-metaManage-add');
 var $addAlias = $('.js-routesAliases-add');
-
+$('.text-to-translit').on('keyup', function () {
+	$('.translit').click()
+});
 $addAlias.on('submit', function (e) {
 	e.preventDefault();
-
+	$('.translit').click()
+	console.log(this.elements);
 	var value = this.elements.alias.value;
 	var routeId = this.elements.routeId.value;
 	var params = this.elements.params.value;
-
 	var postData = {
 		alias: value,
 		route_id: routeId,
 		params: params
 	};
+	console.log(postData);
 
 	$.post('/api/routes-aliases/add', postData).done(function(result) {
 		if(result.status !== 'ok') {
@@ -97,7 +100,9 @@ $('.translit').click(function () {
 
 
 function cyrill_to_latin(text){
-	text = '/'+text;
+	if (text[0] != '/') {
+		text = '/'+text;
+	}
 	var arrru = ['Я','я','Ю','ю','Ч','ч','Ш','ш','Щ','щ','Ж','ж','А','а','Б','б','В','в','Г','г','Д','д','Е','е','Ё','ё','З','з','И','и','Й','й','К','к','Л','л','М','м','Н','н', 'О','о','П','п','Р','р','С','с','Т','т','У','у','Ф','ф','Х','х','Ц','ц','Ы','ы','Ь','ь','Ъ','ъ','Э','э','"','\'','  ',' '];
 	var arren = ['Ya','ya','Yu','yu','Ch','ch','Sh','sh','Sh','sh','Zh','zh','A','a','B','b','V','v','G','g','D','d','E','e','E','e','Z','z','I','i','J','j','K','k','L','l','M','m','N','n', 'O','o','P','p','R','r','S','s','T','t','U','u','F','f','H','h','C','c','Y','y','','','','','E', 'e','','',' ','-'];
 	for(var i=0; i<arrru.length; i++){
