@@ -10,63 +10,58 @@
 			</div>
 		<% } %>
 		<% if(fragment.settings.objectUrl !== '') { %>
-			<% vacancies.map(d => { %>
-				<% if(d.published == "0" && user.adminMode == false) return false; %>
-				<div>
-					<% if(user.adminMode) { %>
-						<div class="form-group pr-1 pl-1">
-							<label>Заголовок</label>
-							<input data-id="<%= d.id %>" class="form-control js-vacancies-title-update" type="text" value="<%= d.title %>">
-						</div>
-						<div class="form-group">
-							<button data-id="<%= d.id %>" class="btn js-vacancies-delete">Удалить</button>
-							<% if(d.published) { %>
-								<button value="0" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
-							<% }
-							else { %>
-								<button value="1" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
-							<% } %>
-						</div>
-					<% }
-					else { %>
-						<div class="d-flex mb-2">
-							<div class="pr-3">
-								<a href="<%= fragment.settings.objectUrl + '/' + d.id -%>">
-									<img src="https://placehold.it/150x150" width="150" height="150">
-								</a>
+			<% if(vacancies.length > 0) { %>
+				<% vacancies.map(d => { %>
+					<div>
+						<% if(user.adminMode) { %>
+							<div class="form-group pr-1 pl-1">
+								<label>Заголовок</label>
+								<input data-id="<%= d.id %>" class="form-control js-vacancies-title-update" type="text" value="<%= d.title %>">
 							</div>
-							<div class="d-flex flex-column">
-								<div>
-									<h3>
-										<a href="<%= fragment.settings.objectUrl + '/' + d.id -%>">
-											<%= d.title %> <%= d.published == "0" ? '(Неопубликовано)' : '' -%>
-										</a>
-									</h3>
-								</div>
-								<% if(d.published_time) { %>
-									<div>
-										Опубликовано: <%= Helpers.formatDate(d.published_time, 'dd MMMM yyyy, hh:mm') -%>
-									</div>
+							<div class="form-group">
+								<a href="<%= fragment.settings.objectUrl + '/' + d.id -%>" class="btn">Открыть</a>
+								<button data-id="<%= d.id %>" class="btn bg-delete js-vacancies-delete">Удалить</button>
+								<% if(d.published) { %>
+									<button value="0" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
+								<% }
+								else { %>
+									<button value="1" data-id="<%= d.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
 								<% } %>
 							</div>
-						</div>
-					<% } %>
-
-					<!--<div class="vacancies-item__text text-margin-bottom-p text-indent">
-						<%- Helpers.replaceLineBreaks(Helpers.trimStr(d.text, 200)) %>
+						<% }
+						else { %>
+							<div class="d-flex mb-2">
+								<div class="pr-3">
+									<a href="<%= fragment.settings.objectUrl + '/' + d.id -%>">
+										<img src="https://placehold.it/150x150" width="150" height="150">
+									</a>
+								</div>
+								<div class="d-flex flex-column">
+									<div>
+										<h3>
+											<a href="<%= fragment.settings.objectUrl + '/' + d.id -%>">
+												<%= d.title %> <%= d.published == "0" ? '(Неопубликовано)' : '' -%>
+											</a>
+										</h3>
+									</div>
+									<% if(d.published_time) { %>
+										<div>
+											Опубликовано: <%= Helpers.formatDate(d.published_time, 'dd MMMM yyyy, hh:mm') -%>
+										</div>
+									<% } %>
+								</div>
+							</div>
+						<% } %>
 					</div>
-					<% if(d.published_time) { %>
-						<div>Опубликовано: <%= Helpers.formatDate(d.published_time, 'dd MMMM yyyy, hh:mm') -%></div>
-					<% } %>
-					<div class="vacancies-item__more">
-						<a class="page-link" href="<%= fragment.settings.objectUrl + '/' + d.id -%>">Подробнее</a>
-					</div>-->
-
-				</div>
-			<% }) %>		
-		<% } else { %>
-			<h2>Для фрагмента не установлена ссылка на объект</h2>
-		<% } %>
+				<% }) %>
+			<% } else { -%>
+				<h2>Вакансии отсутствуют</h2>	
+			<% } -%>		
+		<% } else { -%>
+			<% if(user.adminMode) { -%>
+				<h2>Для фрагмента не установлена ссылка на объект</h2>
+			<% } -%>
+		<% } -%>
 	</div>
 <% if(user.adminMode) { %>
 	<script src="/admins/js/vacancies-list.js" defer></script>

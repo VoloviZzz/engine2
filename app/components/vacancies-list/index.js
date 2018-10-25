@@ -8,13 +8,18 @@ module.exports = (app) => {
 		// logic...
 
 		const { fragment } = locals;
-
 		fragment.settings.objectUrl = fragment.settings.objectUrl || '';
 
-		var [error, vacancies] = await Model.vacancies.get();
+		const vacanciesGetArgs = {};
+
+		if (!locals.user.adminMode) {
+			vacanciesGetArgs.published = '1';
+		}
+
+		var [error, vacancies] = await Model.vacancies.get(vacanciesGetArgs);
 
 		dataViews.vacancies = vacancies;
-		
+
 		dataViews.fragment = fragment;
 
 		return new Promise((resolve, reject) => {
