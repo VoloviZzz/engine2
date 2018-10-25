@@ -39,8 +39,8 @@ exports.execQuery = (queryStr, data = false) => new Promise((resolve, reject) =>
 
 	function queryCallback(err, rows) {
 		if (err) {
-			console.log('Произошла ошибка во время выполнения запроса:', err.message);
-			console.log('SQL запрос:', queryStr);
+			console.error('----> Произошла ОШИБКА во время выполнения запроса:', err.message);
+			console.error('SQL запрос:', queryStr);
 			return resolve([err, null, queryStr]);
 		}
 
@@ -50,15 +50,21 @@ exports.execQuery = (queryStr, data = false) => new Promise((resolve, reject) =>
 
 
 exports.insertQuery = (queryStr, data = false) => new Promise((resolve, reject) => {
-	if (data === false) {
-		exports.get().query(queryStr, (err, rows) => {
-			if (err) return resolve([err, null]);
-			return resolve([err, rows.insertId]);
-		})
-	} else {
-		exports.get().query(queryStr, data, (err, rows) => {
-			if (err) return resolve([err, null]);
-			return resolve([err, rows.insertId]);
-		})
-	}
+	queryStr = queryStr.replace(/\'NULL\'/ig, 'NULL');
+
+	var queryParams = [queryStr];
+	if (data !== false) queryParams.push(data);
+	queryParams.push(queryCallback);
+
+	exports.get().query(...queryParams);
+
+	function queryCallback(err, rows) {
+		if (err) {
+			console.log('----> Произошла ОШИБКА во время выполнения запроса:', err.message);
+			console.error('SQL запрос:', queryStr);
+			return resolve([err, null, queryStr]);
+		}
+
+		return resolve([err, rows.insertId]);
+	};
 })
