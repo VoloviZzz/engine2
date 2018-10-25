@@ -6,23 +6,23 @@
 </div>
 <div>
 	<% if(user.adminMode) { %>
-	<div class="form-group">
-		<label>URL для списка</label>
-		<input type="text" class="form-control js-fragment-update-settings" data-target="rootUrl" data-fragment-id="<%= fragment.id -%>" value="<%= fragment.settings.rootUrl -%>">
-	</div>
-	<div class="form-group">
-		<label>Заголовок</label>
-		<input data-id="<%= vacancy.id %>" type="text" class="form-control js-vacancies-title-update mb-2" value="<%= vacancy.title %>">
-		<button data-id="<%= vacancy.id %>" class="btn js-vacancies-delete">Удалить</button>
-		<% if (vacancy.published) { %>
-			<button value="0" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
-		<% } else { %>
-			<button value="1" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
-		<% } %>
-	</div>
-	<div class="form-group">
-		<textarea class="js-vacanciesText-update js-ckeditor-edit"><%- vacancy.text %></textarea>
-	</div>
+		<div class="form-group">
+			<label>URL для списка</label>
+			<input type="text" class="form-control js-fragment-update-settings" data-target="rootUrl" data-fragment-id="<%= fragment.id -%>" value="<%= fragment.settings.rootUrl -%>">
+		</div>
+		<div class="form-group">
+			<label>Заголовок</label>
+			<input data-id="<%= vacancy.id %>" type="text" class="form-control js-vacancies-title-update mb-2" value="<%= vacancy.title %>">
+			<button data-id="<%= vacancy.id %>" class="btn bg-delete js-vacancies-delete">Удалить</button>
+			<% if (vacancy.published) { %>
+				<button value="0" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Снять с публикации</button>
+			<% } else { %>
+				<button value="1" data-id="<%= vacancy.id %>" class="btn js-vacancies-toggle-public">Опубликовать</button>
+			<% } %>
+		</div>
+		<div class="form-group">
+			<textarea class="js-vacanciesText-update js-ckeditor-edit"><%- vacancy.text %></textarea>
+		</div>
 	<% } else { %>
 		<div class="d-flex flex-column mt-2">
 			<div class="d-flex">
@@ -36,9 +36,7 @@
 				</div>
 			</div>
 			<div class="d-flex">
-				<div>
-					<%- vacancy.text %>
-				</div>
+				<div><%- vacancy.text -%></div>
 			</div>
 			<% if(vacancy.published_time) { %>
 				<div class="text-right">
