@@ -15,6 +15,23 @@ $(document).ready(function () {
 		})
 	})
 
+	$('.js-question-updateQuestion').on('input', function () {
+		var value = $(this).val().trim();
+		var id = $(this).data('id');
+
+		var $item = $(this).parents('.js-answer');
+		var $text = $item.find('.js-question-text');
+
+		$.post('/api/questions/editQuestion', { value: value, id: id }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			$text.text(value);
+		})
+	})
+	
 	$('.js-question-updateAnswer').on('input', function () {
 		var value = $(this).val().trim();
 		var id = $(this).data('id');
@@ -115,7 +132,6 @@ $(document).ready(function () {
 		var data = {
 			title: this.elements.category.value.trim(),
 			target_id: this.elements.target_id.value
-
 		};
 
 		$.post("/api/questions/addCategory", data).done(function (result) {
