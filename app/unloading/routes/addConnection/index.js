@@ -7,7 +7,7 @@ module.exports = async function addConnection(req, res, next) {
 	try {
 		const { host, port } = req.body;
 		const title = 'Новый сайт';
-		const pingResult = await sendPost(`http://${host}:${port}/shop_api/`, { path: `connect-crm`, func: `ping` });
+		const pingResult = await sendPost(`${host}:${port}/shop_api/`, { path: `connect-crm`, func: `ping` });
 
 		if (pingResult.status !== 'ok') {
 			return res.json({ status: 'bad', message: 'На данный момент сервер недоступен' });
@@ -24,7 +24,7 @@ module.exports = async function addConnection(req, res, next) {
 		const connectConfig = require('../../config');
 		const connectData = { host: connectConfig.host, port: connectConfig.port, title, site_id: connectId };
 
-		const connectResult = await sendPost(`http://${host}:${port}/shop_api/`, { path: `connect-crm`, func: `connect-crm`, data: JSON.stringify(connectData) });
+		const connectResult = await sendPost(`${host}:${port}/shop_api/`, { path: `connect-crm`, func: `connect-crm`, data: JSON.stringify(connectData) });
 
 		if (connectResult.status !== 'ok') {
 			return res.json({ status: 'bad', message: 'Что-то пошло не так' });
@@ -46,6 +46,10 @@ module.exports = async function addConnection(req, res, next) {
 		console.error(`Произошла ошибка`);
 		console.error(error);
 
-		return res.json({ status: 'bad', ...error });
+		const message = error.code === 'ENOTFOUND'
+			? 'Хост не найден'
+			: error.message;
+
+		return res.json({ status: 'bad', message });
 	}
 }
