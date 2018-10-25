@@ -19,13 +19,13 @@ $(document).ready(function () {
 		editor.setAutoScrollEditorIntoView(true);
 		if ($elem.data('lang') == 'html') {
 			editor.session.setMode("ace/mode/html");
-		}else if ($elem.data('lang') == 'js') {
+		} else if ($elem.data('lang') == 'js') {
 			editor.session.setMode("ace/mode/javascript");
-		}else if ($elem.data('lang') == 'ejs') {
+		} else if ($elem.data('lang') == 'ejs') {
 			editor.session.setMode("ace/mode/ejs");
-		}else if ($elem.data('lang') == 'css') {
+		} else if ($elem.data('lang') == 'css') {
 			editor.session.setMode("ace/mode/css");
-		}else {
+		} else {
 			editor.session.setMode("ace/mode/html");
 		}
 
@@ -121,14 +121,28 @@ $(document).ready(function () {
 	// -----------------------------------------------------------------------------
 
 	$('.js-headerNav-edit').on('input', function (e) {
-		var id = $(this).data('id');
-		var target = $(this).data('target');
-		var value = $(this).val().trim();
+
+		var $this = $(this);
+
+		var item = $this.parents('.js-headerMenu-item').get(0);
+		var $item = $(item);
+
+		var $link = $item.find('> .js-link-wrapper > .js-headerMenu-item-link');
+
+		var id = $this.data('id');
+		var target = $this.data('target');
+		var value = $this.val().trim();
 
 		$.post('/api/headerNav/upd', { id: id, target: target, value: value }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
+			}
+
+			if (target == 'href') {
+				$link.attr('href', value);
+			} else if (target == 'title') {
+				$link.text(value);
 			}
 		});
 	});
@@ -426,6 +440,15 @@ $(document).ready(function () {
 		postData.target = 'published';
 		postData.value = value;
 		postData.fragment_id = fragmentId;
+
+		var $fragment = $this.parents('.fragment-item');
+
+		var $disallowPublished = $fragment.find('.js-fragment-disallowPublished');
+
+		if ($disallowPublished.length && value == '1') {
+			alert('Невозможно опубликовать фрагмент, так как не выполнено условие его публикации: ' + $disallowPublished.val());
+			return false;
+		}
 
 		$.post('/api/fragments/upd', postData).done(function (result) {
 			if (result.status !== 'ok') {
