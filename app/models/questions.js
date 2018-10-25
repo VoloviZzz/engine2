@@ -76,7 +76,8 @@ exports.del = (arg = {}) => {
 exports.addCategory = (args = {}) => {
 	var { target_id, title, ...args } = args;
 
-	if ([target_id, title].includes(undefined || '')) return Promise.resolve([new Error('Нет необходимых параметров')]);
+	if(!target_id) return [new Error('Не выбран target вопросов')];
+	if(!title) return [new Error('Не указан заголовок вопросов')];
 
 	return db.execQuery(`INSERT INTO questions_categories SET ?`, { target_id, title });
 }
