@@ -34,7 +34,7 @@ exports.get = async (arg = {}) => {
 	for (const fragment of fragments) {
 		const { id: fragment_id } = fragment;
 
-		var [error, settings] = await db.execQuery(`SELECT * FROM fragments_settings WHERE fragment_id = ?`, [fragment_id]);
+		var [error, settings = []] = await db.execQuery(`SELECT * FROM fragments_settings WHERE fragment_id = ?`, [fragment_id]);
 		if (error) {
 			console.error(error);
 			throw new Error(error);
