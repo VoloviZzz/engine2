@@ -16,7 +16,7 @@ const checkAdminMiddleware = (req, res, next) => {
 
 const clearSessionData = (req, res, next) => {
 	req.session.user = null;
-	res.redirect(req.header('Referer'));
+	res.redirect(req.header('Referer') || '/');
 }
 
 const toggleAdminMode = (req, res, next) => {
