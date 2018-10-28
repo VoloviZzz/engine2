@@ -35,6 +35,7 @@
 		"resize-crop": "0.0.3",
 		"rollbar": "^2.4.4",
 		"serve-favicon": "^2.5.0",
+		"sharp": "^0.21.0",
 		"unzip": "^0.1.11",
 		"x-date": "^1.0.2",
 		"zip-loader": "^1.1.0"
