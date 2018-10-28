@@ -20,73 +20,77 @@
 	font-size: 20px;
 }
 
+.slick-arrow {
+	z-index: 1;
+}
+
 </style>
 
 <% if(user.adminMode) { %>
-<div class="container-fluid">
-    <div class="form-row">
-        <div class="form-group col-lg-6">
-            <label>Количество слайдов на экране</label>
-            <input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToShow"
-                type="text" value="<%= fragment.settings.slidesToShow || 1 -%>">
-        </div>
-        <div class="form-group col-lg-6">
-            <label>Сколько слайдов прокручивать за одно нажатие</label>
-            <input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToScroll"
-                type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
-        </div>
-        <div class="form-group col-lg-6">
-            <label>Минимальная высота слайдера, px</label>
-            <input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="minImageHeight"
-                type="text" value="<%= fragment.settings.minImageHeight || "" -%>">
-        </div>
-        <div class="form-group col-lg-6">
-            <label>Максимальная высота высота слайдера, px</label>
-            <input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="maxImageHeight"
-                type="text" value="<%= fragment.settings.maxImageHeight || "" -%>">
-        </div>
+	<div class="container-fluid">
+		<div class="form-row">
+			<div class="form-group col-lg-6">
+				<label>Количество слайдов на экране</label>
+				<input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToShow"
+					type="text" value="<%= fragment.settings.slidesToShow || 1 -%>">
+			</div>
+			<div class="form-group col-lg-6">
+				<label>Сколько слайдов прокручивать за одно нажатие</label>
+				<input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="slidesToScroll"
+					type="text" value="<%= fragment.settings.slidesToScroll || 1 -%>">
+			</div>
+			<div class="form-group col-lg-6">
+				<label>Минимальная высота слайдера, px</label>
+				<input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="minImageHeight"
+					type="text" value="<%= fragment.settings.minImageHeight || "" -%>">
+			</div>
+			<div class="form-group col-lg-6">
+				<label>Максимальная высота высота слайдера, px</label>
+				<input class="form-control js-fragment-update-settings" data-event="change" data-fragment-id="<%= fragment.id -%>" data-target="maxImageHeight"
+					type="text" value="<%= fragment.settings.maxImageHeight || "" -%>">
+			</div>
+		</div>
+		<div class="form-group">
+			<button class="btn js-slider-add margin-y-10" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>
+		</div>
 	</div>
-	<div class="form-group">
-		<button class="btn js-slider-add margin-y-10" data-fragment-id="<%= fragment.id -%>">Добавить слайд</button>
-	</div>
-</div>
 <% } %>
 
 <div class="fragment-slider" data-fragment-id="<%= fragment.id -%>">
     <% slides.forEach(slide => { %>
 		<div style="position: relative;" class="slide">
 			<% if(user.adminMode) { %>
-			<div class="container-fluid">
-				<% if(slide.published == 1) { %>
-					<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="0">Снять с публикации</button>
-				<% } else { %>
-					<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="1">Опубликовать</button>
-				<% } %>
-				<label>
-					<span class="btn js-slider-addSlideImage">Добавить изображение</span>
-					<input type="file" class="js-slides-uploadImage" data-id="<%= slide.id -%>" style="display: none">
-				</label>
-				<div class="form-group">
-					<label>Приоритет:</label>
-					<input class="form-control js-slide-update" data-target="priority" data-id="<%= slide.id -%>" type="text" value="<%= slide.priority -%>">
-				</div>
-				<button class="btn bg-delete js-slider-deleteSlide" data-id="<%= slide.id -%>">Удалить</button>
-				
-				<div class="form-row">
-					<div class="form-group col-lg-6">
-						<label class="fs-body">Заголовок</label>
-						<input type="text" class="form-control js-slide-update" data-target="title" data-id="<%= slide.id -%>" value="<%= slide.title -%>">
+				<div class="container-fluid">
+					<% if(slide.published == 1) { %>
+						<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="0">Снять с публикации</button>
+					<% } else { %>
+						<button class="btn js-slide-togglePublished" data-id="<%= slide.id -%>" data-value="1">Опубликовать</button>
+					<% } %>
+					<label>
+						<span class="btn js-slider-addSlideImage">Добавить изображение</span>
+						<input type="file" class="js-slides-uploadImage" data-id="<%= slide.id -%>" style="display: none">
+					</label>
+					<div class="form-group">
+						<label>Приоритет:</label>
+						<input class="form-control js-slide-update" data-target="priority" data-id="<%= slide.id -%>" type="text" value="<%= slide.priority -%>">
 					</div>
-					<div class="form-group col-lg-6">
-						<label class="fs-body">Подзаголовок</label>
-						<input type="text" class="form-control js-slide-update" data-target="subtitle" data-id="<%= slide.id -%>" value="<%= slide.subtitle -%>">
+					<button class="btn bg-delete js-slider-deleteSlide" data-id="<%= slide.id -%>">Удалить</button>
+					
+					<div class="form-row">
+						<div class="form-group col-lg-6">
+							<label class="fs-body">Заголовок</label>
+							<input type="text" class="form-control js-slide-update" data-target="title" data-id="<%= slide.id -%>" value="<%= slide.title -%>">
+						</div>
+						<div class="form-group col-lg-6">
+							<label class="fs-body">Подзаголовок</label>
+							<input type="text" class="form-control js-slide-update" data-target="subtitle" data-id="<%= slide.id -%>" value="<%= slide.subtitle -%>">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="fs-body">Текст слайда</label>
+						<textarea class="form-control js-slide-update" data-target="text" data-id="<%= slide.id -%>"><%= slide.text -%></textarea>
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="fs-body">Текст слайда</label>
-					<textarea class="form-control js-slide-update" data-target="text" data-id="<%= slide.id -%>"><%= slide.text -%></textarea>
-				</div>
-			</div>
 			<% } %>
 
 			<div style="position: absolute; z-index: 2" class="text-center w-100">
