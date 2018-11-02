@@ -1,19 +1,19 @@
 	<footer class="document-footer">
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-3 leta-logo">
+			<div class="footer-row">
+				<div class="leta-logo">
 					<a href="#">
 						<img src="/img/leta-logo.png" alt="Лета-Индекс">
 					</a>
 				</div>
-				<div class="col-md-6 copyright text-center">
+				<div class="copyright">
 					<% if(user.adminMode) { -%>
 						<input class="js-set-siteConfig" style="height: 20px" data-target="footerText" type="text" name="footerText" placeholder="Введите текст для футера" value="<%= siteConfig.get('footerText') -%>">
 					<% } else { -%>
 						<span><%= siteConfig.get('footerText') -%></span>
 					<% } -%>
 				</div>
-				<div class="col-md-3 footer-social">
+				<div class="social">
 					<% if(user.adminMode) { -%>
 						<button class="btn btn-sm js-add-social-link">+</button>
 					<% } -%>
