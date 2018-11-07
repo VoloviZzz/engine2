@@ -45,7 +45,50 @@ module.exports = (app) => {
 	})
 }
 
+exports.delComponents = (req, res, next) => {
 
+	const Model = req.app.Model;
+
+	JSON.parse(req.body.ids).forEach(elem => {
+		db.execQuery(`SELECT * FROM components where id=`+elem).then(([error, row]) => {
+			if (error) return { message: error.message, error };
+			console.log(row);
+			var component = row[0];
+			fs.unlinkSync('app/components/'+component.ctrl+'/template.ejs');
+			fs.unlinkSync('app/components/'+component.ctrl+'/index.js');
+			fs.rmdirSync('app/components/' + component.ctrl);
+			fs.unlinkSync('app/public/js/'+component.ctrl+'.js');
+			fs.unlinkSync('app/public/admins/js/'+component.ctrl+'.js');
+		  fs.unlinkSync('app/public/css/'+component.ctrl+'.css');
+			db.execQuery(`DELETE FROM components where id=`+component.id);
+		});
+	});
+	return {status: 'ok'}
+
+}
+
+exports.delComponent = (req, res, next) => {
+
+	const Model = req.app.Model;
+
+		return db.execQuery(`SELECT * FROM components where id=`+req.body.id).then(([error, row]) => {
+			if (error) return { message: error.message, error };
+			console.log(row);
+			var component = row[0];
+			fs.unlinkSync('app/components/'+component.ctrl+'/template.ejs');
+			fs.unlinkSync('app/components/'+component.ctrl+'/index.js');
+			fs.rmdirSync('app/components/' + component.ctrl);
+			fs.unlinkSync('app/public/js/'+component.ctrl+'.js');
+			fs.unlinkSync('app/public/admins/js/'+component.ctrl+'.js');
+		  fs.unlinkSync('app/public/css/'+component.ctrl+'.css');
+			db.execQuery(`DELETE FROM components where id=`+component.id);
+		}).then((val)=>{
+			return {status: 'ok'}
+		});
+
+
+
+}
 
 
 

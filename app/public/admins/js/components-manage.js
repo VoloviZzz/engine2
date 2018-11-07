@@ -19,4 +19,41 @@ $(document).ready(function () {
 		});
 	});
 
+	$('.select-for-delete').click(function () {
+		$('.js-delete-selected-route').hide();
+		$('.select-for-delete').each(function () {
+			if ($(this).prop("checked") == true) {
+				$('.js-delete-selected-route').show();
+			}
+		});
+	});
+
+	$('.js-delete-route').click(function () {
+		$.post('/api/components/delComponent', {id: id})
+		.done(function (result) {
+			if (result.status == 'ok') {
+				console.log(result);
+				// toast.success('Компоненты удалены')
+			}
+		});
+	});
+
+	$('.js-delete-selected-route').click(function () {
+		var ids = [];
+		var index = 1;
+		$('.select-for-delete:checked').each(function () {
+			ids.push($(this).data('route-id'));
+			$(this).parent().parent().delay(100*index).hide(100);
+			index++;
+		});
+		ids = JSON.stringify(ids);
+		$.post('/api/components/delComponents', {ids: ids})
+		.done(function (result) {
+			if (result.status == 'ok') {
+				console.log(result);
+				//toast.success('Компоненты удалены')
+			}
+		});
+	});
+
 });

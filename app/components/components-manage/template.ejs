@@ -62,19 +62,22 @@
 	<table class="table table-hover">
     <thead>
       <tr>
+        <td style="text-align: left"><button style="display: none" class="js-delete-selected-route btn"> <i class="fa fa-remove"></i> </button></td>
         <td style="text-align: left">Заголовок</td>
         <td style="text-align: center">Контроллер</td>
         <td style="text-align: right">Действия</td>
       </tr>
     </thead>
     <tbody>
+
       <% componentsList.forEach((c) => { %>
       <tr>
+      <td><input style="transform: scale(3.4) translate(3px,1.4px);" type="checkbox" class="select-for-delete" data-route-id="<%= c.id -%>" name="select"></td>
         <td><%= c.title %></td>
         <td style="text-align: center"><%= c.ctrl %></td>
         <td style="text-align: right">
           <a class="js-show-edit-route-form route-item__admin-btn btn" href = "/admin-components/<%= c.id -%>" data-route-id="<%= c.id -%>">Редактировать</a>
-          <button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= c.id -%>">Удалить компанент</button>
+          <button class="js-delete-route route-item__admin-btn btn" data-route-id="<%= c.id -%>">Удалить</button>
         </td>
       </tr>
       <% })%>

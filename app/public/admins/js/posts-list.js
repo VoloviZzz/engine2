@@ -176,8 +176,6 @@ $(document).ready(function () {
 
 				$.post('/api/posts/get', { id: id })
 				.done(function (res) {
-					console.log(res);
-					console.log(res.rows[0].text);
 					if (res.rows[0].text == null) {
 						var target = 'text';
 						var value = '<img src="'+result.data.fileUrl+'">';
@@ -190,6 +188,16 @@ $(document).ready(function () {
 							return location.reload();
 						});
 					}
+					var target = 'main_photo';
+					var value = result.data.fileUrl;
+					$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
+						if (result.status !== 'ok') {
+							console.log(result);
+							return alert(result.message);
+						}
+
+						return location.reload();
+					});
 				});
 				return false;
 			}
