@@ -181,7 +181,7 @@ $(document).ready(function () {
 						var value = '<img src="'+result.data.fileUrl+'">';
 						$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
 							if (result.status !== 'ok') {
-								console.log(result);
+								// console.log(result);
 								return alert(result.message);
 							}
 
@@ -192,7 +192,7 @@ $(document).ready(function () {
 					var value = result.data.fileUrl;
 					$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
 						if (result.status !== 'ok') {
-							console.log(result);
+							// console.log(result);
 							return alert(result.message);
 						}
 
