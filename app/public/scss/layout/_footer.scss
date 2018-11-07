@@ -14,18 +14,32 @@
     a:hover {
         color: $link-hover-color;
     }
-}
 
-.footer-social{
-    text-align: right;
-}
+    .footer-row {
+        display: flex;
+        justify-content: space-between;
 
-@media (max-width: 767px){
-    .document-footer div{
-        text-align: center;
+        .social{
+            text-align: right;
+        }
     }
-    .footer-social{
-        text-align: center;
-        font-size: 27px;
+}
+
+@media (max-width: 768px){
+
+    .document-footer {
+
+        .footer-row {
+            flex-direction: column;
+    
+            .social {
+                text-align: center;
+                font-size: 27px;
+            }
+        }
+
+        div {
+            text-align: center;
+        }
     }
 }

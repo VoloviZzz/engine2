@@ -27,4 +27,8 @@
 			<input type="checkbox" class="js-fragment-update-settings" id="rewiewOnlyRegister" data-fragment-id="<%= fragment.id -%>" data-target="onlyRegister" data-event="change" value="1">
 		<% } %>
 	</div>
+
+	<% if(!fragment.settings.targetType) { %>
+		<input type="hidden" class="js-fragment-disallowPublished" value="Для публикации фрагмента необходимо установить категорию отзывов.">
+	<% } %>
 <% } %>

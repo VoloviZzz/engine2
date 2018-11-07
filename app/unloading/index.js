@@ -13,6 +13,7 @@ app.get(`/`, require('./routes/home'));
 app.post(`/ping`, require('./routes/ping'));
 
 app.post('/addConnection', require(`./routes/addConnection`));
+app.post('/updateConnection', require(`./routes/updateConnection`));
 
 app.post(`/addPositions`, require(`./routes/positions`).add);
 app.post(`/getPositions`, require(`./routes/positions`).get);

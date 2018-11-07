@@ -54,6 +54,21 @@ exports.changeCategory = (req, res, next) => {
 	})
 }
 
+exports.editQuestion = (req, res, next) => {
+	const Model = req.app.Model;
+	
+	if (typeof req.body.id == 'undefined') {
+		return { status: 'bad', message: 'editQuestion: Не указан id' }
+	}
+
+	return Model.questions.upd({ target: 'question', value: req.body.value, id: req.body.id }).then(result => {
+		return { status: 'ok' };
+	}).catch(error => {
+		return { status: 'bad', message: 'error' };
+	})
+
+}
+
 exports.editAnswer = (req, res, next) => {
 	const Model = req.app.Model;
 	if (typeof req.body.id == 'undefined') {

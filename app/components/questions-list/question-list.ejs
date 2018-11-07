@@ -1,10 +1,11 @@
 <ol class="default-list">
 	<% questions.map(q => { %>
-		<li class="answer">
-			<span class="show-question-button"><%-q.question -%></span>
+		<li class="js-answer answer">
+			<span class="js-question-text show-question-button"><%- q.question -%></span>
 			<div class="text-indent question">
 				<% if(user.adminMode) { %>
-					<textarea class="form-control js-question-updateAnswer w-100" data-id="<%= q.id -%>" rows="3"><%- q.answer -%></textarea>
+					<input type="text" class="form-control my-2 js-question-updateQuestion" data-id="<%= q.id -%>" value="<%= q.question -%>">
+					<textarea class="form-control js-question-updateAnswer w-100" data-id="<%= q.id -%>"><%- q.answer -%></textarea>
 				<% } else { %>
 					<%- Helpers.replaceLineBreaks(q.answer) -%>
 				<% } %>

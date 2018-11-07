@@ -16,7 +16,7 @@ const checkAdminMiddleware = (req, res, next) => {
 
 const clearSessionData = (req, res, next) => {
 	req.session.user = null;
-	res.redirect(req.header('Referer'));
+	res.redirect(req.header('Referer') || '/');
 }
 
 const toggleAdminMode = (req, res, next) => {
@@ -56,7 +56,7 @@ Router.get('/sitemap.xml', async (req, res, next) => {
 			};
 		}
 
-		const addRowByTarget = row => {
+		const addRowByTarget = (row, route) => {
 			return row.target ? (route.object_target_id == row.target ? row : false) : row;
 		};
 
@@ -94,10 +94,9 @@ Router.get('/sitemap.xml', async (req, res, next) => {
 			if (error) throw new Error(error);
 
 			const result = allRows
-				.filter(addRowByTarget)
-				.filter(addRowByPublic)
-				.map(setRowAliasUrlIfExist);
-
+				.filter(row => addRowByTarget(row, route))
+				.filter(row => addRowByPublic(row))
+				.map(row => setRowAliasUrlIfExist(row));
 
 			result.forEach(row => pushUrlInUrls(row, urlToOBject));
 		}

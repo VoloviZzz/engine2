@@ -1,8 +1,10 @@
 <div class="menu-list">
-	<% HeaderRows.forEach((r) => { -%>
+	<% HeaderRows.forEach(r => { -%>
 		<% if (user.adminMode) { -%>
-			<div class="menu-item">
-				<div class="menu-text"><a href="<%= r.href -%>"><%= r.title -%></a></div>
+			<div class="js-headerMenu-item menu-item">
+				<div class="js-link-wrapper menu-text">
+					<a class="js-headerMenu-item-link" href="<%= r.href -%>"><%= r.title -%></a>
+				</div>
 				<div class="menu-text">
 					<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-lg fa-ellipsis-v"></i>
@@ -27,9 +29,9 @@
 					<% r.childs.forEach(child => { %>
 						<% if (typeof child.type !== "undefined" && child.type == "categories") return; %>
 
-						<li>
-							<div class="submenu-inner">
-								<a href="<%= child.href -%>">
+						<li class="js-headerMenu-item">
+							<div class="js-link-wrapper submenu-inner">
+								<a class="js-headerMenu-item-link" href="<%= child.href -%>">
 									<%= child.title -%>
 								</a>
 								<a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

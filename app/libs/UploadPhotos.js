@@ -4,6 +4,8 @@ var md5 = require('md5')
 var resizeCrop = require('resize-crop');
 var formidable = require('formidable');
 
+const sharp = require('sharp');
+
 const path = require('path');
 const util = require('util');
 const fs = require('fs');
@@ -46,15 +48,15 @@ module.exports = (req, data = {}) => {
 		 * @param {Object} config объект с настройками для генерации нового изображения
 		 */
 		const generateResizeImage = (originPath, destPath, config) => {
-			return new Promise((resolve, reject) => {
-				resizeCrop({ src: originPath, dest: destPath, width: config.width, height: config.height, gravity: 'center', }, (error, filePath) => {
-					if (error) {
-						return reject(error);
-					}
 
-					return resolve(filePath);
-				});
-			})
+			return sharp(originPath)
+				.resize(config.width, config.height, {
+					fit: sharp.fit.fill,
+					background: { r: 255, g: 255, b: 255, alpha: 1 },
+					withoutEnlargement: true
+				})
+				.toFile(destPath)
+				.then(info => console.log(info))
 		};
 
 		const formParse = async (error, fields, files) => {

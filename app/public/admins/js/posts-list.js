@@ -12,13 +12,13 @@ $(document).ready(function () {
 	$('input[type=radio]').on('click', checkInput);
 	function updPosts(target, id) {
 		if (target == 'show') {
-			$.post('/api/posts/upd', {id:id ,target:'show_similar' ,value: 1});
-		}else if (target == 'hide') {
-			$.post('/api/posts/upd', {id:id ,target:'show_similar' ,value: 0});
-		}else if (target == 'ids') {
-			$.post('/api/posts/upd', {id:id ,target:'random_similar' ,value: 0});
-		}else if (target == 'random') {
-			$.post('/api/posts/upd', {id:id ,target:'random_similar' ,value: 1});
+			$.post('/api/posts/update', { id: id, target: 'show_similar', value: 1 });
+		} else if (target == 'hide') {
+			$.post('/api/posts/update', { id: id, target: 'show_similar', value: 0 });
+		} else if (target == 'ids') {
+			$.post('/api/posts/update', { id: id, target: 'random_similar', value: 0 });
+		} else if (target == 'random') {
+			$.post('/api/posts/update', { id: id, target: 'random_similar', value: 1 });
 		}
 	}
 	function checkInput() {
@@ -27,7 +27,7 @@ $(document).ready(function () {
 			updPosts($(this).data('similar'), id);
 			$('.similar-input').show(200);
 			$('.similar_posts').show(200);
-		}else if ($(this).data('similar') == 'random') {
+		} else if ($(this).data('similar') == 'random') {
 			updPosts($(this).data('similar'), id);
 			$('.similar-input').hide(200);
 			$('.similar_posts').hide(200);
@@ -36,7 +36,7 @@ $(document).ready(function () {
 			updPosts($(this).data('similar'), id);
 			$('.similar').show(200);
 			$('.input-radio[type=radio]:checked').each(function () {
-				if($(this).data('similar') == 'ids'){
+				if ($(this).data('similar') == 'ids') {
 					$('.similar-input').show(200);
 					$('.similar_posts').show(200);
 				}
@@ -175,33 +175,36 @@ $(document).ready(function () {
 			success: function success(result) {
 
 				$.post('/api/posts/get', { id: id })
-				.done(function (res) {
-					if (res.rows[0].text == null) {
-						var target = 'text';
-						var value = '<img src="'+result.data.fileUrl+'">';
-						$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
+					.done(function (res) {
+						if (res.rows[0].text == null) {
+							var target = 'text';
+							var value = '<img src="' + result.data.fileUrl + '">';
+							$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
+								if (result.status !== 'ok') {
+									console.log(result);
+									return alert(result.message);
+								}
+
+								return location.reload();
+							});
+						}
+						var target = 'main_photo';
+						var value = result.data.fileUrl;
+						$.post('/api/posts/update', { target: target, id: id, value: value }).done(function (result) {
 							if (result.status !== 'ok') {
-								// console.log(result);
+								console.log(result);
 								return alert(result.message);
 							}
 
 							return location.reload();
 						});
-					}
-					var target = 'main_photo';
-					var value = result.data.fileUrl;
-					$.post('/api/posts/upd', { target: target, id: id, value: value }).done(function (result) {
-						if (result.status !== 'ok') {
-							// console.log(result);
-							return alert(result.message);
-						}
 
-						return location.reload();
 					});
-				});
-				return false;
+
 			}
 		});
+
+		return false;
 	}
 
 	function postUpdate(e, CKvalue) {

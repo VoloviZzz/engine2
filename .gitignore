@@ -27,3 +27,4 @@ jsconfig.json
 nodemon.json
 
 app/unloading/config.js
+.idea/

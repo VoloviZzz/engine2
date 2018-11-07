@@ -7,20 +7,10 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const { fragment } = locals;
-		fragment.settings.objectUrl = fragment.settings.objectUrl || '';
+		const [error, files] = await Model.uploadedFiles.get();
+		if (error) return [, error.message];
 
-		const vacanciesGetArgs = {};
-
-		if (!locals.user.adminMode) {
-			vacanciesGetArgs.published = '1';
-		}
-
-		var [error, vacancies] = await Model.vacancies.get(vacanciesGetArgs);
-
-		dataViews.vacancies = vacancies;
-
-		dataViews.fragment = fragment;
+		dataViews.files = files;
 
 		return new Promise((resolve, reject) => {
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

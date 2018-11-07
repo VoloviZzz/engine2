@@ -4,7 +4,7 @@
 	<% if(fragment.block_id !== block_id) return false; %>
 
 
-	<div class="fragment-item">
+	<div class="fragment-item js-fragment-item" data-id="<%= id -%>">
 		<% if(user.adminMode) { %>
 			<div class="fragment-setting-window">
 				<button href="#" class="setting-call-btn <%= fragment.published != '1' ? 'fragment-not-published' : '' -%>"></button>
@@ -21,9 +21,9 @@
 					<span class="btn-blue">Минимальная высота фрагмента:</span>
 					<input class="btn-blue js-fragment-update-settings" data-event="change" data-target="minHeight" data-fragment-id="<%= id -%>" type="text" value="<%= fragment.settings.minHeight || '' -%>">
 					<% if(fragment.published == '1') { %>
-						<button class="btn-blue js-fragment-update" data-event="click" data-value="0" data-target="published" data-fragment-id="<%= id -%>">Снять с публикации</button>
+						<button class="btn-blue js-fragment-togglePublished" data-event="click" data-value="0" data-target="published" data-fragment-id="<%= id -%>">Снять с публикации</button>
 					<% } else { %>
-						<button class="btn-blue js-fragment-update" data-event="click" data-value="1" data-target="published" data-fragment-id="<%= id -%>">Опубликовать</button>
+						<button class="btn-blue js-fragment-togglePublished" data-event="click" data-value="1" data-target="published" data-fragment-id="<%= id -%>">Опубликовать</button>
 					<% } %>
 					<button class="js-fragment-delete btn-blue" data-fragment-id="<%= id -%>">Удалить фрагмент со страницы</button>
 				</div>
