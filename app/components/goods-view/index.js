@@ -6,7 +6,7 @@ const path = require('path');
  * @return array
  * Получаем массив для хлебных крошек
  */
-function breadcrumb(cat, id) {
+const breadcrumb = (cat, id) => {
 
 	//Создаем пустой массив
 	const brc = {};
@@ -28,31 +28,11 @@ function breadcrumb(cat, id) {
 
 module.exports = (app) => {
 	const Model = app.Model;
-	return (data = {}) => {
+	return ({ locals, session, dataViews } = {}) => {
 		return new Promise(async (resolve, reject) => {
 
-			let object_id, object_alias;
 
-			if (data.locals.dynamicRouteAlias) {
-				object_alias = data.locals.dynamicRouteAlias;
-			}
-			else {
-				object_id = data.locals.dynamicRouteNumber;
-			}
-
-			if (!!object_id === false && !!object_alias === false) return resolve([, "Отсутствует аргумент для динамического фрагмента страницы"])
-
-			const dataViews = {
-				user: {},
-				locals: {},
-			};
-
-			if (object_alias) {
-				[, aliases] = await Model.aliases.get({ title: object_alias, target: 'goods_pos' });
-				if (aliases.length < 1) return resolve([, 'Товар не найден'])
-
-				object_id = aliases[0].target_id;
-			}
+			const object_id = locals.dynamicRouteNumber;
 
 			var [[error, goodsPropsBindValues], [error, goodsProps], [error, goodsCats]] = await Promise.all([
 				Model.goodsPropsBindValues.get({ good_id: object_id }),
@@ -64,7 +44,7 @@ module.exports = (app) => {
 			dataViews.goodsProps = goodsProps;
 
 			const [posError, [pos]] = await app.Model.goodsPositions.get({ id: object_id });
-			if (posError) return resolve([, posError.message]);
+			if (posError) return resolve([posError, posError.message]);
 			if (!!pos === false) return resolve([, 'Страница не найдена']);
 
 			dataViews.position = pos;
@@ -91,17 +71,23 @@ module.exports = (app) => {
 				WHERE gp.cat_id = '${pos.cat_id}' AND gp.id <> '${pos.id}' ORDER BY RAND() LIMIT ${countSimilarPosts}`);
 
 			dataViews.similarPositions = similarPositions;
-			data.locals.route.title = pos.title;
+			locals.route.title = pos.title;
 
-			[error, dataViews.goodsPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
+			var [error, aliases] = await Model.aliases.get({ route_id: locals.route.id, params: locals.URIparams });
+			if (error) throw new Error(error);
 
-			Object.assign(dataViews.user, data.locals.user);
-			Object.assign(dataViews.locals, data.locals);
+			dataViews.aliases = aliases;
 
+			[error, positionPhotos] = await Model.photos.get({ target: 'goodsPosition', target_id: dataViews.position.id });
 			dataViews.partName = pos.service == 0 ? 'goods.ejs' : 'service.ejs';
 
-			const templatePath = path.join(__dirname, 'template.ejs');
-			const template = app.render(templatePath, dataViews, (err, str) => {
+			positionPhotos = positionPhotos.sort((a) => {
+				return a.id !== dataViews.position.main_photo;
+			});
+
+			dataViews.goodsPhotos = positionPhotos;
+
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

@@ -15,7 +15,7 @@ exports.get = (arg = {}) => {
 			SELECT q.*
 			FROM questions q
 			WHERE
-				id > 0
+				q.id > 0
 				${type}
 				${category_id}
 				${author}
@@ -71,4 +71,21 @@ exports.del = (arg = {}) => {
 	if (typeof arg.id == 'undefined') return Promise.resolve([new Error('Нет параметра id')]);
 
 	return db.execQuery(`DELETE FROM questions WHERE id = '${arg.id}'`);
+}
+
+exports.addCategory = (args = {}) => {
+	var { target_id, title, ...args } = args;
+
+	if(!target_id) return [new Error('Не выбран target вопросов')];
+	if(!title) return [new Error('Не указан заголовок вопросов')];
+
+	return db.execQuery(`INSERT INTO questions_categories SET ?`, { target_id, title });
+}
+
+exports.deleteCategory = (args = {}) => {
+	var { id } = args;
+
+	if ([id].includes(undefined || '')) return Promise.resolve([new Error('Нет необходимых параметров')]);
+
+	return db.execQuery(`DELETE FROM questions_categories WHERE id = ?`, id);
 }

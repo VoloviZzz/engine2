@@ -30,6 +30,10 @@
 	color: #333333;
 }
 
+.feedback__form input:focus, .feedback__form textarea:focus {
+	border-color: #ef6c35;
+}
+
 .feedback__form {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -70,14 +74,14 @@
 .feedback__telephone, .feedback__email {
 	width: 50%;
 	/*max-width: 264px;*/
-  max-width: 214px;
+  	max-width: 214px;
 }
 
 .feedback__form .feedback__message {
 	width: 100%;
 	max-height: 180px;
 	padding-top: 4px;
-	margin-top: 61px;
+	margin-top: 40px;
 	margin-bottom: 37px;
 	border: 1px solid #999999;
 	resize: none;
@@ -155,7 +159,7 @@
 }
 
 @media (max-width: 767px) {
-	.feedbac__title {
+	.feedback__title {
 		margin: 0 auto;
 	}
 

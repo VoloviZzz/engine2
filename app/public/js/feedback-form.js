@@ -1,5 +1,5 @@
 $(document).ready(function (e) {
-	$('.feedback__form').on('submit', function (e) {
+	$('.js-feedback-form').on('submit', function (e) {
 
 		var formData = {};
 

@@ -7,18 +7,15 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		var currentTarget = 'Вызов агентов';
-
 		const postsGetParams = {};
 
-		if (session.user.adminMode == false) {
+		if (locals.user.adminMode == false) {
 			postsGetParams.public = '1';
 		}
 
 		var [error, agents] = await Model.agents.get(postsGetParams);
 
 		dataViews.agents = agents;
-		dataViews.user = session.user;
 		dataViews.fragment = locals.fragment;
 
 		return new Promise((resolve, reject) => {

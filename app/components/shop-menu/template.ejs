@@ -1,10 +1,13 @@
-<% var level = level|| 0;%>
+<%
+	var level = level || 0,
+		link = "/store-cat/";
+%>
 
-<ul class="section-menu fs-regular">
+<ul class="section-menu js-shop-menu">
 	<% for(let id in catsTree) { %>
 		<% var s = catsTree[id] -%>
-		<li class="section-menu-item <%= catId == s.id ? 'active' : '' -%>">
-			<a href="/shop-categories/<%= s.id %>" style="width: 100%; padding-left: <%= 20 * level -%>px">
+		<li data-cat-id="<%= s.id -%>" class="js-shop-menu-item section-menu-item section-menu-item-user">
+			<a href="<%= s.alias || link + s.id  -%>" style="width: 100%; padding-left: <%= 20 * level -%>px">
 				<p><%= s.title -%></p>
 			</a>
 			<% if(!!catsTree[id]['childs'] === true) { %>

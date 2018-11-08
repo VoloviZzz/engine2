@@ -2,6 +2,26 @@
 
 $(document).ready(function () {
 
+	$('.js-good-change').on('change', function (e) {
+		var postData = {};
+
+		postData.id = this.dataset.id;
+		postData.target = this.dataset.target;
+		postData.value = this.value.trim();
+
+		if (!!postData.id === false || !!postData.target === false || !!postData.value === false && postData.value !== '') return alert('Ошибка входных параметров');
+
+		$.post('/api/goodsPosition/upd', postData).done(function (result) {
+
+			if (result.status !== 'ok') {
+				console.log(result.error);
+				alert(result.message);
+			}
+
+			return location.reload();
+		});
+	})
+
 	$('.js-goodsPosition-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
@@ -20,6 +40,8 @@ $(document).ready(function () {
 	$('.js-goodsPhoto-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/photos/delete', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
@@ -29,6 +51,29 @@ $(document).ready(function () {
 			location.reload();
 		});
 	});
+
+	$('.js-goodsPhoto-setMainPhoto').on('click', function (e) {
+
+		var postData = {};
+		var $this = $(this);
+
+		var value = $this.data('id');
+		var id = $this.data('position-id');
+		var target = 'main_photo';
+
+		postData.value = value;
+		postData.id = id;
+		postData.target = target;
+
+		$.post('/api/goodsPosition/upd', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result.error);
+				alert(result.message);
+			}
+
+			return location.reload();
+		})
+	})
 
 	$('#uploadable-files').on('change', function (e) {
 		var $input = $(this);
@@ -166,29 +211,52 @@ $(document).ready(function () {
 		});
 	});
 
-	$('.js-props-values-add').on('click', function (e) {
-		var title = $('#js-props-title').val().trim();
-		var value = $('#js-props-value').val().trim();
+	$('.js-props-values-add').on('submit', function (e) {
+		e.preventDefault();
 
-		if (!!title === false || !!value === false) return alert('Оба поля должны быть заполнены');
+		var inputTitle = this.elements['param_value_title'];
+
+		var propId = this.elements['prop-id'].value;
+		var value = inputTitle.value;
+
+		if ((!!propId === false || propId == '0') || !!value === false) {
+			alert('Оба поля должны быть заполнены');
+			return false;
+		};
 
 		var postData = {
-			ctrl: 'addPropsvalues',
-			prop_title: title,
+			prop_id: propId,
 			prop_value: value
 		};
 
-		$.post('/api/goodsPosition/addPropsvalues', postData).done(function (result) {
-			if (result.status == 'bad') {
+		$.post('/api/goodsPosition/addPropsValues', postData).done(function (result) {
+			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
 
-			return location.reload();
-		}).catch(function (error) {
-			alert('Что-то пошло не так');
+			alert('Значение добавлено');
+			inputTitle.value = '';
 		});
+
+		return false;
 	});
+
+	$('.js-props-add').on('submit', function (e) {
+
+		var title = this.elements['param-title'].value.trim();
+
+		$.post('/api/goodsPosition/addProps', { title: title }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+
+			location.reload();
+		});
+
+		return false;
+	})
 
 	$('.js-paramsBindValues-delete').on('click', function (e) {
 		var postData = {
@@ -196,16 +264,18 @@ $(document).ready(function () {
 			id: $(this).data('id')
 		};
 
+		var $this = $(this);
+
+		if (confirm('Удалить?') === false) return false;
+
 		$.post('/api/goodsPosition/deleteParamsBindValues', postData).done(function (result) {
 			if (result.status == 'bad') {
 				console.log(result);
 				return alert(result.message);
 			}
 
-			return location.reload();
-		}).catch(function (error) {
-			alert('Что-то пошло не так');
-		});
+			$this.parents('.js-paramBindValue-item').remove();
+		})
 	});
 
 	$('.js-change-goodsPosition-priceType').on('change', function (e) {

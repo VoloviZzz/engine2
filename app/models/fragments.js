@@ -2,11 +2,13 @@ const db = require('../libs/db');
 
 exports.get = async (arg = {}) => {
 
+	const resFragments = [];
+
 	arg.route_id = !!arg.route_id === true ? `AND f.route_id = ${arg.route_id}` : '';
 	arg.public = !!arg.public === true ? `AND f.published = '${arg.public}'` : '';
 	arg.id = 'id' in arg ? `AND f.id = ${arg.id}` : '';
 
-	const fragments = await db.execQuery(`
+	var [error, fragments] = await db.execQuery(`
             SELECT f.*,
                 c.title as component_title,
                 c.ctrl as component_ctrl,
@@ -22,9 +24,32 @@ exports.get = async (arg = {}) => {
 				${arg.public}
 				${arg.id}
             ORDER BY f.priority DESC, f.id ASc`
-	)
+	);
 
-	return Promise.resolve(fragments);
+	if (error) {
+		console.error(error);
+		throw new Error(error);
+	}
+
+	for (const fragment of fragments) {
+		const { id: fragment_id } = fragment;
+
+		var [error, settings = []] = await db.execQuery(`SELECT * FROM fragments_settings WHERE fragment_id = ?`, [fragment_id]);
+		if (error) {
+			console.error(error);
+			throw new Error(error);
+		}
+
+		const settingsObj = settings.reduce((state, item) => {
+			state[item.target] = item.value;
+			return state;
+		}, {});
+
+		fragment.settings = settingsObj;
+		resFragments.push(fragment);
+	}
+
+	return Promise.resolve([error, resFragments]);
 }
 
 exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
@@ -44,8 +69,8 @@ exports.getFragmentsData = async (arg = { id: false, fragment_id: false }) => {
 }
 
 exports.setData = async function ({ fragment_id, data }) {
-	let err;
-	[err, fragmentData] = await exports.getFragmentsData({ fragment_id })
+
+	var [err, fragmentData] = await exports.getFragmentsData({ fragment_id })
 	if (err) throw new Error(err);
 
 	let strData = JSON.stringify({ content: data });

@@ -1,20 +1,21 @@
-<div class="goods-list">
+<div class="container-fluid">
 	<div class="goods-list__items-wrapper">
 		<% if(data.length < 1) { %>
 			<h2>Товары отсутствуют</h2>
 		<% } %>
 		<% data.forEach((p, i) => { %>
-			<div class="goods-list__item">
+			<div class="goods-list__item js-goods-list__item">
 				<% if(user.adminMode) { %>
 					<button class="btn js-goodsPosition-delete" data-id="<%= p.id -%>">Удалить товар</button>
 				<% } %>
 				<div class="goods-item__title">
-					<span>
-						<%= p.title %>
-					</span>
+					<% if(p.connect_id && user.admin) { %>
+						<div class="text-center" style="color: #4e60ec">(Товар является выгруженным)</div>
+					<% } %>
+					<span><%= p.title %></span>
 				</div>
 				<div class="goods-item__img">
-					<a href="/product/<%= p.id -%>">
+					<a href="<%= p.alias || fragment.settings.positionsRootUrl + '/' + p.id -%>">
 						<img src="<%= Helpers.replaceImageIfNotExist(`${p.photo_path}/preview/${p.photo_name}`) %>" alt="Товары">
 					</a>
 				</div>
@@ -27,12 +28,13 @@
 					<% } else { %>
 						<span><%= Helpers.formatPrice(p.price) %> руб.</span>
 					<% } %>
-					<a href="/product/<%= p.id -%>" class="btn">Открыть</a>
+					<a href="<%= p.alias || fragment.settings.positionsRootUrl + '/' + p.id -%>" class="btn">Открыть</a>
 				</div>
 			</div>
 		<% }) %>
 	</div>
 </div>
+
 <% if(user.adminMode) { %>
 	<script src="/admins/js/goods-list.js" defer></script>
 <% } %>

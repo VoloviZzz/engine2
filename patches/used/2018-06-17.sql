@@ -12,4 +12,4 @@ SET p.target = pt.id;
 
 ALTER TABLE `posts` CHANGE `cat` `cat` INT(11) UNSIGNED NULL DEFAULT NULL;
 
-ALTER TABLE `routes` ADD `active_menu_item` INT NULL DEFAULT NULL COMMENT 'подсветка активного пункта меню' AFTER `menu_id`;
+ALTER TABLE `routes` ADD `active_menu_item` INT NULL DEFAULT NULL COMMENT 'Подсветка активного пункта меню' AFTER `menu_id`;

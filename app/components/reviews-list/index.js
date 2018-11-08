@@ -7,18 +7,22 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const { fragment, dynamicRouteNumber: targetId } = locals;
+		let { fragment, dynamicRouteNumber: targetId } = locals;
+		targetId = targetId || 0;
+
+		fragment.settings.onlyRegister = fragment.settings.onlyRegister || 1;
+		fragment.settings.targetType = fragment.settings.targetType || 0;
 
 		// пагинация
 		const reviewsCountParams = {
 			targetType: fragment.settings.targetType,
 			targetId: targetId,
 			public: '1',
-			or: { client_id: session.user.id }
+			or: { client_id: locals.user.id }
 		};
 
 		var [error, [{ reviews_count: countReviews }]] = await Model.reviews.getCount(reviewsCountParams);
-		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, paramName: 'reviewsPage', currentPage: locals.reqQuery.reviewsPage, pageUrlQuery: locals.reqQuery });
+		const pagination = new Pagination({ countOnPage: 10, allCountPosts: countReviews, paramName: 'page', currentPage: locals.reqQuery.page, pageUrlQuery: locals.reqQuery });
 		// ----------
 
 		const reviewsGet = {
@@ -26,7 +30,7 @@ module.exports = (app) => {
 			targetType: fragment.settings.targetType,
 			targetId: targetId,
 			or: {
-				client_id: session.user.id
+				client_id: locals.user.id
 			},
 			limit: `${pagination.options.offset}, ${pagination.options.countOnPage}`,
 		};
@@ -38,14 +42,13 @@ module.exports = (app) => {
 
 		dataViews.reviews = reviews;
 		dataViews.reviewsNotPublished = reviewsNotPublished;
-		dataViews.user = session.user;
 		dataViews.reviewsCats = reviewsCats;
 		dataViews.fragment = fragment;
 		dataViews.targetId = targetId;
 		dataViews.pagination = pagination;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

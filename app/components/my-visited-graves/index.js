@@ -1,6 +1,8 @@
 const path = require('path');
 const request = require('request');
 
+const kpruApi = require('../../libs/search-deads');
+
 module.exports = (app) => {
 
 	const Model = app.Model;
@@ -8,17 +10,17 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const userId = session.user.id;
+		const userId = locals.user.id;
 		var visitedIds = [];
 		var visitedGraves = [];
 		var visitedGravesCards = [];
 
 		if (!!userId === false) return Promise.resolve([, 'Ошибка доступа компонента']);
 
-		locals.placesArray = [];
+		dataViews.placesArray = [];
 
 		var [error, visitedGraves] = await Model.visitedGraves.get({ client_id: userId });
-		locals.visitedGraves = visitedGraves;
+		dataViews.visitedGraves = visitedGraves;
 
 		let functionsArray = [];
 
@@ -35,14 +37,10 @@ module.exports = (app) => {
 			console.log(e);
 		}
 
-		locals.visitedGravesCards = visitedGravesCards;
-
-		dataViews.user = session.user;
-
-		Object.assign(dataViews, locals);
+		dataViews.visitedGravesCards = visitedGravesCards;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);
@@ -56,7 +54,7 @@ function getDeadInfo(id) {
 
 		const postData = {
 			__function__: 'getDead',
-			key: apiKey,
+			key: kpruApi.apiKey,
 			id: id
 		};
 

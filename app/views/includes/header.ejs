@@ -1,96 +1,72 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height">
+       	<meta name="viewport" content="initial-scale=1.0, width=device-width">
         <meta charset="utf-8">
         <meta content="yes" name="apple-mobile-web-app-capable" />
-        <meta name="description" content="<%= route.seo_description %>">
-        <meta name="keywords" content="<%= route.seo_keywords %>">
-        <title><%= route.title -%> <%= ` - ` + siteConfig.get("appendTitle") -%></title>
-        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">-->
+        <meta name="description" content="<%= route.meta.description || route.seo_description %>">
+        <meta name="keywords" content="<%= route.meta.keywords || route.seo_keywords %>">
+        <title><%= route.meta.title || route.title -%> <%= ` - ` + siteConfig.get("appendTitle") -%></title>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&amp;subset=cyrillic">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,600,700,900&amp;subset=cyrillic">
-        <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/css/static.css">
+		<link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/css/static.min.css">
 		<link rel="shortcut icon" href="<%= siteConfig.get("favicon") -%>">
-		<% if(user.adminMode) { %>
+		<% if(user.admin) { %>
 			<link rel="stylesheet" href="/admins/css/admin.css">
 		<% } %>
     </head>
     <body>
+		<%- include('./admin-panel.ejs') -%>
+		<%- include('./route-settings-modal') -%>
         <header class="document-header">
-            <nav class="header-nav">
-                <div class="site-band">
-                	<button class="aside-toggle btn"> <i class="fa fa-angle-down fa-2x"></i></button>
-                    <img class="nav-band" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>" <%= user.admin ? `id=toggle-admin-mode` : "" %>>
-					<% if(user.adminMode) { %>
-						<label class="js-siteLogo-edit-btn" style="cursor: pointer">
-							<span>+</span>
-							<input class="js-siteLogo-file" type="file" style="display: none;">
-						</label>
-					<% } %>
-                    <button class="toggle-menu btn"></button>
-                </div>
-                <div class="menu-container">
-                    <ul class="header-menu header-menu-center">
-						<% HeaderRows.forEach((r) => { %>
-							<li>
-								<% if(user.adminMode) { %>
-									<div style="display: flex;">
-                                        <div>
-                                            <div>
-                                                <input type="text" class="js-headerNav-edit" data-target="title" data-id="<%= r.id -%>" value="<%= r.title -%>">
-                                            </div>
-                                            <div>
-                                                <input type="text" class="js-headerNav-edit" data-target="href" data-id="<%= r.id -%>" value="<%= r.href -%>">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <button class="btn js-headerNav-delete" data-id="<%= r.id -%>" style="height: 100%">У</button>
-                                        </div>
-                                    </div>
-								<% } else { %>
-									<a href="<%= r.href -%>"><%= r.title -%></a>
-								<% } %>
-							</li>
-						<% }) %>
-						<% if (user.id && user.admin) { %>
+			<div class="container-fluid">
+				<div class="menu">
+					<div class="logo-wrapper">
+						<div class="logo-file">
+							<a href="/"><img class="logo" alt="Логотип letaindex" height="30" src="<%= Helpers.replaceImageIfNotExist(siteConfig.get("siteLogo")) -%>"></a>
 							<% if(user.adminMode) { %>
-								<div>
-									<button class="btn js-headerNav-add" style="height: 100%">+</button>
-								</div>
+								<label class="js-siteLogo-edit-btn edit-btn">
+									<span>+</span>
+									<input class="js-siteLogo-file d-none" type="file">
+								</label>
 							<% } %>
+						</div>
+
+						<button class="toggle-menu btn"></button>
+					</div>
+
+					<div class="menu-center">
+						<%- include("./header-menu") -%>
+					</div>
+
+					<div class="menu-right">
+
+						<% if(siteConfig.get("showCart") === "1") { %>
+							<div>
+								<a class="shopping-cart-link" href="/cart">
+									<i class="fa fa-shopping-cart fa-lg"></i>
+									<span 
+										class="badge shopping-cart-badge" 
+										id="js-shoppingCart-goodsCount" 
+										style="<%= session.shoppingCart.totalCountGoods < 1 ? "display: none" : "" -%>"><%= session.shoppingCart.totalCountGoods -%></span>
+								</a>
+							</div>
 						<% } %>
-					</ul>
-                    <ul class="header-menu header-menu-right">
-                        <li>
-							<a class="shopping-cart-link" href="/cart">
-								<i class="fa fa-shopping-cart fa-lg"></i>
-								<span 
-									class="badge shopping-cart-badge" 
-									id="js-shoppingCart-goodsCount" 
-									style="<%= session.shoppingCart.totalCountGoods < 1 ? 'display: none' : '' -%>"><%= session.shoppingCart.totalCountGoods -%></span>
-							</a>
-						</li>
+
 						<% if(!user.id) { %>
-							<li>
-								<a href="/login?referer=<%= locals.route.reqUrl -%>">Вход</a>
-							</li>
+							<div>
+								<a href="/login">Вход</a>
+							</div>
 						<% } else { %>
-							<% if (user.admin) { %>
-								<li>
-									<a href="/admin" title="Перейти в админ. панель"><span class="fa fa-cogs"></span></a>
-								</li>
-							<% } %>
-							<li>
+							<div>
 								<a href="/my"><%= user.clientName %></a>
-							</li>
-							<li>
+							</div>
+							<div>
 								<a href="/logout">Выйти</a>
-							</li>
+							</div>
 						<% }%>
-					</ul>
-                </div>
-            </nav>
-            <!--<div class="aside-toggle">Меню слева</div>-->
-        </header>
+					</div>
+				</div>
+			</div>
+		</header>

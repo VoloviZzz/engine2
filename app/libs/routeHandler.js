@@ -1,11 +1,21 @@
+const storage = require('../storage');
+const Model = require('../models');
+
+const ejs = require('ejs');
+
 const deleteLastSlash = (req, res, next) => {
 	req.url = req.path !== '/' && req.path.trim().substr(-1) === '/' ? req.path.slice(0, -1) : req.path;
 	next();
 }
 
+const replaceParams = (route) => {
+	route.url = route.url.replace(/:params/g, '([а-яА-Яa-zA-Z0-9\-]+)');
+	return route;
+}
+
 const getRoute = (url) => {
 
-	const routesList = exports.data.routesList;
+	const routesMap = storage.get('routesMap');
 
 	return new Promise((resolve, reject) => {
 
@@ -14,92 +24,74 @@ const getRoute = (url) => {
 			routeParams: false
 		};
 
-		routesList.some(route => {
+		Object.values(routesMap).some(route => {
+			route = replaceParams(route);
 			const urlExec = new RegExp(`^${route.url}$`).exec(url);
 
 			if (urlExec !== null) {
-				result.route = route;
-				result.routeParams = urlExec.slice(1);
+				if (route.alias) {
+
+					const alias = routesMap[url];
+
+					alias.route_url = alias.route_url;
+					result.route = { ...routesMap[alias.route_url] };
+					result.routeParams = alias.params.split(',');
+
+					result.route.aliasId = alias.id;
+				} else {
+					result.route = route;
+					result.routeParams = urlExec.slice(1);
+				}
+
 				return true;
 			}
-		})
+		});
 
 		return resolve(result);
 	})
 }
-const getRouteByAlias = (url) => {
-
-	const aliasesObj = exports.data.aliasesObj;
-	const routesObj = exports.data.routesObj;
-
-	return new Promise((resolve, reject) => {
-		const result = {
-			route: false,
-			routeParams: false
-		}
-
-		if (url in aliasesObj) {
-			const alias = aliasesObj[url];
-			result.route = routesObj[alias.route_url];
-			result.routeParams = alias.params.split(',');
-		}
-
-		return resolve(result);
-	})
-}
-
-const replaceParams = (route) => {
-	route.url = route.url.replace(/:params/g, '([a-zA-Z0-9\-]+)');
-	return route;
-}
-
 const { createVisitor } = require('./visitors');
 const { createVisit } = require('./visits');
 const { createView } = require('./views');
 const { constructHeaderRows } = require('./header-nav');
 
-exports.data = {};
+const initRoutesList = async () => {
 
-exports.setupRoutesList = ({ routesList, aliasesList }) => {
+	const routesMap = {};
 
-	const routesObj = routesList.reduce((general, current) => {
-		general[current.url] = current;
-		return general;
-	}, {});
+	var [error, routesList] = await Model.routes.get();
+	var [error, aliasesList] = await Model.aliases.get();
 
-	routesList = routesList.map(replaceParams);
+	[...routesList, ...aliasesList].reduce((object, item) => {
+		object[item.url] = item;
+		return object;
+	}, routesMap);
 
-	const aliasesObj = aliasesList.reduce((general, current) => {
-		general[current.alias] = current;
-		return general;
-	}, {});
-
-	exports.data.aliasesObj = aliasesObj;
-	exports.data.routesObj = routesObj;
-	exports.data.routesList = routesList;
+	storage.set(`routesMap`, routesMap);
 }
 
+exports.initRoutesList = initRoutesList;
 
-module.exports.Router = async (app) => {
 
-	const { Model } = app;
-
+module.exports.Router = (app) => {
 	const Router = app.express.Router();
 	const fragmentsHandler = require('./fragments')(app);
+	const apiControllers = require('require-dir')('../api');
 
-	var [error, routesList] = await app.db.execQuery(`SELECT r.*, t.name as template_name FROM routes r LEFT JOIN templates t ON t.id = r.template_id ORDER BY dynamic`);
-	var [error, aliasesList] = await app.db.execQuery(`SELECT a.*, r.url as route_url FROM routes_aliases a LEFT JOIN routes r ON r.id = a.route_id`);
 
-	routesList = routesList || [];
-	aliasesList = aliasesList || [];
-
-	exports.setupRoutesList({ routesList, aliasesList });
+	Router.use(async (req, res, next) => {
+		const [, metrics] = await Model.metrics.get();
+		res.locals.metrics = metrics;
+		next();
+	})
 
 	Router.use(deleteLastSlash);
 	Router.use(constructHeaderRows);
 	Router.use((req, res, next) => {
 		res.locals.session = req.session;
 		res.locals.reqQuery = req.query;
+		res.locals.templatesList = [];
+		res.locals.user = { ...req.session.user };
 		next();
 	});
 
@@ -109,12 +101,8 @@ module.exports.Router = async (app) => {
 
 	Router.get('*', async (req, res, next) => {
 		try {
-			const getRouteQuery = getRoute(req.url);
-			const getRouteByAliasQuery = getRouteByAlias(req.url);
-
-			const [byUrl, byAlias] = await Promise.all([getRouteQuery, getRouteByAliasQuery]);
-
-			const { route, routeParams } = byUrl.route ? byUrl : byAlias;
+			const findRoute = await getRoute(decodeURIComponent(req.url));
+			const { route, routeParams } = findRoute;
 
 			if (!!route === false) return next({ message: 'Страница не найдена', status: '404' });
 
@@ -130,26 +118,53 @@ module.exports.Router = async (app) => {
 				return next(err);
 			}
 
-			const getFragmentsParams = {
-				route_id: route.id
-			};
+			if (req.query['admin-mode'] == '1' && req.session.user.admin) {
+				res.locals.user.adminMode = true;
+			} else {
+				res.locals.user.adminMode = false;
+			}
 
-			if (req.session.user.adminMode === false) {
+			const getMetaParams = { route_id: route.id };
+
+			if (route.aliasId) {
+				getMetaParams.alias_id = route.aliasId;
+			}
+			else if (routeParams.length > 0 && routeParams[0]) {
+				getMetaParams.target_id = routeParams[0];
+			}
+
+			var [error, metaData] = await Model.metaManage.get(getMetaParams);
+			if (error) throw new Error(error);
+
+			route.meta = metaData[0] ? metaData[0] : {};
+
+			const getFragmentsParams = { route_id: route.id };
+
+			if (res.locals.user.adminMode === false) {
 				getFragmentsParams.public = '1';
 			}
 
 			var [err, fragments] = await Model.fragments.get(getFragmentsParams);
 			if (err) return next(err);
 
-			res.locals.route = route;
+			res.locals.route = { ...route };
 			res.locals.dynamicRouteNumber = routeParams[0] || false;
+			res.locals.URIparams = routeParams || false;
 			res.locals.fullUrl = req.url;
+			res.locals.reqReferer = req.header('Referer');
 
-			const fragmentsMap = fragments.map(async fragment => {
-				return fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals } });
-			});
+			await require('../componentsList')(app);
+
+			const fragmentsMap = fragments.map(async fragment =>
+				fragmentsHandler(fragment, { session: { ...req.session }, locals: { ...res.locals } })
+			);
 
 			const fragmentsData = await Promise.all(fragmentsMap);
+
+			if (req.session.user.admin) {
+				var [error, templatesList] = await Model.templates.get();
+				res.locals.templatesList = templatesList;
+			}
 
 			res.locals.fragmentsData = fragmentsData;
 
@@ -158,8 +173,6 @@ module.exports.Router = async (app) => {
 			next(error);
 		}
 	})
-
-	let apiControllers = require('require-dir')('../api');
 
 	Router.post(['/api/:ctrl', '/api/:ctrl/:action'], async (req, res, next) => {
 		let { ctrl, action } = req.params;
@@ -174,19 +187,19 @@ module.exports.Router = async (app) => {
 
 			const controllerResult = await controllerAction(req, res, next);
 
-			if (!!controllerResult === true && 'sendData' in controllerResult) {
+			if (typeof controllerResult == 'function') {
+				return controllerResult(req, res, next);
+			}
+			else if (!!controllerResult === true && 'sendData' in controllerResult) {
 				return res.send(controllerResult.sendData)
 			}
 			else {
+				if (controllerResult.status !== 'ok') {
+					controllerResult.message = controllerResult.message || "Что-то пошло не так. Попробуйте позже";
+				}
+
 				res.json(controllerResult)
 			}
-			// else if (req.xhr === true) {
-			// 	res.json(controllerResult)
-			// } 
-			// else {
-			// 	var backUrl = urlLib.parse(req.header('Referer')).pathname;
-			// 	return res.redirect(backUrl);
-			// }
 		}
 		else {
 			res.json({ status: 'bad', message: 'Действие не найдено' })

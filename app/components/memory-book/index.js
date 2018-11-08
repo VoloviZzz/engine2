@@ -1,5 +1,5 @@
 const path = require('path');
-const api = require('../../memory-book-api');
+const memoryBookApi = require('../../memory-book-api');
 
 const Pagination = require('../../libs/pagination');
 
@@ -30,13 +30,17 @@ module.exports = (app) => {
 		};
 
 		try {
-			data.deads = await api.get('deads2', getMemoryParams);
+			data.deads = await memoryBookApi.get('deads2', getMemoryParams);
 		} catch (e) {
 			console.log('Ошибка api "memory_book":');
 			console.log(e);
 
 			if (e.code == "ECONNREFUSED") {
 				return Promise.resolve([e, '<b>Сервер "Книги памяти" временно недоступен.</b>']);
+			} else if (e.code == "ENOTFOUND") {
+				return Promise.resolve([e, '<b>Не удалось подключиться к серверу "Книги памяти".</b>']);
+			} else {
+				return Promise.resolve([e, '<b>В работе "Книги памяти" что-то пошло не так.</b>']);
 			}
 		}
 
@@ -49,12 +53,10 @@ module.exports = (app) => {
 			{ target: 'photos', title: 'фото' }
 		];
 
-
 		data.countDeads = data.deads.countDeads || 0;
 		data.deads = data.deads.deads || [];
 		dataViews.data = data;
 		dataViews.fragment = fragment;
-		dataViews.user = session.user;
 		dataViews.pagination = pagination;
 		dataViews.currentMemoryTarget = target;
 

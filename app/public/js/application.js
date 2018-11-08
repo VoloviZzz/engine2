@@ -94,36 +94,10 @@ $(document).ready(function () {
 		}
 	};
 
-
-	$('.header-nav .toggle-menu.btn').on('click', function (e) {
-		$('.menu-container').toggleClass('menu-container__active');
-
-		if ($('.menu-container').hasClass('menu-container__active')) {
-			$(document.body).addClass("section-left-body");
-		} else {
-			$(document.body).removeClass("section-left-body");
-		}
-
-		if ($('.section-left').hasClass('section-left__active')) {
-			$('.section-left').removeClass('section-left__active');
-		}
+	$('.toggle-menu').on('click', function(e){
+		$('.menu-center').toggleClass('active');
+		$('.menu-right').toggleClass('active');
 	});
-
-	$('.header-nav .aside-toggle.btn').on('click', function (e) {
-		$('.section-left').toggleClass('section-left__active');
-
-		if ($('.section-left').hasClass('section-left__active')) {
-			$(document.body).addClass("section-left-body");
-		} else {
-			$(document.body).removeClass("section-left-body");
-		}
-
-		if ($('.menu-container').hasClass('menu-container__active')) {
-			$('.menu-container').removeClass('menu-container__active');
-		}
-	});
-
-
 
 	// ------------------ Вкладки --------------------------------
 	var tabs = document.querySelectorAll(".tab");
@@ -188,6 +162,8 @@ Shop.prototype.updCategories = function (args) {
 Shop.prototype.delCategories = function (args) {
 	var id = args.id;
 
+	if (confirm('Удалить?') === false) return false;
+
 	$.post('/api/shop/delCategories', { id: id }).done(function (result) {
 		if (result.status !== 'ok') {
 			console.log(result);
@@ -250,6 +226,10 @@ function Slider() { };
 Slider.prototype.deleteSlide = function (_ref5) {
 	var slide_id = _ref5.slide_id,
 		fragment_id = _ref5.fragment_id;
+
+	if (confirm('Удалить слайд?') === false) {
+		return false;
+	}
 
 	$.post('/api/slider/deleteSlide', { slide_id: slide_id, fragment_id: fragment_id }).done(function (result) {
 		if (result.status == 'ok') return location.reload();
@@ -325,6 +305,11 @@ Fragments.prototype.changeComponent = function (fragment_id, value) {
 };
 
 Fragments.prototype.delete = function (fragment_id) {
+
+	if (confirm('Удалить фрагмент?') === false) {
+		return false;
+	}
+
 	$.post('/api/fragments/del', { fragment_id: fragment_id }).done(function (result) {
 		if (result.status === 'ok') return location.reload();
 
@@ -379,6 +364,10 @@ MenuList.prototype.addMenuGroup = function (_ref11) {
 
 MenuList.prototype.deleteMenuItem = function (_ref12) {
 	var menu_id = _ref12.menu_id;
+
+	if (confirm('Удалить пункт меню?') === false) {
+		return false;
+	}
 
 	$.post('/api/menu/deleteMenuItem', { menu_id: menu_id }).done(function (result) {
 		if (result.status == 'ok') return location.reload();
@@ -444,9 +433,123 @@ RoutesList.prototype.updRoute = function (data) {
 };
 
 RoutesList.prototype.showEditForm = function (elem) {
-	var $this = $(elem);
-	var $routeItem = $this.parent('.js-route-item');
+	/*var $this = $(elem);
+	var $routeItem = $('td[data-route-id="'+$this.attr('data-route-id')+'"]');
 
-	$routeItem.toggleClass('js-edit-form--show');
+	$routeItem.toggleClass('js-edit-form--show');*/
 };
+
+
+
+
+var Alert = undefined;
+
+(function(Alert) {
+  var alert, error, info, success, warning, _container;
+  info = function(message, title, options) {
+    return alert("info", message, title, "fa fa-info-circle", options);
+  };
+  warning = function(message, title, options) {
+    return alert("warning", message, title, "fa fa-exclamation-triangle", options);
+  };
+  error = function(message, title, options) {
+    return alert("error", message, title, "fa fa-minus-circle", options);
+  };
+  success = function(message, title, options) {
+    return alert("success", message, title, "fa fa-check-circle", options);
+  };
+  alert = function(type, message, title, icon, options) {
+    var alertElem, messageElem, titleElem, iconElem, innerElem, _container;
+    if (typeof options === "undefined") {
+      options = {};
+    }
+    options = $.extend({}, Alert.defaults, options);
+    if (!_container) {
+      _container = $("#alerts");
+      if (_container.length === 0) {
+        _container = $("<ul>").attr("id", "alerts").appendTo($("body"));
+      }
+    }
+    if (options.width) {
+      _container.css({
+        width: options.width
+      });
+    }
+      alertElem = $("<li>").addClass("alert").addClass("alert-" + type);
+      setTimeout(function() {
+         alertElem.addClass('open');
+      }, 1);
+    if (icon) {
+      iconElem = $("<i>").addClass(icon);
+      alertElem.append(iconElem);
+    }
+    innerElem = $("<div>").addClass("alert-block");
+    alertElem.append(innerElem);
+    if (title) {
+      titleElem = $("<div>").addClass("alert-title").append(title);
+      innerElem.append(titleElem);
+    }
+    if (message) {
+      messageElem = $("<div>").addClass("alert-message").append(message);
+      innerElem.append(messageElem);
+    }
+    if (options.displayDuration > 0) {
+      setTimeout((function() {
+        leave();
+      }), options.displayDuration);
+    } else {
+      innerElem.append("<em>Click to Dismiss</em>");
+    }
+    alertElem.on("click", function() {
+      leave();
+    });
+     function leave() {
+         alertElem.removeClass('open');
+          alertElem.one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',  function() { return alertElem.remove(); });
+    }
+    return _container.prepend(alertElem);
+  };
+  Alert.defaults = {
+    width: "",
+    icon: "",
+    displayDuration: 3000,
+    pos: ""
+  };
+  Alert.info = info;
+  Alert.warning = warning;
+  Alert.error = error;
+  Alert.success = success;
+  return _container = void 0;
+
+
+})(Alert || (Alert = {}));
+
+this.Alert = Alert;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ----------------------------------------------------------------------------------------

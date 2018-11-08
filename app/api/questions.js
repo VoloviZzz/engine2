@@ -1,4 +1,5 @@
 const db = require('../libs/db');
+const Model = require('../models');
 
 exports.createTarget = (req, res, next) => {
 	const Model = req.app.Model;
@@ -34,7 +35,8 @@ exports.addQuestion = (req, res, next) => {
 	return Model.questions.add({ question: req.body.question, target: req.body.target }).then(result => {
 		return { status: 'ok' }
 	}).catch(error => {
-		return res.send(error.toString());
+		console.log(error);
+		return { message: error.toString(), error };
 	});
 
 }
@@ -50,6 +52,21 @@ exports.changeCategory = (req, res, next) => {
 	}).catch(error => {
 		return { status: 'bad', message: 'error' };
 	})
+}
+
+exports.editQuestion = (req, res, next) => {
+	const Model = req.app.Model;
+	
+	if (typeof req.body.id == 'undefined') {
+		return { status: 'bad', message: 'editQuestion: Не указан id' }
+	}
+
+	return Model.questions.upd({ target: 'question', value: req.body.value, id: req.body.id }).then(result => {
+		return { status: 'ok' };
+	}).catch(error => {
+		return { status: 'bad', message: 'error' };
+	})
+
 }
 
 exports.editAnswer = (req, res, next) => {
@@ -86,6 +103,7 @@ exports.togglePublication = async (req, res, next) => {
 	})
 
 }
+
 exports.changeCategory = (req, res, next) => {
 	const { Model } = req.app;
 
@@ -94,4 +112,22 @@ exports.changeCategory = (req, res, next) => {
 	}).catch(error => {
 		return { status: 'bad', message: 'error' };
 	})
+}
+
+exports.addCategory = async (req, res, next) => {
+	var [error] = await Model.questions.addCategory(req.body);
+	if (error) {
+		return { status: 'bad', message: error.message };
+	}
+
+	return { status: 'ok' };
+}
+
+exports.deleteCategory = async (req, res, next) => {
+	var [error] = await Model.questions.deleteCategory(req.body);
+	if (error) {
+		return { status: 'bad', message: error.message };
+	}
+
+	return { status: 'ok' };
 }

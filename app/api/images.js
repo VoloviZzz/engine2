@@ -24,30 +24,38 @@ exports.uploadCKeditor = function (req, res, next) {
 		});
 	})
 }
+exports.uploadPanoram = (req, res, next) => {
+	const getQuery = req.query;
+	const form = new formidable.IncomingForm();
 
+	form.uploadDir = req.app.locals.uploadDirPanorams;
+	form.keepExtensions = true;
+
+	return new Promise((resolve, reject) => {
+
+		form.parse(req, function (err, fields, files) {
+
+			let fileParsePath = path.parse(files.upload.path);
+			let fileUrl = `/uploads/panorams/${fileParsePath.name}${fileParsePath.ext}`;
+
+			return resolve({ status: 'ok', message: 'test', data: { fileUrl } });
+		});
+	})
+}
 exports.upload = (req, res, next) => {
-
 	const getQuery = req.query;
 	const form = new formidable.IncomingForm();
 
 	form.uploadDir = req.app.locals.uploadDir;
 	form.keepExtensions = true;
 
-	const message = 'Файл загружен на сервер';
-
 	return new Promise((resolve, reject) => {
 
-		// form.on('file', function (field, file) {
-		//rename the incoming file to the file's name
-		// fs.rename(file.path, path.join(form.uploadDir, getQuery.filename || file.name));
-		// });
-
 		form.parse(req, function (err, fields, files) {
+
 			let fileParsePath = path.parse(files.upload.path);
-
-			// let fileUrl = `/uploads/${files.upload.name}`;
-
 			let fileUrl = `/uploads/${fileParsePath.name}${fileParsePath.ext}`;
+
 			return resolve({ status: 'ok', message: 'test', data: { fileUrl } });
 		});
 	})

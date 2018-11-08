@@ -4,8 +4,9 @@ $(document).ready(function () {
 
 	var forms = new Forms();
 
-	$('#js-globalVariable-image-upload').on('change', function (e) {
+	$('.js-globalVariable-image-upload').on('change', function (e) {
 		var id = $(this).data('id');
+		var $self = $(this);
 		var fd = new FormData();
 		fd.append('upload', this.files[0]);
 
@@ -16,19 +17,41 @@ $(document).ready(function () {
 			contentType: false,
 			type: 'POST',
 			success: function success(result) {
-				if(result.status !== 'ok') {
+				if (result.status !== 'ok') {
 					console.log(result);
 					return alert(result.message);
 				}
 
-				$('#js-globalVariable-value-title').val(result.data.fileUrl);
+				$self.parent().find('#js-globalVariable-value-title').val(result.data.fileUrl);
+				$self.parent().find('#js-globalVariable-value-title').change();
 			}
 		});
 	})
 
-	$('.js-add-globalVariables--form').on('submit', function (e) {
+	$('.js-globalVariable-update').on('change', function (e) {
 		var $this = $(this);
-		var formData = forms.getFormData(this);
+		var data = $this.data();
+
+		var value = $this.val();
+		var target = data.target;
+		var id = data.id;
+
+		var postData = { value: value, target: target, id: id };
+
+		$.post('/api/globalSiteConfig/upd', postData).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				return alert(result.message);
+			}
+		})
+	});
+
+	$('.js-add-variable').on('click', function (e) {
+		var formData = {
+			title: 'Новая переменная',
+			target: 'variableName',
+			value: ''
+		};
 
 		$.post('/api/globalSiteConfig/add', formData).done(function (result) {
 			if (result.status !== 'ok') {
@@ -48,6 +71,8 @@ $(document).ready(function () {
 		var id = $this.data('id');
 
 		postData.id = id;
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/globalSiteConfig/delete', postData).done(function (result) {
 			if (result.status !== 'ok') {

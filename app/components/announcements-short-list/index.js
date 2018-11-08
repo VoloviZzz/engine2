@@ -1,23 +1,20 @@
 const path = require('path');
 
 module.exports = (app) => {
-	return (data = {}) => {
+
+	const Model = app.Model;
+
+	return async ({ locals, session, dataViews = {} }) => {
+		// logic...
+
+		const [error, offers] = await Model.offersList.get();
+
+		dataViews.offers = offers;
+
 		return new Promise((resolve, reject) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+				if (err) return resolve([err, err.toString()]);
 
-			const dataViews = {
-				user: {},
-                locals: {},
-			};
-
-			Object.assign(dataViews.user, data.locals.user);
-			Object.assign(dataViews.locals, data.locals);
-
-			const templatePath = path.join(__dirname, 'template.ejs');
-			const template = app.render(templatePath, dataViews, (err, str) => {
-				if(err) console.log(err);
-				if(err) return resolve([err, err.toString()]);
-
-	
 				return resolve([err, str]);
 			});
 		})

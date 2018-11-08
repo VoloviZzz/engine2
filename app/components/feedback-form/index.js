@@ -7,9 +7,11 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
-		const user_id = session.user.id;
+		const user_id = locals.user.id;
 		var client = {};
 		const { fragment } = locals;
+
+		fragment.settings.onlyRegistred = fragment.settings.onlyRegistred || 0;
 
 
 		if (user_id !== false) {
@@ -38,16 +40,15 @@ module.exports = (app) => {
 		dataViews.messages = [];
 		dataViews.categories = categories;
 
-		if (session.user.id) {
-			var [error, clientMessages] = await Model.feedback.get({ client_id: session.user.id });
+		if (locals.user.id) {
+			var [error, clientMessages] = await Model.feedback.get({ client_id: locals.user.id });
 
 			dataViews.messages = clientMessages;
 		}
 
 		dataViews.client = client;
 		dataViews.fragment = locals.fragment;
-		dataViews.user = session.user;
-		dataViews.formTitle = locals.fragment.settings.title || 'Обратная связь';
+		dataViews.formTitle = locals.fragment.settings.title || '';
 
 		return new Promise((resolve, reject) => {
 			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {

@@ -8,7 +8,7 @@ module.exports = function (err, req, res, next) {
 	// render the error page
 	res.status(err.status);
 
-	res.locals.route = res.locals.route || { title: 'Что-то пошло не так' };
+	res.locals.route = res.locals.route || { title: 'Что-то пошло не так', meta: {} };
 	res.locals.session = req.session;
 
 	if (req.xhr) {

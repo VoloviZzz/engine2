@@ -126,10 +126,11 @@ $(document).ready(function () {
 			data[dataName] = dataValue;
 		});
 
+		data.referer = this.elements.referer ? this.elements.referer.value : '';
+
 		$.post("/api/login", data).done(function (result) {
-			
-			var refererUrl = getParameterByName('referer') ? getParameterByName('referer') : '/';
-			if (result.status == 'ok') return location.href = refererUrl;
+
+			if (result.status == 'ok') return location.href = data.referer || '/';
 
 			if (result.status == 'not confirmed') {
 				var sendConfirmAgain = confirm(result.message);

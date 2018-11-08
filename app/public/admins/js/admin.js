@@ -1,5 +1,5 @@
 'use strict';
-
+var editors = [];
 $(document).ready(function () {
 	var fragments = new Fragments();
 	var menuList = new MenuList();
@@ -12,12 +12,22 @@ $(document).ready(function () {
 	$.each(aceEditorsElements, function (index, elem) {
 		var editor = ace.edit(elem);
 		var $elem = $(elem);
-
+		editors.push(editor);
 		var fragmentId = $elem.data('fragment-id');
 
 		editor.setTheme("ace/theme/monokai");
 		editor.setAutoScrollEditorIntoView(true);
-		editor.session.setMode("ace/mode/html");
+		if ($elem.data('lang') == 'html') {
+			editor.session.setMode("ace/mode/html");
+		} else if ($elem.data('lang') == 'js') {
+			editor.session.setMode("ace/mode/javascript");
+		} else if ($elem.data('lang') == 'ejs') {
+			editor.session.setMode("ace/mode/ejs");
+		} else if ($elem.data('lang') == 'css') {
+			editor.session.setMode("ace/mode/css");
+		} else {
+			editor.session.setMode("ace/mode/html");
+		}
 
 		editor.session.on('change', function (delta) {
 			var editorValue = editor.getValue();
@@ -33,7 +43,7 @@ $(document).ready(function () {
 				}
 			})
 		});
-	})
+	});
 
 	$('.js-goodsPositions-add').on('click', function (e) {
 		var cat_id = $(this).data('catId');
@@ -79,8 +89,6 @@ $(document).ready(function () {
 	$('.js-goodsCategories-delete').on('click', function (e) {
 		var id = $(this).data('id');
 
-		if (!confirm('Удалить данную категорию с сайта?')) return false;
-
 		return shop.delCategories({ id: id });
 	});
 
@@ -113,20 +121,37 @@ $(document).ready(function () {
 	// -----------------------------------------------------------------------------
 
 	$('.js-headerNav-edit').on('input', function (e) {
-		var id = $(this).data('id');
-		var target = $(this).data('target');
-		var value = $(this).val().trim();
+
+		var $this = $(this);
+
+		var item = $this.parents('.js-headerMenu-item').get(0);
+		var $item = $(item);
+
+		var $link = $item.find('> .js-link-wrapper > .js-headerMenu-item-link');
+
+		var id = $this.data('id');
+		var target = $this.data('target');
+		var value = $this.val().trim();
 
 		$.post('/api/headerNav/upd', { id: id, target: target, value: value }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
 			}
+
+			if (target == 'href') {
+				$link.attr('href', value);
+			} else if (target == 'title') {
+				$link.text(value);
+			}
 		});
 	});
 
 	$('.js-headerNav-add').on('click', function (e) {
-		$.post('/api/headerNav/add').done(function (result) {
+
+		var parentId = $(this).data('parent-id');
+
+		$.post('/api/headerNav/add', { parentId }).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
 				return alert(result.message);
@@ -138,6 +163,10 @@ $(document).ready(function () {
 
 	$('.js-headerNav-delete').on('click', function (e) {
 		var id = $(this).data('id');
+
+		if (confirm('Удалить пункт меню') === false) {
+			return false;
+		}
 
 		$.post('/api/headerNav/delete', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
@@ -208,8 +237,6 @@ $(document).ready(function () {
 	$('.js-slide-delete').on('click', function (e) {
 		var slide_id = $(this).data('id');
 		var fragment_id = $(this).data('fragmentId');
-
-		if (!confirm('Удалить слайд?')) return false;
 
 		return slider.deleteSlide({ slide_id: slide_id, fragment_id: fragment_id });
 	});
@@ -289,7 +316,7 @@ $(document).ready(function () {
 		return menuList.deleteMenuItem({ menu_id: menu_id });
 	});
 
-	$('.js-menuItem-edit').on('input', function () {
+	$('.js-menuItem-edit').on('change', function () {
 		var id = $(this).data('id');
 		var target = $(this).data('target');
 		var value = $(this).val().trim();
@@ -337,8 +364,9 @@ $(document).ready(function () {
 	// Удаление иконок
 	$('.js-socialLink-delete').on('click', function (e) {
 		e.preventDefault();
-		console.log('here');
 		var id = $(this).data('id');
+
+		if (confirm('Удалить?') === false) return false;
 
 		$.post('/api/socialLinks/del', { id: id }).done(function (result) {
 			if (result.status !== 'ok') {
@@ -413,6 +441,15 @@ $(document).ready(function () {
 		postData.value = value;
 		postData.fragment_id = fragmentId;
 
+		var $fragment = $this.parents('.fragment-item');
+
+		var $disallowPublished = $fragment.find('.js-fragment-disallowPublished');
+
+		if ($disallowPublished.length && value == '1') {
+			alert('Невозможно опубликовать фрагмент, так как не выполнено условие его публикации: ' + $disallowPublished.val());
+			return false;
+		}
+
 		$.post('/api/fragments/upd', postData).done(function (result) {
 			if (result.status !== 'ok') {
 				console.log(result);
@@ -461,8 +498,7 @@ $(document).ready(function () {
 		var eventName = $(elem).data('event');
 
 		if (!!eventName === false) {
-			console.log('Отсутствует eventName');
-			return alert('Отсутствует eventName');
+			eventName = 'change';
 		}
 
 		$(elem).on(eventName, function (e) {
@@ -498,6 +534,27 @@ $(document).ready(function () {
 			});
 		})
 	})
+
+	function updateFragment(id) {
+		$.post('/api/fragments/handler', { id: id }).done(function (result) {
+			if (result.status !== 'ok') {
+				console.log(result);
+				alert(result.message);
+				return location.reload();
+			}
+
+			var fragmentsData = result.fragmentsData;
+
+			fragmentsData.forEach(function (data) {
+				var id = data.id;
+				var content = data.content;
+
+				var $fragmentBody = $('.fragment-body[data-fragment-id=' + id + ']');
+
+				$fragmentBody.html(content);
+			})
+		})
+	}
 
 	$('.js-change-fragment-target').on('change', changeFragmentTarget);
 

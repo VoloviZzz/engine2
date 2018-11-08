@@ -51,10 +51,9 @@ exports.add = async (req, res, next) => {
 	var [error] = await Model.callbacks.add(req.body);
 	if (error) return { error, message: error.message };
 
-
 	if (req.body.targetId) {
 
-		[error, [agent]] = await Model.agents.get({ id: req.body.targetId });
+		[error, [agent] = []] = await Model.agents.get({ id: req.body.targetId });
 
 		if (agent.contact_phone) {
 			await app.smsc.send({

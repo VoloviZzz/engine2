@@ -1,29 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const app = express();
+
 const path = require('path');
 const ejs = require('ejs');
 const cookieSession = require('cookie-session');
-const favicon = require('serve-favicon');
 const fs = require('fs');
 const compression = require('compression');
 
-const app = express();
 
 const config = require('../config');
 const db = require('./libs/db');
 const Model = require('./models/index');
 
 app.use(compression());
-// app.use(favicon(path.join(__dirname, 'app', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
 	limit: '2048mb',
 	extended: false
 }));
@@ -39,9 +36,6 @@ const setDefaultSessionData = (req, res, next) => {
 	req.session.user.admin = req.session.user.admin || false;
 	req.session.user.adminMode = req.session.user.adminMode || false;
 	req.session.user.root = req.session.user.root || false;
-
-	res.locals.user = { ...req.session.user };
-
 	next();
 }
 
@@ -50,10 +44,6 @@ const setDefaultSessionData = (req, res, next) => {
 process.on('unhandledRejection', (error, p) => {
 	console.log(error);
 	console.error(error.message);
-
-	if (!!error.sql === true) {
-		console.log(error.sql);
-	}
 
 	fs.appendFileSync(path.join(__dirname, '..', 'logs', 'unhandledRejection-log.log'), new Date().toLocaleString() + ': ' + error.stack + '\n\n');
 });
@@ -69,8 +59,11 @@ app.locals.routesList = {};
 app.locals.libs = path.join(__dirname, 'libs');
 app.componentsPath = path.join(__dirname, 'components');
 app.locals.uploadDir = path.join(__dirname, 'public', 'uploads');
+app.locals.uploadDirPanorams = path.join(__dirname, 'public', 'uploads/panorams');
 app.locals.tempUploadDir = path.join(__dirname, 'public', 'uploads', 'temp');
 app.Helpers = app.locals.Helpers = require('./libs/Helpers');
+
+global.app = app;
 
 global.DocumentRoot = __dirname;
 global.AppRoot = path.join(__dirname);
@@ -79,19 +72,21 @@ app.viewsDir = global.ViewsDir = path.join(__dirname, 'views');
 
 global.imagesPath = 'http://system.mpkpru.ru/';
 
-app.smsc = require('./services/sendSms/');
-app.transporter = require('./services/sendEmail/');
+db.connect().then(async () => {
 
-db.connect(db.MODE_TEST, async (err) => {
-	if (err) throw new Error(err);
-
+	await require('./siteConfig')(app);
+	
+	await require('./libs/routeHandler').initRoutesList();
+	
 	// подключение обработчика маршрутов
-	const routeHandler = await require('./libs/routeHandler').Router(app);
+	const routeHandler = require('./libs/routeHandler').Router(app);
 	const errorHandler = require('./functions/error-handler');
 
+	await require('./services/sendSms').init(app);
+	await require('./services/sendEmail/').init(app);
 	await require('./componentsList')(app);
-	await require('./siteConfig')(app);
 	await require('./socialLinks')(app);
+	// await require('./aliases')(app);
 
 	// маршруты выгрузки товаров
 	app.use(`/api/unloading`, require('./unloading'));
@@ -101,7 +96,7 @@ db.connect(db.MODE_TEST, async (err) => {
 	app.use(routeHandler);
 	app.use(errorHandler);
 
-	const server = app.listen(config.web.port, (err) => {
+	app.listen(config.web.port, (err) => {
 		if (err) return console.log("Ошибка запуска сервера:" + err.message);
 		console.log("Сервер запущен на порту " + config.web.port);
 	})

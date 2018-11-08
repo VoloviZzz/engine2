@@ -1,20 +1,18 @@
 const path = require('path');
 
 module.exports = (app) => {
-	return (data = {}) => {
+	return ({ locals, session, dataViews } = {}) => {
 		return new Promise(async (resolve, reject) => {
 
-			const { locals, session } = data;
-
 			const catId = locals.dynamicRouteNumber || '';
-
 			const categoriesParams = {};
 
-			if (session.user.adminMode == false) {
+			if (locals.user.adminMode == false) {
 				categoriesParams.public = '1';
 			}
 
-			const [, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
+			var [error, goodsCategories] = await app.Model.goodsCategories.get(categoriesParams);
+			if (error) return resolve([error, error.message]);
 
 			const resultCatsObj = {};
 
@@ -24,19 +22,11 @@ module.exports = (app) => {
 
 			const catsTree = getTree(resultCatsObj);
 
-			const dataViews = {
-				user: {},
-				locals: {},
-			};
-
 			dataViews.catsTree = catsTree;
 			dataViews.catId = catId;
 
-			Object.assign(dataViews.user, data.locals.user);
-			Object.assign(dataViews.locals, data.locals);
-
 			const templatePath = path.join(__dirname, 'template.ejs');
-			const template = app.render(templatePath, dataViews, (err, str) => {
+			app.render(templatePath, dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 

@@ -6,13 +6,40 @@ const errors = {
 	falseForm: 'Отсутствует параметр form',
 }
 
+const doRequest = ({ method, url, data = {} }) => new Promise(function (resolve, reject) {
+
+	if ([api.getUrl(), api.getPhotoPath()].includes('') === true) {
+		throw new Error('Отсутствует url получения данных с книги памяти');
+	}
+
+	request({ method, url, ...data }, async (error, httpResponse, body) => {
+		if (error) reject(error);
+
+		try {
+			body = JSON.parse(body);
+			resolve(body);
+		} catch (error) {
+			reject(error);
+		}
+	});
+})
+
 const api = {
-	memoryBookPhotoPath: 'http://localhost:3007',
-	memoryBookUrl: 'http://localhost:3007/api/',
+	doRequest,
+	memoryBookUrl: app.siteConfig.get('memoryBookApiUrl'),
+	memoryBookPhotoPath: app.siteConfig.get('memoryBookMediaServer'),
+
+	getUrl() {
+		return app.siteConfig.get('memoryBookApiUrl');
+	},
+
+	getPhotoPath() {
+		return app.siteConfig.get('memoryBookMediaServer');
+	},
 
 	photos: {
-		addPhoto(data = false) {
-			return api.postFormData('photos.add', data);
+		addPhoto({ formData }) {
+			return api.postFormData('photos.add', formData);
 		},
 
 		getPhotos(data = {}) {
@@ -48,60 +75,18 @@ const api = {
 	},
 
 	get(ctrl, data = {}) {
-		return new Promise((resolve, reject) => {
-			request.get(this.memoryBookUrl + ctrl, { form: data }, function (error, httpResponse, body) {
-				if (error) {
-					reject(error);
-				}
-
-				try {
-					body = JSON.parse(body);
-
-					resolve(body);
-				} catch (error) {
-					reject({ message: 'mb.api.post: не удалось преобразовать тело ответа в JSON.', body });
-				}
-			});
-		})
+		return this.doRequest({ method: 'get', url: this.getUrl() + ctrl, data: { form: data } });
 	},
 
 	post(ctrl, data = {}) {
-		return new Promise((resolve, reject) => {
-			request.post(this.memoryBookUrl + ctrl, { form: data }, function (error, httpResponse, body) {
-				if (error) {
-					reject(error);
-				}
-
-				try {
-					body = JSON.parse(body);
-
-					resolve(body);
-				} catch (error) {
-					console.log(error);
-					reject({ message: 'mb.api.post: не удалось преобразовать тело ответа в JSON.', body });
-				}
-			});
-		})
+		return this.doRequest({ method: 'post', url: this.getUrl() + ctrl, data: { form: data } });
 	},
 
-	postFormData(ctrl, data = false) {
+	postFormData(ctrl, formData = false) {
 		if (!!data === false) return Promise.reject(`mb.api.postFormData: ${errors.falseData}`);
 		if (!!data.formData === false) return Promise.reject(`mb.api.postFormData: ${errors.falseFormData}`);
-		return new Promise((resolve, reject) => {
-			request.post(this.memoryBookUrl + ctrl, { formData: data.formData }, function (error, httpResponse, body) {
-				if (error) {
-					reject(error);
-				}
 
-				try {
-					body = JSON.parse(body);
-
-					resolve(body);
-				} catch (error) {
-					reject({ message: 'mb.api.postFormData: не удалось преобразовать тело ответа в JSON.', body });
-				}
-			});
-		})
+		return this.doRequest({ method: 'post', url: this.getUrl() + ctrl, data: { formData } });
 	},
 };
 

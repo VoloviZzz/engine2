@@ -7,51 +7,51 @@ module.exports = (app) => {
 	return async ({ locals, session, dataViews = {} }) => {
 		// logic...
 
+		const { fragment } = locals;
+		
+		fragment.settings.countOnPage = fragment.settings.countOnPage || 10;
+
 		var [error, achievements] = await Model.achievements.get();
-		if (error) throw new Error(error);
+		if (error) return Promise.resolve([error, error.toString()]);
 
-		const countOnPage = 10;
-		const curPage = locals.reqQuery.page || 1;
-		const pagOffset = (curPage - 1) * countOnPage;
+		const currentPage = locals.reqQuery.page || 1;
+		const countAchievementsOnPage = fragment.settings.countOnPage;
+		const countPages = Math.ceil(achievements.length / countAchievementsOnPage);
 
-		if (pagOffset < 0) {
-			pagOffset = 0;
+		const offsetStartIndex = (currentPage - 1) * countAchievementsOnPage;
+		const paginationOffsetStart = offsetStartIndex > 0
+			? offsetStartIndex
+			: 0;
+		
+		const paginationOffsetEnd = +paginationOffsetStart + +countAchievementsOnPage;
+
+		const resArray = achievements.slice(paginationOffsetStart, paginationOffsetEnd);
+
+		let paginationLeft = currentPage - 3;
+		let paginationRight = +currentPage + 3;
+
+		if (paginationLeft < 1) {
+			paginationRight += +Math.abs(paginationLeft);
+			paginationLeft = 1;
 		}
 
-		let countPages = achievements.length / countOnPage;
-
-		if (Number.isInteger(countPages) === false) {
-			countPages = parseInt(countPages + 1)
-		}
-
-		let resArray = achievements.slice(pagOffset, pagOffset + countOnPage);
-
-		let pagLeft = curPage - 3;
-		let pagRight = +curPage + 3;
-
-		if (pagLeft < 1) {
-			pagRight += +Math.abs(pagLeft);
-			pagLeft = 1;
-		}
-
-		if (pagRight > countPages) {
-			pagRight = countPages + 1;
+		if (paginationRight > countPages) {
+			paginationRight = countPages + 1;
 		}
 
 		const pagination = {
-			left: pagLeft,
-			right: pagRight,
-			curPage,
+			left: paginationLeft,
+			right: paginationRight,
+			currentPage,
 			countPages
 		}
 
-		dataViews.user = session.user;
 		dataViews.achievements = resArray;
 		dataViews.pagination = pagination;
 		dataViews.fragment = locals.fragment;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

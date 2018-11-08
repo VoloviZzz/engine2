@@ -29,19 +29,27 @@ module.exports = (app) => {
 
 		}
 
-		[error, photos] = await Model.photos.get({target: 'shop', target_id: shop.id});
+		[error, photos] = await Model.photos.get({ target: 'shop', target_id: shop.id });
 
-		if(error) {
+		if (error) {
+			console.error(error);
 			return Promise.resolve([, "что-то пошло не так"]);
 		}
+
+		var [error, aliases] = await Model.aliases.get({ route_id: locals.route.id, params: locals.URIparams });
+		if (error) {
+			console.error(error);
+			return Promise.resolve([, "что-то пошло не так"]);
+		}
+
+		dataViews.aliases = aliases;
 
 
 		dataViews.shop = shop;
 		dataViews.photos = photos;
-		dataViews.user = session.user;
 
 		return new Promise((resolve, reject) => {
-			const template = app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
+			app.render(path.join(__dirname, 'template.ejs'), dataViews, (err, str) => {
 				if (err) return resolve([err, err.toString()]);
 
 				return resolve([err, str]);

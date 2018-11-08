@@ -16,7 +16,6 @@ module.exports = async (req, res, next) => {
 
 function createTree(categories, sub = null) {
 	const a = {};
-	const testArray = [];
 
 	for (const category of categories) {
 		if (sub == category['parent_id']) {

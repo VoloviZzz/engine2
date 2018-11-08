@@ -10,7 +10,7 @@ $(document).ready(function () {
 	});
 
 	$('.js-show-edit-route-form').on('click', function () {
-		$('.section-center .section-content').scrollTop(0);
+		//$('.section-center .section-content').scrollTop(0);
 		return routesList.showEditForm(this);
 	});
 
