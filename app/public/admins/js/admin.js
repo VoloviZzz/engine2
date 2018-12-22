@@ -142,7 +142,7 @@ $(document).ready(function () {
 			if (target == 'href') {
 				$link.attr('href', value);
 			} else if (target == 'title') {
-				$link.text(value);
+				$link.html(value);
 			}
 		});
 	});

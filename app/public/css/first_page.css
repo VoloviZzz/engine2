@@ -1,0 +1,225 @@
+a:hover {
+    color: #59a847 !important;
+}
+a:active {
+    color: #59a847 !important;
+}
+
+.logo:hover{
+    background: url('/img/de_uro/Site-hat/Green.PNG');
+    background-size: cover;
+}
+.document-header{
+    position: fixed;
+}
+.paralax {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: -2;
+    filter: brightness(.5);
+}
+.header{
+    margin-top: 42px;
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    /* z-index: -1; */
+    text-align: center;
+}
+.header img{
+    -webkit-filter: drop-shadow(1px 1px 0 black)
+                  drop-shadow(-1px -1px 0 black);
+    filter: drop-shadow(1px 1px 0 black) 
+          drop-shadow(-1px -1px 0 black);
+}
+.header .title{
+    color: #fff;
+    font-size: 2em;
+    text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+.header .phones{
+    position: absolute;
+    right: 5%;
+    top: 0%;
+    text-align: right;
+    color: #59a847;
+    font-size: 1em;
+    text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+.header .phones a{
+    color: #59a847;
+}
+.header .desc{
+    color: #fff;
+    font-size: 2em;
+    text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+.header .btn{
+    margin: 10px;
+}
+
+.block{
+    width: 100% !important;
+}
+.zero{
+    height: 310px;
+    width:  1px;
+    z-index: -5;
+    flex: 0 0 .1px;
+}
+.first{
+    z-index: 8;
+    background-color: #fff;
+}
+.first .title{
+    padding-top: 15px;
+    text-align: center;
+    color: #478a4b;
+}
+.first .carts{
+    text-align: center;
+    margin-top: 40px;
+}
+.first .cart{
+    border: solid 3px #aaa;
+    border-radius: 15px;
+    width:  15%;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    position: relative;
+}
+.first .cart .img{
+    background: url('/img/de_uro/Site-hat/Balance1.PNG');
+    background-size: cover;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 80px;
+    height: 80px;
+}
+.first .cart:hover .img{
+        background: url('/img/de_uro/Site-hat/Balance.PNG');
+        background-size: cover;
+}
+.first .cart .title_cart{
+    padding-top: 40px;
+}
+.first .cart .desc_cart{
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1em;
+    text-align: justify;
+    width: 90%;
+}
+.first .cart a{
+    color: #478a4b;
+}
+
+.second{
+    text-align: justify;
+    padding-top: 80px;
+    background-color: #fff;
+}
+.second div{
+    padding-right: 0px;
+    ]: flex
+}
+.second img{
+    width: 100%;
+}
+.second .text{
+    font-size: .80em;
+}
+.second .middle-text {
+    font-size: 1.em;
+    padding: 10px 0;
+    text-align: center;       
+    border: solid 3px #59a847;
+    border-radius: 20px;
+}
+.second .middle-text b{
+    text-transform: uppercase;
+}
+.second .middle-text .btns_block{
+    display: flex;
+}
+
+.third{
+    padding-top: 70px;
+    text-align: center;
+    background-color: #fff;
+}
+.third .image_block{
+    position: relative;
+    padding-top: 5px;
+    height: 400px;
+    overflow: hidden;
+}
+.third .image_block img{
+    width: 100%;
+}
+.third .image_block .text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #fff;
+}
+
+.third .image_block .text .title{
+    font-size: 2em;
+}
+.third .image_block .text .desc{
+    font-size: .9em;
+}
+.third .image_block .text .btns u{
+    padding: 0px 60px;
+}
+
+
+.fourth{
+    padding-top: 70px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.fourth b {
+    text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+    color: #59a847;
+}
+.fourth .less h2{
+    padding-top: 20px;
+}
+.fourth .less p{
+    padding-top: 20px;
+}
+.fourth p {
+    font-size: .8em;
+}
+
+.fifth{
+    color: #fff;
+/*     padding-top: 70px; */
+    text-align: center;
+    background-color: #fff;
+    position: relative;
+}
+.fifth a{
+    color: #fff;
+}
+.fifth .text_row{
+    position: absolute;
+    top: 40%;
+    left: 0%;
+    width: 100%;
+
+}
+
+.fifth .bg{
+    width: 100%;
+  
+
+}
