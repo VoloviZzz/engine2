@@ -41,11 +41,16 @@
 
   						<button class="toggle-menu btn"></button>
   					</div>
-						<%- include("./header-menu") -%>
+            <div class="header-list-div">
+  						<%- include("./header-menu") -%>
+            </div>
 					</div>
 
-					<div class="menu-right">
+          <div class="btn btn-info open-menu-list">
+            <i class="fa fa-align-justify"></i>
+          </div>
 
+					<div class="menu-right">
 						<% if(siteConfig.get("showCart") === "1") { %>
 							<div>
 								<a class="shopping-cart-link" href="/cart">

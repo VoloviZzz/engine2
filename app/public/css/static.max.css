@@ -13,19 +13,7 @@ box-sizing:border-box;
 -ms-overflow-style:scrollbar;
 }
 
-body {
-font-family:Roboto,sans-serif;
-font-size:1rem;
-font-weight:400;
-line-height:1.5;
-color:#212529;
-text-align:left;
-background-color:#fff;
-display:flex;
--ms-flex-flow:column;
-flex-flow:column;
-margin:0;
-}
+body {font-family:Roboto,sans-serif;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;text-align:left;background-color:#fff;display:flex;-ms-flex-flow:column;flex-flow:column;margin:0;}
 
 [tabindex="-1"]:focus {
 outline:0!important;
@@ -37,10 +25,7 @@ height:0;
 overflow:visible;
 }
 
-h1,h2,h3,h4,h5,h6 {
-margin-top:0;
-margin-bottom:.5rem;
-}
+h1,h2,h3,h4,h5,h6 {margin-top:0;margin-bottom:.5rem;}
 
 p {
 margin-top:0;
@@ -2764,33 +2749,17 @@ background:linear-gradient(180deg,#0000,#6362625%,#0f0f0f51%,#08080883%);
 padding-top:20px;
 }
 
-.document-header {
-width:100%;
-transition:transform .5s;
-height:42px;
-z-index:6;
-color:#fff;
-background-color:#262626;
-background:linear-gradient(180deg,#0000,#6362625%,#0f0f0f51%,#08080883%);
-}
+.document-header {width:100%;transition:transform .5s;/* height: 95px; */z-index:6;color:#fff;background-color:#262626;background:linear-gradient(180deg,#0000,#6362625%,#0f0f0f51%,#08080883%);}
 
 .document-header--hidden {
 transform:translateY(-100%);
 }
 
-.document-header .menu {
-display:flex;
--ms-flex-pack:justify;
-justify-content:space-between;
-height:42px;
-}
+.document-header .menu {display:flex;-ms-flex-pack:justify;justify-content:space-between;height: 89px;}
 
 .document-header .logo-wrapper {padding-top:6px;padding-right: 30px;}
 
-.document-header .logo-wrapper .logo {
-width:auto;
-height:30px;
-}
+.document-header .logo-wrapper .logo {width:auto;height:30px;}
 
 .document-header .logo-wrapper .edit-btn {
 color:#fff;
@@ -2802,22 +2771,11 @@ content:"\2261";
 font:2em arial;
 }
 
-.document-header .menu-center {
-display:flex;
--ms-flex-pack:center;
-justify-content:center;
-}
+.document-header .menu-center {display:flex;/* position:  absolute; *//* top: 53%; */-ms-flex-pack:center;justify-content:center;/* left:  50%; */padding:  0px;margin:  0;/* transform: translate(-50%,-50%); */}
 
-.document-header .menu-center .menu-list {
-display:flex;
-height:100%;
-padding-top:10px;
-}
+.document-header .menu-center .menu-list {width: 100%;display: flex;height:100%;padding-top:10px;}
 
-.document-header .menu-center .menu-list .menu-item {
-display:flex;
-margin-right:40px;
-}
+.document-header .menu-center .menu-list .menu-item {display:flex;margin-right:40px;margin-top: 25px;}
 
 .document-header .menu-center .menu-list .menu-item .menu-text {
 display:flex;
