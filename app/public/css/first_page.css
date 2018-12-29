@@ -413,12 +413,12 @@
     }
     .header .phones{
         position: absolute;
-        right: 5%;
+        right: 19%;
         top: 0%;
         text-align: right;
         color: #2A8340;
-        font-size: 15px;
-        text-shadow: 0.4px 0 0 #fff, -0.4px 0 0 #fff, 0 0.4px 0 #fff, 0 -0.4px 0 #fff, 0.4px 0.4px #fff, -0.4px -0.4px 0 #fff, 0.4px -0.4px 0 #fff, -0.4px 0.4px 0 #fff;
+        font-size: 20px;
+        text-shadow: 0.0000001px 0 0 #fff5, -0.0000001px 0 0 #fff5, 0 0.0000001px 0 #fff5, 0 -0.0000001px 0 #fff5, 0.0000001px 0.0000001px #fff5, -0.0000001px -0.0000001px 0 #fff5, 0.0000001px -0.0000001px 0 #fff5, -0.0000001px 0.0000001px 0 #fff5;
     }
     .header .phones a{
         color: #2A8340;
