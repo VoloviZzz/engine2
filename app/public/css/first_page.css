@@ -34,6 +34,7 @@
     }
     .document-header{
         position: fixed;
+        height:  auto;
     }
     .paralax {
         position: fixed;
@@ -317,6 +318,33 @@
     .fifth_mobile .social a img:hover{
         filter: brightness(1.2);
     }
+        .fifth_mobile .social a img{
+/*         margin: 0px 10px;      */
+        width: 60px;   
+    }
+
+    .vk div{
+        margin-top: 20px;
+        width: 100% !important;
+    }
+
+
+    .copyright{
+        width: 60%;
+        line-height: 150%;
+    }
+    .copyright .line{
+        margin: 10px 0px;
+        background-color: #fff;
+        width: 100%;
+        height: 1px;        
+    }
+
+
+
+
+
+    
 }
 
 
