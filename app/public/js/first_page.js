@@ -10,28 +10,34 @@ $(document).ready(function () {
     $('.header').show();
   }
   if ($(window).scrollTop() > 4000) {
-    $('.fifth-logo').show(300);
+    $('.fifth-logo').show(1000);
+    $('.social').show(1000);
   }else {
-    $('.fifth-logo').hide(300);
+    $('.social').hide(1000);
+    $('.fifth-logo').hide(1000);
   }
   var lastScrollTop = $(window).scrollTop();
   $(window).on('scroll', function(e){
     st = $(this).scrollTop();
     if (st > 2900) {
-      if(st < lastScrollTop) {
-        $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))+2+'px' )
-      }
-      else {
-        $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))-2+'px' )
-      }
+        if(st < lastScrollTop) {
+          if (parseInt($('.fourth').css('background-position-y')) < -2) {
+            $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))+2+'px' )
+          }
+        }
+        else {
+          if (parseInt($('.fourth').css('background-position-y')) > -300) {
+            $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))-2+'px' )
+          }
+        }
     }
     lastScrollTop = st;
     if (st > 4000) {
-      $('.fifth-logo').show(300);
-      $('.social').show(300);
+      $('.fifth-logo').show(1000);
+      $('.social').show(1000);
     }else {
-      $('.social').hide(300);
-      $('.fifth-logo').hide(300);
+      $('.social').hide(1000);
+      $('.fifth-logo').hide(1000);
     }
     if (st > 331) {
       $('.header').hide();
