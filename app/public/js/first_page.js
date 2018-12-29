@@ -22,12 +22,12 @@ $(document).ready(function () {
     if (st > 2900) {
         if(st < lastScrollTop) {
           if (parseInt($('.fourth').css('background-position-y')) < -2) {
-            $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))+2+'px' )
+            $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))+3+'px' )
           }
         }
         else {
           if (parseInt($('.fourth').css('background-position-y')) > -300) {
-            $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))-2+'px' )
+            $('.fourth').css('background-position-y', parseInt($('.fourth').css('background-position-y'))-3+'px' )
           }
         }
     }
