@@ -6,7 +6,7 @@
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex;
+    display: flex;sdf
 }*/
 
 .login-wrapper {
@@ -37,9 +37,12 @@
 @media (min-width: 767px) {
     .login-wrapper {
         margin: auto;
+        position:  absolute;
+        left: 50%;
+        top: 50%;
+        transform:  translate(-50%,-50%);
         width: 400px;
-        -webkit-border-radius: 3px;
-        border-radius: 3px;
+        border-radius: 3px
         border: 1px #c3c3c3 solid;
     }
 
